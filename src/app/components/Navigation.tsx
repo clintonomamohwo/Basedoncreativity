@@ -20,7 +20,7 @@ import {
   useEffect,
 } from "react";
 import { useNavigate, useLocation } from "react-router";
-import logoImage from "@/assets/74febb69ea4c2378a7094a95976e2a1fe4282ef6.png";
+import logoImage from "@/assets/boc_logo.png";
 import {
   COLORS,
   FONTS,
