@@ -192,7 +192,7 @@ const SITE_INDEX: SearchResult[] = [
   {
     title: "James Chen, Founder, Modern Architecture Studio",
     description:
-      '\"They didn\'t just deliver a project; they delivered a masterpiece.\"',
+      "\"They didn't just deliver a project; they delivered a masterpiece.\"",
     section: "Testimonials",
     anchor: "#testimonials",
   },

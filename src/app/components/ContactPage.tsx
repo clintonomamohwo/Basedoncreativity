@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   Mail, Phone, MapPin, Instagram, Twitter, Linkedin, Youtube,
   ArrowRight, Send, CheckCircle, Sparkles, Clock, Globe,
@@ -75,12 +75,15 @@ function GrainOverlay() {
 }
 
 export function ContactPage() {
-  // useScroll tracks global window scroll — no containerRef needed
-  const { scrollYProgress } = useScroll();
-
-  // Parallax floating elements
-  const orb1Y = useTransform(scrollYProgress, [0, 1], [0, -160]);
-  const orb2Y = useTransform(scrollYProgress, [0, 1], [0,  140]);
+  // Prevent horizontal scroll on mobile
+  useEffect(() => {
+    document.documentElement.style.overflowX = 'hidden';
+    document.body.style.overflowX = 'hidden';
+    return () => {
+      document.documentElement.style.overflowX = '';
+      document.body.style.overflowX = '';
+    };
+  }, []);
 
   const [form, setForm] = useState({
     name: '',
@@ -126,54 +129,52 @@ export function ContactPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#1A1F4B] overflow-hidden">
+    <div className="relative min-h-screen bg-[#1A1F4B] overflow-x-hidden">
 
-      {/* ── Fixed background ────────────────────────────── */}
-      <div className="fixed inset-0 pointer-events-none">
+      {/* ── Background (absolute, scrolls with page) ─── */}
+      <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F4B] via-[#141830] to-[#1A1F4B]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(255,200,87,0.12),transparent)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(26,31,75,0.9),transparent_60%)]" />
         <GrainOverlay />
       </div>
 
-      {/* ── Floating orbs ───────────────────────────────── */}
+      {/* ── Floating orbs (absolute, scroll with page) ── */}
       <motion.div
         style={{
-          y: orb1Y,
-          background: 'radial-gradient(circle, rgba(255,200,87,0.22) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(255,200,87,0.18) 0%, transparent 70%)',
           filter: 'blur(60px)',
-          position: 'fixed',
+          position: 'absolute',
           top: '8rem',
-          right: '-80px',
-          width: '420px',
-          height: '420px',
+          right: '-40px',
+          width: 'min(360px, 70vw)',
+          height: 'min(360px, 70vw)',
           borderRadius: '9999px',
           pointerEvents: 'none',
-          zIndex: 10,
+          zIndex: 1,
         }}
         animate={{ scale: [1, 1.04, 1], opacity: [0.18, 0.26, 0.18] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div
         style={{
-          y: orb2Y,
-          background: 'radial-gradient(circle, rgba(246,230,180,0.18) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(246,230,180,0.14) 0%, transparent 70%)',
           filter: 'blur(80px)',
-          position: 'fixed',
-          bottom: 0,
-          left: '-120px',
-          width: '500px',
-          height: '500px',
+          position: 'absolute',
+          top: '60%',
+          left: '-60px',
+          width: 'min(400px, 75vw)',
+          height: 'min(400px, 75vw)',
           borderRadius: '9999px',
           pointerEvents: 'none',
-          zIndex: 10,
+          zIndex: 1,
         }}
-        animate={{ scale: [1, 1.06, 1], opacity: [0.12, 0.2, 0.12] }}
+        animate={{ scale: [1, 1.06, 1], opacity: [0.1, 0.18, 0.1] }}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
       />
 
       {/* ── Main content ────────────────────────────────── */}
-      <div className="relative z-20 max-w-[1200px] mx-auto px-6 pt-28 pb-24 md:pt-36 md:pb-32">
+      <div className="relative z-20 max-w-[1200px] mx-auto px-6 pt-28 pb-12 md:pt-36 md:pb-16">
 
         {/* ── Page header ─────────────────────────────── */}
         <motion.div
@@ -831,7 +832,7 @@ export function ContactPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-20 md:mt-28 text-center px-4"
+          className="mt-12 md:mt-16 text-center px-4"
         >
           <div
             style={{
