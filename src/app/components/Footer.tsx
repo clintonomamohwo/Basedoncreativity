@@ -1,6 +1,11 @@
-import { motion } from 'motion/react';
-import { Instagram, Twitter, Linkedin, Youtube } from 'lucide-react';
-import { useNavigate } from 'react-router';
+import { motion } from "motion/react";
+import {
+  Instagram,
+  Twitter,
+  Linkedin,
+  Youtube,
+} from "lucide-react";
+import { useNavigate } from "react-router";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -9,13 +14,13 @@ export function Footer() {
   return (
     <footer
       className="pb-12 md:pb-20"
-      style={{ background: '#0F1530' }}
+      style={{ background: "#0F1530" }}
     >
       <div
         style={{
-          height: '2px',
-          background: '#FFC857',
-          width: '100%',
+          height: "2px",
+          background: "#FFC857",
+          width: "100%",
         }}
       />
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 pt-12 md:pt-20">
@@ -24,16 +29,18 @@ export function Footer() {
           <div className="col-span-2 md:col-span-2">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.6,
+                ease: [0.22, 1, 0.36, 1],
+              }}
             >
               <h3
                 className="mb-4"
                 style={{
                   fontFamily: "'Space Mono', monospace",
-                  fontSize: 'clamp(1.25rem, 5vw, 2rem)',
-                  color: '#FFC857',
+                  fontSize: "clamp(1.25rem, 5vw, 2rem)",
+                  color: "#FFC857",
                   fontWeight: 700,
                 }}
               >
@@ -42,7 +49,7 @@ export function Footer() {
               <p
                 className="mb-8 max-w-md leading-relaxed"
                 style={{
-                  color: 'rgba(255, 255, 255, 0.7)',
+                  color: "rgba(255, 255, 255, 0.7)",
                   fontFamily: "'Source Sans 3', sans-serif",
                 }}
               >
@@ -50,10 +57,16 @@ export function Footer() {
               </p>
               <div className="flex gap-4">
                 {[
-                  { icon: Instagram, href: 'https://www.instagram.com/basedoncreativity' },
-                  { icon: Twitter, href: '#' },
-                  { icon: Linkedin, href: 'https://www.linkedin.com/company/based-on-creativity/' },
-                  { icon: Youtube, href: '#' },
+                  {
+                    icon: Instagram,
+                    href: "https://www.instagram.com/basedoncreativity",
+                  },
+                  { icon: Twitter, href: "#" },
+                  {
+                    icon: Linkedin,
+                    href: "https://www.linkedin.com/company/based-on-creativity/",
+                  },
+                  { icon: Youtube, href: "#" },
                 ].map(({ icon: Icon, href }, index) => (
                   <motion.a
                     key={index}
@@ -64,11 +77,15 @@ export function Footer() {
                     transition={{ duration: 0.3 }}
                     className="w-12 h-12 rounded-full flex items-center justify-center"
                     style={{
-                      background: 'rgba(255, 200, 87, 0.1)',
-                      border: '1px solid rgba(255, 200, 87, 0.3)',
+                      background: "rgba(255, 200, 87, 0.1)",
+                      border:
+                        "1px solid rgba(255, 200, 87, 0.3)",
                     }}
                   >
-                    <Icon size={20} style={{ color: '#FFC857' }} />
+                    <Icon
+                      size={20}
+                      style={{ color: "#FFC857" }}
+                    />
                   </motion.a>
                 ))}
               </div>
@@ -78,29 +95,28 @@ export function Footer() {
           {/* Links */}
           {[
             {
-              title: 'Explore',
+              title: "Explore",
               links: [
-                { label: 'Work', path: '/work' },
-                { label: 'Services', path: '/services' },
-                { label: 'Studio', path: '/studio' },
-                { label: 'The Vault', path: '/vault' },
+                { label: "Work", path: "/work" },
+                { label: "Services", path: "/services" },
+                { label: "Studio", path: "/studio" },
+                { label: "The Vault", path: "/vault" },
               ],
             },
             {
-              title: 'Company',
+              title: "Company",
               links: [
-                { label: 'About', path: '/about' },
-                { label: 'The Quiet Pages', path: '/stories' },
-                { label: 'Library', path: '/library' },
-                { label: 'Contact', path: '/contact' },
+                { label: "About", path: "/about" },
+                { label: "The Quiet Pages", path: "/stories" },
+                { label: "Library", path: "/library" },
+                { label: "Contact", path: "/contact" },
               ],
             },
           ].map((section, sectionIndex) => (
             <motion.div
               key={section.title}
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{
                 duration: 0.6,
                 delay: 0.1 * sectionIndex,
@@ -112,7 +128,7 @@ export function Footer() {
                 style={{
                   fontFamily: "'Source Sans 3', sans-serif",
                   fontWeight: 700,
-                  color: '#ffffff',
+                  color: "#ffffff",
                 }}
               >
                 {section.title}
@@ -126,13 +142,14 @@ export function Footer() {
                       transition={{ duration: 0.3 }}
                       className="inline-block"
                       style={{
-                        color: 'rgba(255, 255, 255, 0.6)',
-                        fontFamily: "'Source Sans 3', sans-serif",
-                        background: 'transparent',
-                        border: 'none',
-                        cursor: 'pointer',
+                        color: "rgba(255, 255, 255, 0.6)",
+                        fontFamily:
+                          "'Source Sans 3', sans-serif",
+                        background: "transparent",
+                        border: "none",
+                        cursor: "pointer",
                         padding: 0,
-                        textAlign: 'left',
+                        textAlign: "left",
                       }}
                     >
                       {link.label}
@@ -147,30 +164,34 @@ export function Footer() {
         {/* Bottom Bar */}
         <motion.div
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          animate={{ opacity: 1 }}
+          transition={{
+            duration: 0.6,
+            delay: 0.4,
+            ease: [0.22, 1, 0.36, 1],
+          }}
           className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4"
-          style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}
+          style={{ borderColor: "rgba(255, 255, 255, 0.1)" }}
         >
           <p
             style={{
-              color: 'rgba(255, 255, 255, 0.5)',
+              color: "rgba(255, 255, 255, 0.5)",
               fontFamily: "'Source Sans 3', sans-serif",
-              fontSize: '0.875rem',
+              fontSize: "0.875rem",
             }}
           >
-            © {currentYear} Based on Creativity. All rights reserved.
+            © {currentYear} Based on Creativity. All rights
+            reserved.
           </p>
           <div className="flex flex-wrap gap-4 md:gap-6 justify-center items-center">
             {[
-              { label: 'QUIET PAGES', path: '/stories' },
-              { label: 'FAQ', path: '/faq' },
-              { label: 'COMMUNITY', path: '/community' },
-              { label: 'LIBRARY', path: '/library' },
-              { label: 'PARTNERS', path: '/partners' },
-              { label: 'Privacy Policy', path: '/privacy' },
-              { label: 'Terms of Service', path: '/terms' },
+              { label: "QUIET PAGES", path: "/stories" },
+              { label: "FAQ", path: "/faq" },
+              { label: "COMMUNITY", path: "/community" },
+              { label: "LIBRARY", path: "/library" },
+              { label: "PARTNERS", path: "/partners" },
+              { label: "Privacy Policy", path: "/privacy" },
+              { label: "Terms of Service", path: "/terms" },
             ].map((link) => (
               <motion.button
                 key={link.label}
@@ -178,12 +199,12 @@ export function Footer() {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
                 style={{
-                  color: 'rgba(255, 255, 255, 0.5)',
+                  color: "rgba(255, 255, 255, 0.5)",
                   fontFamily: "'Source Sans 3', sans-serif",
-                  fontSize: '0.875rem',
-                  background: 'transparent',
-                  border: 'none',
-                  cursor: 'pointer',
+                  fontSize: "0.875rem",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
                   padding: 0,
                 }}
               >
