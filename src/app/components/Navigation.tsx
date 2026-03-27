@@ -20,7 +20,7 @@ import {
   useEffect,
 } from "react";
 import { useNavigate, useLocation } from "react-router";
-import logoImage from "@/assets/boc_logo.png";
+import logoImage from "../../assets/boc_logo.png";
 import {
   COLORS,
   FONTS,
@@ -85,7 +85,7 @@ const SITE_INDEX: SearchResult[] = [
   {
     title: "Where Vision Meets Mastery",
     description:
-      "Award-Winning Creative Studio — extraordinary digital experiences.",
+      "Award-Winning Creative Studio: extraordinary digital experiences.",
     section: "Hero",
     anchor: "#hero",
   },
@@ -113,42 +113,42 @@ const SITE_INDEX: SearchResult[] = [
   {
     title: "Artisan Studio",
     description:
-      "Brand Identity — A curated creative studio workspace.",
+      "Brand Identity: A curated creative studio workspace.",
     section: "Work",
     anchor: "#work",
   },
   {
     title: "Modern Architecture",
     description:
-      "Web Design — Interior and architectural digital experience.",
+      "Web Design: Interior and architectural digital experience.",
     section: "Work",
     anchor: "#work",
   },
   {
     title: "Abstract Installation",
     description:
-      "Art Direction — Compelling visual installation narrative.",
+      "Art Direction: Compelling visual installation narrative.",
     section: "Work",
     anchor: "#work",
   },
   {
     title: "Luxury Product",
     description:
-      "Photography — High-end product visual storytelling.",
+      "Photography: High-end product visual storytelling.",
     section: "Work",
     anchor: "#work",
   },
   {
     title: "Brand Evolution",
     description:
-      "Brand Strategy — Identity systems and brand growth.",
+      "Brand Strategy: Identity systems and brand growth.",
     section: "Work",
     anchor: "#work",
   },
   {
     title: "Editorial Excellence",
     description:
-      "Publishing — Magazine layout and editorial design.",
+      "Publishing: Magazine layout and editorial design.",
     section: "Work",
     anchor: "#work",
   },
@@ -183,21 +183,21 @@ const SITE_INDEX: SearchResult[] = [
   },
   // Testimonials
   {
-    title: "Sarah Mitchell — CEO, Artisan Collective",
+    title: "Sarah Mitchell, CEO, Artisan Collective",
     description:
       '"Based on Creativity transformed our brand identity beyond our wildest expectations."',
     section: "Testimonials",
     anchor: "#testimonials",
   },
   {
-    title: "James Chen — Founder, Modern Architecture Studio",
+    title: "James Chen, Founder, Modern Architecture Studio",
     description:
-      '"They didn\'t just deliver a project — they delivered a masterpiece."',
+      '\"They didn\'t just deliver a project; they delivered a masterpiece.\"',
     section: "Testimonials",
     anchor: "#testimonials",
   },
   {
-    title: "Emily Rodriguez — Director of Marketing",
+    title: "Emily Rodriguez, Director of Marketing",
     description:
       '"The level of craftsmanship sets a new standard in the industry."',
     section: "Testimonials",
@@ -222,7 +222,7 @@ const SITE_INDEX: SearchResult[] = [
   {
     title: "About the Studio",
     description:
-      "Based on Creativity — a luxury-tier creative studio driven by innovation and design mastery.",
+      "Based on Creativity, a luxury-tier creative studio driven by innovation and design mastery.",
     section: "About",
     anchor: "#about",
   },
@@ -1079,13 +1079,13 @@ export function Navigation() {
                     onClick={() => handleNavClick(item)}
                     style={{
                       width: "100%",
-                      padding: "15px 24px",
+                      padding: "16px 24px",
                       textAlign: "left",
                       fontFamily: FONTS.heading,
                       fontWeight: 700,
                       color: isActive ? "#FFE499" : COLORS.gold,
-                      fontSize: "0.8125rem",
-                      letterSpacing: "0.12em",
+                      fontSize: "0.9375rem",
+                      letterSpacing: "0.1em",
                       background: "transparent",
                       border: "none",
                       cursor: "pointer",

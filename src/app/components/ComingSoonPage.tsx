@@ -173,15 +173,17 @@ export function ComingSoonPage({ title, description, Icon, image, orbSide = 'lef
           >
             <motion.img
               src={image}
-              alt={`${title} — Coming Soon illustration`}
+              alt={`${title}: Coming Soon illustration`}
               animate={{ y: [0, -10, 0], rotate: [0, 2, -2, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
               style={{
                 width: '100%',
-                maxWidth: '400px',
+                maxWidth: 'min(400px, 80vw)',
                 height: 'auto',
                 borderRadius: '24px',
                 boxShadow: '0 20px 60px rgba(255, 200, 87, 0.2), 0 0 0 1px rgba(255, 200, 87, 0.1)',
+                position: 'relative',
+                zIndex: 0,
               }}
             />
 

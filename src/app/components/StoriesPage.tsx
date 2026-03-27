@@ -343,13 +343,13 @@ export function StoriesPage() {
       />
 
       {/* Main content */}
-      <div className="relative z-20 max-w-[1200px] mx-auto px-6 pt-32 pb-32 md:pt-40 md:pb-40">
+      <div className="relative z-20 max-w-[1200px] mx-auto px-4 md:px-6 pt-24 pb-24 md:pt-40 md:pb-40">
         {/* Page header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-20"
+          className="text-center mb-12 md:mb-20"
         >
           {/* Decorative line */}
           <motion.div
@@ -367,7 +367,7 @@ export function StoriesPage() {
           <h1
             style={{
               fontFamily: "'Cormorant Garamond', serif",
-              fontSize: 'clamp(3rem, 8vw, 5rem)',
+              fontSize: 'clamp(2rem, 8vw, 5rem)',
               fontWeight: 600,
               color: '#ffffff',
               lineHeight: 1.1,
@@ -375,13 +375,13 @@ export function StoriesPage() {
               textShadow: '0 0 40px rgba(255,200,87,0.2)',
             }}
           >
-            The Library
+            The Quiet Pages
           </h1>
 
           <p
             style={{
               fontFamily: "'Source Sans 3', sans-serif",
-              fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+              fontSize: 'clamp(0.9375rem, 3vw, 1.25rem)',
               color: 'rgba(255,200,87,0.7)',
               fontStyle: 'italic',
               maxWidth: '600px',
@@ -394,7 +394,7 @@ export function StoriesPage() {
         </motion.div>
 
         {/* Book grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-10">
           {libraryBooks.map((book, index) => (
             <BookCard key={book.id} book={book} index={index} />
           ))}
@@ -431,7 +431,7 @@ export function StoriesPage() {
               margin: '0 auto',
             }}
           >
-            "Every story is a small light in the dark—<br />a moment of connection across time and space."
+            "Every story is a small light in the dark,<br />a moment of connection across time and space."
           </blockquote>
           <p
             className="mt-5"
@@ -442,7 +442,7 @@ export function StoriesPage() {
               color: 'rgba(255,200,87,0.4)',
             }}
           >
-            — THE LIBRARY
+            THE QUIET PAGES
           </p>
         </motion.div>
       </div>

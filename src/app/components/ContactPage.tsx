@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
 import {
-  Mail, Phone, MapPin, Instagram, Twitter, Linkedin, Dribbble,
+  Mail, Phone, MapPin, Instagram, Twitter, Linkedin, Youtube,
   ArrowRight, Send, CheckCircle, Sparkles, Clock, Globe,
 } from 'lucide-react';
 
@@ -16,9 +16,9 @@ const projectTypes = [
 
 const budgetRanges = [
   'Under $5K',
-  '$5K – $15K',
-  '$15K – $30K',
-  '$30K – $60K',
+  '$5K to $15K',
+  '$15K to $30K',
+  '$30K to $60K',
   '$60K+',
   'Not sure yet',
 ];
@@ -27,8 +27,8 @@ const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'hello@basedoncreativty.com',
-    href: 'mailto:hello@basedoncreativty.com',
+    value: 'hello@basedoncreativIty.com',
+    href: 'mailto:hello@basedoncreativIty.com',
   },
   {
     icon: Phone,
@@ -39,7 +39,7 @@ const contactInfo = [
   {
     icon: MapPin,
     label: 'Studio',
-    value: 'San Francisco, CA',
+    value: 'Toronto, ON',
     href: '#',
   },
   {
@@ -60,7 +60,7 @@ const socials = [
   { icon: Instagram, label: 'Instagram', href: '#' },
   { icon: Twitter,  label: 'Twitter / X', href: '#' },
   { icon: Linkedin, label: 'LinkedIn',  href: '#' },
-  { icon: Dribbble, label: 'Dribbble',  href: '#' },
+  { icon: Youtube,  label: 'YouTube',   href: '#' },
 ];
 
 function GrainOverlay() {
@@ -120,7 +120,7 @@ export function ContactPage() {
   };
 
   const inputFocused: React.CSSProperties = {
-    borderColor: 'rgba(255,200,87,0.55)',
+    border: '1px solid rgba(255,200,87,0.55)',
     background: 'rgba(255,200,87,0.07)',
     boxShadow: '0 0 0 3px rgba(255,200,87,0.08), 0 0 20px rgba(255,200,87,0.06)',
   };
@@ -194,7 +194,7 @@ export function ContactPage() {
             className="mb-6"
             style={{
               fontFamily: "'Space Mono', monospace",
-              fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+              fontSize: 'clamp(1.75rem, 7vw, 4.5rem)',
               fontWeight: 700,
               color: '#ffffff',
               lineHeight: 1.05,
@@ -216,14 +216,14 @@ export function ContactPage() {
             className="max-w-xl"
             style={{
               fontFamily: "'Cormorant Garamond', serif",
-              fontSize: 'clamp(1.15rem, 2.2vw, 1.375rem)',
+              fontSize: 'clamp(1.125rem, 3vw, 1.375rem)',
               color: 'rgba(255,255,255,0.6)',
               fontStyle: 'italic',
               lineHeight: 1.65,
             }}
           >
             Every great project begins with a single message. Tell us about your
-            vision, your brand, your ambitions — we'll take it from there.
+            vision, your brand, your ambitions; we'll take it from there.
           </p>
         </motion.div>
 
@@ -656,7 +656,7 @@ export function ContactPage() {
                 "Prefer to jump straight in? Book a free 30-minute discovery call."
               </p>
               <motion.a
-                href="mailto:hello@basedoncreativty.com"
+                href="mailto:hello@basedoncreativIty.com"
                 whileHover={{ scale: 1.03, boxShadow: '0 0 24px rgba(255,200,87,0.25)' }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -852,7 +852,7 @@ export function ContactPage() {
               margin: '0 auto',
             }}
           >
-            "We don't just build brands — we build legacies."
+            "We don't just build brands; we build legacies."
           </blockquote>
           <p
             className="mt-4"
@@ -863,7 +863,7 @@ export function ContactPage() {
               color: 'rgba(255,200,87,0.4)',
             }}
           >
-            — BASED ON CREATIVITY
+            BASED ON CREATIVITY
           </p>
         </motion.div>
       </div>

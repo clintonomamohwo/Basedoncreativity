@@ -75,7 +75,7 @@ function PortfolioCard({ item, index }: { item: PortfolioItem; index: number }) 
           ? 'col-span-1 md:col-span-2 row-span-1 md:row-span-2'
           : isMedium
           ? 'col-span-1 md:col-span-1 row-span-1 md:row-span-2'
-          : 'col-span-1 row-span-1'
+          : 'col-span-1 md:col-span-1 row-span-1 md:row-span-2'
       }`}
       style={{
         borderRadius: '12px',
@@ -99,7 +99,7 @@ function PortfolioCard({ item, index }: { item: PortfolioItem; index: number }) 
                 ? 'clamp(280px, 40vw, 500px)'
                 : isMedium
                 ? 'clamp(220px, 30vw, 400px)'
-                : 'clamp(180px, 25vw, 300px)',
+                : 'clamp(280px, 40vw, 500px)',
             }}
           />
         </motion.div>
@@ -153,7 +153,7 @@ function PortfolioCard({ item, index }: { item: PortfolioItem; index: number }) 
           <h3
             style={{
               fontFamily: "'Space Mono', monospace",
-              fontSize: isLarge ? '2rem' : isMedium ? '1.625rem' : '1.375rem',
+              fontSize: isLarge ? 'clamp(1.25rem, 4vw, 2rem)' : isMedium ? 'clamp(1.125rem, 3.5vw, 1.625rem)' : 'clamp(1rem, 3vw, 1.375rem)',
               color: '#FFFFFF',
               fontWeight: 700,
               lineHeight: 1.2,
@@ -187,7 +187,7 @@ export function PortfolioSection() {
             className="mb-6"
             style={{
               fontFamily: "'Space Mono', monospace",
-              fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+              fontSize: 'clamp(1.75rem, 7vw, 4.5rem)',
               color: '#ffffff',
               fontWeight: 700,
             }}

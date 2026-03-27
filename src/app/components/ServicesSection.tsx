@@ -71,7 +71,7 @@ export function ServicesSection() {
                 className="mb-6"
                 style={{
                   fontFamily: "'Space Mono', monospace",
-                  fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
+                  fontSize: "clamp(1.75rem, 7vw, 4.5rem)",
                   color: "#1A1F4B",
                   fontWeight: 700,
                   lineHeight: 1.1,
@@ -100,7 +100,7 @@ export function ServicesSection() {
         </motion.div>
 
         {/* 3×2 Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {services.map((service, index) => {
             const Icon = service.icon;
             return (

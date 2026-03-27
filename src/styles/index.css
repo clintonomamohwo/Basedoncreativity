@@ -1,3 +1,35 @@
 @import './fonts.css';
 @import './tailwind.css';
 @import './theme.css';
+
+/* ── Global mobile responsive overrides (375-440px) ── */
+@media (max-width: 480px) {
+  /* Services hero section padding */
+  .hero-section {
+    padding-top: 100px !important;
+    padding-bottom: 60px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Services process section */
+  .process-section {
+    padding-top: 60px !important;
+    padding-bottom: 60px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Services CTA section */
+  .cta-section {
+    padding-top: 60px !important;
+    padding-bottom: 60px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Gold dividers always full width */
+  .gold-divider {
+    width: 100% !important;
+  }
+}

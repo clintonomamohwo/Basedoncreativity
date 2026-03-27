@@ -13,25 +13,31 @@ import { StudioPage } from './components/StudioPage';
 import { FAQPage } from './components/FAQPage';
 import { CommunityPage } from './components/CommunityPage';
 import { PartnersPage } from './components/PartnersPage';
+import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
+import { TermsOfServicePage } from './components/TermsOfServicePage';
+import { NotFoundPage } from './components/NotFoundPage';
 
 export const router = createBrowserRouter([
   {
     path: '/',
     Component: Root,
     children: [
-      { index: true,        Component: HomePage      },
-      { path: 'work',       Component: WorkPage      },
-      { path: 'services',   Component: ServicesPage  },
-      { path: 'studio',     Component: StudioPage    },
-      { path: 'vault',      Component: VaultPage     },
-      { path: 'about',      Component: AboutPage     },
-      { path: 'contact',    Component: ContactPage   },
-      { path: 'stories',    Component: StoriesPage   },
+      { index: true,        Component: HomePage         },
+      { path: 'work',       Component: WorkPage         },
+      { path: 'services',   Component: ServicesPage     },
+      { path: 'studio',     Component: StudioPage       },
+      { path: 'vault',      Component: VaultPage        },
+      { path: 'about',      Component: AboutPage        },
+      { path: 'contact',    Component: ContactPage      },
+      { path: 'stories',    Component: StoriesPage      },
       { path: 'stories/:storyId', Component: StoryDetail },
-      { path: 'library',    Component: LibraryPage   },
-      { path: 'faq',        Component: FAQPage       },
-      { path: 'community',  Component: CommunityPage },
-      { path: 'partners',   Component: PartnersPage  },
+      { path: 'library',    Component: LibraryPage      },
+      { path: 'faq',        Component: FAQPage          },
+      { path: 'community',  Component: CommunityPage    },
+      { path: 'partners',   Component: PartnersPage     },
+      { path: 'privacy',    Component: PrivacyPolicyPage },
+      { path: 'terms',      Component: TermsOfServicePage },
+      { path: '*',          Component: NotFoundPage },
     ],
   },
 ]);

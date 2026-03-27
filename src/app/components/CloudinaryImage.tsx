@@ -58,6 +58,8 @@ export function CloudinaryImage({
     <img
       src={imgSrc}
       alt={alt}
+      loading="lazy"
+      decoding="async"
       onError={handleError}
       className={className}
       {...rest}

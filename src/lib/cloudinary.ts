@@ -2,7 +2,7 @@
 // Cloudinary Configuration
 // ─────────────────────────────────────────────────────────────────────────────
 
-export const CLOUDINARY_CLOUD_NAME = "BaseCreator";
+export const CLOUDINARY_CLOUD_NAME = "basecreator";
 
 export type CloudinaryFit =
   | "fill"

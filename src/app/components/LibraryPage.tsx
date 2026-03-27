@@ -32,7 +32,7 @@ const REFLECTION_ITEMS: LibraryItem[] = [
     subtitle: 'Folklore Studies',
     medium: 'writing', status: 'archived', year: '2021',
     tools: ['Obsidian', 'Notion', 'Field Recorder'],
-    description: 'A deep lexical excavation of West African oral traditions — transcribed, annotated, and cross-referenced across 40+ source texts.',
+    description: 'A deep lexical excavation of West African oral traditions, transcribed, annotated, and cross-referenced across 40+ source texts.',
     imageUrl: 'https://images.unsplash.com/photo-1720701575003-51dafcf39cb4?w=600&q=80',
   },
   {
@@ -41,7 +41,7 @@ const REFLECTION_ITEMS: LibraryItem[] = [
     subtitle: 'Celestial Semiotics',
     medium: 'design', status: 'active', year: '2022',
     tools: ['Figma', 'Illustrator', 'Obsidian'],
-    description: 'Mapping lunar symbolism across four civilisations — Akan, Mesopotamian, Maya, and Norse — into a unified visual grammar system.',
+    description: 'Mapping lunar symbolism across four civilisations (Akan, Mesopotamian, Maya, and Norse) into a unified visual grammar system.',
     imageUrl: 'https://images.unsplash.com/photo-1762385070022-c393b1e7272f?w=600&q=80',
   },
   {
@@ -50,7 +50,7 @@ const REFLECTION_ITEMS: LibraryItem[] = [
     subtitle: 'Character Design',
     medium: 'design', status: 'archived', year: '2022',
     tools: ['Procreate', 'Maya', 'ZBrush'],
-    description: 'Raw concept sketches for an animated mythology series — exploring liminal spirit characters between worlds of the living and ancestral.',
+    description: 'Raw concept sketches for an animated mythology series, exploring liminal spirit characters between worlds of the living and ancestral.',
     imageUrl: 'https://images.unsplash.com/photo-1588411404261-6052062cb881?w=600&q=80',
   },
   {
@@ -68,7 +68,7 @@ const REFLECTION_ITEMS: LibraryItem[] = [
     subtitle: 'Draft Archive',
     medium: 'writing', status: 'archived', year: '2021',
     tools: ['Scrivener', 'Final Draft', 'Grammarly'],
-    description: 'The complete 7-draft evolution of the short fiction piece "Dust & Thread" — annotated with editorial feedback across each iteration.',
+    description: 'The complete 7-draft evolution of the short fiction piece "Dust & Thread", annotated with editorial feedback across each iteration.',
     imageUrl: 'https://images.unsplash.com/photo-1677104165819-2e5ab9a0821f?w=600&q=80',
   },
   {
@@ -77,7 +77,7 @@ const REFLECTION_ITEMS: LibraryItem[] = [
     subtitle: 'Systems Research',
     medium: 'animation', status: 'active', year: '2023',
     tools: ['UiPath Studio', 'Visio', 'Lucidchart'],
-    description: 'Automation workflow mapping for the creative production pipeline — bridging RPA logic with non-linear creative decision trees.',
+    description: 'Automation workflow mapping for the creative production pipeline, bridging RPA logic with non-linear creative decision trees.',
     imageUrl: 'https://images.unsplash.com/photo-1737629917867-81fcadfe21cd?w=600&q=80',
   },
 ];
@@ -107,7 +107,7 @@ const EXPRESSION_ITEMS: LibraryItem[] = [
     subtitle: 'Design System',
     medium: 'design', status: 'active', year: '2023',
     tools: ['Figma', 'Illustrator', 'Tokens Studio'],
-    description: 'A complete visual identity system for a Pan-African luxury brand — marrying Adinkra symbolism with contemporary typographic architecture.',
+    description: 'A complete visual identity system for a Pan-African luxury brand, marrying Adinkra symbolism with contemporary typographic architecture.',
     imageUrl: 'https://images.unsplash.com/photo-1773024245335-2463a95dc54e?w=600&q=80',
   },
   {
@@ -116,7 +116,7 @@ const EXPRESSION_ITEMS: LibraryItem[] = [
     subtitle: 'Showreel',
     medium: 'animation', status: 'active', year: '2024',
     tools: ['After Effects', 'Premiere Pro', 'DaVinci Resolve'],
-    description: 'A 3-minute curated showreel demonstrating the full spectrum of motion work — from micro-interactions to full cinematic compositions.',
+    description: 'A 3-minute curated showreel demonstrating the full spectrum of motion work, from micro-interactions to full cinematic compositions.',
     imageUrl: 'https://images.unsplash.com/photo-1562869323-d3d7be3e88a6?w=600&q=80',
   },
   {
@@ -125,7 +125,7 @@ const EXPRESSION_ITEMS: LibraryItem[] = [
     subtitle: 'Print Publication',
     medium: 'writing', status: 'archived', year: '2022',
     tools: ['InDesign', 'Photoshop', 'Lightroom'],
-    description: 'A limited-run editorial magazine dedicated to celestial aesthetics in African creative practice — 64 pages, hand-numbered, 500 copies.',
+    description: 'A limited-run editorial magazine dedicated to celestial aesthetics in African creative practice: 64 pages, hand-numbered, 500 copies.',
     imageUrl: 'https://images.unsplash.com/photo-1658863025658-4a259cc68fc9?w=600&q=80',
   },
   {
@@ -134,7 +134,7 @@ const EXPRESSION_ITEMS: LibraryItem[] = [
     subtitle: 'Interactive Installation',
     medium: 'design', status: 'active', year: '2024',
     tools: ['React', 'Three.js', 'GSAP', 'WebGL'],
-    description: 'An immersive browser-based installation mapping 88 constellations onto 88 creative works — navigable via a real-time star chart interface.',
+    description: 'An immersive browser-based installation mapping 88 constellations onto 88 creative works, navigable via a real-time star chart interface.',
     imageUrl: 'https://images.unsplash.com/photo-1657812159077-90649115008c?w=600&q=80',
   },
 ];
@@ -596,7 +596,7 @@ function GlitchCard({ item }: { item: LibraryItem }) {
           {item.title}
         </h3>
         <p style={{ fontFamily: "'Space Mono', monospace", color: '#717182', fontSize: '0.62rem', letterSpacing: '0.08em' }}>
-          {item.subtitle} — {item.year}
+          {item.subtitle}, {item.year}
         </p>
       </div>
 
@@ -727,7 +727,7 @@ function RippleCard({ item }: { item: LibraryItem }) {
           {item.title}
         </h3>
         <p style={{ fontFamily: "'Space Mono', monospace", color: 'rgba(246,230,180,0.7)', fontSize: '0.62rem', letterSpacing: '0.08em' }}>
-          {item.subtitle} — {item.year}
+          {item.subtitle}, {item.year}
         </p>
       </div>
 
@@ -910,7 +910,7 @@ function HeritagePattern({ mode }: { mode: LibraryMode }) {
           userSelect: 'none',
         }}
       >
-        {`In the beginning, there was the word, and the word was creation — Archives of the forgotten, whispered through the ages, bound in leather and starlight — Stories that dance between moonlight and sunlight — The library of infinite imagination, where every thought becomes a universe — Deep time stretches before us, each moment a page in the eternal codex — Where creativity flows like a river through the landscape of consciousness — Heritage text patterns that echo through eternity, repeating, evolving, transforming — The foundation upon which all stories rest, the canvas of possibility — Ancient wisdom meets modern vision in this space between spaces — `.repeat(20)}
+        {`In the beginning, there was the word, and the word was creation | Archives of the forgotten, whispered through the ages, bound in leather and starlight | Stories that dance between moonlight and sunlight | The library of infinite imagination, where every thought becomes a universe | Deep time stretches before us, each moment a page in the eternal codex | Where creativity flows like a river through the landscape of consciousness | Heritage text patterns that echo through eternity, repeating, evolving, transforming | The foundation upon which all stories rest, the canvas of possibility | Ancient wisdom meets modern vision in this space between spaces | `.repeat(20)}
       </div>
     </div>
   );
@@ -923,7 +923,7 @@ export function LibraryPage() {
   const [mode, setMode]             = useState<LibraryMode>('reflection');
   const [medium, setMedium]         = useState<MediumFilter>('all');
   const [status, setStatus]         = useState<StatusFilter>('all');
-  const [sidebarOpen, setSidebar]   = useState(true);
+  const [sidebarOpen, setSidebar]   = useState(() => typeof window !== 'undefined' && window.innerWidth >= 768);
   const [activeSection, setSection] = useState<string>(CHRONICLE_SECTIONS[0]);
   const [scrollPct, setScrollPct]   = useState(0);
 
@@ -987,6 +987,7 @@ export function LibraryPage() {
           minHeight: '100vh',
           background: pageBg,
           transition: 'background 0.7s ease',
+          paddingTop: '64px', // offset for the fixed navigation bar
         }}
       >
         {/* Heritage pattern background */}
@@ -1027,7 +1028,7 @@ export function LibraryPage() {
 
               <div>
                 <p style={{ fontFamily: "'Space Mono', monospace", fontSize: '0.58rem', color: textMuted, letterSpacing: '0.16em', marginBottom: 1 }}>
-                  BASED ON CREATIVITY — ARCHIVE
+                  BASED ON CREATIVITY: ARCHIVE
                 </p>
                 <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.25rem', color: textPrimary, lineHeight: 1 }}>
                   {isMoon ? 'The Reflection Library' : 'The Expression Library'}
@@ -1110,7 +1111,7 @@ export function LibraryPage() {
               <div>
                 <h2 style={{
                   fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: 'clamp(1.8rem, 4vw, 3rem)',
+                  fontSize: 'clamp(1.5rem, 4vw, 3rem)',
                   color: textPrimary,
                   lineHeight: 1.1,
                   fontStyle: 'italic',
@@ -1119,7 +1120,7 @@ export function LibraryPage() {
                 </h2>
                 <p style={{ fontFamily: "'Source Sans 3', sans-serif", color: textMuted, fontSize: '0.9rem', marginTop: 6, maxWidth: 380 }}>
                   {isMoon
-                    ? 'Research sketches, raw ideas, process documentation, and the archaeology of making — the unfinished world beneath the work.'
+                    ? 'Research sketches, raw ideas, process documentation, and the archaeology of making: the unfinished world beneath the work.'
                     : 'Finished animations, published novellas, completed design systems, and the full expression of creative vision brought into the world.'
                   }
                 </p>
@@ -1314,13 +1315,13 @@ export function LibraryPage() {
                       marginBottom: '1.5rem',
                     }}>
                       {isMoon
-                        ? 'The archive is not a grave — it is a living library of becoming, where every sketch holds the seed of a world not yet made.'
-                        : 'What is expressed is not finished — it is released into the world to take root, grow, and become something beyond its maker.'
+                        ? 'The archive is not a grave; it is a living library of becoming, where every sketch holds the seed of a world not yet made.'
+                        : 'What is expressed is not finished; it is released into the world to take root, grow, and become something beyond its maker.'
                       }
                     </p>
                     <div style={{ height: 1, width: 60, background: accentColor, margin: '0 auto 1rem', opacity: 0.5 }} />
                     <p style={{ fontFamily: "'Space Mono', monospace", fontSize: '0.65rem', color: textMuted, letterSpacing: '0.14em' }}>
-                      — BASED ON CREATIVITY, {isMoon ? 'THE REFLECTION CODEX' : 'THE EXPRESSION CODEX'}
+                      BASED ON CREATIVITY, {isMoon ? 'THE REFLECTION CODEX' : 'THE EXPRESSION CODEX'}
                     </p>
                   </div>
                 </motion.div>

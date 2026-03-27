@@ -36,7 +36,7 @@ export function PhilosophySection() {
             className="mb-0"
             style={{
               fontFamily: "'Space Mono', monospace",
-              fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+              fontSize: 'clamp(1.75rem, 7vw, 4.5rem)',
               color: '#1A1F4B',
               fontWeight: 700,
             }}

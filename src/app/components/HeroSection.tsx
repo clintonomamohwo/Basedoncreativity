@@ -66,7 +66,7 @@ export function HeroSection() {
               </span>
             </motion.div>
 
-            {/* Main headline — 48px Space Mono bold */}
+            {/* Main headline — responsive Space Mono bold */}
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -74,7 +74,7 @@ export function HeroSection() {
               className="mb-6 leading-[1.15]"
               style={{
                 fontFamily: "'Space Mono', monospace",
-                fontSize: '48px',
+                fontSize: 'clamp(1.875rem, 8vw, 3rem)',
                 fontWeight: 700,
               }}
             >
@@ -83,7 +83,7 @@ export function HeroSection() {
               <span style={{ color: '#FFC857' }}>Born in the light.</span>
             </motion.h1>
 
-            {/* Subtitle — Cormorant Garamond italic 20px, Muted Text */}
+            {/* Subtitle — Cormorant Garamond italic, responsive */}
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -92,7 +92,7 @@ export function HeroSection() {
               style={{
                 color: '#D1D5DB',
                 fontFamily: "'Cormorant Garamond', serif",
-                fontSize: '20px',
+                fontSize: 'clamp(1.125rem, 4vw, 1.25rem)',
                 fontStyle: 'italic',
                 lineHeight: 1.65,
               }}
@@ -105,20 +105,20 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-wrap gap-4"
+              className="flex flex-col sm:flex-row gap-4"
             >
               {/* Primary — Gold background, Indigo Blue text, Space Mono bold */}
               <motion.button
                 whileHover={{ scale: 1.05, y: -4 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="group px-10 py-5 rounded-full flex items-center gap-3"
+                className="group px-10 py-5 rounded-full flex items-center justify-center gap-3 w-full sm:w-auto"
                 style={{
                   background: '#FFC857',
                   color: '#1A1F4B',
                   fontFamily: "'Space Mono', monospace",
                   fontWeight: 700,
-                  fontSize: '1rem',
+                  fontSize: 'clamp(0.875rem, 3.5vw, 1rem)',
                   letterSpacing: '0.04em',
                   boxShadow: '0 8px 32px rgba(255, 200, 87, 0.4)',
                   border: 'none',
@@ -139,14 +139,14 @@ export function HeroSection() {
                 whileHover={{ scale: 1.05, y: -4 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="px-10 py-5 rounded-full backdrop-blur-sm"
+                className="px-10 py-5 rounded-full backdrop-blur-sm w-full sm:w-auto"
                 style={{
                   background: 'transparent',
                   border: '2px solid #FFC857',
                   color: '#FFC857',
                   fontFamily: "'Space Mono', monospace",
                   fontWeight: 700,
-                  fontSize: '1rem',
+                  fontSize: 'clamp(0.875rem, 3.5vw, 1rem)',
                   letterSpacing: '0.04em',
                   cursor: 'pointer',
                 }}
@@ -155,7 +155,7 @@ export function HeroSection() {
               </motion.button>
             </motion.div>
 
-            {/* Brand Pillars — Expression · Reflection · Connection */}
+            {/* Brand Pillars */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -169,7 +169,7 @@ export function HeroSection() {
               ].map(({ Icon, label, description }) => (
                 <div key={label} className="flex flex-col gap-2">
                   <Icon
-                    size={24}
+                    size={20}
                     strokeWidth={1.5}
                     style={{ color: '#FFC857', marginBottom: '4px' }}
                   />
@@ -177,7 +177,7 @@ export function HeroSection() {
                     style={{
                       fontFamily: "'Space Mono', monospace",
                       fontWeight: 700,
-                      fontSize: '1rem',
+                      fontSize: 'clamp(0.75rem, 3vw, 1rem)',
                       color: '#FFC857',
                       letterSpacing: '0.04em',
                     }}
@@ -188,7 +188,7 @@ export function HeroSection() {
                     style={{
                       fontFamily: "'Source Sans 3', sans-serif",
                       fontWeight: 400,
-                      fontSize: '14px',
+                      fontSize: 'clamp(0.8rem, 2.5vw, 14px)',
                       color: '#FFFFFF',
                       lineHeight: 1.5,
                     }}

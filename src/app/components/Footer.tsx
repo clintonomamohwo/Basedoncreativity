@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Instagram, Twitter, Linkedin, Dribbble } from 'lucide-react';
+import { Instagram, Twitter, Linkedin, Youtube } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
 export function Footer() {
@@ -8,13 +8,20 @@ export function Footer() {
 
   return (
     <footer
-      className="py-12 md:py-20 px-4 md:px-6"
+      className="pb-12 md:pb-20"
       style={{ background: '#0F1530' }}
     >
-      <div className="max-w-[1400px] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-12 md:mb-16">
+      <div
+        style={{
+          height: '2px',
+          background: '#FFC857',
+          width: '100%',
+        }}
+      />
+      <div className="max-w-[1400px] mx-auto px-4 md:px-6 pt-12 md:pt-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12 md:mb-16">
           {/* Brand */}
-          <div className="md:col-span-2">
+          <div className="col-span-2 md:col-span-2">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -25,7 +32,7 @@ export function Footer() {
                 className="mb-4"
                 style={{
                   fontFamily: "'Space Mono', monospace",
-                  fontSize: '2rem',
+                  fontSize: 'clamp(1.25rem, 5vw, 2rem)',
                   color: '#FFC857',
                   fontWeight: 700,
                 }}
@@ -39,15 +46,14 @@ export function Footer() {
                   fontFamily: "'Source Sans 3', sans-serif",
                 }}
               >
-                We transform visions into extraordinary digital experiences. 
-                Every pixel, every interaction, crafted with intention.
+                Built in the quiet. Born in the light.
               </p>
               <div className="flex gap-4">
                 {[
                   { icon: Instagram, href: 'https://www.instagram.com/basedoncreativity' },
                   { icon: Twitter, href: '#' },
                   { icon: Linkedin, href: 'https://www.linkedin.com/company/based-on-creativity/' },
-                  { icon: Dribbble, href: '#' },
+                  { icon: Youtube, href: '#' },
                 ].map(({ icon: Icon, href }, index) => (
                   <motion.a
                     key={index}
@@ -84,7 +90,7 @@ export function Footer() {
               title: 'Company',
               links: [
                 { label: 'About', path: '/about' },
-                { label: 'Stories', path: '/stories' },
+                { label: 'The Quiet Pages', path: '/stories' },
                 { label: 'Library', path: '/library' },
                 { label: 'Contact', path: '/contact' },
               ],
@@ -158,23 +164,17 @@ export function Footer() {
           </p>
           <div className="flex flex-wrap gap-4 md:gap-6 justify-center items-center">
             {[
-              { label: 'STORIES', path: '/stories' },
+              { label: 'QUIET PAGES', path: '/stories' },
               { label: 'FAQ', path: '/faq' },
               { label: 'COMMUNITY', path: '/community' },
               { label: 'LIBRARY', path: '/library' },
               { label: 'PARTNERS', path: '/partners' },
-              { label: 'Privacy Policy', path: '#', isExternal: true },
-              { label: 'Terms of Service', path: '#', isExternal: true },
+              { label: 'Privacy Policy', path: '/privacy' },
+              { label: 'Terms of Service', path: '/terms' },
             ].map((link) => (
               <motion.button
                 key={link.label}
-                onClick={() => {
-                  if (link.isExternal) {
-                    // For external links, do nothing or handle separately
-                    return;
-                  }
-                  navigate(link.path);
-                }}
+                onClick={() => navigate(link.path)}
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
                 style={{
@@ -183,7 +183,7 @@ export function Footer() {
                   fontSize: '0.875rem',
                   background: 'transparent',
                   border: 'none',
-                  cursor: link.isExternal ? 'default' : 'pointer',
+                  cursor: 'pointer',
                   padding: 0,
                 }}
               >

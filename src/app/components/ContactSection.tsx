@@ -30,7 +30,7 @@ export function ContactSection() {
               className="mb-6 leading-tight"
               style={{
                 fontFamily: "'Space Mono', monospace",
-                fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+                fontSize: 'clamp(1.75rem, 7vw, 4.5rem)',
                 color: '#ffffff',
                 fontWeight: 700,
               }}
@@ -64,13 +64,13 @@ export function ContactSection() {
               whileHover={{ scale: 1.05, y: -4 }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="group px-10 py-5 rounded-full flex items-center gap-3"
+              className="group px-10 py-5 rounded-full flex items-center justify-center gap-3 w-full sm:w-auto"
               style={{
                 background: '#FFC857',
                 color: '#1A1F4B',
                 fontFamily: "'Source Sans 3', sans-serif",
                 fontWeight: 700,
-                fontSize: '1.125rem',
+                fontSize: 'clamp(0.9375rem, 3vw, 1.125rem)',
                 boxShadow: '0 8px 32px rgba(255, 200, 87, 0.4)',
                 border: 'none',
                 cursor: 'pointer',
