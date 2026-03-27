@@ -823,6 +823,9 @@ export function VaultPage() {
   const [hasTransformed, setHasTransformed] = useState(false);
   const [showVaultText,  setShowVaultText]  = useState(false);
   const [showGallery,    setShowGallery]    = useState(false);
+  const [eastProgress,   setEastProgress]   = useState(0);
+  const [trailDots, setTrailDots] = useState<{ id: number; x: number; y: number }[]>([]);
+  const trailIdRef = useRef(0);
 
   const containerRef      = useRef<HTMLDivElement>(null);
   const hasTransformedRef = useRef(false);
@@ -838,7 +841,7 @@ export function VaultPage() {
 
   useEffect(() => {
     const w = window.innerWidth, h = window.innerHeight;
-    moonX.set(ORB_RADIUS + 20 + Math.random() * (w * 0.45 - ORB_RADIUS - 20));
+    moonX.set(ORB_RADIUS + 20 + Math.random() * (w * 0.32 - ORB_RADIUS - 20));
     moonY.set(NAV_HEIGHT + ORB_RADIUS + 20 + Math.random() * (h - NAV_HEIGHT - ORB_RADIUS * 2 - 40));
   }, [moonX, moonY]);
 
@@ -855,6 +858,7 @@ export function VaultPage() {
     if (hasTransformedRef.current) return;
     hasTransformedRef.current = true;
     setHasTransformed(true);
+    setTrailDots([]);
     const startTime = performance.now();
     const tick = (now: number) => {
       const progress = Math.min((now - startTime) / LIGHT_REVEAL_MS, 1);
@@ -882,10 +886,18 @@ export function VaultPage() {
     const x = Math.max(ORB_RADIUS, Math.min(width  - ORB_RADIUS, moonOffsetRef.current.x + (clientX - dragStartRef.current.x)));
     const y = Math.max(NAV_HEIGHT + ORB_RADIUS, Math.min(height - ORB_RADIUS, moonOffsetRef.current.y + (clientY - dragStartRef.current.y)));
     moonX.set(x); moonY.set(y); applyBackground();
+    // East progress 0→1
+    setEastProgress(Math.min(x / (width * EAST_THRESHOLD), 1));
+    // Motion trail — last 12 positions
+    setTrailDots(prev => [...prev.slice(-11), { id: trailIdRef.current++, x, y }]);
     if (x > width * EAST_THRESHOLD) triggerTransformation();
   }, [moonX, moonY, applyBackground, triggerTransformation]);
 
-  const handleDragEnd = useCallback(() => { isDraggingRef.current = false; setIsDragging(false); }, []);
+  const handleDragEnd = useCallback(() => {
+    isDraggingRef.current = false;
+    setIsDragging(false);
+    setTimeout(() => setTrailDots([]), 350);
+  }, []);
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent)  => handleDragMove(e.clientX, e.clientY);
@@ -912,6 +924,87 @@ export function VaultPage() {
 
       <div style={{ position: 'relative', maxWidth: 1920, margin: '0 auto', width: '100%', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 clamp(20px, 5vw, 80px)' }}>
 
+        {/* ── Motion trail ── */}
+        {trailDots.map((dot, i) => {
+          const ageFraction = i / Math.max(trailDots.length - 1, 1);
+          const size = ORB_RADIUS * 2 * (0.08 + ageFraction * 0.42);
+          const opacity = 0.03 + ageFraction * 0.16;
+          return (
+            <div
+              key={dot.id}
+              style={{
+                position: 'absolute',
+                left: dot.x,
+                top: dot.y,
+                transform: 'translate(-50%, -50%)',
+                width: size,
+                height: size,
+                borderRadius: '50%',
+                background: `radial-gradient(circle, rgba(255,200,87,${opacity.toFixed(3)}), transparent 70%)`,
+                pointerEvents: 'none',
+                zIndex: 25,
+              }}
+            />
+          );
+        })}
+
+        {/* ── East threshold glow line ── */}
+        {!showGallery && !hasTransformed && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isDragging ? (0.1 + eastProgress * 0.5) : 0.06 }}
+            transition={{ duration: 0.25 }}
+            style={{
+              position: 'absolute',
+              right: `${(1 - EAST_THRESHOLD) * 100}%`,
+              top: 0,
+              bottom: 0,
+              width: '1px',
+              background: 'linear-gradient(180deg, transparent 0%, rgba(255,200,87,0.75) 25%, rgba(255,200,87,0.75) 75%, transparent 100%)',
+              pointerEvents: 'none',
+              zIndex: 5,
+            }}
+          />
+        )}
+
+        {/* ── East directional cue — right-edge column ── */}
+        {!showGallery && !hasTransformed && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isDragging ? 0 : 1 }}
+            transition={{ duration: 0.5, delay: isDragging ? 0 : 0 }}
+            style={{
+              position: 'absolute',
+              right: 'clamp(16px, 3vw, 40px)',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '10px',
+              pointerEvents: 'none',
+              zIndex: 10,
+            }}
+          >
+            <span style={{ fontFamily: "'Space Mono', monospace", fontWeight: 700, fontSize: '0.58rem', letterSpacing: '0.2em', color: 'rgba(255,200,87,0.5)', marginBottom: '2px' }}>E</span>
+            {[0, 1, 2, 3].map(i => (
+              <motion.div
+                key={i}
+                animate={{ opacity: [0.2, 0.7, 0.2], x: [0, 4, 0] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut', delay: i * 0.22 }}
+                style={{ width: '9px', height: '9px', borderTop: '1.5px solid rgba(255,200,87,0.55)', borderRight: '1.5px solid rgba(255,200,87,0.55)', transform: 'rotate(45deg)' }}
+              />
+            ))}
+            <motion.span
+              animate={{ opacity: [0.25, 0.6, 0.25] }}
+              transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+              style={{ marginTop: '6px', fontFamily: "'Source Sans 3', sans-serif", fontSize: '0.52rem', letterSpacing: '0.14em', color: 'rgba(255,200,87,0.38)', textTransform: 'uppercase', writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+            >
+              open vault
+            </motion.span>
+          </motion.div>
+        )}
+
         {/* ── Draggable Orb ── */}
         <AnimatePresence mode="wait">
           {!showGallery && (
@@ -925,16 +1018,90 @@ export function VaultPage() {
               onTouchStart={e => handleDragStart(e.touches[0].clientX, e.touches[0].clientY)}
               style={{ position: 'absolute', left: moonX, top: moonY, translateX: '-50%', translateY: '-50%', cursor: isDragging ? 'grabbing' : 'grab', zIndex: 30, touchAction: 'none', userSelect: 'none' }}
             >
+              {/* Magnetic glow — expands and brightens as orb approaches east */}
               {!hasTransformed && (
-                <motion.div animate={{ scale: [1, 1.8, 1], opacity: [0.5, 0, 0.5] }} transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-                  style={{ position: 'absolute', inset: '-20px', borderRadius: '50%', border: '2px solid rgba(255,200,87,0.7)', pointerEvents: 'none' }} />
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: `${-18 - eastProgress * 52}px`,
+                    borderRadius: '50%',
+                    background: `radial-gradient(circle, rgba(255,200,87,${(0.06 + eastProgress * 0.36).toFixed(3)}), transparent 65%)`,
+                    pointerEvents: 'none',
+                    transition: 'inset 0.06s ease',
+                  }}
+                />
               )}
+
+              {/* Primary ripple pulse */}
+              {!hasTransformed && (
+                <motion.div
+                  animate={{ scale: [1, 1.85, 1], opacity: [0.55, 0, 0.55] }}
+                  transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+                  style={{ position: 'absolute', inset: '-20px', borderRadius: '50%', border: '2px solid rgba(255,200,87,0.7)', pointerEvents: 'none' }}
+                />
+              )}
+              {/* Slow outer ripple */}
+              {!hasTransformed && (
+                <motion.div
+                  animate={{ scale: [1, 2.5, 1], opacity: [0.22, 0, 0.22] }}
+                  transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 0.9 }}
+                  style={{ position: 'absolute', inset: '-20px', borderRadius: '50%', border: '1px solid rgba(255,200,87,0.35)', pointerEvents: 'none' }}
+                />
+              )}
+
+              {/* "DRAG EAST" label above orb (idle only) */}
+              {!hasTransformed && !isDragging && (
+                <motion.div
+                  animate={{ opacity: [0.45, 0.85, 0.45] }}
+                  transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
+                  style={{ position: 'absolute', top: '-30px', left: '50%', transform: 'translateX(-50%)', fontFamily: "'Space Mono', monospace", fontSize: '0.48rem', fontWeight: 700, letterSpacing: '0.22em', color: 'rgba(255,200,87,0.7)', whiteSpace: 'nowrap', pointerEvents: 'none' }}
+                >
+                  DRAG EAST →
+                </motion.div>
+              )}
+
+              {/* Idle nudge chevrons — three stacked pointing east, appear beside orb */}
+              {!hasTransformed && !isDragging && (
+                <motion.div
+                  animate={{ x: [0, 8, 0], opacity: [0.6, 1, 0.6] }}
+                  transition={{ duration: 1.7, repeat: Infinity, ease: 'easeInOut' }}
+                  style={{ position: 'absolute', right: '-44px', top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center', gap: '3px', pointerEvents: 'none' }}
+                >
+                  {[0, 1, 2].map(i => (
+                    <motion.div
+                      key={i}
+                      animate={{ opacity: [0.3, 1, 0.3] }}
+                      transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut', delay: i * 0.2 }}
+                      style={{ width: '7px', height: '7px', borderTop: '1.5px solid rgba(255,200,87,0.9)', borderRight: '1.5px solid rgba(255,200,87,0.9)', transform: 'rotate(45deg)' }}
+                    />
+                  ))}
+                </motion.div>
+              )}
+
+              {/* East progress arc — thin gold ring fills as orb moves east */}
+              {!hasTransformed && isDragging && eastProgress > 0.04 && (
+                <svg
+                  viewBox="0 0 128 128"
+                  style={{ position: 'absolute', inset: '-6px', width: 'calc(100% + 12px)', height: 'calc(100% + 12px)', pointerEvents: 'none', zIndex: 2 }}
+                >
+                  <circle
+                    cx="64" cy="64" r="60"
+                    fill="none"
+                    stroke={`rgba(255,200,87,${0.25 + eastProgress * 0.55})`}
+                    strokeWidth="2"
+                    strokeDasharray={`${eastProgress * 376.99} 376.99`}
+                    strokeLinecap="round"
+                    transform="rotate(-90 64 64)"
+                  />
+                </svg>
+              )}
+
               <motion.div
                 animate={{ rotate: hasTransformed ? 360 : 0, scale: hasTransformed ? [1, 1.3, 1.5] : 1 }}
                 transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                 style={{ width: 'clamp(72px, 16vw, 120px)', height: 'clamp(72px, 16vw, 120px)', position: 'relative' }}
               >
-                <div style={{ width: '100%', height: '100%', borderRadius: '50%', background: hasTransformed ? 'radial-gradient(circle, #FFF8DC 0%, #FFC857 50%, #FFB347 100%)' : 'radial-gradient(circle at 30% 30%, #F0F0F0 0%, #D8D7DB 50%, #A0A0A0 100%)', boxShadow: hasTransformed ? '0 0 30px rgba(255,200,87,0.55), 0 0 60px rgba(255,200,87,0.25)' : '0 0 20px rgba(216,215,219,0.4), inset -10px -10px 30px rgba(0,0,0,0.2)', transition: 'background 1s ease-out, box-shadow 1s ease-out' }} />
+                <div style={{ width: '100%', height: '100%', borderRadius: '50%', background: hasTransformed ? 'radial-gradient(circle, #FFF8DC 0%, #FFC857 50%, #FFB347 100%)' : 'radial-gradient(circle at 30% 30%, #F0F0F0 0%, #D8D7DB 50%, #A0A0A0 100%)', boxShadow: hasTransformed ? '0 0 30px rgba(255,200,87,0.55), 0 0 60px rgba(255,200,87,0.25)' : `0 0 ${20 + eastProgress * 44}px rgba(216,215,219,${(0.3 + eastProgress * 0.5).toFixed(2)}), inset -10px -10px 30px rgba(0,0,0,0.2)`, transition: 'background 1s ease-out, box-shadow 0.1s ease-out' }} />
                 {hasTransformed && Array.from({ length: 12 }, (_, i) => (
                   <motion.div key={i} initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: [0.6, 0.3, 0.6] }} transition={{ scale: { duration: 0.6, delay: i * 0.05 }, opacity: { duration: 2, repeat: Infinity, ease: 'easeInOut' } }}
                     style={{ position: 'absolute', top: '50%', left: '50%', width: 'clamp(50px, 10vw, 80px)', height: 3, background: 'linear-gradient(90deg, #FFC857, transparent)', transformOrigin: '0 50%', transform: `rotate(${i * 30}deg)`, filter: 'blur(1px)' }} />
@@ -944,13 +1111,13 @@ export function VaultPage() {
           )}
         </AnimatePresence>
 
-        {/* ── Compass ── */}
+        {/* ── Compass + onboarding ── */}
         {!showGallery && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: hasTransformed ? 0 : 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            style={{ zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', pointerEvents: 'none' }}
+            style={{ zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', pointerEvents: 'none', maxWidth: '440px', textAlign: 'center' }}
           >
             <svg viewBox="0 0 200 200" style={{ width: 'clamp(140px, 40vw, 200px)', height: 'clamp(140px, 40vw, 200px)', filter: 'drop-shadow(0 4px 20px rgba(255,200,87,0.4))' }}>
               <circle cx="100" cy="100" r="80" fill="none" stroke="#FFC857" strokeWidth="2" opacity="0.3" />
@@ -961,18 +1128,55 @@ export function VaultPage() {
               <text x="100" y="14"  textAnchor="middle" fill="#FFC857" fontSize="15" fontWeight="bold" fontFamily="'Space Mono', monospace">N</text>
               <text x="100" y="198" textAnchor="middle" fill="#FFC857" fontSize="15" fontWeight="bold" fontFamily="'Space Mono', monospace" opacity="0.75">S</text>
               <text x="10"  y="104" textAnchor="middle" fill="#FFC857" fontSize="15" fontWeight="bold" fontFamily="'Space Mono', monospace" opacity="0.75">W</text>
-              <motion.text x="192" y="104" textAnchor="middle" fill="#FFC857" fontSize="16" fontWeight="bold" fontFamily="'Space Mono', monospace" animate={{ opacity: [1, 0.55, 1] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}>E</motion.text>
+              <motion.text x="192" y="104" textAnchor="middle" fill="#FFC857" fontSize="16" fontWeight="bold" fontFamily="'Space Mono', monospace" animate={{ opacity: [1, 0.45, 1] }} transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}>E</motion.text>
               <motion.line x1="100" y1="100" x2="100" y2="30" stroke="#FFC857" strokeWidth="3" strokeLinecap="round" animate={{ rotate: [-15, -12, -15] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} style={{ transformOrigin: '100px 100px' }} />
               <motion.line x1="100" y1="100" x2="100" y2="30" stroke="#FFC857" strokeWidth="3" strokeLinecap="round" animate={{ rotate: [15, 18, 15] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} style={{ transformOrigin: '100px 100px' }} />
               <circle cx="100" cy="100" r="5" fill="#FFC857" />
               <motion.polygon points="100,25 95,20 105,20" fill="#FFC857" animate={{ y: [0, -2, 0] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} />
             </svg>
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2, duration: 1 }} style={{ marginTop: 32, textAlign: 'center', fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.05rem, 2.8vw, 1.35rem)', fontStyle: 'italic', fontWeight: 600, color: '#FFC857', letterSpacing: '0.07em' }}>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2, duration: 1 }}
+              style={{ marginTop: 28, fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.05rem, 2.8vw, 1.35rem)', fontStyle: 'italic', fontWeight: 600, color: '#FFC857', letterSpacing: '0.07em' }}
+            >
               "The sun rises in the east."
             </motion.p>
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 0.45 }} transition={{ delay: 2, duration: 1 }} style={{ marginTop: 12, textAlign: 'center', fontFamily: "'Source Sans 3', sans-serif", fontSize: '0.75rem', color: '#FFC857', letterSpacing: '0.08em' }}>
+
+            {/* Primary drag instruction */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.55 }}
+              transition={{ delay: 2, duration: 1 }}
+              style={{ marginTop: 10, fontFamily: "'Source Sans 3', sans-serif", fontSize: '0.78rem', color: '#FFC857', letterSpacing: '0.1em', textTransform: 'uppercase' }}
+            >
               Drag the orb east to open the vault
             </motion.p>
+
+            {/* Onboarding description — what the vault actually contains */}
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 2.8, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+              style={{ marginTop: 18, fontFamily: "'Source Sans 3', sans-serif", fontSize: 'clamp(0.8125rem, 2vw, 0.9375rem)', color: 'rgba(255,255,255,0.36)', lineHeight: 1.7, letterSpacing: '0.02em', padding: '0 12px' }}
+            >
+              The vault holds rare fragments, early previews, and hidden material from BOC's developing worlds — things not yet ready to be announced, but too alive to remain entirely unseen.
+            </motion.p>
+
+            {/* Content type chips */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 3.6, duration: 1 }}
+              style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center', marginTop: '16px' }}
+            >
+              {['Images', 'Writing', 'Video'].map(tag => (
+                <span key={tag} style={{ fontFamily: "'Space Mono', monospace", fontSize: '0.52rem', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,200,87,0.42)', border: '1px solid rgba(255,200,87,0.14)', padding: '4px 10px', borderRadius: '999px', background: 'rgba(255,200,87,0.04)' }}>
+                  {tag}
+                </span>
+              ))}
+            </motion.div>
           </motion.div>
         )}
 

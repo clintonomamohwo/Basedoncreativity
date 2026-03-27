@@ -1,7 +1,9 @@
 import { motion } from 'motion/react';
 import { ArrowRight, Sparkles, Sun, Moon, Star } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 export function HeroSection() {
+  const navigate = useNavigate();
   return (
     <section
       className="min-h-screen relative overflow-hidden flex items-center justify-center px-4 md:px-6 py-24 md:py-32"
@@ -113,6 +115,7 @@ export function HeroSection() {
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className="group px-10 py-5 rounded-full flex items-center justify-center gap-3 w-full sm:w-auto"
+                onClick={() => navigate('/about')}
                 style={{
                   background: '#FFC857',
                   color: '#1A1F4B',
@@ -140,6 +143,7 @@ export function HeroSection() {
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className="px-10 py-5 rounded-full backdrop-blur-sm w-full sm:w-auto"
+                onClick={() => navigate('/contact')}
                 style={{
                   background: 'transparent',
                   border: '2px solid #FFC857',

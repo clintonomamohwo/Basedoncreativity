@@ -1,7 +1,9 @@
 import { motion } from 'motion/react';
 import { ArrowRight, Mail, Phone, MapPin } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 export function ContactSection() {
+  const navigate = useNavigate();
   return (
     <section
       className="py-16 md:py-32 px-4 md:px-6 relative overflow-hidden"
@@ -65,6 +67,7 @@ export function ContactSection() {
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className="group px-10 py-5 rounded-full flex items-center justify-center gap-3 w-full sm:w-auto"
+              onClick={() => navigate('/services')}
               style={{
                 background: '#FFC857',
                 color: '#1A1F4B',

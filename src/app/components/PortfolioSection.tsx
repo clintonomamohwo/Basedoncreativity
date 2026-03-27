@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { useNavigate } from 'react-router';
 
 interface PortfolioItem {
   id: number;
@@ -169,6 +170,7 @@ function PortfolioCard({ item, index }: { item: PortfolioItem; index: number }) 
 }
 
 export function PortfolioSection() {
+  const navigate = useNavigate();
   return (
     <section
       className="py-16 md:py-32 px-4 md:px-6"
@@ -235,6 +237,7 @@ export function PortfolioSection() {
             whileTap={{ scale: 0.95 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="px-12 py-5 rounded-full"
+            onClick={() => navigate('/work')}
             style={{
               background: '#FFC857',
               color: '#1A1F4B',
