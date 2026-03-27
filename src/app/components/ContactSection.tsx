@@ -108,7 +108,7 @@ export function ContactSection() {
               {
                 icon: MapPin,
                 label: 'Location',
-                value: 'New York, NY',
+                value: 'Toronto, ON',
               },
             ].map((item, index) => {
               const Icon = item.icon;
