@@ -192,7 +192,7 @@ const SITE_INDEX: SearchResult[] = [
   {
     title: "James Chen, Founder, Modern Architecture Studio",
     description:
-      "\"They didn't just deliver a project; they delivered a masterpiece.\"",
+      '"They didn\'t just deliver a project; they delivered a masterpiece."',
     section: "Testimonials",
     anchor: "#testimonials",
   },
@@ -540,7 +540,10 @@ export function Navigation() {
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside,
+      );
   }, [isMenuOpen]);
 
   // ── Render ──────────────────────────────────────────────────────────────────
@@ -651,17 +654,15 @@ export function Navigation() {
                         ease: EASE_STANDARD,
                       }}
                       whileHover={{
+                        color: "#D4A853",
                         textShadow:
-                          "0 0 8px rgba(255,200,87,0.9), 0 0 20px rgba(255,200,87,0.5), 0 0 40px rgba(255,200,87,0.25)",
-                        color: "#FFD88A",
+                          "0 0 10px rgba(212,168,83,0.22)",
                       }}
                       className="group relative flex-1 flex items-center justify-center py-3"
                       style={{
                         fontFamily: FONTS.heading,
                         fontWeight: 700,
-                        color: isActive
-                          ? "#FFE499"
-                          : COLORS.gold,
+                        color: isActive ? "#D4A853" : "#FAF3E0",
                         fontSize: "0.8125rem",
                         letterSpacing: "0.12em",
                         transition:
@@ -672,7 +673,7 @@ export function Navigation() {
                         border: "none",
                         borderRight:
                           i < NAV_LINKS.length - 1
-                            ? "1px solid rgba(255,200,87,0.2)"
+                            ? "1px solid rgba(212,168,83,0.22)"
                             : "none",
                         cursor: "pointer",
                       }}
@@ -681,17 +682,50 @@ export function Navigation() {
                         isActive={isActive}
                         id={`desktop-${item}`}
                       />
+
                       <span
                         style={{
                           position: "relative",
                           zIndex: 2,
                           textShadow: isActive
-                            ? "0 0 10px #FFC857, 0 0 24px rgba(255,200,87,0.6), 0 0 48px rgba(255,200,87,0.3)"
+                            ? "0 0 10px rgba(212,168,83,0.45), 0 0 24px rgba(212,168,83,0.22)"
                             : "none",
                         }}
                       >
                         {item}
                       </span>
+
+                      <motion.span
+                        aria-hidden="true"
+                        initial={false}
+                        animate={{
+                          scaleX: isActive ? 1 : 0,
+                          opacity: isActive ? 1 : 0.9,
+                        }}
+                        whileHover={{
+                          scaleX: 1,
+                          opacity: 1,
+                        }}
+                        transition={{
+                          duration: 0.28,
+                          ease: EASE_STANDARD,
+                        }}
+                        style={{
+                          position: "absolute",
+                          left: "22%",
+                          right: "22%",
+                          bottom: "10px",
+                          height: "1.5px",
+                          background:
+                            "linear-gradient(90deg, transparent, #D4A853 18%, #D4A853 82%, transparent)",
+                          transformOrigin: "center",
+                          borderRadius: "999px",
+                          boxShadow:
+                            "0 0 10px rgba(212,168,83,0.28)",
+                          zIndex: 1,
+                          pointerEvents: "none",
+                        }}
+                      />
                     </motion.button>
                   );
                 })}
@@ -1099,14 +1133,19 @@ export function Navigation() {
                       textAlign: "left",
                       fontFamily: FONTS.heading,
                       fontWeight: 700,
-                      color: isActive ? "#FFE499" : COLORS.gold,
+                      color: isActive ? "#D4A853" : "#FAF3E0",
                       fontSize: "0.9375rem",
                       letterSpacing: "0.1em",
                       background: "transparent",
                       border: "none",
+                      borderBottom: isActive
+                        ? "1px solid rgba(212,168,83,0.75)"
+                        : "1px solid transparent",
                       cursor: "pointer",
+                      transition:
+                        "color 0.3s ease, border-color 0.3s ease, text-shadow 0.3s ease",
                       textShadow: isActive
-                        ? "0 0 10px #FFC857, 0 0 24px rgba(255,200,87,0.6)"
+                        ? "0 0 10px rgba(212,168,83,0.38)"
                         : "none",
                     }}
                   >
