@@ -14,7 +14,7 @@ export function AboutPage() {
   return (
     <div className="relative min-h-screen bg-[#1A1F4B] overflow-hidden">
       {/* Animated gradient background */}
-      <div className="fixed inset-0 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F4B] via-[#2D2D2D] to-[#1A1F4B] opacity-80" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,200,87,0.15),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(246,230,180,0.1),transparent_50%)]" />
@@ -28,51 +28,71 @@ export function AboutPage() {
       {/* Floating sun and moon icons with parallax */}
       <motion.div
         style={{ y: sunY, opacity: sunOpacity }}
-        className="fixed top-20 right-20 pointer-events-none z-10"
+        className="absolute top-20 right-20 pointer-events-none z-10"
       >
         <Sun className="w-24 h-24 text-[#FFC857] opacity-40" strokeWidth={1} />
       </motion.div>
 
       <motion.div
         style={{ y: moonY, opacity: moonOpacity }}
-        className="fixed bottom-20 left-20 pointer-events-none z-10"
+        className="absolute bottom-20 left-20 pointer-events-none z-10"
       >
         <Moon className="w-20 h-20 text-[#F6E6B4] opacity-40" strokeWidth={1} />
       </motion.div>
 
       {/* Main content */}
-      <div className="relative z-20 max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-32">
+      <div className="relative z-20 max-w-5xl mx-auto px-4 md:px-6 pt-24 pb-12 md:pt-36 md:pb-32">
         
         {/* Page header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-4"
+          className="mb-6"
         >
-          <p className="tracking-[0.2em] uppercase text-[#FFC857]/60"
-            style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: 'clamp(0.6875rem, 2.5vw, 0.875rem)' }}>
+          <p className="tracking-[0.3em] uppercase text-[#FFC857]"
+            style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: 'clamp(0.75rem, 2.5vw, 0.875rem)' }}>
             About Based on Creativity
           </p>
-          <div className="mt-3 h-px w-16 bg-[#FFC857]/30" />
+          <div className="mt-3 h-px w-16 bg-[#FFC857]" />
         </motion.div>
 
-        {/* Opening */}
+        {/* Main page title */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: "easeOut", delay: 0.1 }}
+          className="mb-6"
+        >
+          <h1
+            className="text-white"
+            style={{
+              fontFamily: "'Space Mono', monospace",
+              fontSize: 'clamp(2.75rem, 10vw, 6rem)',
+              lineHeight: 1.05,
+              letterSpacing: '-0.02em',
+            }}
+          >
+            The Studio
+          </h1>
+        </motion.div>
+
+        {/* Opening subtitle */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="mb-12 md:mb-24"
+          transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+          className="mb-14 md:mb-28"
         >
-          <h1
-            className="text-[#FFC857] mb-6"
+          <p
+            className="text-[#FFC857] italic"
             style={{
-              fontFamily: "'Space Mono', monospace",
-              fontSize: 'clamp(2rem, 8vw, 4.5rem)',
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: 'clamp(1.25rem, 4vw, 1.75rem)',
             }}
           >
             Every story begins somewhere.
-          </h1>
+          </p>
         </motion.div>
 
         {/* Main narrative sections */}
@@ -232,13 +252,26 @@ export function AboutPage() {
             transition={{ duration: 0.8 }}
             className="pb-12 md:pb-20"
           >
-            <div className="backdrop-blur-xl bg-gradient-to-br from-[#FFC857]/20 to-transparent rounded-3xl p-6 md:p-16 border border-[#FFC857]/30">
+            <div className="rounded-3xl p-6 md:p-16 border border-[#FFC857]/40"
+              style={{ background: 'rgba(26,31,75,0.85)', backdropFilter: 'blur(24px)' }}>
+              <p className="text-[#FFC857]/60 uppercase tracking-[0.2em] text-center mb-6"
+                style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: '0.75rem' }}>
+                Our Foundation
+              </p>
               <blockquote
-                className="text-[#FFC857] leading-relaxed text-center italic"
-                style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.25rem, 5vw, 2.5rem)' }}
+                className="text-white leading-relaxed text-center italic mb-8"
+                style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.25rem, 5vw, 2.25rem)' }}
               >
                 "Because sometimes the most powerful stories are the ones that remind us we were never that different to begin with."
               </blockquote>
+              <div className="flex items-center justify-center gap-4">
+                <div className="h-px flex-1 max-w-[80px] bg-[#FFC857]/30" />
+                <p className="text-[#FFC857] tracking-[0.15em] uppercase"
+                  style={{ fontFamily: "'Source Sans 3', sans-serif", fontSize: '0.75rem' }}>
+                  Based on Creativity
+                </p>
+                <div className="h-px flex-1 max-w-[80px] bg-[#FFC857]/30" />
+              </div>
             </div>
           </motion.section>
 

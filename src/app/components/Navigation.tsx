@@ -527,6 +527,22 @@ export function Navigation() {
       window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  // Close mobile menu when clicking anywhere outside the nav
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        navRef.current &&
+        !navRef.current.contains(e.target as Node)
+      ) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
+  }, [isMenuOpen]);
+
   // ── Render ──────────────────────────────────────────────────────────────────
 
   return (
