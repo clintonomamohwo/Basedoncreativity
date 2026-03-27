@@ -101,7 +101,7 @@ export function ContactSection() {
               {
                 icon: Mail,
                 label: 'Email',
-                value: 'hello@basedoncreativity.com',
+                value: 'admin@bochq.com',
               },
               {
                 icon: Phone,

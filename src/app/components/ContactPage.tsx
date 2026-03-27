@@ -38,8 +38,8 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "hello@basedoncreativity.com",
-    href: "mailto:hello@basedoncreativity.com",
+    value: "admin@bochq.com",
+    href: "mailto:admin@bochq.com",
   },
   {
     icon: Phone,
