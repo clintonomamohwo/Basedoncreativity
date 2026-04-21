@@ -1397,9 +1397,8 @@ function BentoVault() {
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
       style={{
-        position: "absolute",
-        inset: 0,
-        overflowY: "auto",
+        position: "relative",
+        width: "100%",
         overflowX: "hidden",
       }}
     >
@@ -1701,9 +1700,9 @@ export function VaultPage() {
         width: "100%",
         minHeight: "100vh",
         background: "#1A1F4B",
-        overflow: "hidden",
+        overflow: showGallery ? "visible" : "hidden",
         cursor: isDragging ? "grabbing" : "default",
-        touchAction: "none",
+        touchAction: showGallery ? "auto" : "none",
       }}
     >
       <StarCanvas visible={!showGallery} />
@@ -1714,9 +1713,10 @@ export function VaultPage() {
           maxWidth: 1920,
           margin: "0 auto",
           width: "100%",
-          height: "100vh",
+          minHeight: "100vh",
+          height: showGallery ? "auto" : "100vh",
           display: "flex",
-          alignItems: "center",
+          alignItems: showGallery ? "flex-start" : "center",
           justifyContent: "center",
           padding: "0 clamp(20px, 5vw, 80px)",
         }}
