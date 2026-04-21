@@ -1,6 +1,8 @@
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import { fetchPortfolioProjects, resolveMediaAlt, resolveMediaUrl, type SanityPortfolioProject } from '@/lib/sanityContent';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { SEO } from './SEO';
 
@@ -23,7 +25,7 @@ interface Project {
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const PROJECTS: Project[] = [
+const FALLBACK_PROJECTS: Project[] = [
   {
     id: 'boc-brand-identity',
     index: '01',
@@ -262,6 +264,42 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
 
 // ─── Metadata Strip ───────────────────────────────────────────────────────────
 
+function formatProjectYear(date?: string) {
+  if (!date) return 'TBA';
+  const parsed = new Date(date);
+  return Number.isNaN(parsed.getTime()) ? 'TBA' : String(parsed.getFullYear());
+}
+
+function getProjectStatus(project: SanityPortfolioProject): Status {
+  if (!project.date) return 'In Development';
+  const parsed = new Date(project.date);
+  if (Number.isNaN(parsed.getTime())) return 'In Development';
+  return parsed <= new Date() ? 'Completed' : 'In Development';
+}
+
+function mapSanityProject(project: SanityPortfolioProject, index: number): Project {
+  const fallback = FALLBACK_PROJECTS[index % FALLBACK_PROJECTS.length];
+  const discipline = project.tags?.length
+    ? project.tags.join(' · ')
+    : project.client
+      ? `${project.client} · ${project.category || 'Creative Direction'}`
+      : `${project.category || 'Creative Work'} · Based on Creativity`;
+  const image = resolveMediaUrl(project.thumbnail, 1600) || fallback.image;
+
+  return {
+    id: project.slug || project._id,
+    index: String(index + 1).padStart(2, '0'),
+    title: project.title,
+    category: project.category || fallback.category,
+    discipline,
+    status: getProjectStatus(project),
+    year: formatProjectYear(project.date),
+    summary: project.description || fallback.summary,
+    image,
+    imageAlt: resolveMediaAlt(project.thumbnail, `${project.title} project artwork`) || fallback.imageAlt,
+  };
+}
+
 const META_ITEMS = ['Identity', 'Web', 'Animation', 'Publishing'];
 
 function MetaStrip() {
@@ -436,6 +474,32 @@ function CTASection() {
 // ─── Root ────────────────────────────────────────────────────────────────────
 
 export function WorkPage() {
+  const [cmsProjects, setCmsProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    fetchPortfolioProjects()
+      .then((projects) => {
+        if (cancelled || !projects?.length) return;
+        setCmsProjects(projects.map(mapSanityProject));
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setCmsProjects([]);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const displayProjects = useMemo(
+    () => (cmsProjects.length ? cmsProjects : FALLBACK_PROJECTS),
+    [cmsProjects],
+  );
+
   return (
     <>
       <SEO title="Work | Based on Creativity" description="Explore selected work from Based on Creativity, including brand identity systems, digital experiences, editorial design, and visual storytelling." path="/work" />
@@ -529,7 +593,7 @@ export function WorkPage() {
         {/* ── Project Grid ─────────────────────────────────────────────── */}
         <section className="px-4 md:px-12 lg:px-20 pb-20 max-w-5xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {PROJECTS.map((project, i) => (
+            {displayProjects.map((project, i) => (
               <ProjectCard
                 key={project.id}
                 project={project}
