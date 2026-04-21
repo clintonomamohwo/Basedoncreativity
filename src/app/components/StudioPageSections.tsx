@@ -349,14 +349,14 @@ export function PipelineSection() {
     <section
       style={{
         background: NAVY_D,
-        padding: 'clamp(72px, 10vw, 120px) clamp(20px, 5vw, 48px)',
+        padding: 'clamp(56px, 8vw, 88px) clamp(20px, 5vw, 48px)',
         position: 'relative',
         overflow: 'hidden',
       }}
     >
       {/* Top rule */}
       <GoldRule gradient={false} />
-      <div style={{ height: 'clamp(48px, 7vw, 80px)' }} />
+      <div style={{ height: 'clamp(24px, 4vw, 40px)' }} />
 
       {/* Ambient glow */}
       <div
@@ -573,7 +573,7 @@ export function PipelineSection() {
         </div>
       </div>
 
-      <div style={{ height: 'clamp(48px, 7vw, 80px)' }} />
+      <div style={{ height: 'clamp(24px, 4vw, 40px)' }} />
       <GoldRule gradient={false} />
     </section>
   );
@@ -586,7 +586,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
     <section
       style={{
         background: NAVY_ALT,
-        padding: 'clamp(64px, 9vw, 112px) clamp(20px, 5vw, 48px)',
+        padding: 'clamp(56px, 7vw, 88px) clamp(20px, 5vw, 48px)',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -920,7 +920,7 @@ export function BottomCTA({ navigate }: { navigate: ReturnType<typeof useNavigat
     <section
       style={{
         background: NAVY,
-        padding: 'clamp(80px, 11vw, 128px) clamp(20px, 5vw, 48px)',
+        padding: 'clamp(64px, 8vw, 96px) clamp(20px, 5vw, 48px)',
         position: 'relative',
         overflow: 'hidden',
         textAlign: 'center',
