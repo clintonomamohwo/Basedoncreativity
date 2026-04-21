@@ -2,12 +2,19 @@ import { AnimatePresence, motion } from 'motion/react';
 import { COLORS, EASE_STANDARD } from '../../lib/constants';
 
 
+export type StarVariant = "trail" | "burst" | "transition";
+
 export interface Star {
   id: number;
   x: number;
   y: number;
   size: number;
   rotation: number;
+  variant?: StarVariant;
+  delay?: number;
+  duration?: number;
+  driftX?: number;
+  driftY?: number;
 }
 
 export interface SearchResult {
@@ -322,21 +329,68 @@ export function NavActiveIndicator({
 
 /** Gold star particle emitted on mouse/touch movement over the nav bar. */
 export function TrailingStar({ star }: { star: Star }) {
+  const variant = star.variant ?? "trail";
+  const isBurst = variant === "burst";
+  const isTransition = variant === "transition";
+
   // Alternate between two gold shades for visual variety
   const fill =
     star.id % 2 === 0 ? COLORS.gold : COLORS.creamAccent;
+
+  const animate = isBurst
+    ? {
+        opacity: [0, 1, 0.95, 0],
+        scale: [0.35, 1.4, 0.8, 0.15],
+        rotate: star.rotation + 180,
+        x: star.driftX ?? 0,
+        y: star.driftY ?? -22,
+      }
+    : isTransition
+      ? {
+          opacity: [0, 1, 0.75, 0],
+          scale: [0.25, 1.05, 0.65, 0.12],
+          rotate: star.rotation + 135,
+          x: star.driftX ?? 46,
+          y: star.driftY ?? -10,
+        }
+      : {
+          opacity: 0,
+          scale: 0.2,
+          rotate: star.rotation + 90,
+          x: 0,
+          y: -16,
+        };
+
+  const transition = isBurst || isTransition
+    ? {
+        duration: star.duration ?? (isBurst ? 1.15 : 0.85),
+        delay: star.delay ?? 0,
+        ease: "easeOut" as const,
+        times: [0, 0.18, 0.72, 1],
+      }
+    : {
+        duration: star.duration ?? 0.7,
+        delay: star.delay ?? 0,
+        ease: "easeOut" as const,
+      };
+
+  const glowFilter = isBurst
+    ? "drop-shadow(0 0 8px rgba(255,200,87,0.95)) drop-shadow(0 0 18px rgba(255,200,87,0.55))"
+    : isTransition
+      ? "drop-shadow(0 0 5px rgba(255,200,87,0.9)) drop-shadow(0 0 12px rgba(255,200,87,0.32))"
+      : "drop-shadow(0 0 3px rgba(255,200,87,0.8))";
+
   return (
     <motion.svg
       key={star.id}
-      initial={{ opacity: 1, scale: 1, rotate: star.rotation }}
-      animate={{
-        opacity: 0,
-        scale: 0.2,
-        rotate: star.rotation + 90,
-        y: -16,
+      initial={{
+        opacity: isBurst || isTransition ? 0 : 1,
+        scale: isBurst ? 0.35 : isTransition ? 0.25 : 1,
+        rotate: star.rotation,
       }}
+      animate={animate}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
+      transition={transition}
       width={star.size}
       height={star.size}
       viewBox="0 0 24 24"
@@ -346,8 +400,9 @@ export function TrailingStar({ star }: { star: Star }) {
         left: star.x - star.size / 2,
         top: star.y - star.size / 2,
         fill,
-        filter: "drop-shadow(0 0 3px rgba(255,200,87,0.8))",
+        filter: glowFilter,
         pointerEvents: "none",
+        willChange: "transform, opacity",
       }}
     >
       <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
