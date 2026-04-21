@@ -35,24 +35,27 @@ const budgetRanges = [
   "Not sure yet",
 ];
 
+const CONTACT_EMAIL = "contact@bochq.com";
+const CONTACT_FORM_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
+
 const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "admin@bochq.com",
-    href: "mailto:admin@bochq.com",
+    value: CONTACT_EMAIL,
+    href: `mailto:${CONTACT_EMAIL}`,
   },
   {
     icon: Phone,
     label: "Phone",
-    value: "+1 (415) 000-0000",
-    href: "tel:+14150000000",
+    value: "647-847-9084",
+    href: "tel:+16478479084",
   },
   {
     icon: MapPin,
     label: "Studio",
-    value: "Toronto, ON",
-    href: "#",
+    value: "Studio location coming soon — update this before launch",
+    href: null,
   },
   {
     icon: Clock,
@@ -120,17 +123,57 @@ export function ContactPage() {
   const [focused, setFocused] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleChange = (field: string, value: string) => {
+    setSubmitError(null);
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!form.projectType) {
+      setSubmitError("Please select a project type before sending your inquiry.");
+      return;
+    }
+
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1400));
-    setSubmitting(false);
-    setSubmitted(true);
+    setSubmitError(null);
+
+    try {
+      const response = await fetch(CONTACT_FORM_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          company: form.company || "Not provided",
+          projectType: form.projectType,
+          budget: form.budget || "Not provided",
+          message: form.message,
+          _subject: `New Based on Creativity inquiry from ${form.name}`,
+          _template: "table",
+          _captcha: "false",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Form service returned ${response.status}`);
+      }
+
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Contact form submission failed", error);
+      setSubmitError(
+        "We couldn’t send your message right now. Please try again or email hello@bochq.com directly.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const inputBase: React.CSSProperties = {
@@ -667,6 +710,24 @@ export function ContactPage() {
                       />
                     </div>
 
+                    {submitError ? (
+                      <p
+                        role="alert"
+                        aria-live="polite"
+                        style={{
+                          fontFamily: "'Source Sans 3', sans-serif",
+                          fontSize: "0.85rem",
+                          color: "#FFD988",
+                          background: "rgba(255,200,87,0.08)",
+                          border: "1px solid rgba(255,200,87,0.18)",
+                          borderRadius: "10px",
+                          padding: "12px 14px",
+                        }}
+                      >
+                        {submitError}
+                      </p>
+                    ) : null}
+
                     {/* Submit */}
                     <motion.button
                       type="submit"
@@ -765,8 +826,7 @@ export function ContactPage() {
                         marginTop: "-4px",
                       }}
                     >
-                      We respond to every inquiry within 24
-                      hours.
+                      Messages are routed to contact@bochq.com. Update the destination inbox here if the primary contact changes.
                     </p>
                   </motion.form>
                 )}
@@ -834,7 +894,7 @@ export function ContactPage() {
                 30-minute discovery call."
               </p>
               <motion.a
-                href="mailto:hello@basedoncreativIty.com"
+                href={`mailto:${CONTACT_EMAIL}`}
                 whileHover={{
                   scale: 1.03,
                   boxShadow: "0 0 24px rgba(255,200,87,0.25)",

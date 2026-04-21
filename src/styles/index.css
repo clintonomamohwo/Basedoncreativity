@@ -2,6 +2,22 @@
 @import './tailwind.css';
 @import './theme.css';
 
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ── Global mobile responsive overrides (375-440px) ── */
 @media (max-width: 480px) {
   /* Services hero section padding */
