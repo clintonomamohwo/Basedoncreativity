@@ -36,7 +36,7 @@ const budgetRanges = [
 ];
 
 const CONTACT_EMAIL = "contact@bochq.com";
-const CONTACT_FORM_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
+const CONTACT_FORM_ENDPOINT = `https://formsubmit.co/ajax/72a9e6f21908d30c38d2df816446e0e4`;
 
 const contactInfo = [
   {
