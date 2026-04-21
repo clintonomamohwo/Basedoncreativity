@@ -440,7 +440,7 @@ export function WorkPage() {
     <>
       <SEO title="Work | Based on Creativity" description="Explore selected work from Based on Creativity, including brand identity systems, digital experiences, editorial design, and visual storytelling." path="/work" />
     <div
-      className="relative min-h-screen"
+      className="relative"
       style={{ background: '#0A1628' }}
     >
       {/* Ambient background layers */}
@@ -458,7 +458,7 @@ export function WorkPage() {
 
       <div className="relative" style={{ zIndex: 1 }}>
         {/* ── Hero ─────────────────────────────────────────────────────── */}
-        <section className="px-4 md:px-12 lg:px-20 pt-36 pb-16 md:pt-44 md:pb-20 max-w-5xl mx-auto">
+        <section className="px-4 md:px-12 lg:px-20 pt-32 pb-14 md:pt-36 md:pb-16 max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}

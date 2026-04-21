@@ -330,7 +330,7 @@ export function StoriesPage() {
   return (
     <>
       <SEO title="Stories | Based on Creativity" description="Browse the Based on Creativity stories collection, featuring original short fiction, poetic narratives, and immersive visual storytelling." path="/stories" />
-    <div ref={containerRef} className="relative min-h-screen overflow-hidden" style={{ background: '#0F1228' }}>
+    <div ref={containerRef} className="relative overflow-hidden" style={{ background: '#0F1228' }}>
 
       {/* ── Fixed background ─────────────────────────────────────────────────── */}
       <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
@@ -390,7 +390,7 @@ export function StoriesPage() {
           style={{
             maxWidth: '1200px',
             margin: '0 auto',
-            padding: 'clamp(120px, 16vw, 180px) clamp(20px, 5vw, 48px) clamp(64px, 9vw, 96px)',
+            padding: 'clamp(104px, 13vw, 152px) clamp(20px, 5vw, 48px) clamp(56px, 7vw, 80px)',
           }}
         >
           {/* Eyebrow */}

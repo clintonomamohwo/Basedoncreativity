@@ -58,7 +58,7 @@ function HeroBlock({
   moonOpacity: ReturnType<typeof useTransform>;
 }) {
   return (
-    <section className="relative min-h-[90vh] flex flex-col justify-center px-4 md:px-12 lg:px-20 pt-36 pb-24">
+    <section className="relative min-h-[72vh] flex flex-col justify-center px-4 md:px-12 lg:px-20 pt-28 pb-16 md:pt-32 md:pb-20">
       {/* Decorative parallax icons */}
       <motion.div
         style={{ y: sunY, opacity: sunOpacity }}
@@ -184,7 +184,7 @@ const GLANCE_ITEMS = [
 
 function AtAGlance() {
   return (
-    <section className="px-4 md:px-12 lg:px-20 py-20 md:py-28">
+    <section className="px-4 md:px-12 lg:px-20 py-16 md:py-20">
       <div className="max-w-5xl mx-auto">
         <GoldRule className="mb-16" />
 
@@ -281,7 +281,7 @@ function AtAGlance() {
 
 function Philosophy() {
   return (
-    <section className="px-4 md:px-12 lg:px-20 py-20 md:py-28">
+    <section className="px-4 md:px-12 lg:px-20 py-16 md:py-20">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -467,7 +467,7 @@ const BRANDS = [
 
 function FamilyOfBrands() {
   return (
-    <section className="px-4 md:px-12 lg:px-20 py-20 md:py-28">
+    <section className="px-4 md:px-12 lg:px-20 py-16 md:py-20">
       <div className="max-w-5xl mx-auto">
         <GoldRule className="mb-16" />
 
@@ -627,7 +627,7 @@ function FamilyOfBrands() {
 
 function LeadershipBlock() {
   return (
-    <section className="px-4 md:px-12 lg:px-20 py-20 md:py-28">
+    <section className="px-4 md:px-12 lg:px-20 py-16 md:py-20">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -797,7 +797,7 @@ const PRINCIPLES = [
 
 function WorkingPhilosophy() {
   return (
-    <section className="px-4 md:px-12 lg:px-20 py-20 md:py-28">
+    <section className="px-4 md:px-12 lg:px-20 py-16 md:py-20">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -893,7 +893,7 @@ function WorkingPhilosophy() {
 function ClosingCTA() {
   const navigate = useNavigate();
   return (
-    <section className="px-4 md:px-12 lg:px-20 pb-28 md:pb-36">
+    <section className="px-4 md:px-12 lg:px-20 pb-20 md:pb-24">
       <div className="max-w-5xl mx-auto">
         {/* Quote */}
         <motion.div
@@ -1029,7 +1029,7 @@ export function AboutPage() {
     <>
       <SEO title="About | Based on Creativity" description="Learn about Based on Creativity, the studio philosophy, creative practice, and the perspective behind its design-led storytelling." path="/about" />
     <div
-      className="relative min-h-screen"
+      className="relative"
       style={{ background: "#1A1F4B" }}
     >
       {/* Background layers */}
