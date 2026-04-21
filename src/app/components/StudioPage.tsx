@@ -153,7 +153,7 @@ export function StudioPage() {
   return (
     <>
       <SEO title="Studio | Based on Creativity" description="Step inside the Based on Creativity studio to see how narrative, design craft, motion, and world-building shape every creative collaboration." path="/studio" />
-    <div style={{ background: NAVY, minHeight: '100vh' }}>
+    <div style={{ background: NAVY }}>
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
       <section
@@ -161,7 +161,7 @@ export function StudioPage() {
           position: 'relative',
           overflow: 'hidden',
           background: NAVY_D,
-          minHeight: 'clamp(500px, 80vh, 800px)',
+          minHeight: 'clamp(460px, 72vh, 720px)',
           display: 'flex',
           alignItems: 'flex-end',
         }}
@@ -233,7 +233,7 @@ export function StudioPage() {
             maxWidth: '1100px',
             width: '100%',
             margin: '0 auto',
-            padding: 'clamp(140px, 18vw, 200px) clamp(20px, 5vw, 48px) clamp(64px, 9vw, 96px)',
+            padding: 'clamp(120px, 15vw, 168px) clamp(20px, 5vw, 48px) clamp(56px, 8vw, 88px)',
             position: 'relative',
             zIndex: 2,
           }}
@@ -350,7 +350,7 @@ export function StudioPage() {
       <section
         style={{
           background: NAVY,
-          padding: 'clamp(64px, 9vw, 112px) clamp(20px, 5vw, 48px)',
+          padding: 'clamp(56px, 7vw, 88px) clamp(20px, 5vw, 48px)',
           position: 'relative',
         }}
       >

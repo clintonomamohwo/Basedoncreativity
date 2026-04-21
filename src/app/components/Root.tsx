@@ -32,10 +32,10 @@ export function Root() {
   useFavicon();
 
   return (
-    <div className="min-h-screen" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
+    <div className="min-h-screen flex flex-col" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
       <ScrollRestoration />
       <Navigation />
-      <main>
+      <main className="flex-1">
         <Outlet />
       </main>
       <Footer />
