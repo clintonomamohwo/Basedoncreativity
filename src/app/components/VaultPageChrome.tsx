@@ -194,9 +194,10 @@ export function FilterBar({
         display: "flex",
         flexDirection: "column",
         gap: 12,
-        alignItems: "center",
+        alignItems: "stretch",
         marginBottom: 32,
-        padding: "0 16px",
+        paddingInlineStart: "max(16px, env(safe-area-inset-left))",
+        paddingInlineEnd: "max(16px, env(safe-area-inset-right))",
         width: "100%",
         boxSizing: "border-box",
       }}
@@ -206,13 +207,17 @@ export function FilterBar({
         style={{
           display: "flex",
           gap: 6,
+          justifyContent: "flex-start",
           background: "rgba(255,255,255,0.04)",
           borderRadius: 999,
           padding: "5px 6px",
           border: "1px solid rgba(255,200,87,0.1)",
+          width: "100%",
           maxWidth: "100%",
           overflowX: "auto",
+          WebkitOverflowScrolling: "touch",
           flexShrink: 0,
+          boxSizing: "border-box",
         }}
       >
         {TYPE_FILTERS.map(({ value, label, Icon }) => {

@@ -1671,6 +1671,13 @@ export function VaultPage() {
     const onMouseMove = (e: MouseEvent) =>
       handleDragMove(e.clientX, e.clientY);
     const onTouchMove = (e: TouchEvent) => {
+      if (
+        !isDraggingRef.current ||
+        showGalleryRef.current ||
+        e.touches.length === 0
+      ) {
+        return;
+      }
       e.preventDefault();
       handleDragMove(
         e.touches[0].clientX,
