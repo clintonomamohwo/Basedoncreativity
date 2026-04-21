@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router';
 import { Root } from './components/Root';
+import { ErrorPage } from './components/ErrorPage';
 
 const HomePage = lazy(() => import('./components/HomePage').then((module) => ({ default: module.HomePage })));
 const WorkPage = lazy(() => import('./components/WorkPage').then((module) => ({ default: module.WorkPage })));
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     Component: Root,
+    errorElement: <ErrorPage />,
     children: [
       { index: true, Component: HomePage },
       { path: 'work', Component: WorkPage },
