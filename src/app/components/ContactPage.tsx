@@ -198,7 +198,7 @@ export function ContactPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#1A1F4B] overflow-x-hidden">
+    <div className="relative bg-[#1A1F4B] overflow-x-hidden">
       <SEO title="Contact | Based on Creativity" description="Start a conversation with Based on Creativity about brand identity, digital design, creative direction, and collaborative storytelling projects." path="/contact" />
       {/* ── Background (absolute, scrolls with page) ─── */}
       <div className="absolute inset-0 pointer-events-none">
@@ -260,7 +260,7 @@ export function ContactPage() {
       />
 
       {/* ── Main content ────────────────────────────────── */}
-      <div className="relative z-20 max-w-[1200px] mx-auto px-6 pt-28 pb-12 md:pt-36 md:pb-16">
+      <div className="relative z-20 max-w-[1200px] mx-auto px-6 pt-24 pb-10 md:pt-32 md:pb-14">
         {/* ── Page header ─────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
