@@ -27,7 +27,7 @@ import {
   FONTS,
   EASE_STANDARD,
 } from "../../lib/constants";
-import { NavActiveIndicator, SECTION_COLORS, TrailingStar, searchSite } from './NavigationSections';
+import { NavActiveIndicator, SECTION_COLORS, TrailingStar, searchSite, NAV_LINKS, NAV_ROUTES, getIsNavActive } from './NavigationSections';
 import type { SearchResult, Star } from './NavigationSections';
 
 // ─── Types ────────────────────────────────────────────────────────────────────

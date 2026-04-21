@@ -20,7 +20,7 @@ export interface SearchResult {
 // ─── Navigation Data ──────────────────────────────────────────────────────────
 
 /** Ordered list of labels shown in the nav bar. */
-const NAV_LINKS = [
+export const NAV_LINKS = [
   "WORK",
   "SERVICES",
   "ABOUT",
@@ -30,7 +30,7 @@ const NAV_LINKS = [
 ] as const;
 
 /** Maps each nav label to its corresponding route path. */
-const NAV_ROUTES: Record<string, string> = {
+export const NAV_ROUTES: Record<string, string> = {
   WORK: "/work",
   SERVICES: "/services",
   ABOUT: "/about",
@@ -40,7 +40,7 @@ const NAV_ROUTES: Record<string, string> = {
 };
 
 /** Returns true if the nav item's route matches the current pathname. */
-function getIsNavActive(
+export function getIsNavActive(
   item: string,
   pathname: string,
 ): boolean {
