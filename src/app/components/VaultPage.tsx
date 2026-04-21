@@ -1399,7 +1399,9 @@ function BentoVault() {
       style={{
         position: "relative",
         width: "100%",
+        minHeight: "100vh",
         overflowX: "hidden",
+        zIndex: 10,
       }}
     >
       {/* ── Header ── */}
@@ -1713,10 +1715,9 @@ export function VaultPage() {
           maxWidth: 1920,
           margin: "0 auto",
           width: "100%",
-          minHeight: "100vh",
-          height: showGallery ? "auto" : "100vh",
-          display: "flex",
-          alignItems: showGallery ? "flex-start" : "center",
+          height: showGallery ? "0" : "100vh",
+          display: showGallery ? "none" : "flex",
+          alignItems: "center",
           justifyContent: "center",
           padding: "0 clamp(20px, 5vw, 80px)",
         }}
