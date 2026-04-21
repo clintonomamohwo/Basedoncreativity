@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { useParams, useNavigate } from 'react-router';
 import { ArrowLeft, ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
 import { CloudinaryImage } from './CloudinaryImage';
+import { SEO } from './SEO';
 
 // ─── Story Data ────────────────────────────────────────────────────────────────
 
@@ -301,6 +302,13 @@ export function StoryDetail() {
   }, []);
 
   const story = storyId ? storyData[storyId] : null;
+  const storyPath = storyId ? `/stories/${storyId}` : '/stories';
+  const storySeoTitle = story
+    ? `${story.title} | Stories | Based on Creativity`
+    : 'Story Not Found | Based on Creativity';
+  const storySeoDescription = story
+    ? `${story.subtitle}. Read "${story.title}" by ${story.author} in the Based on Creativity stories collection.`
+    : 'The requested story could not be found in the Based on Creativity stories collection.';
 
   // Group sections into two-page spreads
   const spreads = useMemo(() => {
@@ -395,14 +403,22 @@ export function StoryDetail() {
 
   if (!story) {
     return (
-      <div className="min-h-screen bg-[#1A1F4B] flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-white text-2xl mb-4">Story not found</h2>
-          <button onClick={() => navigate('/stories')} className="text-[#FFC857] hover:underline">
-            Return to Library
-          </button>
+      <>
+        <SEO
+          title={storySeoTitle}
+          description={storySeoDescription}
+          path={storyPath}
+          robots="noindex, follow"
+        />
+        <div className="min-h-screen bg-[#1A1F4B] flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-white text-2xl mb-4">Story not found</h2>
+            <button onClick={() => navigate('/stories')} className="text-[#FFC857] hover:underline">
+              Return to Library
+            </button>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -451,6 +467,13 @@ export function StoryDetail() {
   // ── Render ────────────────────────────────────────────────────────────────
 
   return (
+    <>
+      <SEO
+        title={storySeoTitle}
+        description={storySeoDescription}
+        path={storyPath}
+        type="article"
+      />
     <div className="relative min-h-screen bg-[#1A1F4B] overflow-hidden">
       {/* Background */}
       <div className="fixed inset-0 pointer-events-none">
@@ -999,5 +1022,6 @@ export function StoryDetail() {
         </div>
       )}
     </div>
+    </>
   );
 }

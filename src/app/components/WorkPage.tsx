@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { SEO } from './SEO';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -436,6 +437,8 @@ function CTASection() {
 
 export function WorkPage() {
   return (
+    <>
+      <SEO title="Work | Based on Creativity" description="Explore selected work from Based on Creativity, including brand identity systems, digital experiences, editorial design, and visual storytelling." path="/work" />
     <div
       className="relative min-h-screen"
       style={{ background: '#0A1628' }}
@@ -556,5 +559,6 @@ export function WorkPage() {
         <CTASection />
       </div>
     </div>
+    </>
   );
 }

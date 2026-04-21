@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { CloudinaryImage } from "./CloudinaryImage";
 import { cloudinaryVideoUrl } from "../../lib/cloudinary";
+import { SEO } from './SEO';
 
 /* ═══════════════════════════════════════════════════════════════════════════
    TYPES
@@ -1977,6 +1978,8 @@ export function VaultPage() {
   }, [handleDragMove, handleDragEnd]);
 
   return (
+    <>
+      <SEO title="The Vault | Based on Creativity" description="Enter The Vault to explore an experimental gallery of moving images, visual studies, and creative artifacts from Based on Creativity." path="/vault" />
     <div
       ref={containerRef}
       style={{
@@ -2713,5 +2716,6 @@ export function VaultPage() {
         </AnimatePresence>
       </div>
     </div>
+    </>
   );
 }

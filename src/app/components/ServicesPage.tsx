@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import { SEO } from './SEO';
 
 // ─── Brand tokens ─────────────────────────────────────────────────────────────
 
@@ -1155,6 +1156,8 @@ export function ServicesPage() {
   const navigate = useNavigate();
 
   return (
+    <>
+      <SEO title="Services | Based on Creativity" description="Discover Based on Creativity services across brand identity, digital experiences, creative direction, and strategy for ambitious brands and founders." path="/services" />
     <div style={{ background: NAVY, minHeight: '100vh' }}>
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
@@ -1291,5 +1294,6 @@ export function ServicesPage() {
       <FinalCTA navigate={navigate} />
 
     </div>
+    </>
   );
 }

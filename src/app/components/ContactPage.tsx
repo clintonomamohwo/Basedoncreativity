@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { SEO } from './SEO';
 import {
   Mail,
   Phone,
@@ -155,6 +156,7 @@ export function ContactPage() {
 
   return (
     <div className="relative min-h-screen bg-[#1A1F4B] overflow-x-hidden">
+      <SEO title="Contact | Based on Creativity" description="Start a conversation with Based on Creativity about brand identity, digital design, creative direction, and collaborative storytelling projects." path="/contact" />
       {/* ── Background (absolute, scrolls with page) ─── */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F4B] via-[#141830] to-[#1A1F4B]" />

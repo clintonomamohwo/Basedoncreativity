@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { SEO } from './SEO';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -978,6 +979,7 @@ export function LibraryPage() {
 
   return (
     <>
+      <SEO title="Library | Based on Creativity" description="Explore the Based on Creativity library of reflections, expressions, and curated creative work across mediums and themes." path="/library" />
       {/* Inject animations once */}
       <style dangerouslySetInnerHTML={{ __html: CSS_ANIMATIONS }} />
 

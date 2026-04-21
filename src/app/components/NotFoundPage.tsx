@@ -1,11 +1,14 @@
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router';
 import { COLORS, FONTS, EASE_STANDARD } from '../../lib/constants';
+import { SEO } from './SEO';
 
 export function NotFoundPage() {
   const navigate = useNavigate();
 
   return (
+    <>
+      <SEO title="Page Not Found | Based on Creativity" description="The page you requested could not be found on Based on Creativity. Explore the studio, stories, work, or services from here." path="/404" robots="noindex, follow" />
     <div
       style={{
         minHeight: '100vh',
@@ -158,5 +161,6 @@ export function NotFoundPage() {
         </div>
       </motion.div>
     </div>
+    </>
   );
 }

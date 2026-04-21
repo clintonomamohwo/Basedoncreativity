@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { SEO } from './SEO';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -1025,6 +1026,8 @@ export function AboutPage() {
   );
 
   return (
+    <>
+      <SEO title="About | Based on Creativity" description="Learn about Based on Creativity, the studio philosophy, creative practice, and the perspective behind its design-led storytelling." path="/about" />
     <div
       className="relative min-h-screen"
       style={{ background: "#1A1F4B" }}
@@ -1062,5 +1065,6 @@ export function AboutPage() {
         <ClosingCTA />
       </div>
     </div>
+    </>
   );
 }

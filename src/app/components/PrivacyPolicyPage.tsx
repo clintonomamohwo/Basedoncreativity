@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import { SEO } from './SEO';
 
 const SECTIONS = [
   {
@@ -178,10 +179,11 @@ const SECTIONS = [
 
 export function PrivacyPolicyPage() {
   return (
-    <main
+    <div
       style={{ background: '#1A1F4B', minHeight: '100vh' }}
       className="px-4 md:px-6 py-24 md:py-32"
     >
+      <SEO title="Privacy Policy | Based on Creativity" description="Read the Based on Creativity privacy policy to understand how personal information is collected, used, stored, and protected." path="/privacy" />
       <div className="max-w-[800px] mx-auto">
 
         {/* Header */}
@@ -336,6 +338,6 @@ export function PrivacyPolicyPage() {
         </motion.div>
 
       </div>
-    </main>
+    </div>
   );
 }

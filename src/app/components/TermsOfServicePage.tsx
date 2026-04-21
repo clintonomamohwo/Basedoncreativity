@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import { SEO } from './SEO';
 
 const SUB_SECTION_STYLE = {
   fontFamily: "'Space Mono', monospace",
@@ -175,10 +176,11 @@ const SECTIONS = [
 
 export function TermsOfServicePage() {
   return (
-    <main
+    <div
       style={{ background: '#1A1F4B', minHeight: '100vh' }}
       className="px-4 md:px-6 py-24 md:py-32"
     >
+      <SEO title="Terms of Service | Based on Creativity" description="Review the Based on Creativity terms of service covering website use, intellectual property, and service expectations." path="/terms" />
       <div className="max-w-[800px] mx-auto">
 
         {/* Header */}
@@ -335,6 +337,6 @@ export function TermsOfServicePage() {
         </motion.div>
 
       </div>
-    </main>
+    </div>
   );
 }

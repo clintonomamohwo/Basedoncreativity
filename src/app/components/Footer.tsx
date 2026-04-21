@@ -186,10 +186,7 @@ export function Footer() {
           <div className="flex flex-wrap gap-4 md:gap-6 justify-center items-center">
             {[
               { label: "QUIET PAGES", path: "/stories" },
-              { label: "FAQ", path: "/faq" },
-              { label: "COMMUNITY", path: "/community" },
               { label: "LIBRARY", path: "/library" },
-              { label: "PARTNERS", path: "/partners" },
               { label: "Privacy Policy", path: "/privacy" },
               { label: "Terms of Service", path: "/terms" },
             ].map((link) => (

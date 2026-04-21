@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight, Play } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { SEO } from './SEO';
 
 // ─── Brand tokens ─────────────────────────────────────────────────────────────
 
@@ -1157,6 +1158,8 @@ export function StudioPage() {
   const navigate = useNavigate();
 
   return (
+    <>
+      <SEO title="Studio | Based on Creativity" description="Step inside the Based on Creativity studio to see how narrative, design craft, motion, and world-building shape every creative collaboration." path="/studio" />
     <div style={{ background: NAVY, minHeight: '100vh' }}>
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
@@ -1432,5 +1435,6 @@ export function StudioPage() {
       <BottomCTA navigate={navigate} />
 
     </div>
+    </>
   );
 }

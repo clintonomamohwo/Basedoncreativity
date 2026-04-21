@@ -25,8 +25,6 @@ function useFavicon() {
     }
     appleLink.href = bocLogo;
 
-    // Page title
-    document.title = 'Based on Creativity';
   }, []);
 }
 
@@ -37,7 +35,9 @@ export function Root() {
     <div className="min-h-screen" style={{ fontFamily: "'Source Sans 3', sans-serif" }}>
       <ScrollRestoration />
       <Navigation />
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
       <Footer />
     </div>
   );

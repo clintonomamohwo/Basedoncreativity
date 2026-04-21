@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { BookOpen, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { SEO } from './SEO';
 
 // ─── Book data ────────────────────────────────────────────────────────────────
 
@@ -327,6 +328,8 @@ export function StoriesPage() {
   const orb2Y = useTransform(scrollYProgress, [0, 1], [0, 180]);
 
   return (
+    <>
+      <SEO title="Stories | Based on Creativity" description="Browse the Based on Creativity stories collection, featuring original short fiction, poetic narratives, and immersive visual storytelling." path="/stories" />
     <div ref={containerRef} className="relative min-h-screen overflow-hidden" style={{ background: '#0F1228' }}>
 
       {/* ── Fixed background ─────────────────────────────────────────────────── */}
@@ -826,5 +829,6 @@ export function StoriesPage() {
         </section>
       </div>
     </div>
+    </>
   );
 }
