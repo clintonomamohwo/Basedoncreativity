@@ -1029,12 +1029,12 @@ export function AboutPage() {
     <>
       <SEO title="About | Based on Creativity" description="Learn about Based on Creativity, the studio philosophy, creative practice, and the perspective behind its design-led storytelling." path="/about" />
     <div
-      className="relative"
+      className="relative overflow-hidden"
       style={{ background: "#1A1F4B" }}
     >
       {/* Background layers */}
       <div
-        className="fixed inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{ zIndex: 0 }}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F4B] via-[#1e2452] to-[#1A1F4B]" />
