@@ -17,6 +17,11 @@ const GOLD_10 = 'rgba(212,168,83,0.10)';
 const GOLD_18 = 'rgba(212,168,83,0.18)';
 const GOLD_30 = 'rgba(212,168,83,0.30)';
 const GOLD_50 = 'rgba(212,168,83,0.50)';
+
+const IMG_HERO     = 'https://images.unsplash.com/photo-1761845064537-929979725425?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhbmltYXRpb24lMjBjb25jZXB0JTIwYXJ0JTIwZGFyayUyMGNpbmVtYXRpYyUyMGF0bW9zcGhlcmljfGVufDF8fHx8MTc3NDYyNDIwOHww&ixlib=rb-4.1.0&q=80&w=1080';
+const IMG_SERIES   = 'https://images.unsplash.com/photo-1619850015546-84a1c7b7aed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaW5lbWF0aWMlMjBmaWxtJTIwcHJvZHVjdGlvbiUyMGRhcmslMjBhdG1vc3BoZXJpYyUyMGxpZ2h0fGVufDF8fHx8MTc3NDYyNDIxNHww&ixlib=rb-4.1.0&q=80&w=1080';
+const IMG_CHARS    = 'https://images.unsplash.com/photo-1600697395543-ef3ee6e9af7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGFyYWN0ZXIlMjBkZXNpZ24lMjBpbGx1c3RyYXRpb24lMjB3b3JsZCUyMGJ1aWxkaW5nJTIwZmFudGFzeXxlbnwxfHx8fDE3NzQ2MjQyMDl8MA&ixlib=rb-4.1.0&q=80&w=1080';
+
 interface CreationCard {
   id: string;
   index: string;
