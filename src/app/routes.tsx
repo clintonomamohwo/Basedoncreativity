@@ -1,43 +1,45 @@
+import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router';
 import { Root } from './components/Root';
-import { HomePage } from './components/HomePage';
-import { VaultPage } from './components/VaultPage';
-import { AboutPage } from './components/AboutPage';
-import { ContactPage } from './components/ContactPage';
-import { StoriesPage } from './components/StoriesPage';
-import { StoryDetail } from './components/StoryDetail';
-import { LibraryPage } from './components/LibraryPage';
-import { WorkPage } from './components/WorkPage';
-import { ServicesPage } from './components/ServicesPage';
-import { StudioPage } from './components/StudioPage';
-import { FAQPage } from './components/FAQPage';
-import { CommunityPage } from './components/CommunityPage';
-import { PartnersPage } from './components/PartnersPage';
-import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
-import { TermsOfServicePage } from './components/TermsOfServicePage';
-import { NotFoundPage } from './components/NotFoundPage';
+
+const HomePage = lazy(() => import('./components/HomePage').then((module) => ({ default: module.HomePage })));
+const WorkPage = lazy(() => import('./components/WorkPage').then((module) => ({ default: module.WorkPage })));
+const ServicesPage = lazy(() => import('./components/ServicesPage').then((module) => ({ default: module.ServicesPage })));
+const StudioPage = lazy(() => import('./components/StudioPage').then((module) => ({ default: module.StudioPage })));
+const VaultPage = lazy(() => import('./components/VaultPage').then((module) => ({ default: module.VaultPage })));
+const AboutPage = lazy(() => import('./components/AboutPage').then((module) => ({ default: module.AboutPage })));
+const ContactPage = lazy(() => import('./components/ContactPage').then((module) => ({ default: module.ContactPage })));
+const StoriesPage = lazy(() => import('./components/StoriesPage').then((module) => ({ default: module.StoriesPage })));
+const StoryDetail = lazy(() => import('./components/StoryDetail').then((module) => ({ default: module.StoryDetail })));
+const LibraryPage = lazy(() => import('./components/LibraryPage').then((module) => ({ default: module.LibraryPage })));
+const FAQPage = lazy(() => import('./components/FAQPage').then((module) => ({ default: module.FAQPage })));
+const CommunityPage = lazy(() => import('./components/CommunityPage').then((module) => ({ default: module.CommunityPage })));
+const PartnersPage = lazy(() => import('./components/PartnersPage').then((module) => ({ default: module.PartnersPage })));
+const PrivacyPolicyPage = lazy(() => import('./components/PrivacyPolicyPage').then((module) => ({ default: module.PrivacyPolicyPage })));
+const TermsOfServicePage = lazy(() => import('./components/TermsOfServicePage').then((module) => ({ default: module.TermsOfServicePage })));
+const NotFoundPage = lazy(() => import('./components/NotFoundPage').then((module) => ({ default: module.NotFoundPage })));
 
 export const router = createBrowserRouter([
   {
     path: '/',
     Component: Root,
     children: [
-      { index: true,        Component: HomePage         },
-      { path: 'work',       Component: WorkPage         },
-      { path: 'services',   Component: ServicesPage     },
-      { path: 'studio',     Component: StudioPage       },
-      { path: 'vault',      Component: VaultPage        },
-      { path: 'about',      Component: AboutPage        },
-      { path: 'contact',    Component: ContactPage      },
-      { path: 'stories',    Component: StoriesPage      },
+      { index: true, Component: HomePage },
+      { path: 'work', Component: WorkPage },
+      { path: 'services', Component: ServicesPage },
+      { path: 'studio', Component: StudioPage },
+      { path: 'vault', Component: VaultPage },
+      { path: 'about', Component: AboutPage },
+      { path: 'contact', Component: ContactPage },
+      { path: 'stories', Component: StoriesPage },
       { path: 'stories/:storyId', Component: StoryDetail },
-      { path: 'library',    Component: LibraryPage      },
-      { path: 'faq',        Component: FAQPage          },
-      { path: 'community',  Component: CommunityPage    },
-      { path: 'partners',   Component: PartnersPage     },
-      { path: 'privacy',    Component: PrivacyPolicyPage },
-      { path: 'terms',      Component: TermsOfServicePage },
-      { path: '*',          Component: NotFoundPage },
+      { path: 'library', Component: LibraryPage },
+      { path: 'faq', Component: FAQPage },
+      { path: 'community', Component: CommunityPage },
+      { path: 'partners', Component: PartnersPage },
+      { path: 'privacy', Component: PrivacyPolicyPage },
+      { path: 'terms', Component: TermsOfServicePage },
+      { path: '*', Component: NotFoundPage },
     ],
   },
 ]);
