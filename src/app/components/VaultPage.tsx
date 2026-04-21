@@ -2424,11 +2424,12 @@ export function VaultPage() {
           )}
         </AnimatePresence>
 
-        {/* ── Bento Vault ── */}
-        <AnimatePresence>
-          {showGallery && <BentoVault />}
-        </AnimatePresence>
       </div>
+
+      {/* ── Bento Vault (outside the fixed-height orb wrapper) ── */}
+      <AnimatePresence>
+        {showGallery && <BentoVault />}
+      </AnimatePresence>
     </div>
     </>
   );

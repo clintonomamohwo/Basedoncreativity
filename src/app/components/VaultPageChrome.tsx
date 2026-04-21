@@ -196,6 +196,9 @@ export function FilterBar({
         gap: 12,
         alignItems: "center",
         marginBottom: 32,
+        padding: "0 16px",
+        width: "100%",
+        boxSizing: "border-box",
       }}
     >
       {/* Type tabs */}
@@ -207,6 +210,9 @@ export function FilterBar({
           borderRadius: 999,
           padding: "5px 6px",
           border: "1px solid rgba(255,200,87,0.1)",
+          maxWidth: "100%",
+          overflowX: "auto",
+          flexShrink: 0,
         }}
       >
         {TYPE_FILTERS.map(({ value, label, Icon }) => {
@@ -221,7 +227,9 @@ export function FilterBar({
                 display: "flex",
                 alignItems: "center",
                 gap: 7,
-                padding: "7px 18px",
+                padding: "7px 14px",
+                flexShrink: 0,
+                whiteSpace: "nowrap" as const,
                 borderRadius: 999,
                 border: "none",
                 cursor: "pointer",
