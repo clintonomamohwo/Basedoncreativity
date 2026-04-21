@@ -104,6 +104,8 @@ type StoryAssetProps = {
   cloudinaryOptions?: React.ComponentProps<typeof CloudinaryImage>['cloudinaryOptions'];
 };
 
+// Broken asset IDs are checked at runtime; the component gracefully falls back via
+// CloudinaryImage's own error handling when an asset fails to load.
 export function StoryAsset({
   publicId,
   alt,
@@ -113,7 +115,7 @@ export function StoryAsset({
 }: StoryAssetProps) {
   const fallbackSrc = createStoryFallbackSrc(publicId, alt, variant);
 
-  if (!publicId || BROKEN_STORY_ASSET_IDS.has(publicId)) {
+  if (!publicId) {
     return (
       <img
         src={fallbackSrc}

@@ -11,6 +11,8 @@ export const GOLD_06 = 'rgba(212,168,83,0.06)';
 export const GOLD_12 = 'rgba(212,168,83,0.12)';
 export const GOLD_30 = 'rgba(212,168,83,0.30)';
 export const GOLD_50 = 'rgba(212,168,83,0.50)';
+export const CREAM_40 = 'rgba(250,243,224,0.40)';
+export const GOLD_20 = 'rgba(212,168,83,0.20)';
 
 interface ProcessStep {
   number: string;
