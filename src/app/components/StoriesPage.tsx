@@ -393,7 +393,7 @@ export function StoriesPage() {
     <div ref={containerRef} className="relative overflow-hidden" style={{ background: '#0F1228' }}>
 
       {/* ── Fixed background ─────────────────────────────────────────────────── */}
-      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+      <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         <div
           className="absolute inset-0"
           style={{ background: 'linear-gradient(135deg, #1A1F4B 0%, #0f1228 50%, #0A1020 100%)' }}
@@ -410,7 +410,7 @@ export function StoriesPage() {
       <motion.div
         style={{
           y: orb1Y,
-          position: 'fixed',
+          position: 'absolute',
           top: '18%',
           right: '-160px',
           width: '520px',
@@ -427,7 +427,7 @@ export function StoriesPage() {
       <motion.div
         style={{
           y: orb2Y,
-          position: 'fixed',
+          position: 'absolute',
           bottom: '8%',
           left: '-130px',
           width: '460px',

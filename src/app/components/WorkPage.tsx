@@ -508,7 +508,7 @@ export function WorkPage() {
       style={{ background: '#0A1628' }}
     >
       {/* Ambient background layers */}
-      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+      <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 50% at 50% -10%, rgba(212,168,83,0.07), transparent)' }} />
         <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 60% 40% at 80% 90%, rgba(212,168,83,0.04), transparent)' }} />
         {/* Grain */}
