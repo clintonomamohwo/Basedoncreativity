@@ -11,7 +11,7 @@
  * - Active page indicator: top beam + spotlight glow.
  */
 
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Menu, X, Search } from "lucide-react";
 import {
   useState,
@@ -29,6 +29,21 @@ import {
 } from "../../lib/constants";
 import { NavActiveIndicator, SECTION_COLORS, TrailingStar, searchSite, NAV_LINKS, NAV_ROUTES, getIsNavActive } from './NavigationSections';
 import type { SearchResult, Star } from './NavigationSections';
+
+const INTRO_BURST_STORAGE_KEY = "boc-nav-first-visit-sparkle-burst-seen";
+const MAX_VISIBLE_STARS = 36;
+
+function getStarLifetime(star: Star) {
+  const duration =
+    star.duration ??
+    (star.variant === "burst"
+      ? 1.15
+      : star.variant === "transition"
+        ? 0.85
+        : 0.7);
+
+  return Math.ceil(((star.delay ?? 0) + duration + 0.1) * 1000);
+}
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -50,20 +65,35 @@ export function Navigation() {
   const starCounterRef = useRef(0);
   // Last known star spawn position — throttles spawn rate on slow drags
   const lastStarPosRef = useRef({ x: 0, y: 0 });
+  const starRemovalTimersRef = useRef<number[]>([]);
+  const introBurstTimerRef = useRef<number | null>(null);
 
+  const reduceMotion = useReducedMotion();
   const navigate = useNavigate();
   const location = useLocation();
 
   // ── Star particle spawning ──────────────────────────────────────────────────
 
+  const queueStar = useCallback((star: Star) => {
+    setStars((prev) => [...prev.slice(-(MAX_VISIBLE_STARS - 1)), star]);
+
+    const removalTimer = window.setTimeout(() => {
+      setStars((prev) => prev.filter((item) => item.id !== star.id));
+      starRemovalTimersRef.current = starRemovalTimersRef.current.filter(
+        (timerId) => timerId !== removalTimer,
+      );
+    }, getStarLifetime(star));
+
+    starRemovalTimersRef.current.push(removalTimer);
+  }, []);
+
   /**
    * Spawns a fleeting gold star at the given viewport coordinates.
    * Guards against flooding by requiring ≥12px of movement between spawns.
-   * Caps live stars at 20 to prevent DOM bloat.
    */
   const spawnStar = useCallback(
     (clientX: number, clientY: number) => {
-      if (!navRef.current) return;
+      if (reduceMotion || !navRef.current) return;
 
       const rect = navRef.current.getBoundingClientRect();
       const x = clientX - rect.left;
@@ -74,23 +104,16 @@ export function Navigation() {
       if (Math.sqrt(dx * dx + dy * dy) < 12) return;
       lastStarPosRef.current = { x, y };
 
-      const newStar: Star = {
+      queueStar({
         id: starCounterRef.current++,
         x,
         y,
         size: Math.random() * 10 + 6,
         rotation: Math.random() * 360,
-      };
-
-      setStars((prev) => [...prev.slice(-20), newStar]);
-      // Remove this star after its animation completes
-      setTimeout(() => {
-        setStars((prev) =>
-          prev.filter((s) => s.id !== newStar.id),
-        );
-      }, 700);
+        variant: "trail",
+      });
     },
-    [],
+    [queueStar, reduceMotion],
   );
 
   const handleMouseMove = useCallback(
@@ -195,6 +218,68 @@ export function Navigation() {
         handleClickOutside,
       );
   }, [isMenuOpen]);
+
+  useEffect(() => {
+    if (reduceMotion) return;
+    if (typeof window === "undefined") return;
+    if (window.localStorage.getItem(INTRO_BURST_STORAGE_KEY)) return;
+
+    window.localStorage.setItem(INTRO_BURST_STORAGE_KEY, "true");
+
+    introBurstTimerRef.current = window.setTimeout(() => {
+      if (!navRef.current) return;
+
+      const rect = navRef.current.getBoundingClientRect();
+      const horizontalInset = Math.min(88, Math.max(44, rect.width * 0.08));
+      const usableWidth = Math.max(rect.width - horizontalInset * 2, 120);
+      const rowPattern = [0.34, 0.54, 0.72] as const;
+      const burstCount = 18;
+
+      Array.from({ length: burstCount }).forEach((_, index) => {
+        const progress = index / Math.max(burstCount - 1, 1);
+        const row = rowPattern[index % rowPattern.length];
+
+        queueStar({
+          id: starCounterRef.current++,
+          x:
+            horizontalInset +
+            usableWidth * progress +
+            Math.sin(index * 0.9) * 14,
+          y:
+            rect.height * row +
+            (index % 2 === 0 ? -4 : 4),
+          size: 15 + (index % 4) * 2.5 + Math.random() * 2,
+          rotation: Math.random() * 360,
+          variant: "burst",
+          delay: progress * 1.55 + (index % 3) * 0.08,
+          duration: 0.95 + (index % 5) * 0.07,
+          driftX:
+            (index % 2 === 0 ? 24 : -18) + Math.sin(index * 1.3) * 10,
+          driftY: -12 - (index % 3) * 8,
+        });
+      });
+    }, 320);
+
+    return () => {
+      if (introBurstTimerRef.current !== null) {
+        window.clearTimeout(introBurstTimerRef.current);
+        introBurstTimerRef.current = null;
+      }
+    };
+  }, [queueStar, reduceMotion]);
+
+  useEffect(() => {
+    return () => {
+      if (introBurstTimerRef.current !== null) {
+        window.clearTimeout(introBurstTimerRef.current);
+      }
+
+      starRemovalTimersRef.current.forEach((timerId) => {
+        window.clearTimeout(timerId);
+      });
+      starRemovalTimersRef.current = [];
+    };
+  }, []);
 
   // ── Render ──────────────────────────────────────────────────────────────────
 
