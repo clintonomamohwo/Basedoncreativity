@@ -1,15 +1,16 @@
 import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 
-const NAVY = '#0A1628';
-const GOLD = '#D4A853';
-const CREAM = '#FAF3E0';
-const CREAM_70 = 'rgba(250,243,224,0.70)';
-const CREAM_20 = 'rgba(250,243,224,0.20)';
-const GOLD_06 = 'rgba(212,168,83,0.06)';
-const GOLD_12 = 'rgba(212,168,83,0.12)';
-const GOLD_30 = 'rgba(212,168,83,0.30)';
-const GOLD_50 = 'rgba(212,168,83,0.50)';
+export const NAVY = '#0A1628';
+export const NAVY_ALT = '#0D1B30';
+export const GOLD = '#D4A853';
+export const CREAM = '#FAF3E0';
+export const CREAM_70 = 'rgba(250,243,224,0.70)';
+export const CREAM_20 = 'rgba(250,243,224,0.20)';
+export const GOLD_06 = 'rgba(212,168,83,0.06)';
+export const GOLD_12 = 'rgba(212,168,83,0.12)';
+export const GOLD_30 = 'rgba(212,168,83,0.30)';
+export const GOLD_50 = 'rgba(212,168,83,0.50)';
 
 interface ProcessStep {
   number: string;
@@ -18,7 +19,7 @@ interface ProcessStep {
   description: string;
 }
 
-const PROCESS_STEPS: ProcessStep[] = [
+export const PROCESS_STEPS: ProcessStep[] = [
   {
     number: '01',
     title: 'Discovery',
@@ -55,7 +56,7 @@ const PROCESS_STEPS: ProcessStep[] = [
       'Delivery is not an ending — it is an opening. We ensure your work enters the world with the presence, preparation, and positioning it deserves.',
   },
 ];
-function GoldRule({ gradient = false, className = '' }: { gradient?: boolean; className?: string }) {
+export function GoldRule({ gradient = false, className = '' }: { gradient?: boolean; className?: string }) {
   return (
     <div
       className={className}
@@ -69,7 +70,7 @@ function GoldRule({ gradient = false, className = '' }: { gradient?: boolean; cl
   );
 }
 
-function Eyebrow({ children }: { children: React.ReactNode }) {
+export function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
     <p
       style={{
@@ -89,7 +90,7 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 
 // ─── Celestial dot motif ──────────────────────────────────────────────────────
 
-function CelestialDots({ side = 'right' }: { side?: 'left' | 'right' }) {
+export function CelestialDots({ side = 'right' }: { side?: 'left' | 'right' }) {
   const dots = [
     { top: '18%', size: 2, opacity: 0.25 },
     { top: '34%', size: 1.5, opacity: 0.18 },
