@@ -414,7 +414,7 @@ export function ContactPage() {
                         }}
                       >
                         Thank you for reaching out. We'll be in
-                        touch within 24 hours to explore what we
+                        touch within 48 hours to explore what we
                         can create together.
                       </p>
                     </div>
