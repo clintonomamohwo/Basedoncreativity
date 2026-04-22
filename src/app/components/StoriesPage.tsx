@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { BookOpen, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import { fetchStories, portableTextToParagraphs, type SanityStory } from '@/lib/sanityContent';
+import { fetchStories, portableTextToParagraphs, type SanityStory } from '../../lib/sanityContent';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { SEO } from './SEO';
 
