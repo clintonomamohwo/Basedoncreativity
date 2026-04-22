@@ -1,32 +1,33 @@
 # Based on Creativity
-<p align="center">
-  <img src="./src/assets/boc_logo.png" alt="Based on Creativity Logo" width="120" />
-</p>
-<p align="center">
-  <em>A legacy digital media company</em><br/>
-  <strong>Built in the quiet. Born in the light.</strong>
-</p>
 
-<p align="center">
+![Status](https://img.shields.io/badge/status-active-black)
+![React](https://img.shields.io/badge/React-19-blue)
+![Vite](https://img.shields.io/badge/Vite-6-purple)
+![Sanity](https://img.shields.io/badge/Sanity-CMS-red)
+![License](https://img.shields.io/badge/license-private-lightgrey)
 
-![Status](https://img.shields.io/badge/status-active-111111?style=flat)
-![TypeScript](https://img.shields.io/badge/TypeScript-111111?style=flat&logo=typescript&logoColor=white)
-![React](https://img.shields.io/badge/React-111111?style=flat&logo=react&logoColor=61DAFB)
-![Vite](https://img.shields.io/badge/Vite-111111?style=flat&logo=vite&logoColor=FFD62E)
-![Sanity](https://img.shields.io/badge/Sanity-111111?style=flat&logo=sanity&logoColor=F03E2F)
-
-</p>
+A legacy digital media company building timeless creative experiences through technology, storytelling, and design.
 
 ---
 
-## Overview
+## ✨ Overview
 
 Based on Creativity (BOC) is a modern, content-driven platform focused on expressive digital experiences.  
 It blends creative direction with scalable technology to deliver clean, immersive products.
 
 ---
 
-## Code Bundle
+## 🎨 Preview
+
+> _Add a screenshot or banner here_
+
+```
+/public/preview.png
+```
+
+---
+
+## 📦 Code Bundle
 
 This is a code bundle for Based on Creativity.  
 Original design source:  
@@ -34,7 +35,7 @@ https://www.figma.com/design/SiWy7qhnrZrugoS6VzJMib/Based-on-Creativity
 
 ---
 
-## Running the Project
+## 🚀 Running the Project
 
 Install dependencies:
 
@@ -54,11 +55,16 @@ Run Sanity Studio:
 pnpm sanity dev
 ```
 
+Run Sanity Studio:
+
+```bash
+pnpm sanity dev
+```
+
 ---
 
-## Tech Stack
+## 🧰 Tech Stack
 
-- TypeScript (Primary language)  
 - React  
 - Vite  
 - Sanity (Headless CMS)  
@@ -66,17 +72,15 @@ pnpm sanity dev
 
 ---
 
-## Troubleshooting
+## 🛠 Troubleshooting
 
 ### Missing Dependencies
-
-If you see:
 
 ```
 styled-components is not installed
 ```
 
-Run:
+Fix:
 
 ```bash
 pnpm add styled-components
@@ -86,13 +90,11 @@ pnpm add styled-components
 
 ### React / Sanity Conflict
 
-If you see:
-
 ```
 react/compiler-runtime not exported
 ```
 
-Fix by reinstalling:
+Fix:
 
 ```bash
 rm -rf node_modules package-lock.json pnpm-lock.yaml
@@ -121,21 +123,11 @@ npm install
 ### Vulnerabilities
 
 - Moderate warnings are common  
-- Usually from indirect dependencies  
 - Safe to ignore unless critical  
 
 ---
 
-### General Reset
-
-```bash
-rm -rf node_modules package-lock.json pnpm-lock.yaml
-npm install
-```
-
----
-
-## Structure
+## 📁 Structure
 
 ```
 src/            # Frontend
@@ -145,13 +137,13 @@ sanity/         # CMS studio
 
 ---
 
-## Philosophy
+## 🧠 Philosophy
 
 > Built in the quiet. Born in the light.
 
 ---
 
-## Closing
+## 🕊️ Closing
 
 A foundation for creativity.  
 A system for expression.  
