@@ -156,6 +156,29 @@ sanity/         # CMS studio
 > Built in the quiet. Born in the light.
 
 ---
+## 🔁 Git Workflow
+
+### 🔽 Pull main → dev (Get Latest Main Version to Dev)
+```bash
+git checkout dev
+git pull origin main
+```
+
+### ✍️ Add & commit changes on dev
+```bash
+git add .
+git commit -m "Commit message/changes"
+git push origin
+```
+
+### 🔼 Push dev → main (Push Dev Changes to Overwite existing Main version)
+```bash
+git checkout main
+git pull origin main
+git merge dev
+git push origin main
+```
+---
 
 ## Closing
 
