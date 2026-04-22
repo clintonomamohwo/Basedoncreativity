@@ -59,7 +59,7 @@ pnpm sanity dev
 
 ## 🧰 Tech Stack
 
-- React  
+- React/Typescript
 - Vite  
 - Sanity (Headless CMS)
 
