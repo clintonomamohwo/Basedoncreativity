@@ -22,6 +22,7 @@ import {
 import { FilterBar, StarCanvas } from './VaultPageChrome';
 import { CloudinaryImage } from "./CloudinaryImage";
 import { cloudinaryVideoUrl } from "../../lib/cloudinary";
+import { fetchVaultItems, resolveMediaAlt, resolveMediaUrl, type SanityVaultItem } from '@/lib/sanityContent';
 import { SEO } from './SEO';
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -31,13 +32,15 @@ import { SEO } from './SEO';
 type MediaType = "image" | "video" | "writing";
 
 interface GalleryItem {
-  id: number;
+  id: string | number;
   title: string;
   category: string;
   year: number;
   type: MediaType;
   // Image / Video
   publicId?: string;
+  imageUrl?: string;
+  imageAlt?: string;
   aspect?: "landscape" | "portrait" | "square";
   // Writing
   excerpt?: string;
@@ -54,7 +57,7 @@ interface GalleryItem {
    Writing: set type:'writing' and provide excerpt + body text.
 ═══════════════════════════════════════════════════════════════════════════ */
 
-const GALLERY_DATA: GalleryItem[] = [
+const FALLBACK_GALLERY_DATA: GalleryItem[] = [
   // ── Images ──────────────────────────────────────────────────────────────
   {
     id: 1,
@@ -215,6 +218,63 @@ function useWindowWidth() {
   return width;
 }
 
+function formatVaultYear(date?: string) {
+  if (!date) return new Date().getFullYear();
+  const parsed = new Date(date);
+  return Number.isNaN(parsed.getTime()) ? new Date().getFullYear() : parsed.getFullYear();
+}
+
+function mapSanityVaultItem(item: SanityVaultItem, index: number): GalleryItem {
+  const fallback = FALLBACK_GALLERY_DATA[index % FALLBACK_GALLERY_DATA.length];
+  const imageUrl = resolveMediaUrl(item.image, 1600);
+
+  return {
+    id: item.slug || item._id,
+    title: item.title,
+    category: item.category || fallback.category,
+    year: formatVaultYear(item.date),
+    type: 'image',
+    publicId: imageUrl ? undefined : fallback.publicId,
+    imageUrl: imageUrl || undefined,
+    imageAlt: resolveMediaAlt(item.image, `${item.title} artwork`),
+    aspect: fallback.aspect || 'landscape',
+    excerpt: item.description || undefined,
+    size: item.featured ? 'lg' : fallback.size,
+  };
+}
+
+function VaultImage({
+  item,
+  alt,
+  cloudinaryOptions,
+  className,
+  style,
+}: {
+  item: GalleryItem;
+  alt: string;
+  cloudinaryOptions?: React.ComponentProps<typeof CloudinaryImage>['cloudinaryOptions'];
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  if (item.imageUrl) {
+    return <img src={item.imageUrl} alt={alt} className={className} style={style} loading="lazy" decoding="async" />;
+  }
+
+  if (item.publicId) {
+    return (
+      <CloudinaryImage
+        publicId={item.publicId}
+        alt={alt}
+        cloudinaryOptions={cloudinaryOptions}
+        className={className}
+        style={style}
+      />
+    );
+  }
+
+  return null;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    STAR CANVAS  (unchanged)
 ═══════════════════════════════════════════════════════════════════════════ */
@@ -273,10 +333,10 @@ function ImageBentoCard({
           : "0 4px 20px rgba(0,0,0,0.3)",
       }}
     >
-      {item.publicId && (
-        <CloudinaryImage
-          publicId={item.publicId}
-          alt={item.title}
+      {(item.imageUrl || item.publicId) && (
+        <VaultImage
+          item={item}
+          alt={item.imageAlt || item.title}
           cloudinaryOptions={{
             width: 700,
             format: "auto",
@@ -792,7 +852,7 @@ function DeckImageView({ item }: { item: GalleryItem }) {
       }}
     >
       {/* Blurred bg */}
-      {item.publicId && (
+      {(item.imageUrl || item.publicId) && (
         <div
           style={{
             position: "absolute",
@@ -801,8 +861,8 @@ function DeckImageView({ item }: { item: GalleryItem }) {
             opacity: 0.35,
           }}
         >
-          <CloudinaryImage
-            publicId={item.publicId}
+          <VaultImage
+            item={item}
             alt=""
             cloudinaryOptions={{
               width: 400,
@@ -819,7 +879,7 @@ function DeckImageView({ item }: { item: GalleryItem }) {
         </div>
       )}
       {/* Main image */}
-      {item.publicId && (
+      {(item.imageUrl || item.publicId) && (
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -834,9 +894,9 @@ function DeckImageView({ item }: { item: GalleryItem }) {
             maxWidth: "90%",
           }}
         >
-          <CloudinaryImage
-            publicId={item.publicId}
-            alt={item.title}
+          <VaultImage
+            item={item}
+            alt={item.imageAlt || item.title}
             cloudinaryOptions={{
               width: 1400,
               format: "auto",
@@ -1339,7 +1399,7 @@ function FullScreenDeck({
    BENTO VAULT  (grid + deck combined)
 ═══════════════════════════════════════════════════════════════════════════ */
 
-function BentoVault() {
+function BentoVault({ items }: { items: GalleryItem[] }) {
   const [activeType, setActiveType] = useState<
     MediaType | "all"
   >("all");
@@ -1353,22 +1413,22 @@ function BentoVault() {
 
   const years = useMemo(
     () =>
-      [...new Set(GALLERY_DATA.map((i) => i.year))].sort(
+      [...new Set(items.map((i) => i.year))].sort(
         (a, b) => b - a,
       ),
-    [],
+    [items],
   );
 
   const filtered = useMemo(
     () =>
-      GALLERY_DATA.filter((item) => {
+      items.filter((item) => {
         const typeMatch =
           activeType === "all" || item.type === activeType;
         const yearMatch =
           activeYear === "all" || item.year === activeYear;
         return typeMatch && yearMatch;
       }),
-    [activeType, activeYear],
+    [activeType, activeYear, items],
   );
 
   // Column spans based on viewport
@@ -1528,6 +1588,7 @@ function BentoVault() {
 ═══════════════════════════════════════════════════════════════════════════ */
 
 export function VaultPage() {
+  const [cmsItems, setCmsItems] = useState<GalleryItem[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [hasTransformed, setHasTransformed] = useState(false);
   const [showVaultText, setShowVaultText] = useState(false);
@@ -1547,8 +1608,32 @@ export function VaultPage() {
   const lightRef = useRef(0);
   const rafRef = useRef<number>(0);
 
-  const moonX = useMotionValue(120);
+   const moonX = useMotionValue(120);
   const moonY = useMotionValue(300);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    fetchVaultItems()
+      .then((items) => {
+        if (cancelled || !items?.length) return;
+        setCmsItems(items.map(mapSanityVaultItem));
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setCmsItems([]);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const displayItems = useMemo(
+    () => (cmsItems.length ? cmsItems : FALLBACK_GALLERY_DATA),
+    [cmsItems],
+  );
 
   useEffect(() => {
     const w = window.innerWidth,
@@ -2436,7 +2521,7 @@ export function VaultPage() {
 
       {/* ── Bento Vault (outside the fixed-height orb wrapper) ── */}
       <AnimatePresence>
-        {showGallery && <BentoVault />}
+        {showGallery && <BentoVault items={displayItems} />}
       </AnimatePresence>
     </div>
     </>

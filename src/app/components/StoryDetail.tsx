@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { motion } from 'motion/react';
 import { useParams, useNavigate } from 'react-router';
 import { ArrowLeft, ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
-import { CloudinaryImage } from './CloudinaryImage';
+import { fetchStoryBySlug, portableTextToParagraphs, resolveMediaUrl, type SanityStory } from '@/lib/sanityContent';
 import { SEO } from './SEO';
 import { BookPage, GrainOverlay, PageContent, StoryAsset } from './StoryDetailSections';
 
@@ -13,6 +13,7 @@ interface StorySection {
   type: 'text' | 'image';
   content?: string;
   publicId?: string;
+  imageUrl?: string;
   caption?: string;
 }
 
@@ -21,10 +22,11 @@ interface Story {
   subtitle: string;
   author: string;
   heroImage: string;
+  heroImageUrl?: string;
   sections: StorySection[];
 }
 
-const storyData: Record<string, Story> = {
+const FALLBACK_STORY_DATA: Record<string, Story> = {
   'the-moon-listener': {
     title: 'The Moon Listener',
     subtitle: 'A tale of silence and connection',
@@ -126,8 +128,24 @@ const storyData: Record<string, Story> = {
   },
 };
 
+function mapSanityStory(story: SanityStory): Story {
+  const paragraphs = portableTextToParagraphs(story.body);
+  const sections = (paragraphs.length ? paragraphs : [story.excerpt || ''])
+    .filter(Boolean)
+    .map((content) => ({ type: 'text' as const, content }));
+
+  return {
+    title: story.title,
+    subtitle: story.excerpt || paragraphs[0] || 'A story from Based on Creativity.',
+    author: story.author || 'Based on Creativity',
+    heroImage: '',
+    heroImageUrl: resolveMediaUrl(story.coverImage, 1600) || undefined,
+    sections,
+  };
+}
+
 const BROKEN_STORY_ASSET_IDS = new Set(
-  Object.values(storyData).flatMap((story) => [
+  Object.values(FALLBACK_STORY_DATA).flatMap((story) => [
     story.heroImage,
     ...story.sections
       .filter(
@@ -143,6 +161,7 @@ const BROKEN_STORY_ASSET_IDS = new Set(
 export function StoryDetail() {
   const { storyId } = useParams();
   const navigate = useNavigate();
+  const [cmsStory, setCmsStory] = useState<Story | null>(null);
   const [storybookMode, setStorybookMode] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -166,12 +185,40 @@ export function StoryDetail() {
   const touchStartY = useRef(0);
 
   useEffect(() => {
+    let cancelled = false;
+
+    if (!storyId) {
+      setCmsStory(null);
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    fetchStoryBySlug(storyId)
+      .then((story) => {
+        if (!cancelled) {
+          setCmsStory(story ? mapSanityStory(story) : null);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setCmsStory(null);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [storyId]);
+
+  useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  const story = storyId ? storyData[storyId] : null;
+  const fallbackStory = storyId ? FALLBACK_STORY_DATA[storyId] : null;
+  const story = cmsStory || fallbackStory || null;
   const storyPath = storyId ? `/stories/${storyId}` : '/stories';
   const storySeoTitle = story
     ? `${story.title} | Stories | Based on Creativity`
@@ -407,13 +454,23 @@ export function StoryDetail() {
             className="mb-10 md:mb-12 rounded-2xl overflow-hidden"
             style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.4)' }}
           >
-            <StoryAsset
-              publicId={story.heroImage}
-              alt={story.title}
-              variant="hero"
-              cloudinaryOptions={{ width: 1200, height: 600, fit: 'fill' }}
-              className="w-full h-auto"
-            />
+            {story.heroImageUrl ? (
+              <img
+                src={story.heroImageUrl}
+                alt={story.title}
+                loading="eager"
+                decoding="async"
+                className="w-full h-auto"
+              />
+            ) : (
+              <StoryAsset
+                publicId={story.heroImage}
+                alt={story.title}
+                variant="hero"
+                cloudinaryOptions={{ width: 1200, height: 600, fit: 'fill' }}
+                className="w-full h-auto"
+              />
+            )}
           </motion.div>
 
           {/* Title */}

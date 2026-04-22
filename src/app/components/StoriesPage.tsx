@@ -1,13 +1,22 @@
-import { useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { BookOpen, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import { fetchStories, portableTextToParagraphs, type SanityStory } from '@/lib/sanityContent';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { SEO } from './SEO';
 
 // ─── Book data ────────────────────────────────────────────────────────────────
 
-const libraryBooks = [
+interface LibraryBook {
+  id: string;
+  title: string;
+  subtitle: string;
+  coverColor: string;
+  accentColor: string;
+}
+
+const FALLBACK_LIBRARY_BOOKS: LibraryBook[] = [
   {
     id: 'the-moon-listener',
     title: 'The Moon Listener',
@@ -51,6 +60,32 @@ const libraryBooks = [
     accentColor: '#F6E6B4',
   },
 ];
+
+const CMS_BOOK_PALETTES = [
+  { coverColor: '#1A1F4B', accentColor: '#FFC857' },
+  { coverColor: '#14172e', accentColor: '#F6E6B4' },
+  { coverColor: '#24163f', accentColor: '#FFC857' },
+  { coverColor: '#10253f', accentColor: '#F6E6B4' },
+];
+
+function truncateSubtitle(text: string, maxLength = 56) {
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength - 1).trimEnd()}…`;
+}
+
+function mapSanityStoryToBook(story: SanityStory, index: number): LibraryBook {
+  const palette = CMS_BOOK_PALETTES[index % CMS_BOOK_PALETTES.length];
+  const firstParagraph = portableTextToParagraphs(story.body).at(0) || '';
+  const subtitle = truncateSubtitle(story.excerpt || firstParagraph || 'A new story from Based on Creativity.');
+
+  return {
+    id: story.slug || story._id,
+    title: story.title,
+    subtitle,
+    coverColor: palette.coverColor,
+    accentColor: palette.accentColor,
+  };
+}
 
 // ─── Press pillars ────────────────────────────────────────────────────────────
 
@@ -124,7 +159,7 @@ function StarField({ count = 60 }: { count?: number }) {
 // ─── Book Card (preserved) ────────────────────────────────────────────────────
 
 interface BookCardProps {
-  book: typeof libraryBooks[0];
+  book: LibraryBook;
   index: number;
 }
 
@@ -320,9 +355,34 @@ function PillarCard({ pillar, delay }: { pillar: typeof PRESS_PILLARS[0]; delay:
 // ─── Root ─────────────────────────────────────────────────────────────────────
 
 export function StoriesPage() {
+  const [cmsBooks, setCmsBooks] = useState<LibraryBook[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const { scrollYProgress } = useScroll();
+
+  useEffect(() => {
+    let cancelled = false;
+
+    fetchStories()
+      .then((stories) => {
+        if (cancelled || !stories?.length) return;
+        setCmsBooks(stories.map(mapSanityStoryToBook));
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setCmsBooks([]);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const displayBooks = useMemo(
+    () => (cmsBooks.length ? cmsBooks : FALLBACK_LIBRARY_BOOKS),
+    [cmsBooks],
+  );
 
   const orb1Y = useTransform(scrollYProgress, [0, 1], [0, -220]);
   const orb2Y = useTransform(scrollYProgress, [0, 1], [0, 180]);
@@ -714,7 +774,7 @@ export function StoriesPage() {
 
           {/* Book grid — preserved exactly */}
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-10">
-            {libraryBooks.map((book, index) => (
+            {displayBooks.map((book, index) => (
               <BookCard key={book.id} book={book} index={index} />
             ))}
           </div>
