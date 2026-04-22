@@ -1010,7 +1010,7 @@ export function AboutPage() {
       />
       <div
         className="relative overflow-hidden"
-        style={{ background: "#1A1F4B" }}
+        style={{ background: "#4b1a34" }}
       >
         {/* Background layers */}
         <div
