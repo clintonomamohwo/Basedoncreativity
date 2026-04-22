@@ -1,3 +1,23 @@
+# Based on Creativity
+<p align="center">
+  <img src="./src/assets/boc_logo.png" alt="Based on Creativity Logo" width="120" />
+</p>
+<p align="center">
+  <em>A legacy digital media company</em><br/>
+  <strong>Built in the quiet. Born in the light.</strong>
+</p>
+
+<p align="center">
+
+![Status](https://img.shields.io/badge/status-active-111111?style=flat)
+![TypeScript](https://img.shields.io/badge/TypeScript-111111?style=flat&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React-111111?style=flat&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-111111?style=flat&logo=vite&logoColor=FFD62E)
+![Sanity](https://img.shields.io/badge/Sanity-111111?style=flat&logo=sanity&logoColor=F03E2F)
+
+</p>
+
+---
 # Sanity CMS Setup for Based on Creativity
 
 The BOC website is now wired to **Sanity** so Clinton can manage portfolio content, vault items, and stories from a dashboard instead of editing code. The website frontend reads published content from the **`production`** dataset, while local administrative tasks such as seeding content and deploying the Studio use a private write token stored only in local environment files.
