@@ -54,6 +54,12 @@ Run Sanity Studio:
 pnpm sanity dev
 ```
 
+Run Sanity Studio:
+
+```bash
+pnpm sanity dev
+```
+
 ---
 
 ## Tech Stack
