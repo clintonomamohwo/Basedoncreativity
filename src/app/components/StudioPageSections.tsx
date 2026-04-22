@@ -2,6 +2,7 @@ import type React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight, Play } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { useNavigate } from 'react-router';
 
 const NAVY = '#0A1628';
 const NAVY_D = '#070F1E';

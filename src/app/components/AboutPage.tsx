@@ -1,4 +1,5 @@
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import type { MotionValue } from "framer-motion";
 import {
   Sun,
   Moon,
@@ -10,7 +11,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { SEO } from './SEO';
+import { SEO } from "./SEO";
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -26,11 +27,7 @@ function GoldRule({ className = "" }: { className?: string }) {
   );
 }
 
-function EyebrowLabel({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function EyebrowLabel({ children }: { children: React.ReactNode }) {
   return (
     <p
       className="tracking-[0.3em] uppercase text-[#FFC857] mb-3"
@@ -52,10 +49,10 @@ function HeroBlock({
   moonY,
   moonOpacity,
 }: {
-  sunY: ReturnType<typeof useTransform>;
-  sunOpacity: ReturnType<typeof useTransform>;
-  moonY: ReturnType<typeof useTransform>;
-  moonOpacity: ReturnType<typeof useTransform>;
+  sunY: MotionValue<number>;
+  sunOpacity: MotionValue<number>;
+  moonY: MotionValue<number>;
+  moonOpacity: MotionValue<number>;
 }) {
   return (
     <section className="relative min-h-[72vh] flex flex-col justify-center px-4 md:px-12 lg:px-20 pt-28 pb-16 md:pt-32 md:pb-20">
@@ -141,11 +138,10 @@ function HeroBlock({
             lineHeight: 1.65,
           }}
         >
-          Based on Creativity is an independent creative company
-          rooted in Ontario, Canada. We live in the quiet space
-          between reflection and expression — where ideas are
-          gathered in stillness, shaped with intention, and
-          released into the world as stories, images, platforms,
+          Based on Creativity is an independent creative company rooted in
+          Ontario, Canada. We live in the quiet space between reflection and
+          expression — where ideas are gathered in stillness, shaped with
+          intention, and released into the world as stories, images, platforms,
           and experiences that resonate.
         </motion.p>
       </div>
@@ -232,10 +228,7 @@ function AtAGlance() {
                     border: "1px solid rgba(255,200,87,0.25)",
                   }}
                 >
-                  <Icon
-                    size={18}
-                    style={{ color: "#FFC857" }}
-                  />
+                  <Icon size={18} style={{ color: "#FFC857" }} />
                 </div>
                 <p
                   className="text-[#FFC857]/60 uppercase tracking-[0.2em] mb-2"
@@ -309,9 +302,8 @@ function Philosophy() {
               fontSize: "clamp(1.125rem, 3vw, 1.375rem)",
             }}
           >
-            At the heart of everything we do lives a quiet
-            duality — inspired by the balance of the sun and the
-            moon.
+            At the heart of everything we do lives a quiet duality — inspired by
+            the balance of the sun and the moon.
           </p>
         </motion.div>
 
@@ -329,10 +321,7 @@ function Philosophy() {
             }}
           >
             <div className="flex items-center gap-4 mb-5">
-              <Moon
-                className="w-8 h-8 text-[#F6E6B4]"
-                strokeWidth={1.5}
-              />
+              <Moon className="w-8 h-8 text-[#F6E6B4]" strokeWidth={1.5} />
               <h3
                 className="text-[#F6E6B4]"
                 style={{
@@ -351,11 +340,10 @@ function Philosophy() {
                 fontSize: "1.125rem",
               }}
             >
-              Indigo Blue (#1A1F4B) — depth, stillness, and the
-              space where listening begins. Ideas gather in
-              silence before they are ready to emerge.
-              Reflection is not inaction; it is the foundation
-              of everything intentional.
+              Indigo Blue (#1A1F4B) — depth, stillness, and the space where
+              listening begins. Ideas gather in silence before they are ready to
+              emerge. Reflection is not inaction; it is the foundation of
+              everything intentional.
             </p>
           </motion.div>
 
@@ -372,10 +360,7 @@ function Philosophy() {
             }}
           >
             <div className="flex items-center gap-4 mb-5">
-              <Sun
-                className="w-8 h-8 text-[#FFC857]"
-                strokeWidth={1.5}
-              />
+              <Sun className="w-8 h-8 text-[#FFC857]" strokeWidth={1.5} />
               <h3
                 className="text-[#FFC857]"
                 style={{
@@ -394,11 +379,9 @@ function Philosophy() {
                 fontSize: "1.125rem",
               }}
             >
-              Gold (#FFC857) — warmth, creativity, and the
-              courage to release. Expression is the moment an
-              idea stops being private and becomes a shared
-              experience — illuminating what reflection quietly
-              prepared.
+              Gold (#FFC857) — warmth, creativity, and the courage to release.
+              Expression is the moment an idea stops being private and becomes a
+              shared experience — illuminating what reflection quietly prepared.
             </p>
           </motion.div>
         </div>
@@ -420,9 +403,8 @@ function Philosophy() {
               lineHeight: 1.55,
             }}
           >
-            "Between reflection and expression lies the space
-            where creativity truly lives and that space is where
-            Based on Creativity was built."
+            "Between reflection and expression lies the space where creativity
+            truly lives and that space is where Based on Creativity was built."
           </p>
         </motion.div>
       </div>
@@ -498,10 +480,10 @@ function FamilyOfBrands() {
               lineHeight: 1.65,
             }}
           >
-            Based on Creativity is the parent company behind
-            three distinct creative entities, each with its own
-            domain, discipline, and audience; united by a shared
-            philosophy and a single creative vision.
+            Based on Creativity is the parent company behind three distinct
+            creative entities, each with its own domain, discipline, and
+            audience; united by a shared philosophy and a single creative
+            vision.
           </p>
         </motion.div>
 
@@ -610,10 +592,9 @@ function FamilyOfBrands() {
             >
               BOC Direct —{" "}
             </span>
-            Graphic design, web development, merchandise, and
-            brand identity services are delivered directly under
-            the Based on Creativity banner, working alongside
-            clients without intermediary structure.
+            Graphic design, web development, merchandise, and brand identity
+            services are delivered directly under the Based on Creativity
+            banner, working alongside clients without intermediary structure.
           </p>
         </motion.div>
 
@@ -715,12 +696,11 @@ function LeadershipBlock() {
                 lineHeight: 1.55,
               }}
             >
-              "I started Based on Creativity because I believed
-              that great stories, the kind that cross cultures,
-              disarm strangers, and make the world feel smaller,
-              don't need a massive corporation to tell them.
-              They need intention. Craft. And the courage to go
-              quiet before going loud."
+              "I started Based on Creativity because I believed that great
+              stories, the kind that cross cultures, disarm strangers, and make
+              the world feel smaller, don't need a massive corporation to tell
+              them. They need intention. Craft. And the courage to go quiet
+              before going loud."
             </p>
 
             <div className="space-y-5">
@@ -826,10 +806,9 @@ function WorkingPhilosophy() {
               lineHeight: 1.65,
             }}
           >
-            BOC collaborates with clients across Canada and
-            internationally — in animation, editorial, graphic
-            design, web development, merchandise, and digital
-            platform work. Here is how we approach that work.
+            BOC collaborates with clients across Canada and internationally — in
+            animation, editorial, graphic design, web development, merchandise,
+            and digital platform work. Here is how we approach that work.
           </p>
         </motion.div>
 
@@ -920,9 +899,8 @@ function ClosingCTA() {
               lineHeight: 1.5,
             }}
           >
-            "Because sometimes the most powerful stories are the
-            ones that remind us we were never that different to
-            begin with."
+            "Because sometimes the most powerful stories are the ones that
+            remind us we were never that different to begin with."
           </blockquote>
           <div className="flex items-center justify-center gap-4">
             <div className="h-px w-16 bg-[#FFC857]/30" />
@@ -961,14 +939,12 @@ function ClosingCTA() {
               cursor: "pointer",
             }}
             onMouseEnter={(e) => {
-              (
-                e.currentTarget as HTMLButtonElement
-              ).style.background = "#C9972E";
+              (e.currentTarget as HTMLButtonElement).style.background =
+                "#C9972E";
             }}
             onMouseLeave={(e) => {
-              (
-                e.currentTarget as HTMLButtonElement
-              ).style.background = "#FFC857";
+              (e.currentTarget as HTMLButtonElement).style.background =
+                "#FFC857";
             }}
           >
             View Our Services
@@ -1027,44 +1003,48 @@ export function AboutPage() {
 
   return (
     <>
-      <SEO title="About | Based on Creativity" description="Learn about Based on Creativity, the studio philosophy, creative practice, and the perspective behind its design-led storytelling." path="/about" />
-    <div
-      className="relative overflow-hidden"
-      style={{ background: "#1A1F4B" }}
-    >
-      {/* Background layers */}
+      <SEO
+        title="About | Based on Creativity"
+        description="Learn about Based on Creativity, the studio philosophy, creative practice, and the perspective behind its design-led storytelling."
+        path="/about"
+      />
       <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ zIndex: 0 }}
+        className="relative overflow-hidden"
+        style={{ background: "#1A1F4B" }}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F4B] via-[#1e2452] to-[#1A1F4B]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_10%,rgba(255,200,87,0.10),transparent_55%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_90%,rgba(246,230,180,0.07),transparent_55%)]" />
-        {/* Grain */}
+        {/* Background layers */}
         <div
-          className="absolute inset-0 opacity-[0.025] mix-blend-overlay"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-          }}
-        />
-      </div>
+          className="absolute inset-0 pointer-events-none"
+          style={{ zIndex: 0 }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F4B] via-[#1e2452] to-[#1A1F4B]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_10%,rgba(255,200,87,0.10),transparent_55%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_90%,rgba(246,230,180,0.07),transparent_55%)]" />
+          {/* Grain */}
+          <div
+            className="absolute inset-0 opacity-[0.025] mix-blend-overlay"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            }}
+          />
+        </div>
 
-      {/* Page content */}
-      <div className="relative" style={{ zIndex: 1 }}>
-        <HeroBlock
-          sunY={sunY}
-          sunOpacity={sunOpacity}
-          moonY={moonY}
-          moonOpacity={moonOpacity}
-        />
-        <AtAGlance />
-        <Philosophy />
-        <FamilyOfBrands />
-        <LeadershipBlock />
-        <WorkingPhilosophy />
-        <ClosingCTA />
+        {/* Page content */}
+        <div className="relative" style={{ zIndex: 1 }}>
+          <HeroBlock
+            sunY={sunY}
+            sunOpacity={sunOpacity}
+            moonY={moonY}
+            moonOpacity={moonOpacity}
+          />
+          <AtAGlance />
+          <Philosophy />
+          <FamilyOfBrands />
+          <LeadershipBlock />
+          <WorkingPhilosophy />
+          <ClosingCTA />
+        </div>
       </div>
-    </div>
     </>
   );
 }

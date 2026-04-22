@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 export const NAVY = '#0A1628';
 export const NAVY_ALT = '#0D1B30';

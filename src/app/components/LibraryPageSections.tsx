@@ -1,5 +1,6 @@
 import type React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useState, useRef, useEffect } from 'react';
 
 export type LibraryMode    = 'reflection' | 'expression';
 export type MediumFilter   = 'all' | 'animation' | 'writing' | 'design';
