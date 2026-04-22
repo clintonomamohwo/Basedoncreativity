@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { motion } from 'motion/react';
 import { useParams, useNavigate } from 'react-router';
 import { ArrowLeft, ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
-import { fetchStoryBySlug, portableTextToParagraphs, resolveMediaUrl, type SanityStory } from '@/lib/sanityContent';
+import { fetchStoryBySlug, portableTextToParagraphs, resolveMediaUrl, SanityStory, type SanityPortfolioProject } from '../../lib/sanityContent';
 import { SEO } from './SEO';
 import { BookPage, GrainOverlay, PageContent, StoryAsset } from './StoryDetailSections';
 
@@ -510,7 +510,7 @@ export function StoryDetail() {
                     <div className="rounded-xl overflow-hidden mb-4">
                       <StoryAsset
                         publicId={section.publicId}
-                        alt={section.caption}
+                        alt={section.caption || ''}
                         variant="section"
                         cloudinaryOptions={{ width: 1000, fit: 'fill' }}
                         className="w-full h-auto"

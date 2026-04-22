@@ -22,7 +22,7 @@ import {
 import { FilterBar, StarCanvas } from './VaultPageChrome';
 import { CloudinaryImage } from "./CloudinaryImage";
 import { cloudinaryVideoUrl } from "../../lib/cloudinary";
-import { fetchVaultItems, resolveMediaAlt, resolveMediaUrl, type SanityVaultItem } from '@/lib/sanityContent';
+import { fetchPortfolioProjects, resolveMediaAlt, resolveMediaUrl, type SanityPortfolioProject } from '../../lib/sanityContent';
 import { SEO } from './SEO';
 
 /* ═══════════════════════════════════════════════════════════════════════════
