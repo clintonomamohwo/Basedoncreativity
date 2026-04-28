@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import { fetchPortfolioProjects, resolveMediaAlt, resolveMediaUrl, type SanityPortfolioProject } from '../../lib/sanityContent';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { SEO } from './SEO';
+import { COLORS, FONTS } from '../../lib/constants';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -94,17 +95,17 @@ function StatusBadge({ status }: { status: Status }) {
       style={{
         background: isComplete ? 'rgba(212,168,83,0.15)' : 'rgba(255,255,255,0.07)',
         border: isComplete ? '1px solid rgba(212,168,83,0.4)' : '1px solid rgba(255,255,255,0.15)',
-        fontFamily: "'Source Sans 3', sans-serif",
+        fontFamily: FONTS.body,
         fontSize: '0.6875rem',
         fontWeight: 600,
         letterSpacing: '0.12em',
         textTransform: 'uppercase',
-        color: isComplete ? '#D4A853' : 'rgba(250,243,224,0.55)',
+        color: isComplete ? '${COLORS.gold}' : 'rgba(250,243,224,0.55)',
       }}
     >
       <span
         className="w-1.5 h-1.5 rounded-full"
-        style={{ background: isComplete ? '#D4A853' : 'rgba(250,243,224,0.4)' }}
+        style={{ background: isComplete ? COLORS.gold : 'rgba(250,243,224,0.4)' }}
       />
       {status}
     </span>
@@ -155,7 +156,7 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
         <div className="absolute top-4 left-5">
           <span
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontWeight: 700,
               fontSize: '0.75rem',
               letterSpacing: '0.15em',
@@ -177,12 +178,12 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
         <p
           className="mb-3"
           style={{
-            fontFamily: "'Source Sans 3', sans-serif",
+            fontFamily: FONTS.body,
             fontSize: '0.6875rem',
             fontWeight: 600,
             letterSpacing: '0.2em',
             textTransform: 'uppercase',
-            color: '#D4A853',
+            color: COLORS.gold,
           }}
         >
           {project.category} · {project.year}
@@ -192,11 +193,11 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
         <h3
           className="mb-3 leading-tight"
           style={{
-            fontFamily: "'Space Mono', monospace",
+            fontFamily: FONTS.heading,
             fontWeight: 700,
             fontSize: 'clamp(1.125rem, 2.5vw, 1.375rem)',
             letterSpacing: '-0.01em',
-            color: '#FAF3E0',
+            color: COLORS.gold,
           }}
         >
           {project.title}
@@ -206,7 +207,7 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
         <p
           className="mb-4"
           style={{
-            fontFamily: "'Source Sans 3', sans-serif",
+            fontFamily: FONTS.body,
             fontSize: '0.75rem',
             color: 'rgba(250,243,224,0.35)',
             letterSpacing: '0.05em',
@@ -228,7 +229,7 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
         <p
           className="flex-1 leading-relaxed mb-6"
           style={{
-            fontFamily: "'Source Sans 3', sans-serif",
+            fontFamily: FONTS.body,
             fontSize: '0.9375rem',
             lineHeight: 1.65,
             color: 'rgba(250,243,224,0.68)',
@@ -242,12 +243,12 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
           <span
             className="flex items-center gap-2 transition-all duration-300 group-hover:gap-3"
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontWeight: 700,
               fontSize: '0.75rem',
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              color: '#D4A853',
+              color: COLORS.gold,
             }}
           >
             View Details
@@ -314,7 +315,7 @@ function MetaStrip() {
         <div key={item} className="flex items-center">
           <span
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: FONTS.body,
               fontSize: '0.6875rem',
               fontWeight: 600,
               letterSpacing: '0.2em',
@@ -366,7 +367,7 @@ function CTASection() {
             <p
               className="mb-5"
               style={{
-                fontFamily: "'Source Sans 3', sans-serif",
+                fontFamily: FONTS.body,
                 fontSize: '0.6875rem',
                 fontWeight: 600,
                 letterSpacing: '0.25em',
@@ -379,20 +380,20 @@ function CTASection() {
             <h2
               className="mb-5 leading-tight"
               style={{
-                fontFamily: "'Space Mono', monospace",
+                fontFamily: FONTS.heading,
                 fontWeight: 700,
                 fontSize: 'clamp(1.75rem, 5vw, 2.75rem)',
                 letterSpacing: '-0.01em',
-                color: '#FAF3E0',
+                color: COLORS.gold,
               }}
             >
               BOC is available for<br />
-              <span style={{ color: '#D4A853' }}>selective work.</span>
+              <span style={{ color: COLORS.gold }}>selective work.</span>
             </h2>
             <p
               className="max-w-xl leading-relaxed"
               style={{
-                fontFamily: "'Source Sans 3', sans-serif",
+                fontFamily: FONTS.body,
                 fontSize: '1.0625rem',
                 lineHeight: 1.65,
                 color: 'rgba(250,243,224,0.65)',
@@ -418,9 +419,9 @@ function CTASection() {
               onClick={() => navigate('/services')}
               className="flex items-center justify-center gap-3 rounded-lg px-7 py-4 w-full transition-colors duration-200"
               style={{
-                background: '#D4A853',
+                background: COLORS.gold,
                 color: '#0A1628',
-                fontFamily: "'Space Mono', monospace",
+                fontFamily: FONTS.heading,
                 fontWeight: 700,
                 fontSize: '0.8125rem',
                 letterSpacing: '0.06em',
@@ -429,8 +430,8 @@ function CTASection() {
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
               }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#C9972E'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#D4A853'; }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = COLORS.goldDark; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = COLORS.gold; }}
             >
               View Services
               <ArrowRight size={15} />
@@ -441,25 +442,25 @@ function CTASection() {
               className="flex items-center justify-center gap-3 rounded-lg px-7 py-4 w-full transition-all duration-200"
               style={{
                 background: 'transparent',
-                color: '#D4A853',
-                fontFamily: "'Space Mono', monospace",
+                color: COLORS.gold,
+                fontFamily: FONTS.heading,
                 fontWeight: 700,
                 fontSize: '0.8125rem',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
-                border: '1.5px solid rgba(212,168,83,0.45)',
+                border: `1.5px solid ${COLORS.gold}73`,
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
               }}
               onMouseEnter={(e) => {
                 const btn = e.currentTarget as HTMLButtonElement;
-                btn.style.background = 'rgba(212,168,83,0.08)';
-                btn.style.borderColor = 'rgba(212,168,83,0.7)';
+                btn.style.background = `${COLORS.gold}14`;
+                btn.style.borderColor = `${COLORS.gold}b3`;
               }}
               onMouseLeave={(e) => {
                 const btn = e.currentTarget as HTMLButtonElement;
                 btn.style.background = 'transparent';
-                btn.style.borderColor = 'rgba(212,168,83,0.45)';
+                btn.style.borderColor = `${COLORS.gold}73`;
               }}
             >
               Start a Conversation
@@ -531,7 +532,7 @@ export function WorkPage() {
             <p
               className="mb-4"
               style={{
-                fontFamily: "'Source Sans 3', sans-serif",
+                fontFamily: FONTS.body,
                 fontSize: '0.6875rem',
                 fontWeight: 600,
                 letterSpacing: '0.3em',
@@ -541,7 +542,7 @@ export function WorkPage() {
             >
               Based on Creativity
             </p>
-            <div className="h-px w-10 mb-10" style={{ background: '#D4A853' }} />
+            <div className="h-px w-10 mb-10" style={{ background: COLORS.gold }} />
           </motion.div>
 
           <motion.h1
@@ -550,16 +551,16 @@ export function WorkPage() {
             transition={{ duration: 0.85, delay: 0.1 }}
             className="mb-7 leading-none"
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontWeight: 700,
               fontSize: 'clamp(3.5rem, 12vw, 8rem)',
               letterSpacing: '-0.03em',
-              color: '#FAF3E0',
+              color: '#FFFFFF',
             }}
           >
             Selected
             <br />
-            <span style={{ color: '#D4A853' }}>Work.</span>
+            <span style={{ color: COLORS.gold }}>Work.</span>
           </motion.h1>
 
           <motion.p
@@ -568,13 +569,13 @@ export function WorkPage() {
             transition={{ duration: 0.9, delay: 0.25 }}
             className="max-w-xl leading-relaxed"
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: FONTS.body,
               fontSize: 'clamp(1rem, 2.5vw, 1.125rem)',
               lineHeight: 1.65,
               color: 'rgba(250,243,224,0.65)',
             }}
           >
-            BOC develops brand worlds, digital experiences, animation, and publishing projects — each one built from a single standard: that the work should outlast the moment it was made for.
+            BOC develops brand worlds, digital experiences, animation, and publishing projects. Each one built from a single standard: that the work should outlast the moment it was made for.
           </motion.p>
 
           <MetaStrip />

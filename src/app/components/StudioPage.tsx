@@ -3,15 +3,15 @@ import { ArrowRight, ArrowUpRight, Play } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { SEO } from './SEO';
+import { COLORS, FONTS } from '../../lib/constants';
 import { AbstractFrame, BottomCTA, CreationCard, Eyebrow, GoldRule, InDevelopmentBand, PipelineSection, SectionLabel } from './StudioPageSections';
 
 // ─── Brand tokens ─────────────────────────────────────────────────────────────
 
-const NAVY     = '#0A1628';
-const NAVY_D   = '#070F1E';
-const NAVY_ALT = '#0D1B30';
-const GOLD     = '#D4A853';
-const CREAM    = '#FAF3E0';
+const INDIGO_BLUE = '#1A1F4B';  // Primary background (per Guidelines.md)
+const NAVY_950    = '#0F1530';  // Deep sections/hero (per Guidelines.md)
+const GOLD        = COLORS.gold;
+const CREAM       = '#FAF3E0';
 
 const CREAM_80 = 'rgba(250,243,224,0.80)';
 const CREAM_55 = 'rgba(250,243,224,0.55)';
@@ -153,14 +153,14 @@ export function StudioPage() {
   return (
     <>
       <SEO title="Studio | Based on Creativity" description="Step inside the Based on Creativity studio to see how narrative, design craft, motion, and world-building shape every creative collaboration." path="/studio" />
-    <div style={{ background: NAVY }}>
+    <div style={{ background: INDIGO_BLUE }}>
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
       <section
         style={{
           position: 'relative',
           overflow: 'hidden',
-          background: NAVY_D,
+          background: NAVY_950,
           minHeight: 'clamp(460px, 72vh, 720px)',
           display: 'flex',
           alignItems: 'flex-end',
@@ -184,7 +184,7 @@ export function StudioPage() {
                 rgba(7,15,30,0.55) 0%,
                 rgba(7,15,30,0.3) 35%,
                 rgba(7,15,30,0.7) 70%,
-                ${NAVY_D} 100%
+                ${NAVY_950} 100%
               )`,
             }}
           />
@@ -193,7 +193,7 @@ export function StudioPage() {
             style={{
               position: 'absolute',
               inset: 0,
-              background: `linear-gradient(90deg, ${NAVY_D} 0%, transparent 50%)`,
+              background: `linear-gradient(90deg, ${NAVY_950} 0%, transparent 50%)`,
             }}
           />
         </div>
@@ -230,7 +230,7 @@ export function StudioPage() {
         {/* Hero content */}
         <div
           style={{
-            maxWidth: '1100px',
+            maxWidth: '1200px',
             width: '100%',
             margin: '0 auto',
             padding: 'clamp(120px, 15vw, 168px) clamp(20px, 5vw, 48px) clamp(56px, 8vw, 88px)',
@@ -256,7 +256,7 @@ export function StudioPage() {
           >
             <p
               style={{
-                fontFamily: "'Space Mono', monospace",
+                fontFamily: FONTS.heading,
                 fontWeight: 700,
                 fontSize: '0.6875rem',
                 letterSpacing: '0.22em',
@@ -269,7 +269,7 @@ export function StudioPage() {
             </p>
             <h1
               style={{
-                fontFamily: "'Space Mono', monospace",
+                fontFamily: FONTS.heading,
                 fontWeight: 700,
                 fontSize: 'clamp(2.75rem, 9vw, 6.5rem)',
                 letterSpacing: '-0.03em',
@@ -289,7 +289,7 @@ export function StudioPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: FONTS.body,
               fontSize: 'clamp(1rem, 2.5vw, 1.1875rem)',
               color: CREAM_80,
               lineHeight: 1.7,
@@ -305,7 +305,7 @@ export function StudioPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.38 }}
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: FONTS.accent,
               fontStyle: 'italic',
               fontSize: 'clamp(1.0625rem, 2.5vw, 1.25rem)',
               color: GOLD_50,
@@ -326,7 +326,7 @@ export function StudioPage() {
               <span
                 key={tag}
                 style={{
-                  fontFamily: "'Space Mono', monospace",
+                  fontFamily: FONTS.heading,
                   fontWeight: 700,
                   fontSize: '0.575rem',
                   letterSpacing: '0.18em',
@@ -349,12 +349,12 @@ export function StudioPage() {
       {/* ── What We Are Creating ─────────────────────────────────────────────── */}
       <section
         style={{
-          background: NAVY,
+          background: INDIGO_BLUE,
           padding: 'clamp(56px, 7vw, 88px) clamp(20px, 5vw, 48px)',
           position: 'relative',
         }}
       >
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           {/* Header */}
           <div
             style={{
@@ -373,7 +373,7 @@ export function StudioPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.05 }}
                 style={{
-                  fontFamily: "'Space Mono', monospace",
+                  fontFamily: FONTS.heading,
                   fontWeight: 700,
                   fontSize: 'clamp(1.75rem, 5vw, 2.75rem)',
                   letterSpacing: '-0.02em',
@@ -392,7 +392,7 @@ export function StudioPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.12 }}
               style={{
-                fontFamily: "'Source Sans 3', sans-serif",
+                fontFamily: FONTS.body,
                 fontSize: 'clamp(0.9375rem, 2vw, 1.0625rem)',
                 color: CREAM_55,
                 lineHeight: 1.7,

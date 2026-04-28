@@ -1,10 +1,11 @@
 import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import { COLORS } from '../../lib/constants';
 
-export const NAVY = '#0A1628';
-export const NAVY_ALT = '#0D1B30';
-export const GOLD = '#D4A853';
+export const INDIGO_BLUE = '#1A1F4B';  // Primary background (per Guidelines.md)
+export const NAVY_950 = '#0F1530';     // Deep sections (per Guidelines.md)
+export const GOLD = COLORS.gold;
 export const CREAM = '#FAF3E0';
 export const CREAM_70 = 'rgba(250,243,224,0.70)';
 export const CREAM_20 = 'rgba(250,243,224,0.20)';
@@ -129,7 +130,7 @@ export function MidCTA({ navigate }: { navigate: ReturnType<typeof useNavigate> 
   return (
     <section
       style={{
-        background: NAVY_ALT,
+        background: NAVY_950,
         borderTop: `1px solid ${GOLD_12}`,
         borderBottom: `1px solid ${GOLD_12}`,
         padding: 'clamp(48px, 7vw, 80px) clamp(20px, 5vw, 48px)',
@@ -192,7 +193,7 @@ export function MidCTA({ navigate }: { navigate: ReturnType<typeof useNavigate> 
               fontSize: '0.8125rem',
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
-              color: NAVY,
+              color: INDIGO_BLUE,
               cursor: 'pointer',
               transition: 'background 0.2s ease',
             }}
@@ -259,7 +260,7 @@ export function ProcessSection({ navigate }: { navigate: ReturnType<typeof useNa
   return (
     <section
       style={{
-        background: NAVY,
+        background: INDIGO_BLUE,
         padding: 'clamp(72px, 10vw, 120px) clamp(20px, 5vw, 48px)',
         position: 'relative',
         overflow: 'hidden',
@@ -275,7 +276,7 @@ export function ProcessSection({ navigate }: { navigate: ReturnType<typeof useNa
         }}
       />
 
-      <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -477,7 +478,7 @@ export function ProcessSection({ navigate }: { navigate: ReturnType<typeof useNa
                 fontSize: '0.75rem',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
-                color: NAVY,
+                color: INDIGO_BLUE,
                 cursor: 'pointer',
                 transition: 'background 0.2s ease',
                 whiteSpace: 'nowrap',
@@ -534,7 +535,7 @@ export function FinalCTA({ navigate }: { navigate: ReturnType<typeof useNavigate
   return (
     <section
       style={{
-        background: NAVY_ALT,
+        background: NAVY_950,
         padding: 'clamp(80px, 10vw, 128px) clamp(20px, 5vw, 48px)',
         position: 'relative',
         overflow: 'hidden',
@@ -643,7 +644,7 @@ export function FinalCTA({ navigate }: { navigate: ReturnType<typeof useNavigate
               fontSize: '0.8125rem',
               letterSpacing: '0.07em',
               textTransform: 'uppercase',
-              color: NAVY,
+              color: INDIGO_BLUE,
               cursor: 'pointer',
               transition: 'background 0.2s ease',
             }}

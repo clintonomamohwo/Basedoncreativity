@@ -12,6 +12,7 @@ import {
 import { useNavigate } from "react-router";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { SEO } from "./SEO";
+import { COLORS, FONTS } from "../../lib/constants";
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -21,7 +22,7 @@ function GoldRule({ className = "" }: { className?: string }) {
       className={`h-px w-full ${className}`}
       style={{
         background:
-          "linear-gradient(90deg, transparent, #FFC857 40%, #FFC857 60%, transparent)",
+          `linear-gradient(90deg, transparent, ${COLORS.gold} 40%, ${COLORS.gold} 60%, transparent)`,
       }}
     />
   );
@@ -30,10 +31,11 @@ function GoldRule({ className = "" }: { className?: string }) {
 function EyebrowLabel({ children }: { children: React.ReactNode }) {
   return (
     <p
-      className="tracking-[0.3em] uppercase text-[#FFC857] mb-3"
+      className="tracking-[0.3em] uppercase mb-3"
       style={{
-        fontFamily: "'Source Sans 3', sans-serif",
+        fontFamily: FONTS.body,
         fontSize: "0.75rem",
+        color: COLORS.gold,
       }}
     >
       {children}
@@ -62,8 +64,9 @@ function HeroBlock({
         className="absolute top-28 right-8 md:right-20 pointer-events-none z-10"
       >
         <Sun
-          className="w-20 h-20 md:w-32 md:h-32 text-[#FFC857] opacity-30"
+          className="w-20 h-20 md:w-32 md:h-32 opacity-30"
           strokeWidth={1}
+          style={{ color: COLORS.gold }}
         />
       </motion.div>
       <motion.div
@@ -83,7 +86,7 @@ function HeroBlock({
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
           <EyebrowLabel>About Based on Creativity</EyebrowLabel>
-          <div className="h-px w-12 bg-[#FFC857] mb-10" />
+          <div className="h-px w-12 mb-10" style={{ background: COLORS.gold }} />
         </motion.div>
 
         <motion.h1
@@ -96,7 +99,7 @@ function HeroBlock({
           }}
           className="text-white mb-8"
           style={{
-            fontFamily: "'Space Mono', monospace",
+            fontFamily: FONTS.heading,
             fontSize: "clamp(3rem, 10vw, 6.5rem)",
             lineHeight: 1.02,
             letterSpacing: "-0.02em",
@@ -114,10 +117,11 @@ function HeroBlock({
             ease: "easeOut",
             delay: 0.2,
           }}
-          className="text-[#FFC857] italic mb-8"
+          className="italic mb-8"
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: FONTS.accent,
             fontSize: "clamp(1.25rem, 3.5vw, 1.75rem)",
+            color: COLORS.gold,
           }}
         >
           Built in the quiet. Born in the light.
@@ -133,7 +137,7 @@ function HeroBlock({
           }}
           className="text-[#D8D7DB] leading-relaxed max-w-2xl"
           style={{
-            fontFamily: "'Source Sans 3', sans-serif",
+            fontFamily: FONTS.body,
             fontSize: "clamp(1rem, 2.5vw, 1.125rem)",
             lineHeight: 1.65,
           }}
@@ -195,7 +199,7 @@ function AtAGlance() {
           <h2
             className="text-white"
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontSize: "clamp(1.75rem, 5vw, 2.75rem)",
               fontWeight: 700,
               letterSpacing: "-0.01em",
@@ -228,13 +232,15 @@ function AtAGlance() {
                     border: "1px solid rgba(255,200,87,0.25)",
                   }}
                 >
-                  <Icon size={18} style={{ color: "#FFC857" }} />
+                  <Icon size={18} style={{ color: COLORS.gold }} />
                 </div>
                 <p
-                  className="text-[#FFC857]/60 uppercase tracking-[0.2em] mb-2"
+                  className="uppercase tracking-[0.2em] mb-2"
                   style={{
-                    fontFamily: "'Source Sans 3', sans-serif",
+                    fontFamily: FONTS.body,
                     fontSize: "0.65rem",
+                    color: COLORS.gold,
+                    opacity: 0.6,
                   }}
                 >
                   {item.label}
@@ -242,7 +248,7 @@ function AtAGlance() {
                 <p
                   className="text-white mb-1"
                   style={{
-                    fontFamily: "'Space Mono', monospace",
+                    fontFamily: FONTS.heading,
                     fontSize: "0.875rem",
                     fontWeight: 700,
                     lineHeight: 1.4,
@@ -253,7 +259,7 @@ function AtAGlance() {
                 <p
                   className="text-[#D8D7DB]/60"
                   style={{
-                    fontFamily: "'Source Sans 3', sans-serif",
+                    fontFamily: FONTS.body,
                     fontSize: "0.8125rem",
                   }}
                 >
@@ -287,7 +293,7 @@ function Philosophy() {
           <h2
             className="text-white mb-6"
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontSize: "clamp(1.75rem, 5vw, 2.75rem)",
               fontWeight: 700,
               letterSpacing: "-0.01em",
@@ -298,7 +304,7 @@ function Philosophy() {
           <p
             className="text-[#F6E6B4] italic max-w-xl"
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: FONTS.accent,
               fontSize: "clamp(1.125rem, 3vw, 1.375rem)",
             }}
           >
@@ -325,7 +331,7 @@ function Philosophy() {
               <h3
                 className="text-[#F6E6B4]"
                 style={{
-                  fontFamily: "'Space Mono', monospace",
+                  fontFamily: FONTS.heading,
                   fontSize: "1.25rem",
                   fontWeight: 700,
                 }}
@@ -336,7 +342,7 @@ function Philosophy() {
             <p
               className="text-[#D8D7DB] italic leading-relaxed"
               style={{
-                fontFamily: "'Cormorant Garamond', serif",
+                fontFamily: FONTS.accent,
                 fontSize: "1.125rem",
               }}
             >
@@ -353,20 +359,21 @@ function Philosophy() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="rounded-2xl p-8 border border-white/10 transition-all duration-500 hover:border-[#FFC857]/30 hover:shadow-[0_0_40px_rgba(255,200,87,0.15)]"
+            className="rounded-2xl p-8 border transition-all duration-500"
             style={{
               background: "rgba(255,255,255,0.04)",
               backdropFilter: "blur(12px)",
+              borderColor: "rgba(255,255,255,0.1)",
             }}
           >
             <div className="flex items-center gap-4 mb-5">
-              <Sun className="w-8 h-8 text-[#FFC857]" strokeWidth={1.5} />
+              <Sun className="w-8 h-8" strokeWidth={1.5} style={{ color: COLORS.gold }} />
               <h3
-                className="text-[#FFC857]"
                 style={{
-                  fontFamily: "'Space Mono', monospace",
+                  fontFamily: FONTS.heading,
                   fontSize: "1.25rem",
                   fontWeight: 700,
+                  color: COLORS.gold,
                 }}
               >
                 The Sun — Expression
@@ -375,11 +382,11 @@ function Philosophy() {
             <p
               className="text-[#D8D7DB] italic leading-relaxed"
               style={{
-                fontFamily: "'Cormorant Garamond', serif",
+                fontFamily: FONTS.accent,
                 fontSize: "1.125rem",
               }}
             >
-              Gold (#FFC857) — warmth, creativity, and the courage to release.
+              Gold (${COLORS.gold}) — warmth, creativity, and the courage to release.
               Expression is the moment an idea stops being private and becomes a
               shared experience — illuminating what reflection quietly prepared.
             </p>
@@ -392,15 +399,19 @@ function Philosophy() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center py-10 px-6 rounded-2xl border border-[#FFC857]/15"
-          style={{ background: "rgba(255,200,87,0.04)" }}
+          className="text-center py-10 px-6 rounded-2xl border"
+          style={{
+            background: "rgba(255,200,87,0.04)",
+            borderColor: `${COLORS.gold}26`,
+          }}
         >
           <p
-            className="text-white italic"
+            className="italic"
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: FONTS.accent,
               fontSize: "clamp(1.25rem, 4vw, 1.75rem)",
               lineHeight: 1.55,
+              color: COLORS.gold,
             }}
           >
             "Between reflection and expression lies the space where creativity
@@ -421,7 +432,7 @@ const BRANDS = [
     domain: "Animation",
     description:
       "The animation arm of BOC. From short-form storytelling to full-length animated features, CBS develops original characters, worlds, and narratives rooted in cultural depth and visual craft.",
-    accent: "#FFC857",
+    accent: COLORS.gold,
     cardBg: "rgba(255,200,87,0.06)",
     border: "rgba(255,200,87,0.2)",
   },
@@ -464,7 +475,7 @@ function FamilyOfBrands() {
           <h2
             className="text-white mb-6"
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontSize: "clamp(1.75rem, 5vw, 2.75rem)",
               fontWeight: 700,
               letterSpacing: "-0.01em",
@@ -475,7 +486,7 @@ function FamilyOfBrands() {
           <p
             className="text-[#D8D7DB] max-w-2xl leading-relaxed mb-14"
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: FONTS.body,
               fontSize: "1.0625rem",
               lineHeight: 1.65,
             }}
@@ -513,7 +524,7 @@ function FamilyOfBrands() {
                 >
                   <span
                     style={{
-                      fontFamily: "'Space Mono', monospace",
+                      fontFamily: FONTS.heading,
                       fontWeight: 700,
                       fontSize: "0.875rem",
                       color: brand.accent,
@@ -526,7 +537,7 @@ function FamilyOfBrands() {
                 <p
                   className="mt-2 text-center"
                   style={{
-                    fontFamily: "'Source Sans 3', sans-serif",
+                    fontFamily: FONTS.body,
                     fontSize: "0.7rem",
                     color: `${brand.accent}80`,
                     letterSpacing: "0.15em",
@@ -541,7 +552,7 @@ function FamilyOfBrands() {
                 <h3
                   className="mb-3"
                   style={{
-                    fontFamily: "'Space Mono', monospace",
+                    fontFamily: FONTS.heading,
                     fontWeight: 700,
                     fontSize: "clamp(1.125rem, 3vw, 1.375rem)",
                     color: brand.accent,
@@ -552,7 +563,7 @@ function FamilyOfBrands() {
                 <p
                   className="leading-relaxed"
                   style={{
-                    fontFamily: "'Source Sans 3', sans-serif",
+                    fontFamily: FONTS.body,
                     fontSize: "1rem",
                     color: "rgba(255,255,255,0.72)",
                     lineHeight: 1.65,
@@ -577,15 +588,15 @@ function FamilyOfBrands() {
           <p
             className="text-[#D8D7DB]/80 leading-relaxed"
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: FONTS.body,
               fontSize: "0.9375rem",
               lineHeight: 1.65,
             }}
           >
             <span
               style={{
-                color: "#FFC857",
-                fontFamily: "'Space Mono', monospace",
+                color: COLORS.gold,
+                fontFamily: FONTS.heading,
                 fontWeight: 700,
                 fontSize: "0.875rem",
               }}
@@ -621,7 +632,7 @@ function LeadershipBlock() {
           <h2
             className="text-white"
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontSize: "clamp(1.75rem, 5vw, 2.75rem)",
               fontWeight: 700,
               letterSpacing: "-0.01em",
@@ -641,9 +652,10 @@ function LeadershipBlock() {
           {/* Portrait */}
           <div className="flex flex-col items-center md:items-start gap-4">
             <div
-              className="w-48 h-56 md:w-full md:h-72 rounded-2xl overflow-hidden border border-[#FFC857]/20"
+              className="w-48 h-56 md:w-full md:h-72 rounded-2xl overflow-hidden border"
               style={{
                 boxShadow: "0 20px 60px rgba(0,0,0,0.4)",
+                borderColor: `${COLORS.gold}33`,
               }}
             >
               <ImageWithFallback
@@ -656,7 +668,7 @@ function LeadershipBlock() {
               <p
                 className="text-white"
                 style={{
-                  fontFamily: "'Space Mono', monospace",
+                  fontFamily: FONTS.heading,
                   fontWeight: 700,
                   fontSize: "1rem",
                 }}
@@ -667,7 +679,7 @@ function LeadershipBlock() {
               <p
                 className="text-white"
                 style={{
-                  fontFamily: "'Space Mono', monospace",
+                  fontFamily: FONTS.heading,
                   fontWeight: 200,
                   fontSize: "1rem",
                 }}
@@ -675,10 +687,12 @@ function LeadershipBlock() {
                 Clinton Omamohwo
               </p>
               <p
-                className="text-[#FFC857]/60 uppercase tracking-[0.2em] mt-1"
+                className="uppercase tracking-[0.2em] mt-1"
                 style={{
-                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontFamily: FONTS.body,
                   fontSize: "0.7rem",
+                  color: COLORS.gold,
+                  opacity: 0.6,
                 }}
               >
                 Based on Creativity
@@ -691,7 +705,7 @@ function LeadershipBlock() {
             <p
               className="text-[#F6E6B4] italic leading-relaxed mb-8"
               style={{
-                fontFamily: "'Cormorant Garamond', serif",
+                fontFamily: FONTS.accent,
                 fontSize: "clamp(1.25rem, 3.5vw, 1.625rem)",
                 lineHeight: 1.55,
               }}
@@ -716,14 +730,16 @@ function LeadershipBlock() {
               ].map((item) => (
                 <div
                   key={item.label}
-                  className="border-l-2 border-[#FFC857]/40 pl-5"
+                  className="border-l-2 pl-5"
+                  style={{ borderColor: `${COLORS.gold}66` }}
                 >
                   <p
-                    className="text-[#FFC857] uppercase tracking-[0.15em] mb-1"
+                    className="uppercase tracking-[0.15em] mb-1"
                     style={{
-                      fontFamily: "'Space Mono', monospace",
+                      fontFamily: FONTS.heading,
                       fontSize: "0.7rem",
                       fontWeight: 700,
+                      color: COLORS.gold,
                     }}
                   >
                     {item.label}
@@ -731,7 +747,7 @@ function LeadershipBlock() {
                   <p
                     className="text-[#D8D7DB] leading-relaxed"
                     style={{
-                      fontFamily: "'Source Sans 3', sans-serif",
+                      fontFamily: FONTS.body,
                       fontSize: "0.9375rem",
                       lineHeight: 1.65,
                     }}
@@ -790,7 +806,7 @@ function WorkingPhilosophy() {
           <h2
             className="text-white mb-6"
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontSize: "clamp(1.75rem, 5vw, 2.75rem)",
               fontWeight: 700,
               letterSpacing: "-0.01em",
@@ -801,7 +817,7 @@ function WorkingPhilosophy() {
           <p
             className="text-[#D8D7DB] max-w-2xl leading-relaxed"
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: FONTS.body,
               fontSize: "1.0625rem",
               lineHeight: 1.65,
             }}
@@ -820,18 +836,21 @@ function WorkingPhilosophy() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.65, delay: i * 0.08 }}
-              className="rounded-2xl p-7 border border-white/10 transition-all duration-300 hover:border-[#FFC857]/20"
+              className="rounded-2xl p-7 border transition-all duration-300"
               style={{
                 background: "rgba(255,255,255,0.03)",
                 backdropFilter: "blur(10px)",
+                borderColor: "rgba(255,255,255,0.1)",
               }}
             >
               <p
-                className="text-[#FFC857]/40 mb-4"
+                className="mb-4"
                 style={{
-                  fontFamily: "'Space Mono', monospace",
+                  fontFamily: FONTS.heading,
                   fontWeight: 700,
                   fontSize: "1.5rem",
+                  color: COLORS.gold,
+                  opacity: 0.4,
                 }}
               >
                 {p.number}
@@ -839,7 +858,7 @@ function WorkingPhilosophy() {
               <h3
                 className="text-white mb-3"
                 style={{
-                  fontFamily: "'Space Mono', monospace",
+                  fontFamily: FONTS.heading,
                   fontWeight: 700,
                   fontSize: "1rem",
                   letterSpacing: "0.01em",
@@ -850,7 +869,7 @@ function WorkingPhilosophy() {
               <p
                 className="text-[#D8D7DB]/80 leading-relaxed"
                 style={{
-                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontFamily: FONTS.body,
                   fontSize: "0.9375rem",
                   lineHeight: 1.65,
                 }}
@@ -883,37 +902,41 @@ function ClosingCTA() {
           className="text-center mb-16 px-4 md:px-16"
         >
           <p
-            className="text-[#FFC857]/50 uppercase tracking-[0.25em] mb-6"
+            className="uppercase tracking-[0.25em] mb-6"
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: FONTS.body,
               fontSize: "0.7rem",
+              color: COLORS.gold,
+              opacity: 0.5,
             }}
           >
             Our Foundation
           </p>
           <blockquote
-            className="text-white italic leading-relaxed mb-6"
+            className="italic leading-relaxed mb-6"
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: FONTS.accent,
               fontSize: "clamp(1.375rem, 5vw, 2.25rem)",
               lineHeight: 1.5,
+              color: COLORS.gold,
             }}
           >
             "Because sometimes the most powerful stories are the ones that
             remind us we were never that different to begin with."
           </blockquote>
           <div className="flex items-center justify-center gap-4">
-            <div className="h-px w-16 bg-[#FFC857]/30" />
+            <div className="h-px w-16" style={{ background: COLORS.gold, opacity: 0.3 }} />
             <p
-              className="text-[#FFC857] tracking-[0.15em] uppercase"
+              className="tracking-[0.15em] uppercase"
               style={{
-                fontFamily: "'Source Sans 3', sans-serif",
+                fontFamily: FONTS.body,
                 fontSize: "0.7rem",
+                color: COLORS.gold,
               }}
             >
               Based on Creativity
             </p>
-            <div className="h-px w-16 bg-[#FFC857]/30" />
+            <div className="h-px w-16" style={{ background: COLORS.gold, opacity: 0.3 }} />
           </div>
         </motion.div>
 
@@ -929,9 +952,9 @@ function ClosingCTA() {
             onClick={() => navigate("/services")}
             className="flex items-center gap-3 rounded-lg px-8 py-4 transition-colors duration-200"
             style={{
-              background: "#FFC857",
+              background: COLORS.gold,
               color: "#1A1F4B",
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontWeight: 700,
               fontSize: "0.875rem",
               letterSpacing: "0.04em",
@@ -944,7 +967,7 @@ function ClosingCTA() {
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLButtonElement).style.background =
-                "#FFC857";
+                COLORS.gold;
             }}
           >
             View Our Services
@@ -956,23 +979,23 @@ function ClosingCTA() {
             className="flex items-center gap-3 rounded-lg px-8 py-4 transition-all duration-200"
             style={{
               background: "transparent",
-              color: "#FFC857",
-              fontFamily: "'Space Mono', monospace",
+              color: COLORS.gold,
+              fontFamily: FONTS.heading,
               fontWeight: 700,
               fontSize: "0.875rem",
               letterSpacing: "0.04em",
-              border: "2px solid #FFC857",
+              border: `2px solid ${COLORS.gold}`,
               cursor: "pointer",
             }}
             onMouseEnter={(e) => {
               const btn = e.currentTarget as HTMLButtonElement;
-              btn.style.background = "#FFC857";
+              btn.style.background = COLORS.gold;
               btn.style.color = "#1A1F4B";
             }}
             onMouseLeave={(e) => {
               const btn = e.currentTarget as HTMLButtonElement;
               btn.style.background = "transparent";
-              btn.style.color = "#FFC857";
+              btn.style.color = COLORS.gold;
             }}
           >
             Start a Conversation
@@ -1017,9 +1040,18 @@ export function AboutPage() {
           className="absolute inset-0 pointer-events-none"
           style={{ zIndex: 0 }}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F4B] via-[#1e2452] to-[#1A1F4B]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_10%,rgba(255,200,87,0.10),transparent_55%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_90%,rgba(246,230,180,0.07),transparent_55%)]" />
+          <div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to bottom right, #1A1F4B, #1e2452, #1A1F4B)' }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: 'radial-gradient(ellipse at 20% 10%, rgba(255,200,87,0.10), transparent 55%)' }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: 'radial-gradient(ellipse at 80% 90%, rgba(246,230,180,0.07), transparent 55%)' }}
+          />
           {/* Grain */}
           <div
             className="absolute inset-0 opacity-[0.025] mix-blend-overlay"

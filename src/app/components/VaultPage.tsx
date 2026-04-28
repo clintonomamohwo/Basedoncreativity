@@ -24,6 +24,7 @@ import { CloudinaryImage } from "./CloudinaryImage";
 import { cloudinaryVideoUrl } from "../../lib/cloudinary";
 import { fetchPortfolioProjects, fetchVaultItems, resolveMediaAlt, resolveMediaUrl, SanityVaultItem, type SanityPortfolioProject } from '../../lib/sanityContent';
 import { SEO } from './SEO';
+import { FONTS } from '../../lib/constants';
 
 /* ═══════════════════════════════════════════════════════════════════════════
    TYPES
@@ -387,7 +388,7 @@ function ImageBentoCard({
         />
         <span
           style={{
-            fontFamily: "'Space Mono', monospace",
+            fontFamily: FONTS.heading,
             fontSize: "0.55rem",
             color: TYPE_ACCENT.image,
             letterSpacing: "0.1em",
@@ -408,7 +409,7 @@ function ImageBentoCard({
       >
         <p
           style={{
-            fontFamily: "'Space Mono', monospace",
+            fontFamily: FONTS.heading,
             fontSize: "0.6rem",
             color: "rgba(255,200,87,0.55)",
             letterSpacing: "0.1em",
@@ -419,7 +420,7 @@ function ImageBentoCard({
         </p>
         <h4
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: FONTS.accent,
             fontSize: "1.2rem",
             color: "#F6E6B4",
             margin: 0,
@@ -563,7 +564,7 @@ function VideoBentoCard({
         <Film size={10} style={{ color: TYPE_ACCENT.video }} />
         <span
           style={{
-            fontFamily: "'Space Mono', monospace",
+            fontFamily: FONTS.heading,
             fontSize: "0.55rem",
             color: TYPE_ACCENT.video,
             letterSpacing: "0.1em",
@@ -585,7 +586,7 @@ function VideoBentoCard({
       >
         <p
           style={{
-            fontFamily: "'Space Mono', monospace",
+            fontFamily: FONTS.heading,
             fontSize: "0.6rem",
             color: "rgba(123,156,255,0.6)",
             letterSpacing: "0.1em",
@@ -596,9 +597,9 @@ function VideoBentoCard({
         </p>
         <h4
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: FONTS.accent,
             fontSize: "1.2rem",
-            color: "#E8EEFF",
+            color: "#F6E6B4",
             margin: 0,
             letterSpacing: "0.04em",
           }}
@@ -694,7 +695,7 @@ function WritingBentoCard({
           />
           <span
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontSize: "0.55rem",
               color: TYPE_ACCENT.writing,
               letterSpacing: "0.1em",
@@ -705,7 +706,7 @@ function WritingBentoCard({
         </div>
         <span
           style={{
-            fontFamily: "'Space Mono', monospace",
+            fontFamily: FONTS.heading,
             fontSize: "0.55rem",
             color: "rgba(201,184,154,0.4)",
             letterSpacing: "0.1em",
@@ -720,7 +721,7 @@ function WritingBentoCard({
         {/* Opening quote mark */}
         <div
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: FONTS.accent,
             fontSize: "4rem",
             color: "rgba(201,184,154,0.15)",
             lineHeight: 1,
@@ -733,10 +734,10 @@ function WritingBentoCard({
         {item.excerpt && (
           <p
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: FONTS.accent,
               fontSize: "1.1rem",
               fontStyle: "italic",
-              color: "#D4C5A9",
+              color: "#F6E6B4",
               lineHeight: 1.65,
               margin: "0 0 20px",
               display: "-webkit-box",
@@ -761,7 +762,7 @@ function WritingBentoCard({
       >
         <h4
           style={{
-            fontFamily: "'Space Mono', monospace",
+            fontFamily: FONTS.heading,
             fontSize: "0.72rem",
             fontWeight: 700,
             color: "#C9B89A",
@@ -773,7 +774,7 @@ function WritingBentoCard({
         </h4>
         <p
           style={{
-            fontFamily: "'Source Sans 3', sans-serif",
+            fontFamily: FONTS.body,
             fontSize: "0.7rem",
             color: "rgba(201,184,154,0.45)",
             margin: 0,
@@ -800,7 +801,7 @@ function WritingBentoCard({
       >
         <span
           style={{
-            fontFamily: "'Space Mono', monospace",
+            fontFamily: FONTS.heading,
             fontSize: "0.6rem",
             color: "#C9B89A",
             letterSpacing: "0.1em",
@@ -985,7 +986,7 @@ function DeckWritingView({ item }: { item: GalleryItem }) {
         {/* Category + year */}
         <p
           style={{
-            fontFamily: "'Space Mono', monospace",
+            fontFamily: FONTS.heading,
             fontSize: "0.65rem",
             color: "rgba(201,184,154,0.6)",
             letterSpacing: "0.14em",
@@ -997,7 +998,7 @@ function DeckWritingView({ item }: { item: GalleryItem }) {
         {/* Title */}
         <h2
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: FONTS.accent,
             fontSize: "clamp(2rem, 5vw, 3rem)",
             fontWeight: 400,
             color: "#F6E6B4",
@@ -1024,7 +1025,7 @@ function DeckWritingView({ item }: { item: GalleryItem }) {
             <p
               key={i}
               style={{
-                fontFamily: "'Source Sans 3', sans-serif",
+                fontFamily: FONTS.body,
                 fontSize: "1.05rem",
                 color: "rgba(255,255,255,0.75)",
                 lineHeight: 1.75,
@@ -1037,10 +1038,10 @@ function DeckWritingView({ item }: { item: GalleryItem }) {
         ) : item.excerpt ? (
           <p
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: FONTS.accent,
               fontSize: "1.4rem",
               fontStyle: "italic",
-              color: "#D4C5A9",
+              color: "#F6E6B4",
               lineHeight: 1.65,
             }}
           >
@@ -1161,7 +1162,7 @@ function FullScreenDeck({
             )}
             <span
               style={{
-                fontFamily: "'Space Mono', monospace",
+                fontFamily: FONTS.heading,
                 fontSize: "0.58rem",
                 color: accent,
                 letterSpacing: "0.1em",
@@ -1173,7 +1174,7 @@ function FullScreenDeck({
           <div style={{ minWidth: 0 }}>
             <h3
               style={{
-                fontFamily: "'Cormorant Garamond', serif",
+                fontFamily: FONTS.accent,
                 fontSize: "1.1rem",
                 color: "#F6E6B4",
                 margin: 0,
@@ -1186,7 +1187,7 @@ function FullScreenDeck({
             </h3>
             <p
               style={{
-                fontFamily: "'Space Mono', monospace",
+                fontFamily: FONTS.heading,
                 fontSize: "0.57rem",
                 color: "rgba(255,255,255,0.3)",
                 letterSpacing: "0.08em",
@@ -1209,7 +1210,7 @@ function FullScreenDeck({
         >
           <span
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontSize: "0.65rem",
               color: "rgba(255,255,255,0.3)",
               letterSpacing: "0.1em",
@@ -1481,7 +1482,7 @@ function BentoVault({ items }: { items: GalleryItem[] }) {
       >
         <h2
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: FONTS.accent,
             fontSize: "clamp(2rem, 6vw, 3.2rem)",
             fontWeight: 300,
             color: "#FFC857",
@@ -1494,7 +1495,7 @@ function BentoVault({ items }: { items: GalleryItem[] }) {
         </h2>
         <p
           style={{
-            fontFamily: "'Source Sans 3', sans-serif",
+            fontFamily: FONTS.body,
             fontSize: "clamp(0.85rem, 2vw, 1rem)",
             color: "rgba(255,255,255,0.45)",
             maxWidth: 480,
@@ -1535,7 +1536,7 @@ function BentoVault({ items }: { items: GalleryItem[] }) {
           >
             <p
               style={{
-                fontFamily: "'Cormorant Garamond', serif",
+                fontFamily: FONTS.accent,
                 fontSize: "1.4rem",
                 fontStyle: "italic",
                 color: "rgba(255,200,87,0.4)",
@@ -1888,7 +1889,7 @@ export function VaultPage() {
           >
             <span
               style={{
-                fontFamily: "'Space Mono', monospace",
+                fontFamily: FONTS.heading,
                 fontWeight: 700,
                 fontSize: "0.58rem",
                 letterSpacing: "0.2em",
@@ -1932,7 +1933,7 @@ export function VaultPage() {
               }}
               style={{
                 marginTop: "6px",
-                fontFamily: "'Source Sans 3', sans-serif",
+                fontFamily: FONTS.body,
                 fontSize: "0.52rem",
                 letterSpacing: "0.14em",
                 color: "rgba(255,200,87,0.38)",
@@ -2052,7 +2053,7 @@ export function VaultPage() {
                     top: "-30px",
                     left: "50%",
                     transform: "translateX(-50%)",
-                    fontFamily: "'Space Mono', monospace",
+                    fontFamily: FONTS.heading,
                     fontSize: "0.48rem",
                     fontWeight: 700,
                     letterSpacing: "0.22em",
@@ -2291,7 +2292,7 @@ export function VaultPage() {
                 fill="#FFC857"
                 fontSize="15"
                 fontWeight="bold"
-                fontFamily="'Space Mono', monospace"
+                fontFamily="Space Mono, monospace"
               >
                 N
               </text>
@@ -2302,7 +2303,7 @@ export function VaultPage() {
                 fill="#FFC857"
                 fontSize="15"
                 fontWeight="bold"
-                fontFamily="'Space Mono', monospace"
+                fontFamily="Space Mono, monospace"
                 opacity="0.75"
               >
                 S
@@ -2314,7 +2315,7 @@ export function VaultPage() {
                 fill="#FFC857"
                 fontSize="15"
                 fontWeight="bold"
-                fontFamily="'Space Mono', monospace"
+                fontFamily="Space Mono, monospace"
                 opacity="0.75"
               >
                 W
@@ -2326,7 +2327,7 @@ export function VaultPage() {
                 fill="#FFC857"
                 fontSize="16"
                 fontWeight="bold"
-                fontFamily="'Space Mono', monospace"
+                fontFamily="Space Mono, monospace"
                 animate={{ opacity: [1, 0.45, 1] }}
                 transition={{
                   duration: 1.6,
@@ -2387,7 +2388,7 @@ export function VaultPage() {
               transition={{ delay: 1.2, duration: 1 }}
               style={{
                 marginTop: 28,
-                fontFamily: "'Cormorant Garamond', serif",
+                fontFamily: FONTS.accent,
                 fontSize: "clamp(1.05rem, 2.8vw, 1.35rem)",
                 fontStyle: "italic",
                 fontWeight: 600,
@@ -2405,7 +2406,7 @@ export function VaultPage() {
               transition={{ delay: 2, duration: 1 }}
               style={{
                 marginTop: 10,
-                fontFamily: "'Source Sans 3', sans-serif",
+                fontFamily: FONTS.body,
                 fontSize: "0.78rem",
                 color: "#FFC857",
                 letterSpacing: "0.1em",
@@ -2426,7 +2427,7 @@ export function VaultPage() {
               }}
               style={{
                 marginTop: 18,
-                fontFamily: "'Source Sans 3', sans-serif",
+                fontFamily: FONTS.body,
                 fontSize: "clamp(0.8125rem, 2vw, 0.9375rem)",
                 color: "rgba(255,255,255,0.36)",
                 lineHeight: 1.7,
@@ -2457,7 +2458,7 @@ export function VaultPage() {
                 <span
                   key={tag}
                   style={{
-                    fontFamily: "'Space Mono', monospace",
+                    fontFamily: FONTS.heading,
                     fontSize: "0.52rem",
                     fontWeight: 700,
                     letterSpacing: "0.18em",
@@ -2501,7 +2502,7 @@ export function VaultPage() {
             >
               <h1
                 style={{
-                  fontFamily: "'Cormorant Garamond', serif",
+                  fontFamily: FONTS.accent,
                   fontSize: "clamp(2.5rem, 8vw, 5rem)",
                   fontWeight: 300,
                   color: "#FFF8DC",

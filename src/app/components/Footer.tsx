@@ -1,11 +1,12 @@
 import { motion } from "motion/react";
 import {
   Instagram,
-  Twitter,
   Linkedin,
+  Twitter,
   Youtube,
 } from "lucide-react";
 import { useNavigate } from "react-router";
+import { COLORS } from "../../lib/constants";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -23,7 +24,7 @@ export function Footer() {
           width: "100%",
         }}
       />
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 pt-12 md:pt-20">
+      <div className="max-w-[1200px] mx-auto px-4 md:px-6 pt-12 md:pt-20">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12 md:mb-16">
           {/* Brand */}
           <div className="col-span-2 md:col-span-2">
@@ -61,12 +62,18 @@ export function Footer() {
                     icon: Instagram,
                     href: "https://www.instagram.com/basedoncreativity",
                   },
-                  { icon: Twitter, href: "#" },
+                  {
+                    icon: Twitter,
+                    href: "https://twitter.com/basedoncreativity",
+                  },
                   {
                     icon: Linkedin,
                     href: "https://www.linkedin.com/company/based-on-creativity/",
                   },
-                  { icon: Youtube, href: "#" },
+                  {
+                    icon: Youtube,
+                    href: "https://www.youtube.com/@basedoncreativity",
+                  },
                 ].map(({ icon: Icon, href }, index) => (
                   <motion.a
                     key={index}
@@ -128,7 +135,7 @@ export function Footer() {
                 style={{
                   fontFamily: "'Source Sans 3', sans-serif",
                   fontWeight: 700,
-                  color: "#ffffff",
+                  color: COLORS.gold,
                 }}
               >
                 {section.title}

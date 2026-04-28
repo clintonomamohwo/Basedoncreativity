@@ -53,7 +53,7 @@ export function ServicesSection() {
       className="py-16 md:py-32 px-4 md:px-6"
       style={{ background: "#FFF6D8" }}
     >
-      <div className="max-w-[1400px] mx-auto">
+      <div className="max-w-[1200px] mx-auto">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}

@@ -20,8 +20,6 @@ import {
   useEffect,
 } from "react";
 import { useNavigate, useLocation } from "react-router";
-import logoImagePng from "../../assets/boc_logo.png";
-import logoImageWebp from "../../assets/boc_logo.webp";
 import {
   COLORS,
   FONTS,
@@ -29,6 +27,7 @@ import {
 } from "../../lib/constants";
 import { NavActiveIndicator, SECTION_COLORS, TrailingStar, searchSite, NAV_LINKS, NAV_ROUTES, getIsNavActive } from './NavigationSections';
 import type { SearchResult, Star } from './NavigationSections';
+import logoImage from "../../assets/boc_logo.png";
 
 const INTRO_BURST_STORAGE_KEY = "boc-nav-first-visit-sparkle-burst-seen";
 const MAX_VISIBLE_STARS = 36;
@@ -312,7 +311,7 @@ export function Navigation() {
       </div>
 
       {/* ── Main nav row ── */}
-      <div className="relative max-w-[1400px] mx-auto px-4 md:px-8 py-2">
+      <div className="relative max-w-[1200px] mx-auto px-4 md:px-8 py-2">
         <div className="flex items-center justify-between gap-4 md:gap-8">
           {/* Logo — navigates home on click */}
           <motion.div
@@ -322,31 +321,28 @@ export function Navigation() {
             style={{ zIndex: 10 }}
             onClick={() => navigate("/")}
           >
-            <picture>
-              <source srcSet={logoImageWebp} type="image/webp" />
-              <img
-                src={logoImagePng}
-                alt="Based on Creativity Logo"
-                width={40}
-                height={40}
-                style={{
-                  borderRadius: "50%",
-                  display: "block",
-                  transition:
-                    "box-shadow 0.3s ease, filter 0.3s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow =
-                    "0 0 12px 3px rgba(255, 200, 87, 0.56), 0 0 25px 6px rgba(255, 200, 87, 0.24)";
-                  e.currentTarget.style.filter =
-                    "brightness(1.08)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = "none";
-                  e.currentTarget.style.filter = "brightness(1)";
-                }}
-              />
-            </picture>
+            <img
+              src={logoImage}
+              alt="Based on Creativity Logo"
+              width={40}
+              height={40}
+              style={{
+                borderRadius: "50%",
+                display: "block",
+                transition:
+                  "box-shadow 0.3s ease, filter 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow =
+                  "0 0 12px 3px rgba(255, 200, 87, 0.56), 0 0 25px 6px rgba(255, 200, 87, 0.24)";
+                e.currentTarget.style.filter =
+                  "brightness(1.08)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = "none";
+                e.currentTarget.style.filter = "brightness(1)";
+              }}
+            />
           </motion.div>
 
           {/* ── Desktop expanded menu (hidden on mobile) ── */}
@@ -392,7 +388,7 @@ export function Navigation() {
                         ease: EASE_STANDARD,
                       }}
                       whileHover={{
-                        color: "#D4A853",
+                        color: COLORS.gold,
                         textShadow:
                           "0 0 10px rgba(212,168,83,0.22)",
                       }}
@@ -400,7 +396,7 @@ export function Navigation() {
                       style={{
                         fontFamily: FONTS.heading,
                         fontWeight: 700,
-                        color: isActive ? "#D4A853" : "#FAF3E0",
+                        color: isActive ? COLORS.gold : "#FAF3E0",
                         fontSize: "0.8125rem",
                         letterSpacing: "0.12em",
                         transition:
@@ -455,7 +451,7 @@ export function Navigation() {
                           bottom: "10px",
                           height: "1.5px",
                           background:
-                            "linear-gradient(90deg, transparent, #D4A853 18%, #D4A853 82%, transparent)",
+                            `linear-gradient(90deg, transparent, ${COLORS.gold} 18%, ${COLORS.gold} 82%, transparent)`,
                           transformOrigin: "center",
                           borderRadius: "999px",
                           boxShadow:
@@ -871,7 +867,7 @@ export function Navigation() {
                       textAlign: "left",
                       fontFamily: FONTS.heading,
                       fontWeight: 700,
-                      color: isActive ? "#D4A853" : "#FAF3E0",
+                      color: isActive ? COLORS.gold : "#FAF3E0",
                       fontSize: "0.9375rem",
                       letterSpacing: "0.1em",
                       background: "transparent",

@@ -37,7 +37,7 @@ export function HeroSection() {
         style={{ background: '#FFC857' }}
       />
 
-      <div className="max-w-[1400px] mx-auto relative z-10">
+      <div className="max-w-[1200px] mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
           {/* ── Left: text content ── */}

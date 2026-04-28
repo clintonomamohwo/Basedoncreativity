@@ -22,7 +22,7 @@ export function PhilosophySection() {
       className="py-16 md:py-32 px-4 md:px-6"
       style={{ background: '#D8D7DB' }}
     >
-      <div className="max-w-[1400px] mx-auto">
+      <div className="max-w-[1200px] mx-auto">
 
         {/* Section Header */}
         <motion.div

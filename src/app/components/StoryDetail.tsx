@@ -394,7 +394,10 @@ export function StoryDetail() {
     <div className="relative bg-[#1A1F4B] overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F4B] via-[#0f1228] to-[#1A1F4B]" />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to bottom right, #1A1F4B, #0f1228, #1A1F4B)' }}
+        />
         <GrainOverlay />
       </div>
 

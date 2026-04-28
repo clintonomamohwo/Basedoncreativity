@@ -1,11 +1,12 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { SEO } from './SEO';
+import { COLORS, FONTS } from '../../lib/constants';
 
 const SUB_SECTION_STYLE = {
-  fontFamily: "'Space Mono', monospace",
+  fontFamily: FONTS.heading,
   fontSize: '0.9rem',
-  color: '#FFC857',
+  color: COLORS.gold,
   fontWeight: 700,
   marginTop: '1.5rem',
   marginBottom: '0.65rem',
@@ -13,7 +14,7 @@ const SUB_SECTION_STYLE = {
 
 const BODY_STYLE = {
   color: 'rgba(255,255,255,0.75)',
-  fontFamily: "'Source Sans 3', sans-serif",
+  fontFamily: FONTS.body,
   lineHeight: 1.65,
   marginBottom: '0.85rem',
 };
@@ -22,7 +23,7 @@ const BULLET_LIST = (items: string[]) => (
   <ul style={{ listStyle: 'none', padding: 0, margin: '0.5rem 0 0', display: 'flex', flexDirection: 'column' as const, gap: '0.5rem' }}>
     {items.map((item, i) => (
       <li key={i} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-        <span style={{ color: '#FFC857', marginTop: '0.1rem', flexShrink: 0 }}>•</span>
+        <span style={{ color: COLORS.gold, marginTop: '0.1rem', flexShrink: 0 }}>•</span>
         <span style={BODY_STYLE as React.CSSProperties}>{item}</span>
       </li>
     ))}
@@ -159,8 +160,8 @@ const SECTIONS = [
         <a
           href="mailto:contact@bochq.com"
           style={{
-            color: '#FFC857',
-            fontFamily: "'Source Sans 3', sans-serif",
+            color: COLORS.gold,
+            fontFamily: FONTS.body,
             fontWeight: 600,
             textDecoration: 'none',
           }}
@@ -195,7 +196,7 @@ export function TermsOfServicePage() {
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: '1.125rem',
               fontStyle: 'italic',
-              color: '#FFC857',
+              color: COLORS.gold,
               marginBottom: '1rem',
             }}
           >
@@ -203,7 +204,7 @@ export function TermsOfServicePage() {
           </p>
           <h1
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontSize: 'clamp(1.75rem, 5vw, 3rem)',
               fontWeight: 700,
               color: '#ffffff',
@@ -215,11 +216,11 @@ export function TermsOfServicePage() {
           </h1>
 
           {/* Gold divider */}
-          <div style={{ width: '64px', height: '3px', background: '#FFC857', borderRadius: '2px', marginBottom: '1.5rem' }} />
+          <div style={{ width: '64px', height: '3px', background: COLORS.gold, borderRadius: '2px', marginBottom: '1.5rem' }} />
 
           <p
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: FONTS.body,
               fontSize: '0.9375rem',
               color: 'rgba(255,255,255,0.5)',
               lineHeight: 1.6,
@@ -244,7 +245,7 @@ export function TermsOfServicePage() {
         >
           <p
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: FONTS.body,
               color: 'rgba(255,255,255,0.8)',
               lineHeight: 1.65,
               margin: 0,
@@ -257,7 +258,7 @@ export function TermsOfServicePage() {
               href="https://bochq.com"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: '#FFC857', textDecoration: 'none' }}
+              style={{ color: COLORS.gold, textDecoration: 'none' }}
               onMouseEnter={e => (e.currentTarget.style.textDecoration = 'underline')}
               onMouseLeave={e => (e.currentTarget.style.textDecoration = 'none')}
             >
@@ -279,9 +280,9 @@ export function TermsOfServicePage() {
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '1rem' }}>
                 <span
                   style={{
-                    fontFamily: "'Space Mono', monospace",
+                    fontFamily: FONTS.heading,
                     fontSize: '0.875rem',
-                    color: '#FFC857',
+                    color: COLORS.gold,
                     fontWeight: 700,
                     flexShrink: 0,
                   }}
@@ -290,7 +291,7 @@ export function TermsOfServicePage() {
                 </span>
                 <h2
                   style={{
-                    fontFamily: "'Space Mono', monospace",
+                    fontFamily: FONTS.heading,
                     fontSize: '1.25rem',
                     fontWeight: 700,
                     color: '#ffffff',

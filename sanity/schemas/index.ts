@@ -1,6 +1,5 @@
-import { portfolioProject } from './documents/portfolioProject';
-import { story } from './documents/story';
-import { vaultItem } from './documents/vaultItem';
-import { mediaAsset } from './objects/mediaAsset';
+import portfolioProject from './portfolioProject';
+import vaultItem from './vaultItem';
+import story from './story';
 
-export const schemaTypes = [mediaAsset, portfolioProject, vaultItem, story];
+export const schemaTypes = [portfolioProject, vaultItem, story];

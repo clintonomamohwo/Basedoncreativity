@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { SEO } from './SEO';
+import { COLORS, FONTS } from "../../lib/constants";
 import {
   Mail,
   Phone,
@@ -183,7 +184,7 @@ export function ContactPage() {
     borderRadius: "10px",
     padding: "14px 18px",
     color: "#ffffff",
-    fontFamily: "'Source Sans 3', sans-serif",
+    fontFamily: FONTS.body,
     fontSize: "0.9375rem",
     outline: "none",
     transition:
@@ -202,9 +203,18 @@ export function ContactPage() {
       <SEO title="Contact | Based on Creativity" description="Start a conversation with Based on Creativity about brand identity, digital design, creative direction, and collaborative storytelling projects." path="/contact" />
       {/* ── Background (absolute, scrolls with page) ─── */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F4B] via-[#141830] to-[#1A1F4B]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(255,200,87,0.12),transparent)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(26,31,75,0.9),transparent_60%)]" />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to bottom right, #1A1F4B, #141830, #1A1F4B)' }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,200,87,0.12), transparent)' }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'radial-gradient(circle at 80% 80%, rgba(26,31,75,0.9), transparent 60%)' }}
+        />
         <GrainOverlay />
       </div>
 
@@ -274,18 +284,18 @@ export function ContactPage() {
           <p
             className="text-sm tracking-[0.28em] uppercase mb-3"
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: FONTS.body,
               color: "rgba(255,200,87,0.6)",
             }}
           >
             Let's create something extraordinary
           </p>
-          <div className="h-px w-16 bg-[#FFC857]/30 mb-6" />
+          <div className="h-px w-16 mb-6" style={{ background: COLORS.gold, opacity: 0.3 }} />
 
           <h1
             className="mb-6"
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontSize: "clamp(1.75rem, 7vw, 4.5rem)",
               fontWeight: 700,
               color: "#ffffff",
@@ -296,7 +306,7 @@ export function ContactPage() {
             Start a{" "}
             <span
               style={{
-                color: "#FFC857",
+                color: COLORS.gold,
                 textShadow: "0 0 40px rgba(255,200,87,0.35)",
               }}
             >
@@ -307,7 +317,7 @@ export function ContactPage() {
           <p
             className="max-w-xl"
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: FONTS.accent,
               fontSize: "clamp(1.125rem, 3vw, 1.375rem)",
               color: "rgba(255,255,255,0.6)",
               fontStyle: "italic",
@@ -384,7 +394,7 @@ export function ContactPage() {
                       <CheckCircle
                         size={64}
                         style={{
-                          color: "#FFC857",
+                          color: COLORS.gold,
                           filter:
                             "drop-shadow(0 0 20px rgba(255,200,87,0.5))",
                         }}
@@ -393,7 +403,7 @@ export function ContactPage() {
                     <div>
                       <h2
                         style={{
-                          fontFamily: "'Space Mono', monospace",
+                          fontFamily: FONTS.heading,
                           fontSize: "1.75rem",
                           fontWeight: 700,
                           color: "#ffffff",
@@ -405,7 +415,7 @@ export function ContactPage() {
                       <p
                         style={{
                           fontFamily:
-                            "'Cormorant Garamond', serif",
+                            FONTS.accent,
                           fontSize: "1.15rem",
                           color: "rgba(255,255,255,0.6)",
                           fontStyle: "italic",
@@ -443,8 +453,8 @@ export function ContactPage() {
                         border:
                           "1px solid rgba(255,200,87,0.4)",
                         borderRadius: "999px",
-                        color: "#FFC857",
-                        fontFamily: "'Space Mono', monospace",
+                        color: COLORS.gold,
+                        fontFamily: FONTS.heading,
                         fontSize: "0.75rem",
                         letterSpacing: "0.12em",
                         cursor: "pointer",
@@ -496,7 +506,7 @@ export function ContactPage() {
                               htmlFor={id}
                               style={{
                                 fontFamily:
-                                  "'Space Mono', monospace",
+                                  FONTS.heading,
                                 fontSize: "0.7rem",
                                 letterSpacing: "0.12em",
                                 color: "rgba(255,200,87,0.7)",
@@ -534,7 +544,7 @@ export function ContactPage() {
                       <label
                         htmlFor="company"
                         style={{
-                          fontFamily: "'Space Mono', monospace",
+                          fontFamily: FONTS.heading,
                           fontSize: "0.7rem",
                           letterSpacing: "0.12em",
                           color: "rgba(255,200,87,0.7)",
@@ -568,7 +578,7 @@ export function ContactPage() {
                     <div className="flex flex-col gap-3">
                       <label
                         style={{
-                          fontFamily: "'Space Mono', monospace",
+                          fontFamily: FONTS.heading,
                           fontSize: "0.7rem",
                           letterSpacing: "0.12em",
                           color: "rgba(255,200,87,0.7)",
@@ -599,10 +609,10 @@ export function ContactPage() {
                                   : "transparent",
                               color:
                                 form.projectType === pt
-                                  ? "#FFC857"
+                                  ? COLORS.gold
                                   : "rgba(255,255,255,0.5)",
                               fontFamily:
-                                "'Source Sans 3', sans-serif",
+                                FONTS.body,
                               fontSize: "0.8125rem",
                               cursor: "pointer",
                               transition: "all 0.2s ease",
@@ -622,7 +632,7 @@ export function ContactPage() {
                     <div className="flex flex-col gap-3">
                       <label
                         style={{
-                          fontFamily: "'Space Mono', monospace",
+                          fontFamily: FONTS.heading,
                           fontSize: "0.7rem",
                           letterSpacing: "0.12em",
                           color: "rgba(255,200,87,0.7)",
@@ -653,10 +663,10 @@ export function ContactPage() {
                                   : "transparent",
                               color:
                                 form.budget === b
-                                  ? "#FFC857"
+                                  ? COLORS.gold
                                   : "rgba(255,255,255,0.5)",
                               fontFamily:
-                                "'Source Sans 3', sans-serif",
+                                FONTS.body,
                               fontSize: "0.8125rem",
                               cursor: "pointer",
                               transition: "all 0.2s ease",
@@ -677,7 +687,7 @@ export function ContactPage() {
                       <label
                         htmlFor="message"
                         style={{
-                          fontFamily: "'Space Mono', monospace",
+                          fontFamily: FONTS.heading,
                           fontSize: "0.7rem",
                           letterSpacing: "0.12em",
                           color: "rgba(255,200,87,0.7)",
@@ -715,7 +725,7 @@ export function ContactPage() {
                         role="alert"
                         aria-live="polite"
                         style={{
-                          fontFamily: "'Source Sans 3', sans-serif",
+                          fontFamily: FONTS.body,
                           fontSize: "0.85rem",
                           color: "#FFD988",
                           background: "rgba(255,200,87,0.08)",
@@ -750,12 +760,12 @@ export function ContactPage() {
                         padding: "16px 32px",
                         background: submitting
                           ? "rgba(255,200,87,0.5)"
-                          : "linear-gradient(135deg, #FFC857 0%, #FFD988 50%, #FFC857 100%)",
+                          : "linear-gradient(135deg, ${COLORS.gold} 0%, #FFD988 50%, ${COLORS.gold} 100%)",
                         backgroundSize: "200% 200%",
                         border: "none",
                         borderRadius: "12px",
                         color: "#1A1F4B",
-                        fontFamily: "'Space Mono', monospace",
+                        fontFamily: FONTS.heading,
                         fontWeight: 700,
                         fontSize: "0.875rem",
                         letterSpacing: "0.1em",
@@ -819,7 +829,7 @@ export function ContactPage() {
                     <p
                       style={{
                         fontFamily:
-                          "'Source Sans 3', sans-serif",
+                          FONTS.body,
                         fontSize: "0.75rem",
                         color: "rgba(255,255,255,0.3)",
                         textAlign: "center",
@@ -871,7 +881,7 @@ export function ContactPage() {
               />
               <p
                 style={{
-                  fontFamily: "'Space Mono', monospace",
+                  fontFamily: FONTS.heading,
                   fontSize: "0.65rem",
                   letterSpacing: "0.18em",
                   color: "rgba(255,200,87,0.6)",
@@ -882,7 +892,7 @@ export function ContactPage() {
               </p>
               <p
                 style={{
-                  fontFamily: "'Cormorant Garamond', serif",
+                  fontFamily: FONTS.accent,
                   fontSize: "1.25rem",
                   color: "#ffffff",
                   fontStyle: "italic",
@@ -907,8 +917,8 @@ export function ContactPage() {
                   padding: "10px 20px",
                   border: "1px solid rgba(255,200,87,0.45)",
                   borderRadius: "999px",
-                  color: "#FFC857",
-                  fontFamily: "'Space Mono', monospace",
+                  color: COLORS.gold,
+                  fontFamily: FONTS.heading,
                   fontSize: "0.7rem",
                   letterSpacing: "0.12em",
                   textDecoration: "none",
@@ -931,7 +941,7 @@ export function ContactPage() {
             >
               <p
                 style={{
-                  fontFamily: "'Space Mono', monospace",
+                  fontFamily: FONTS.heading,
                   fontSize: "0.65rem",
                   letterSpacing: "0.18em",
                   color: "rgba(255,200,87,0.6)",
@@ -963,14 +973,14 @@ export function ContactPage() {
                       >
                         <Icon
                           size={15}
-                          style={{ color: "#FFC857" }}
+                          style={{ color: COLORS.gold }}
                         />
                       </div>
                       <div>
                         <p
                           style={{
                             fontFamily:
-                              "'Space Mono', monospace",
+                              FONTS.heading,
                             fontSize: "0.6rem",
                             letterSpacing: "0.12em",
                             color: "rgba(255,255,255,0.35)",
@@ -982,10 +992,10 @@ export function ContactPage() {
                         {href ? (
                           <motion.a
                             href={href}
-                            whileHover={{ color: "#FFC857" }}
+                            whileHover={{ color: COLORS.gold }}
                             style={{
                               fontFamily:
-                                "'Source Sans 3', sans-serif",
+                                FONTS.body,
                               fontSize: "0.9rem",
                               color: "rgba(255,255,255,0.75)",
                               textDecoration: "none",
@@ -998,7 +1008,7 @@ export function ContactPage() {
                           <p
                             style={{
                               fontFamily:
-                                "'Source Sans 3', sans-serif",
+                                FONTS.body,
                               fontSize: "0.9rem",
                               color: "rgba(255,255,255,0.75)",
                             }}
@@ -1025,7 +1035,7 @@ export function ContactPage() {
             >
               <p
                 style={{
-                  fontFamily: "'Space Mono', monospace",
+                  fontFamily: FONTS.heading,
                   fontSize: "0.65rem",
                   letterSpacing: "0.18em",
                   color: "rgba(255,200,87,0.6)",
@@ -1041,7 +1051,7 @@ export function ContactPage() {
                     href={href}
                     whileHover={{
                       x: 4,
-                      color: "#FFC857",
+                      color: COLORS.gold,
                     }}
                     style={{
                       display: "flex",
@@ -1049,7 +1059,7 @@ export function ContactPage() {
                       gap: "12px",
                       color: "rgba(255,255,255,0.55)",
                       textDecoration: "none",
-                      fontFamily: "'Source Sans 3', sans-serif",
+                      fontFamily: FONTS.body,
                       fontSize: "0.9rem",
                       transition: "color 0.2s ease",
                     }}
@@ -1106,7 +1116,7 @@ export function ContactPage() {
           />
           <blockquote
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: FONTS.accent,
               fontSize: "clamp(1.35rem, 3vw, 2rem)",
               color: "rgba(255,255,255,0.45)",
               fontStyle: "italic",
@@ -1120,7 +1130,7 @@ export function ContactPage() {
           <p
             className="mt-4"
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontSize: "0.65rem",
               letterSpacing: "0.2em",
               color: "rgba(255,200,87,0.4)",

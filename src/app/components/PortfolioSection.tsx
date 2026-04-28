@@ -176,7 +176,7 @@ export function PortfolioSection() {
       className="py-16 md:py-32 px-4 md:px-6"
       style={{ background: '#1A1F4B' }}
     >
-      <div className="max-w-[1400px] mx-auto">
+      <div className="max-w-[1200px] mx-auto">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}

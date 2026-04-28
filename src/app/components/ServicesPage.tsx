@@ -2,14 +2,15 @@ import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { SEO } from './SEO';
+import { COLORS, FONTS } from '../../lib/constants';
 import { FinalCTA, MidCTA, ProcessSection } from './ServicesPageSections';
 
 // ─── Brand tokens ─────────────────────────────────────────────────────────────
 
-const NAVY      = '#0A1628';
-const NAVY_ALT  = '#0D1B30';
-const GOLD      = '#D4A853';
-const CREAM     = '#FAF3E0';
+const INDIGO_BLUE = '#1A1F4B';  // Primary background (per Guidelines.md)
+const NAVY_950    = '#0F1530';  // Deep sections/alternating (per Guidelines.md)
+const GOLD        = COLORS.gold;
+const CREAM       = '#FAF3E0';
 
 const CREAM_70  = 'rgba(250,243,224,0.70)';
 const CREAM_40  = 'rgba(250,243,224,0.40)';
@@ -64,7 +65,7 @@ const SERVICES: ServiceDef[] = [
       'A finished animated work — or a production-ready development package — that carries genuine narrative weight and visual identity. Work built to travel across platforms, borders, and audiences.',
     relatedWork: 'First Animated Series',
     relatedPath: '/work',
-    bg: NAVY,
+    bg: INDIGO_BLUE,
   },
   {
     number: '02',
@@ -85,7 +86,7 @@ const SERVICES: ServiceDef[] = [
       'A polished publication — print or digital — that reads as professionally as it looks. Stories given the design, production quality, and distribution strategy they deserve.',
     relatedWork: 'First Publication',
     relatedPath: '/work',
-    bg: NAVY_ALT,
+    bg: NAVY_950,
   },
   {
     number: '03',
@@ -106,7 +107,7 @@ const SERVICES: ServiceDef[] = [
       'A living digital space — not just a product launch. A platform with a genuine community, a clear editorial voice, and the infrastructure to grow without losing its character.',
     relatedWork: 'bochq.com',
     relatedPath: '/work',
-    bg: NAVY,
+    bg: INDIGO_BLUE,
   },
   {
     number: '04',
@@ -127,7 +128,7 @@ const SERVICES: ServiceDef[] = [
       'A complete brand system with the depth and flexibility to serve an organisation across every touchpoint — from business card to billboard, from website to social to product.',
     relatedWork: 'BOC Brand Identity',
     relatedPath: '/work',
-    bg: NAVY_ALT,
+    bg: NAVY_950,
   },
   {
     number: '05',
@@ -148,7 +149,7 @@ const SERVICES: ServiceDef[] = [
       'A high-performance website that earns its place — one that represents the brand faithfully, loads quickly, converts visitors, and holds up beautifully as the brand scales.',
     relatedWork: 'bochq.com',
     relatedPath: '/work',
-    bg: NAVY,
+    bg: INDIGO_BLUE,
   },
   {
     number: '06',
@@ -169,7 +170,7 @@ const SERVICES: ServiceDef[] = [
       'A merchandise line that functions as marketing, community signal, and revenue stream simultaneously — products that fans seek out rather than accept as afterthoughts.',
     relatedWork: 'BOC Brand Identity',
     relatedPath: '/work',
-    bg: NAVY_ALT,
+    bg: NAVY_950,
   },
 ];
 
@@ -231,12 +232,13 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
     <p
       style={{
-        fontFamily: "'Source Sans 3', sans-serif",
-        fontSize: '0.6875rem',
+        fontFamily: FONTS.body,
+        fontSize: '0.8125rem',
         fontWeight: 600,
         letterSpacing: '0.22em',
         textTransform: 'uppercase',
-        color: GOLD_50,
+        color: GOLD,
+        opacity: 0.65,
         margin: 0,
       }}
     >
@@ -300,7 +302,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
 
       <div
         style={{
-          maxWidth: '1100px',
+          maxWidth: '1200px',
           margin: '0 auto',
           padding: 'clamp(56px, 8vw, 96px) clamp(20px, 5vw, 48px)',
         }}
@@ -316,11 +318,12 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
             <span
               style={{
-                fontFamily: "'Space Mono', monospace",
+                fontFamily: FONTS.heading,
                 fontWeight: 700,
-                fontSize: '0.65rem',
+                fontSize: '0.75rem',
                 letterSpacing: '0.15em',
-                color: GOLD_30,
+                color: GOLD,
+                opacity: 0.5,
               }}
             >
               {svc.number}
@@ -329,7 +332,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
           </div>
           <h2
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontWeight: 700,
               fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
               letterSpacing: '-0.01em',
@@ -342,10 +345,11 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
           </h2>
           <p
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: FONTS.accent,
               fontStyle: 'italic',
-              fontSize: '0.9375rem',
-              color: GOLD_50,
+              fontSize: '1.125rem',
+              color: GOLD,
+              opacity: 0.7,
               margin: 0,
             }}
           >
@@ -379,7 +383,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
           >
             <p
               style={{
-                fontFamily: "'Space Mono', monospace",
+                fontFamily: FONTS.heading,
                 fontWeight: 700,
                 fontSize: '0.6rem',
                 letterSpacing: '0.22em',
@@ -399,7 +403,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
             />
             <p
               style={{
-                fontFamily: "'Source Sans 3', sans-serif",
+                fontFamily: FONTS.body,
                 fontSize: 'clamp(0.9375rem, 2vw, 1.0625rem)',
                 color: CREAM_70,
                 lineHeight: 1.7,
@@ -428,7 +432,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
           >
             <p
               style={{
-                fontFamily: "'Space Mono', monospace",
+                fontFamily: FONTS.heading,
                 fontWeight: 700,
                 fontSize: '0.6rem',
                 letterSpacing: '0.22em',
@@ -450,7 +454,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
                     gap: '12px',
                     padding: '11px 0',
                     borderBottom: i < svc.deliverables.length - 1 ? `1px solid ${GOLD_12}` : 'none',
-                    fontFamily: "'Source Sans 3', sans-serif",
+                    fontFamily: FONTS.body,
                     fontSize: '0.9375rem',
                     color: CREAM_70,
                     lineHeight: 1.4,
@@ -492,7 +496,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
           >
             <p
               style={{
-                fontFamily: "'Space Mono', monospace",
+                fontFamily: FONTS.heading,
                 fontWeight: 700,
                 fontSize: '0.6rem',
                 letterSpacing: '0.22em',
@@ -506,7 +510,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
             <div style={{ width: '24px', height: '1px', background: GOLD_50 }} />
             <p
               style={{
-                fontFamily: "'Cormorant Garamond', serif",
+                fontFamily: FONTS.accent,
                 fontStyle: 'italic',
                 fontSize: 'clamp(1.0625rem, 2vw, 1.25rem)',
                 color: CREAM,
@@ -528,7 +532,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
             >
               <p
                 style={{
-                  fontFamily: "'Source Sans 3', sans-serif",
+                  fontFamily: FONTS.body,
                   fontSize: '0.6875rem',
                   fontWeight: 600,
                   letterSpacing: '0.15em',
@@ -549,7 +553,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
                   border: 'none',
                   padding: 0,
                   cursor: 'pointer',
-                  fontFamily: "'Space Mono', monospace",
+                  fontFamily: FONTS.heading,
                   fontWeight: 700,
                   fontSize: '0.8125rem',
                   letterSpacing: '0.04em',
@@ -578,12 +582,12 @@ export function ServicesPage() {
   return (
     <>
       <SEO title="Services | Based on Creativity" description="Discover Based on Creativity services across brand identity, digital experiences, creative direction, and strategy for ambitious brands and founders." path="/services" />
-    <div style={{ background: NAVY, minHeight: '100vh' }}>
+    <div style={{ background: INDIGO_BLUE, minHeight: '100vh' }}>
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
       <section
         style={{
-          background: NAVY,
+          background: INDIGO_BLUE,
           position: 'relative',
           overflow: 'hidden',
           paddingTop: 'clamp(140px, 18vw, 200px)',
@@ -604,7 +608,7 @@ export function ServicesPage() {
         {/* Celestial dots right side */}
         <CelestialDots side="right" />
 
-        <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
           {/* Eyebrow + rule */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -622,7 +626,7 @@ export function ServicesPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontWeight: 700,
               fontSize: 'clamp(3rem, 10vw, 7rem)',
               letterSpacing: '-0.03em',
@@ -642,7 +646,7 @@ export function ServicesPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: FONTS.body,
               fontSize: 'clamp(1rem, 2.5vw, 1.1875rem)',
               color: CREAM_70,
               lineHeight: 1.7,
@@ -659,7 +663,7 @@ export function ServicesPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.32 }}
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: FONTS.accent,
               fontStyle: 'italic',
               fontSize: 'clamp(1.0625rem, 2.5vw, 1.25rem)',
               color: GOLD_50,
@@ -680,7 +684,7 @@ export function ServicesPage() {
               <span
                 key={chip}
                 style={{
-                  fontFamily: "'Space Mono', monospace",
+                  fontFamily: FONTS.heading,
                   fontWeight: 700,
                   fontSize: '0.6rem',
                   letterSpacing: '0.18em',

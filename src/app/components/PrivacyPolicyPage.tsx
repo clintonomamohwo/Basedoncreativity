@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { SEO } from './SEO';
+import { COLORS, FONTS } from '../../lib/constants';
 
 const SECTIONS = [
   {
@@ -7,13 +8,13 @@ const SECTIONS = [
     title: 'Information We Collect',
     content: (
       <>
-        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65, marginBottom: '1rem' }}>
+        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65, marginBottom: '1rem' }}>
           We collect information to provide you with a better experience, respond to your inquiries, and process future transactions.
         </p>
-        <h4 style={{ fontFamily: "'Space Mono', monospace", fontSize: '1rem', color: '#FFC857', fontWeight: 700, marginBottom: '0.75rem' }}>
+        <h4 style={{ fontFamily: FONTS.heading, fontSize: '1rem', color: COLORS.gold, fontWeight: 700, marginBottom: '0.75rem' }}>
           Information You Provide to Us
         </h4>
-        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65, marginBottom: '0.75rem' }}>
+        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65, marginBottom: '0.75rem' }}>
           When you interact with our Site, we may collect the following personal information:
         </p>
         <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -23,15 +24,15 @@ const SECTIONS = [
             'Payment Information (Future E-Commerce): Payment details (such as credit card numbers) will be collected and processed securely by our third-party payment processors. We do not store full credit card numbers on our servers.',
           ].map((item, i) => (
             <li key={i} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-              <span style={{ color: '#FFC857', marginTop: '0.1rem', flexShrink: 0 }}>•</span>
-              <span style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65 }}>{item}</span>
+              <span style={{ color: COLORS.gold, marginTop: '0.1rem', flexShrink: 0 }}>•</span>
+              <span style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65 }}>{item}</span>
             </li>
           ))}
         </ul>
-        <h4 style={{ fontFamily: "'Space Mono', monospace", fontSize: '1rem', color: '#FFC857', fontWeight: 700, marginTop: '1.5rem', marginBottom: '0.75rem' }}>
+        <h4 style={{ fontFamily: FONTS.heading, fontSize: '1rem', color: COLORS.gold, fontWeight: 700, marginTop: '1.5rem', marginBottom: '0.75rem' }}>
           Information Collected Automatically
         </h4>
-        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65, marginBottom: '0.75rem' }}>
+        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65, marginBottom: '0.75rem' }}>
           When you visit our Site, we may automatically collect certain information about your device and usage through cookies and standard web analytics. This may include:
         </p>
         <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -43,8 +44,8 @@ const SECTIONS = [
             'Referring website addresses',
           ].map((item, i) => (
             <li key={i} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-              <span style={{ color: '#FFC857', marginTop: '0.1rem', flexShrink: 0 }}>•</span>
-              <span style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65 }}>{item}</span>
+              <span style={{ color: COLORS.gold, marginTop: '0.1rem', flexShrink: 0 }}>•</span>
+              <span style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65 }}>{item}</span>
             </li>
           ))}
         </ul>
@@ -63,8 +64,8 @@ const SECTIONS = [
           'To Protect Our Rights: We may use your information to detect, prevent, and address technical issues, fraud, or other illegal activities.',
         ].map((item, i) => (
           <li key={i} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-            <span style={{ color: '#FFC857', marginTop: '0.1rem', flexShrink: 0 }}>•</span>
-            <span style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65 }}>{item}</span>
+            <span style={{ color: COLORS.gold, marginTop: '0.1rem', flexShrink: 0 }}>•</span>
+            <span style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65 }}>{item}</span>
           </li>
         ))}
       </ul>
@@ -75,10 +76,10 @@ const SECTIONS = [
     title: 'Cookies and Analytics',
     content: (
       <>
-        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65, marginBottom: '1rem' }}>
+        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65, marginBottom: '1rem' }}>
           Our Site uses cookies and similar tracking technologies to track activity and hold certain information. Cookies are files with a small amount of data that may include an anonymous unique identifier. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our Site, including future shopping cart functionalities.
         </p>
-        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65 }}>
+        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65 }}>
           We may also use third party analytics services to monitor and analyze the use of our Site. These services collect and analyze information such as how often users visit the Site, what pages they visit, and what other sites they used prior to coming to our Site.
         </p>
       </>
@@ -89,10 +90,10 @@ const SECTIONS = [
     title: 'Third Party Services and Payment Processors',
     content: (
       <>
-        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65, marginBottom: '1rem' }}>
+        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65, marginBottom: '1rem' }}>
           We do not sell, trade, or otherwise transfer your personal information to outside parties for marketing purposes. However, we may share your information with trusted third-party service providers who assist us in operating our website, conducting our business, or servicing you.
         </p>
-        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65 }}>
+        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65 }}>
           For future e-commerce transactions, we will partner with third-party payment processors and shipping providers. These third parties have access to your personal information only to perform specific tasks on our behalf and are obligated not to disclose or use it for any other purpose. Their use of your personal information is governed by their respective privacy policies.
         </p>
       </>
@@ -102,7 +103,7 @@ const SECTIONS = [
     number: '5.',
     title: 'Data Retention',
     content: (
-      <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65 }}>
+      <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65 }}>
         We will retain your personal information only for as long as is necessary for the purposes set out in this Privacy Policy. We will retain and use your information to the extent necessary to comply with our legal obligations (for example, keeping records of ecommerce transactions for tax purposes), resolve disputes, and enforce our policies.
       </p>
     ),
@@ -112,7 +113,7 @@ const SECTIONS = [
     title: 'Your Rights',
     content: (
       <>
-        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65, marginBottom: '0.75rem' }}>
+        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65, marginBottom: '0.75rem' }}>
           Depending on your location, you may have certain rights regarding your personal information, including:
         </p>
         <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 1rem 0', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -122,12 +123,12 @@ const SECTIONS = [
             'The right to request that we delete your personal information.',
           ].map((item, i) => (
             <li key={i} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-              <span style={{ color: '#FFC857', marginTop: '0.1rem', flexShrink: 0 }}>•</span>
-              <span style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65 }}>{item}</span>
+              <span style={{ color: COLORS.gold, marginTop: '0.1rem', flexShrink: 0 }}>•</span>
+              <span style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65 }}>{item}</span>
             </li>
           ))}
         </ul>
-        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65 }}>
+        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65 }}>
           To exercise any of these rights, please contact us using the information provided below.
         </p>
       </>
@@ -137,7 +138,7 @@ const SECTIONS = [
     number: '7.',
     title: "Children's Privacy",
     content: (
-      <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65 }}>
+      <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65 }}>
         Our Site and the content produced by our subsidiaries, such as Creativity Base Studios, may attract younger audiences. However, we do not knowingly collect personally identifiable information from children under the age of 13 in compliance with the Children's Online Privacy Protection Act (COPPA). If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact us. If we become aware that we have collected personal information from children without verification of parental consent, we take steps to remove that information from our servers.
       </p>
     ),
@@ -146,7 +147,7 @@ const SECTIONS = [
     number: '8.',
     title: 'Changes to This Privacy Policy',
     content: (
-      <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65 }}>
+      <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65 }}>
         We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Effective Date" at the top. You are advised to review this Privacy Policy periodically for any changes.
       </p>
     ),
@@ -156,14 +157,14 @@ const SECTIONS = [
     title: 'Contact Us',
     content: (
       <>
-        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: "'Source Sans 3', sans-serif", lineHeight: 1.65, marginBottom: '0.75rem' }}>
+        <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: FONTS.body, lineHeight: 1.65, marginBottom: '0.75rem' }}>
           If you have any questions about this Privacy Policy, please contact us at:
         </p>
         <a
           href="mailto:contact@bochq.com"
           style={{
-            color: '#FFC857',
-            fontFamily: "'Source Sans 3', sans-serif",
+            color: COLORS.gold,
+            fontFamily: FONTS.body,
             fontWeight: 600,
             textDecoration: 'none',
           }}
@@ -198,7 +199,7 @@ export function PrivacyPolicyPage() {
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: '1.125rem',
               fontStyle: 'italic',
-              color: '#FFC857',
+              color: COLORS.gold,
               marginBottom: '1rem',
             }}
           >
@@ -206,7 +207,7 @@ export function PrivacyPolicyPage() {
           </p>
           <h1
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: FONTS.heading,
               fontSize: 'clamp(1.75rem, 5vw, 3rem)',
               fontWeight: 700,
               color: '#ffffff',
@@ -218,11 +219,11 @@ export function PrivacyPolicyPage() {
           </h1>
 
           {/* Gold divider */}
-          <div style={{ width: '64px', height: '3px', background: '#FFC857', borderRadius: '2px', marginBottom: '1.5rem' }} />
+          <div style={{ width: '64px', height: '3px', background: COLORS.gold, borderRadius: '2px', marginBottom: '1.5rem' }} />
 
           <p
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: FONTS.body,
               fontSize: '0.9375rem',
               color: 'rgba(255,255,255,0.5)',
               lineHeight: 1.6,
@@ -247,7 +248,7 @@ export function PrivacyPolicyPage() {
         >
           <p
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: FONTS.body,
               color: 'rgba(255,255,255,0.8)',
               lineHeight: 1.65,
               margin: 0,
@@ -258,7 +259,7 @@ export function PrivacyPolicyPage() {
               href="https://bochq.com"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: '#FFC857', textDecoration: 'none' }}
+              style={{ color: COLORS.gold, textDecoration: 'none' }}
               onMouseEnter={e => (e.currentTarget.style.textDecoration = 'underline')}
               onMouseLeave={e => (e.currentTarget.style.textDecoration = 'none')}
             >
@@ -280,9 +281,9 @@ export function PrivacyPolicyPage() {
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '1rem' }}>
                 <span
                   style={{
-                    fontFamily: "'Space Mono', monospace",
+                    fontFamily: FONTS.heading,
                     fontSize: '0.875rem',
-                    color: '#FFC857',
+                    color: COLORS.gold,
                     fontWeight: 700,
                     flexShrink: 0,
                   }}
@@ -291,7 +292,7 @@ export function PrivacyPolicyPage() {
                 </span>
                 <h2
                   style={{
-                    fontFamily: "'Space Mono', monospace",
+                    fontFamily: FONTS.heading,
                     fontSize: '1.25rem',
                     fontWeight: 700,
                     color: '#ffffff',

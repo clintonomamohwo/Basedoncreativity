@@ -3,11 +3,11 @@ import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight, Play } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { useNavigate } from 'react-router';
+import { COLORS, FONTS } from '../../lib/constants';
 
-const NAVY = '#0A1628';
-const NAVY_D = '#070F1E';
-const NAVY_ALT = '#0D1B30';
-const GOLD = '#D4A853';
+const INDIGO_BLUE = '#1A1F4B';  // Primary background (per Guidelines.md)
+const NAVY_950 = '#0F1530';     // Deep sections (per Guidelines.md)
+const GOLD = COLORS.gold;
 const CREAM = '#FAF3E0';
 const CREAM_80 = 'rgba(250,243,224,0.80)';
 const CREAM_55 = 'rgba(250,243,224,0.55)';
@@ -103,7 +103,7 @@ export function Eyebrow({ children, muted = false }: { children: React.ReactNode
   return (
     <p
       style={{
-        fontFamily: "'Source Sans 3', sans-serif",
+        fontFamily: "FONTS.body",
         fontSize: '0.6875rem',
         fontWeight: 600,
         letterSpacing: '0.22em',
@@ -143,7 +143,7 @@ export function AbstractFrame({ accent = GOLD, style = {} }: { accent?: string; 
         height: '100%',
         position: 'relative',
         overflow: 'hidden',
-        background: NAVY_D,
+        background: NAVY_950,
         ...style,
       }}
     >
@@ -255,7 +255,7 @@ export function CreationCard({ card, delay }: { card: CreationCard; delay: numbe
             position: 'absolute',
             top: '16px',
             left: '18px',
-            fontFamily: "'Space Mono', monospace",
+            fontFamily: "FONTS.heading",
             fontWeight: 700,
             fontSize: '0.625rem',
             letterSpacing: '0.14em',
@@ -270,7 +270,7 @@ export function CreationCard({ card, delay }: { card: CreationCard; delay: numbe
             position: 'absolute',
             top: '14px',
             right: '14px',
-            fontFamily: "'Source Sans 3', sans-serif",
+            fontFamily: "FONTS.body",
             fontSize: '0.6rem',
             fontWeight: 600,
             letterSpacing: '0.16em',
@@ -299,7 +299,7 @@ export function CreationCard({ card, delay }: { card: CreationCard; delay: numbe
       >
         <h3
           style={{
-            fontFamily: "'Space Mono', monospace",
+            fontFamily: "FONTS.heading",
             fontWeight: 700,
             fontSize: 'clamp(1.0625rem, 2.5vw, 1.25rem)',
             letterSpacing: '-0.01em',
@@ -315,7 +315,7 @@ export function CreationCard({ card, delay }: { card: CreationCard; delay: numbe
 
         <p
           style={{
-            fontFamily: "'Source Sans 3', sans-serif",
+            fontFamily: "FONTS.body",
             fontSize: '0.9375rem',
             color: CREAM_80,
             lineHeight: 1.7,
@@ -327,7 +327,7 @@ export function CreationCard({ card, delay }: { card: CreationCard; delay: numbe
 
         <p
           style={{
-            fontFamily: "'Source Sans 3', sans-serif",
+            fontFamily: "FONTS.body",
             fontSize: '0.75rem',
             fontWeight: 600,
             letterSpacing: '0.06em',
@@ -349,7 +349,7 @@ export function PipelineSection() {
   return (
     <section
       style={{
-        background: NAVY_D,
+        background: NAVY_950,
         padding: 'clamp(56px, 8vw, 88px) clamp(20px, 5vw, 48px)',
         position: 'relative',
         overflow: 'hidden',
@@ -369,7 +369,7 @@ export function PipelineSection() {
         }}
       />
 
-      <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <div
           style={{
@@ -389,7 +389,7 @@ export function PipelineSection() {
             <SectionLabel>Studio Pipeline</SectionLabel>
             <h2
               style={{
-                fontFamily: "'Space Mono', monospace",
+                fontFamily: "FONTS.heading",
                 fontWeight: 700,
                 fontSize: 'clamp(1.75rem, 5vw, 2.75rem)',
                 letterSpacing: '-0.02em',
@@ -402,7 +402,7 @@ export function PipelineSection() {
             </h2>
             <p
               style={{
-                fontFamily: "'Cormorant Garamond', serif",
+                fontFamily: "FONTS.accent",
                 fontStyle: 'italic',
                 fontSize: 'clamp(1rem, 2vw, 1.25rem)',
                 color: GOLD_50,
@@ -419,7 +419,7 @@ export function PipelineSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1 }}
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: "FONTS.body",
               fontSize: 'clamp(0.9375rem, 2vw, 1.0625rem)',
               color: CREAM_55,
               lineHeight: 1.7,
@@ -471,7 +471,7 @@ export function PipelineSection() {
               >
                 <span
                   style={{
-                    fontFamily: "'Space Mono', monospace",
+                    fontFamily: "FONTS.heading",
                     fontWeight: 700,
                     fontSize: '0.625rem',
                     letterSpacing: '0.14em',
@@ -496,7 +496,7 @@ export function PipelineSection() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <p
                     style={{
-                      fontFamily: "'Space Mono', monospace",
+                      fontFamily: "FONTS.heading",
                       fontWeight: 700,
                       fontSize: 'clamp(0.875rem, 2vw, 1rem)',
                       letterSpacing: '0.04em',
@@ -509,7 +509,7 @@ export function PipelineSection() {
                   </p>
                   <p
                     style={{
-                      fontFamily: "'Source Sans 3', sans-serif",
+                      fontFamily: "FONTS.body",
                       fontSize: '0.9375rem',
                       color: CREAM_55,
                       lineHeight: 1.65,
@@ -524,7 +524,7 @@ export function PipelineSection() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   <p
                     style={{
-                      fontFamily: "'Source Sans 3', sans-serif",
+                      fontFamily: "FONTS.body",
                       fontSize: '0.6rem',
                       fontWeight: 600,
                       letterSpacing: '0.2em',
@@ -548,7 +548,7 @@ export function PipelineSection() {
                       />
                       <span
                         style={{
-                          fontFamily: "'Source Sans 3', sans-serif",
+                          fontFamily: "FONTS.body",
                           fontSize: '0.875rem',
                           color: CREAM_55,
                         }}
@@ -586,7 +586,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
   return (
     <section
       style={{
-        background: NAVY_ALT,
+        background: NAVY_950,
         padding: 'clamp(56px, 7vw, 88px) clamp(20px, 5vw, 48px)',
         position: 'relative',
         overflow: 'hidden',
@@ -604,7 +604,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
           style={{
             position: 'absolute',
             inset: 0,
-            background: `linear-gradient(135deg, ${NAVY_ALT} 40%, rgba(13,27,48,0.94) 100%)`,
+            background: `linear-gradient(135deg, ${NAVY_950} 40%, rgba(13,27,48,0.94) 100%)`,
           }}
         />
       </div>
@@ -652,7 +652,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
 
       <div
         style={{
-          maxWidth: '1100px',
+          maxWidth: '1200px',
           margin: '0 auto',
           position: 'relative',
           zIndex: 1,
@@ -677,7 +677,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                fontFamily: "'Source Sans 3', sans-serif",
+                fontFamily: "FONTS.body",
                 fontSize: '0.625rem',
                 fontWeight: 600,
                 letterSpacing: '0.2em',
@@ -706,7 +706,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
 
           <h2
             style={{
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: "FONTS.heading",
               fontWeight: 700,
               fontSize: 'clamp(1.75rem, 5vw, 3rem)',
               letterSpacing: '-0.02em',
@@ -722,7 +722,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
 
           <p
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: "FONTS.accent",
               fontStyle: 'italic',
               fontSize: 'clamp(1.0625rem, 2.5vw, 1.25rem)',
               color: GOLD_50,
@@ -737,7 +737,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
 
           <p
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: "FONTS.body",
               fontSize: 'clamp(0.9375rem, 2vw, 1.0625rem)',
               color: CREAM_80,
               lineHeight: 1.7,
@@ -750,7 +750,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
 
           <p
             style={{
-              fontFamily: "'Source Sans 3', sans-serif",
+              fontFamily: "FONTS.body",
               fontSize: '0.875rem',
               color: CREAM_30,
               lineHeight: 1.6,
@@ -772,7 +772,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
                 border: `1.5px solid ${GOLD_30}`,
                 borderRadius: '8px',
                 padding: '12px 24px',
-                fontFamily: "'Space Mono', monospace",
+                fontFamily: "FONTS.heading",
                 fontWeight: 700,
                 fontSize: '0.75rem',
                 letterSpacing: '0.06em',
@@ -827,7 +827,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
                 position: 'absolute',
                 bottom: '12px',
                 left: '14px',
-                fontFamily: "'Space Mono', monospace",
+                fontFamily: "FONTS.heading",
                 fontWeight: 700,
                 fontSize: '0.55rem',
                 letterSpacing: '0.2em',
@@ -853,7 +853,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
                   position: 'absolute',
                   bottom: '10px',
                   left: '12px',
-                  fontFamily: "'Space Mono', monospace",
+                  fontFamily: "FONTS.heading",
                   fontWeight: 700,
                   fontSize: '0.5rem',
                   letterSpacing: '0.16em',
@@ -889,7 +889,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
               </div>
               <span
                 style={{
-                  fontFamily: "'Space Mono', monospace",
+                  fontFamily: "FONTS.heading",
                   fontWeight: 700,
                   fontSize: '0.5rem',
                   letterSpacing: '0.16em',
@@ -920,7 +920,7 @@ export function BottomCTA({ navigate }: { navigate: ReturnType<typeof useNavigat
   return (
     <section
       style={{
-        background: NAVY,
+        background: INDIGO_BLUE,
         padding: 'clamp(64px, 8vw, 96px) clamp(20px, 5vw, 48px)',
         position: 'relative',
         overflow: 'hidden',
@@ -969,7 +969,7 @@ export function BottomCTA({ navigate }: { navigate: ReturnType<typeof useNavigat
 
         <h2
           style={{
-            fontFamily: "'Space Mono', monospace",
+            fontFamily: "FONTS.heading",
             fontWeight: 700,
             fontSize: 'clamp(1.75rem, 5vw, 3rem)',
             letterSpacing: '-0.02em',
@@ -983,7 +983,7 @@ export function BottomCTA({ navigate }: { navigate: ReturnType<typeof useNavigat
 
         <p
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: "FONTS.accent",
             fontStyle: 'italic',
             fontSize: 'clamp(1.0625rem, 2.5vw, 1.375rem)',
             color: GOLD_50,
@@ -996,7 +996,7 @@ export function BottomCTA({ navigate }: { navigate: ReturnType<typeof useNavigat
 
         <p
           style={{
-            fontFamily: "'Source Sans 3', sans-serif",
+            fontFamily: "FONTS.body",
             fontSize: 'clamp(0.9375rem, 2vw, 1.0625rem)',
             color: CREAM_55,
             lineHeight: 1.7,
@@ -1026,12 +1026,12 @@ export function BottomCTA({ navigate }: { navigate: ReturnType<typeof useNavigat
               border: 'none',
               borderRadius: '8px',
               padding: '15px 36px',
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: "FONTS.heading",
               fontWeight: 700,
               fontSize: '0.8125rem',
               letterSpacing: '0.07em',
               textTransform: 'uppercase',
-              color: NAVY,
+              color: INDIGO_BLUE,
               cursor: 'pointer',
               transition: 'background 0.2s ease',
             }}
@@ -1051,7 +1051,7 @@ export function BottomCTA({ navigate }: { navigate: ReturnType<typeof useNavigat
               border: `1.5px solid ${GOLD_30}`,
               borderRadius: '8px',
               padding: '15px 36px',
-              fontFamily: "'Space Mono', monospace",
+              fontFamily: "FONTS.heading",
               fontWeight: 700,
               fontSize: '0.8125rem',
               letterSpacing: '0.07em',
@@ -1078,7 +1078,7 @@ export function BottomCTA({ navigate }: { navigate: ReturnType<typeof useNavigat
         {/* Fine print */}
         <p
           style={{
-            fontFamily: "'Source Sans 3', sans-serif",
+            fontFamily: "FONTS.body",
             fontSize: '0.8125rem',
             color: CREAM_15,
             margin: '8px 0 0',
