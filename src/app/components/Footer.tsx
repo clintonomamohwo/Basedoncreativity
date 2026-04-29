@@ -6,7 +6,7 @@ import {
   Youtube,
 } from "lucide-react";
 import { useNavigate } from "react-router";
-import { COLORS } from "../../lib/constants";
+import { COLORS, SOCIAL_LINKS } from "../../lib/constants";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -60,26 +60,31 @@ export function Footer() {
                 {[
                   {
                     icon: Instagram,
-                    href: "https://www.instagram.com/basedoncreativity",
+                    href: SOCIAL_LINKS.instagram,
+                    label: 'Follow us on Instagram',
                   },
                   {
                     icon: Twitter,
-                    href: "https://twitter.com/basedoncreativity",
+                    href: SOCIAL_LINKS.twitter,
+                    label: 'Follow us on Twitter',
                   },
                   {
                     icon: Linkedin,
-                    href: "https://www.linkedin.com/company/based-on-creativity/",
+                    href: SOCIAL_LINKS.linkedin,
+                    label: 'Connect with us on LinkedIn',
                   },
                   {
                     icon: Youtube,
-                    href: "https://www.youtube.com/@basedoncreativity",
+                    href: SOCIAL_LINKS.youtube,
+                    label: 'Subscribe to our YouTube channel',
                   },
-                ].map(({ icon: Icon, href }, index) => (
+                ].map(({ icon: Icon, href, label }, index) => (
                   <motion.a
                     key={index}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={label}
                     whileHover={{ y: -4, scale: 1.1 }}
                     transition={{ duration: 0.3 }}
                     className="w-12 h-12 rounded-full flex items-center justify-center"
@@ -92,6 +97,7 @@ export function Footer() {
                     <Icon
                       size={20}
                       style={{ color: "#FFC857" }}
+                      aria-hidden="true"
                     />
                   </motion.a>
                 ))}

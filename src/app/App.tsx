@@ -1,7 +1,9 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { MotionConfig } from 'motion/react';
 import { RouterProvider } from 'react-router';
 import { router } from './routes';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { prefetchCriticalRoutes } from '../lib/prefetch';
 
 function RouteLoadingFallback() {
   return (
@@ -15,10 +17,16 @@ function RouteLoadingFallback() {
 }
 
 export default function App() {
+  useEffect(() => {
+    prefetchCriticalRoutes();
+  }, []);
+
   return (
     <MotionConfig reducedMotion="user">
       <Suspense fallback={<RouteLoadingFallback />}>
-        <RouterProvider router={router} />
+        <ErrorBoundary>
+          <RouterProvider router={router} />
+        </ErrorBoundary>
       </Suspense>
     </MotionConfig>
   );

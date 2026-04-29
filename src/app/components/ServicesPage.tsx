@@ -369,6 +369,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
+            whileHover={{ y: -4, boxShadow: '0 12px 32px rgba(255,200,87,0.15), 0 0 0 1px rgba(255,200,87,0.2)' }}
             viewport={{ once: true }}
             transition={{ duration: 0.65, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
             style={{
@@ -379,6 +380,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
               display: 'flex',
               flexDirection: 'column',
               gap: '16px',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
             }}
           >
             <p
@@ -418,6 +420,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
+            whileHover={{ y: -4, boxShadow: '0 12px 32px rgba(255,200,87,0.12), 0 0 0 1px rgba(255,200,87,0.15)' }}
             viewport={{ once: true }}
             transition={{ duration: 0.65, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
             style={{
@@ -428,6 +431,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
               display: 'flex',
               flexDirection: 'column',
               gap: '16px',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
             }}
           >
             <p
@@ -481,6 +485,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
+            whileHover={{ y: -4, boxShadow: '0 12px 32px rgba(255,200,87,0.15), 0 0 0 1px rgba(255,200,87,0.2)' }}
             viewport={{ once: true }}
             transition={{ duration: 0.65, delay: 0.19, ease: [0.22, 1, 0.36, 1] }}
             style={{
@@ -492,6 +497,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
               display: 'flex',
               flexDirection: 'column',
               gap: '16px',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
             }}
           >
             <p
@@ -601,10 +607,7 @@ export function ServicesPage() {
           style={{
             position: 'absolute',
             inset: 0,
-            background: `
-              radial-gradient(ellipse 80% 60% at 50% 30%, rgba(255,200,87,0.07) 0%, transparent 65%),
-              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 24 24' fill='none' stroke='rgba(255,200,87,0.03)' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5'/%3E%3Cpath d='M9 18h6'/%3E%3Cpath d='M10 22h4'/%3E%3C/svg%3E")
-            `,
+            background: "radial-gradient(ellipse 80% 60% at 50% 30%, rgba(255,200,87,0.07) 0%, transparent 65%), url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 24 24' fill='none' stroke='rgba(255,200,87,0.03)' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5'/%3E%3Cpath d='M9 18h6'/%3E%3Cpath d='M10 22h4'/%3E%3C/svg%3E\")",
             backgroundPosition: 'center, 85% 45%',
             backgroundRepeat: 'no-repeat, no-repeat',
             backgroundSize: 'auto, 280px',

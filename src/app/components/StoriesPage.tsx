@@ -9,6 +9,8 @@ import {
 } from "../../lib/sanityContent";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { SEO } from "./SEO";
+import { GRAIN_SVG_PATTERN } from "../../lib/constants";
+import { retryWithBackoff } from "../../lib/retry";
 
 // ─── Book data ────────────────────────────────────────────────────────────────
 
@@ -132,7 +134,7 @@ function GrainOverlay() {
     <div
       className="absolute inset-0 pointer-events-none opacity-[0.025] mix-blend-overlay"
       style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+        backgroundImage: GRAIN_SVG_PATTERN,
       }}
     />
   );
@@ -428,6 +430,7 @@ function PillarCard({
 
 export function StoriesPage() {
   const [cmsBooks, setCmsBooks] = useState<LibraryBook[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const { scrollYProgress } = useScroll();
@@ -435,7 +438,10 @@ export function StoriesPage() {
   useEffect(() => {
     let cancelled = false;
 
-    fetchStories()
+    retryWithBackoff(() => fetchStories(), {
+      maxRetries: 3,
+      initialDelay: 1000,
+    })
       .then((stories) => {
         if (cancelled || !stories?.length) {
           return;
@@ -445,10 +451,15 @@ export function StoriesPage() {
       })
       .catch((error) => {
         if (import.meta.env.DEV) {
-          console.error('Error fetching stories:', error);
+          console.error('Error fetching stories after retries:', error);
         }
         if (!cancelled) {
           setCmsBooks([]);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setIsLoading(false);
         }
       });
 
@@ -997,13 +1008,30 @@ export function StoriesPage() {
 
             {/* Book grid - preserved exactly */}
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-10">
-              {displayBooks.map((book, index) => (
-                <BookCard
-                  key={book.id}
-                  book={book}
-                  index={index}
-                />
-              ))}
+              {isLoading ? (
+                <>
+                  {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <div
+                      key={i}
+                      className="animate-pulse"
+                      style={{
+                        aspectRatio: '3/4',
+                        borderRadius: '8px',
+                        background: 'rgba(255,200,87,0.08)',
+                        border: '1px solid rgba(255,200,87,0.15)',
+                      }}
+                    />
+                  ))}
+                </>
+              ) : (
+                displayBooks.map((book, index) => (
+                  <BookCard
+                    key={book.id}
+                    book={book}
+                    index={index}
+                  />
+                ))
+              )}
             </div>
 
             {/* Bottom quote */}

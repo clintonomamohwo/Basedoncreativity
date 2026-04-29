@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { SEO } from './SEO';
-import { COLORS, FONTS } from "../../lib/constants";
+import { COLORS, FONTS, CONTACT, SOCIAL_LINKS, GRAIN_SVG_PATTERN } from "../../lib/constants";
 import {
   Mail,
   Phone,
@@ -36,38 +36,35 @@ const budgetRanges = [
   "Not sure yet",
 ];
 
-const CONTACT_EMAIL = "contact@bochq.com";
-const CONTACT_FORM_ENDPOINT = `https://formsubmit.co/ajax/72a9e6f21908d30c38d2df816446e0e4`;
-
 const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: CONTACT_EMAIL,
-    href: `mailto:${CONTACT_EMAIL}`,
+    value: CONTACT.email,
+    href: `mailto:${CONTACT.email}`,
   },
   {
     icon: Phone,
     label: "Phone",
-    value: "647-847-9084",
-    href: "tel:+16478479084",
+    value: CONTACT.phone,
+    href: CONTACT.phoneHref,
   },
   {
     icon: MapPin,
     label: "Studio",
-    value: "Studio location coming soon - update this before launch",
+    value: CONTACT.location,
     href: null,
   },
   {
     icon: Clock,
     label: "Response Time",
-    value: "Within 2-3 days",
+    value: CONTACT.responseTime,
     href: null,
   },
   {
     icon: Globe,
     label: "Working With",
-    value: "Clients Worldwide",
+    value: CONTACT.availability,
     href: null,
   },
 ];
@@ -76,18 +73,22 @@ const socials = [
   {
     icon: Instagram,
     label: "Instagram",
-    href: "http://instagram.com/basedoncreativity",
+    href: SOCIAL_LINKS.instagram,
   },
-  { icon: Twitter, label: "Twitter / X", href: "#" },
+  {
+    icon: Twitter,
+    label: "Twitter / X",
+    href: SOCIAL_LINKS.twitter,
+  },
   {
     icon: Linkedin,
     label: "LinkedIn",
-    href: "https://www.linkedin.com/company/based-on-creativity/",
+    href: SOCIAL_LINKS.linkedin,
   },
   {
     icon: Youtube,
     label: "YouTube",
-    href: "https://www.youtube.com/@AmbivertKing",
+    href: SOCIAL_LINKS.youtube,
   },
 ];
 
@@ -96,7 +97,7 @@ function GrainOverlay() {
     <div
       className="absolute inset-0 pointer-events-none opacity-[0.035] mix-blend-overlay"
       style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+        backgroundImage: GRAIN_SVG_PATTERN,
       }}
     />
   );
@@ -143,7 +144,7 @@ export function ContactPage() {
     setSubmitError(null);
 
     try {
-      const response = await fetch(CONTACT_FORM_ENDPOINT, {
+      const response = await fetch(CONTACT.formEndpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -170,7 +171,7 @@ export function ContactPage() {
     } catch (error) {
       console.error("Contact form submission failed", error);
       setSubmitError(
-        "We couldn’t send your message right now. Please try again or email hello@bochq.com directly.",
+        `We couldn’t send your message right now. Please try again or email ${CONTACT.email} directly.`,
       );
     } finally {
       setSubmitting(false);
@@ -1049,6 +1050,9 @@ export function ContactPage() {
                   <motion.a
                     key={label}
                     href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Follow us on ${label}`}
                     whileHover={{
                       x: 4,
                       color: COLORS.gold,

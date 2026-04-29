@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router';
 import { ArrowLeft, ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
 import { fetchStoryBySlug, portableTextToParagraphs, resolveMediaUrl, SanityStory, type SanityPortfolioProject } from '../../lib/sanityContent';
 import { SEO } from './SEO';
+import { StructuredData, createArticleSchema } from './StructuredData';
 import { BookPage, GrainOverlay, PageContent, StoryAsset } from './StoryDetailSections';
 
 // ─── Story Data ────────────────────────────────────────────────────────────────
@@ -231,6 +232,7 @@ export function StoryDetail() {
   const storySeoDescription = story
     ? `${story.subtitle}. Read "${story.title}" by ${story.author} in the Based on Creativity stories collection.`
     : 'The requested story could not be found in the Based on Creativity stories collection.';
+  const storySeoImage = story?.heroImageUrl;
 
   // Group sections into two-page spreads
   const spreads = useMemo(() => {
@@ -395,7 +397,19 @@ export function StoryDetail() {
         description={storySeoDescription}
         path={storyPath}
         type="article"
+        image={storySeoImage}
       />
+      {story && (
+        <StructuredData
+          data={createArticleSchema({
+            headline: story.title,
+            description: story.subtitle,
+            author: story.author,
+            image: storySeoImage,
+            url: `https://www.bochq.com${storyPath}`,
+          })}
+        />
+      )}
     <div className="relative bg-[#1A1F4B] overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">

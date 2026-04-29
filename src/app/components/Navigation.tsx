@@ -28,6 +28,7 @@ import {
 import { NavActiveIndicator, SECTION_COLORS, TrailingStar, searchSite, NAV_LINKS, NAV_ROUTES, getIsNavActive } from './NavigationSections';
 import type { SearchResult, Star } from './NavigationSections';
 import logoImage from "../../assets/boc_logo.png";
+import { handleLinkHover } from '../../lib/prefetch';
 
 const INTRO_BURST_STORAGE_KEY = "boc-nav-first-visit-sparkle-burst-seen";
 const MAX_VISIBLE_STARS = 36;
@@ -374,11 +375,13 @@ export function Navigation() {
                     item,
                     location.pathname,
                   );
+                  const routePath = NAV_ROUTES[item];
                   return (
                     <motion.button
                       key={item}
                       type="button"
                       onClick={() => handleNavClick(item)}
+                      onMouseEnter={() => handleLinkHover(routePath)}
                       initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 4 }}
@@ -840,6 +843,7 @@ export function Navigation() {
                 item,
                 location.pathname,
               );
+              const routePath = NAV_ROUTES[item];
               return (
                 <motion.div
                   key={item}
@@ -861,6 +865,7 @@ export function Navigation() {
                   <button
                     type="button"
                     onClick={() => handleNavClick(item)}
+                    onMouseEnter={() => handleLinkHover(routePath)}
                     style={{
                       width: "100%",
                       padding: "16px 24px",

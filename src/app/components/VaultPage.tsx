@@ -1897,13 +1897,11 @@ export function VaultPage() {
         position: "relative",
         width: "100%",
         minHeight: "100vh",
-        background: `
-          #1A1F4B,
-          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,200,87,0.03)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z'/%3E%3Ccircle cx='12' cy='13' r='4'/%3E%3C/svg%3E")
-        `,
-        backgroundPosition: 'center, 85% 25%',
-        backgroundRepeat: 'no-repeat, no-repeat',
-        backgroundSize: 'auto, 300px',
+        background: "#1A1F4B",
+        backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,200,87,0.03)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z'/%3E%3Ccircle cx='12' cy='13' r='4'/%3E%3C/svg%3E\")",
+        backgroundPosition: '85% 25%',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '300px',
         overflow: showGallery ? "visible" : "hidden",
         cursor: isDragging ? "grabbing" : "default",
         touchAction: showGallery ? "auto" : "none",

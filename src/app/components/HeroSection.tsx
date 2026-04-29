@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { ArrowRight, Sparkles, Sun, Moon, Star } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import { NOISE_SVG_BG } from '../../lib/constants';
 
 export function HeroSection() {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export function HeroSection() {
         className="absolute inset-0 opacity-30 mix-blend-overlay"
         aria-hidden="true"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+          backgroundImage: NOISE_SVG_BG,
           backgroundSize: '200px 200px',
         }}
       />
@@ -24,18 +25,57 @@ export function HeroSection() {
       {/* Floating ambient orbs */}
       <motion.div
         aria-hidden="true"
-        animate={{ y: [0, -30, 0], x: [0, 20, 0] }}
+        animate={{
+          y: [0, -30, 0],
+          x: [0, 20, 0],
+          scale: [1, 1.1, 1],
+          opacity: [0.15, 0.25, 0.15]
+        }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-20 left-10 w-64 h-64 rounded-full blur-3xl opacity-20"
+        className="absolute top-20 left-10 w-64 h-64 rounded-full blur-3xl"
         style={{ background: '#FFC857' }}
       />
       <motion.div
         aria-hidden="true"
-        animate={{ y: [0, 40, 0], x: [0, -30, 0] }}
+        animate={{
+          y: [0, 40, 0],
+          x: [0, -30, 0],
+          scale: [1, 1.15, 1],
+          opacity: [0.15, 0.25, 0.15]
+        }}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-20 right-10 w-96 h-96 rounded-full blur-3xl opacity-20"
+        className="absolute bottom-20 right-10 w-96 h-96 rounded-full blur-3xl"
         style={{ background: '#FFC857' }}
       />
+
+      {/* Floating sparkles */}
+      {Array.from({ length: 12 }).map((_, i) => (
+        <motion.div
+          key={i}
+          aria-hidden="true"
+          animate={{
+            y: [0, -100 - i * 20, -200 - i * 30],
+            x: [(i % 3) * 20 - 20, (i % 3) * 30 - 15, (i % 3) * 25 - 20],
+            opacity: [0, 0.6, 0],
+            scale: [0, 1, 0]
+          }}
+          transition={{
+            duration: 4 + i * 0.3,
+            repeat: Infinity,
+            delay: i * 0.5,
+            ease: 'easeOut'
+          }}
+          className="absolute rounded-full"
+          style={{
+            left: `${10 + (i * 8) % 80}%`,
+            bottom: `${5 + (i * 5) % 20}%`,
+            width: `${3 + (i % 3)}px`,
+            height: `${3 + (i % 3)}px`,
+            background: '#FFC857',
+            boxShadow: '0 0 8px rgba(255,200,87,0.8)'
+          }}
+        />
+      ))}
 
       <div className="max-w-[1200px] mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -111,9 +151,24 @@ export function HeroSection() {
             >
               {/* Primary - Gold background, Indigo Blue text, Space Mono bold */}
               <motion.button
-                whileHover={{ scale: 1.05, y: -4 }}
+                whileHover={{
+                  scale: 1.05,
+                  y: -4,
+                  boxShadow: '0 16px 48px rgba(255, 200, 87, 0.6), 0 0 40px rgba(255, 200, 87, 0.4)'
+                }}
                 whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                animate={{
+                  boxShadow: [
+                    '0 8px 32px rgba(255, 200, 87, 0.4)',
+                    '0 8px 40px rgba(255, 200, 87, 0.5)',
+                    '0 8px 32px rgba(255, 200, 87, 0.4)',
+                  ]
+                }}
+                transition={{
+                  boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+                  scale: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+                  y: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
+                }}
                 className="group px-10 py-5 rounded-full flex items-center justify-center gap-3 w-full sm:w-auto"
                 onClick={() => navigate('/about')}
                 style={{
@@ -123,7 +178,6 @@ export function HeroSection() {
                   fontWeight: 700,
                   fontSize: 'clamp(0.875rem, 3.5vw, 1rem)',
                   letterSpacing: '0.04em',
-                  boxShadow: '0 8px 32px rgba(255, 200, 87, 0.4)',
                   border: 'none',
                   cursor: 'pointer',
                 }}
@@ -139,7 +193,12 @@ export function HeroSection() {
 
               {/* Secondary - transparent, 2px solid Gold border, Gold text, Space Mono bold */}
               <motion.button
-                whileHover={{ scale: 1.05, y: -4 }}
+                whileHover={{
+                  scale: 1.05,
+                  y: -4,
+                  backgroundColor: 'rgba(255, 200, 87, 0.1)',
+                  boxShadow: '0 12px 32px rgba(255, 200, 87, 0.3), 0 0 20px rgba(255, 200, 87, 0.2)'
+                }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className="px-10 py-5 rounded-full backdrop-blur-sm w-full sm:w-auto"

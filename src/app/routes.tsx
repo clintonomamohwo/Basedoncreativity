@@ -2,6 +2,7 @@ import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router';
 import { Root } from './components/Root';
 import { ErrorPage } from './components/ErrorPage';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 const HomePage = lazy(() => import('./components/HomePage').then((module) => ({ default: module.HomePage })));
 const WorkPage = lazy(() => import('./components/WorkPage').then((module) => ({ default: module.WorkPage })));

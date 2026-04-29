@@ -12,7 +12,7 @@ import {
 import { useNavigate } from "react-router";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { SEO } from "./SEO";
-import { COLORS, FONTS } from "../../lib/constants";
+import { COLORS, FONTS, NOISE_SVG_BG } from "../../lib/constants";
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -1056,7 +1056,7 @@ export function AboutPage() {
           <div
             className="absolute inset-0 opacity-[0.025] mix-blend-overlay"
             style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+              backgroundImage: NOISE_SVG_BG,
             }}
           />
         </div>

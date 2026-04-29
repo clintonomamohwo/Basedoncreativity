@@ -61,3 +61,32 @@ export const EASE_STANDARD = [0.22, 1, 0.36, 1] as const;
  */
 export const NOISE_SVG_BG =
   "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")";
+
+/**
+ * URL-encoded inline SVG for grain overlay pattern (variant).
+ * Optimized for finer grain effect on dark backgrounds.
+ */
+export const GRAIN_SVG_PATTERN =
+  "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
+
+// ─── Contact Information ─────────────────────────────────────────────────────
+
+export const CONTACT = {
+  email: 'contact@bochq.com',
+  phone: '647-847-9084',
+  phoneFormatted: '+1 647-847-9084',
+  phoneHref: 'tel:+16478479084',
+  location: 'Toronto, Canada',
+  responseTime: 'Within 2-3 days',
+  availability: 'Clients Worldwide',
+  formEndpoint: 'https://formsubmit.co/ajax/72a9e6f21908d30c38d2df816446e0e4',
+} as const;
+
+// ─── Social Media Links ──────────────────────────────────────────────────────
+
+export const SOCIAL_LINKS = {
+  instagram: 'https://instagram.com/basedoncreativity',
+  twitter: 'https://twitter.com/basedoncreativity',
+  linkedin: 'https://www.linkedin.com/company/based-on-creativity/',
+  youtube: 'https://www.youtube.com/@basedoncreativity',
+} as const;

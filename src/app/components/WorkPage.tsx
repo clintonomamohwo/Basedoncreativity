@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router';
 import { fetchPortfolioProjects, resolveMediaAlt, resolveMediaUrl, type SanityPortfolioProject } from '../../lib/sanityContent';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { SEO } from './SEO';
-import { COLORS, FONTS } from '../../lib/constants';
+import { COLORS, FONTS, GRAIN_SVG_PATTERN } from '../../lib/constants';
+import { retryWithBackoff } from '../../lib/retry';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -121,22 +122,24 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -8 }}
       className="group relative flex flex-col rounded-2xl overflow-hidden"
       style={{
         background: 'rgba(255,255,255,0.03)',
         border: '1px solid rgba(255,200,87,0.12)',
         backdropFilter: 'blur(12px)',
-        transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
+        boxShadow: '0 4px 16px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,200,87,0.05)',
+        transition: 'border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease',
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget as HTMLElement;
-        el.style.borderColor = 'rgba(255,200,87,0.35)';
-        el.style.boxShadow = '0 0 48px rgba(255,200,87,0.08), 0 24px 64px rgba(0,0,0,0.4)';
+        el.style.borderColor = 'rgba(255,200,87,0.45)';
+        el.style.boxShadow = '0 0 64px rgba(255,200,87,0.15), 0 32px 72px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,200,87,0.3)';
       }}
       onMouseLeave={(e) => {
         const el = e.currentTarget as HTMLElement;
         el.style.borderColor = 'rgba(255,200,87,0.12)';
-        el.style.boxShadow = 'none';
+        el.style.boxShadow = '0 4px 16px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,200,87,0.05)';
       }}
     >
       {/* Image */}
@@ -144,7 +147,7 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
         <ImageWithFallback
           src={project.image}
           alt={project.imageAlt}
-          className="w-full h-full object-cover transition-transform duration-700 ease-out"
+          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
           style={{ transform: 'scale(1.02)' }}
         />
         {/* Dark overlay - lightens slightly on hover */}
@@ -190,18 +193,29 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
         </p>
 
         {/* Title */}
-        <h3
-          className="mb-3 leading-tight"
-          style={{
-            fontFamily: FONTS.heading,
-            fontWeight: 700,
-            fontSize: 'clamp(1.125rem, 2.5vw, 1.375rem)',
-            letterSpacing: '-0.01em',
-            color: COLORS.gold,
-          }}
-        >
-          {project.title}
-        </h3>
+        <div className="mb-3 relative">
+          <h3
+            className="leading-tight"
+            style={{
+              fontFamily: FONTS.heading,
+              fontWeight: 700,
+              fontSize: 'clamp(1.125rem, 2.5vw, 1.375rem)',
+              letterSpacing: '-0.01em',
+              color: COLORS.gold,
+            }}
+          >
+            {project.title}
+          </h3>
+          <div
+            className="transition-all duration-500 ease-out group-hover:w-full"
+            style={{
+              height: '2px',
+              width: '0',
+              background: `linear-gradient(90deg, ${COLORS.gold}, transparent)`,
+              marginTop: '6px',
+            }}
+          />
+        </div>
 
         {/* Discipline line */}
         <p
@@ -476,11 +490,15 @@ function CTASection() {
 
 export function WorkPage() {
   const [cmsProjects, setCmsProjects] = useState<Project[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
 
-    fetchPortfolioProjects()
+    retryWithBackoff(() => fetchPortfolioProjects(), {
+      maxRetries: 3,
+      initialDelay: 1000,
+    })
       .then((projects) => {
         if (cancelled || !projects?.length) {
           return;
@@ -490,10 +508,15 @@ export function WorkPage() {
       })
       .catch((error) => {
         if (import.meta.env.DEV) {
-          console.error('Error fetching portfolio projects:', error);
+          console.error('Error fetching portfolio projects after retries:', error);
         }
         if (!cancelled) {
           setCmsProjects([]);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setIsLoading(false);
         }
       });
 
@@ -505,7 +528,9 @@ export function WorkPage() {
   const displayProjects = useMemo(
     () => {
       const projects = cmsProjects.length ? cmsProjects : FALLBACK_PROJECTS;
-      console.log('Using data source:', cmsProjects.length ? 'Sanity CMS' : 'Fallback', '- Projects:', projects.length);
+      if (import.meta.env.DEV) {
+        console.log('Using data source:', cmsProjects.length ? 'Sanity CMS' : 'Fallback', '- Projects:', projects.length);
+      }
       return projects;
     },
     [cmsProjects],
@@ -520,12 +545,20 @@ export function WorkPage() {
     >
       {/* Ambient background layers */}
       <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,200,87,0.07), transparent)' }} />
+        <motion.div
+          className="absolute inset-0"
+          animate={{
+            opacity: [0.07, 0.12, 0.07],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          style={{ background: 'radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,200,87,0.07), transparent)' }}
+        />
         <div className="absolute inset-0" style={{
-          background: `
-            radial-gradient(ellipse 60% 40% at 80% 90%, rgba(255,200,87,0.04), transparent),
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 24 24' fill='none' stroke='rgba(255,200,87,0.025)' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='7' height='7'/%3E%3Crect x='14' y='3' width='7' height='7'/%3E%3Crect x='14' y='14' width='7' height='7'/%3E%3Crect x='3' y='14' width='7' height='7'/%3E%3C/svg%3E")
-          `,
+          background: "radial-gradient(ellipse 60% 40% at 80% 90%, rgba(255,200,87,0.04), transparent), url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 24 24' fill='none' stroke='rgba(255,200,87,0.025)' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='7' height='7'/%3E%3Crect x='14' y='3' width='7' height='7'/%3E%3Crect x='14' y='14' width='7' height='7'/%3E%3Crect x='3' y='14' width='7' height='7'/%3E%3C/svg%3E\")",
           backgroundPosition: 'center, 15% 40%',
           backgroundRepeat: 'no-repeat, no-repeat',
           backgroundSize: 'auto, 320px',
@@ -534,7 +567,7 @@ export function WorkPage() {
         <div
           className="absolute inset-0 opacity-[0.025] mix-blend-overlay"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundImage: GRAIN_SVG_PATTERN,
           }}
         />
       </div>
@@ -543,7 +576,16 @@ export function WorkPage() {
         {/* ── Hero ─────────────────────────────────────────────────────── */}
         <section className="px-4 md:px-12 lg:px-20 pt-32 pb-14 md:pt-36 md:pb-16 max-w-5xl mx-auto relative">
           {/* Decorative icon */}
-          <div
+          <motion.div
+            animate={{
+              y: [-10, 10, -10],
+              opacity: [0.4, 0.7, 0.4],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
             style={{
               position: 'absolute',
               top: '50%',
@@ -556,7 +598,6 @@ export function WorkPage() {
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
               pointerEvents: 'none',
-              opacity: 0.6,
             }}
           />
           <motion.div
@@ -629,13 +670,52 @@ export function WorkPage() {
         {/* ── Project Grid ─────────────────────────────────────────────── */}
         <section className="px-4 md:px-12 lg:px-20 pb-20 max-w-5xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {displayProjects.map((project, i) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                delay={i * 0.08}
-              />
-            ))}
+            {isLoading ? (
+              <>
+                {[1, 2, 3, 4].map((i) => (
+                  <div
+                    key={i}
+                    className="rounded-2xl overflow-hidden"
+                    style={{
+                      background: 'rgba(255,255,255,0.03)',
+                      border: '1px solid rgba(255,200,87,0.12)',
+                      aspectRatio: '16/10',
+                    }}
+                  >
+                    <div
+                      className="w-full h-40 animate-pulse"
+                      style={{ background: 'rgba(255,200,87,0.05)' }}
+                    />
+                    <div className="p-6">
+                      <div
+                        className="h-4 w-24 mb-3 rounded animate-pulse"
+                        style={{ background: 'rgba(255,200,87,0.1)' }}
+                      />
+                      <div
+                        className="h-6 w-3/4 mb-3 rounded animate-pulse"
+                        style={{ background: 'rgba(255,200,87,0.15)' }}
+                      />
+                      <div
+                        className="h-4 w-full mb-2 rounded animate-pulse"
+                        style={{ background: 'rgba(255,200,87,0.08)' }}
+                      />
+                      <div
+                        className="h-4 w-5/6 rounded animate-pulse"
+                        style={{ background: 'rgba(255,200,87,0.08)' }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              displayProjects.map((project, i) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  delay={i * 0.08}
+                />
+              ))
+            )}
           </div>
 
           {/* Italicised note beneath grid */}

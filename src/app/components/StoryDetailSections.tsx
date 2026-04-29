@@ -1,4 +1,5 @@
 import { CloudinaryImage } from './CloudinaryImage';
+import { GRAIN_SVG_PATTERN } from '../../lib/constants';
 
 interface StorySection {
   type: 'text' | 'image';
@@ -66,8 +67,8 @@ function createStoryFallbackSrc(
   const title = escapeSvgText(alt || 'Based on Creativity');
   const label = escapeSvgText(
     variant === 'hero'
-      ? 'Story artwork placeholder - replace with Cloudinary asset when ready'
-      : 'Story illustration placeholder - replace with Cloudinary asset when ready',
+      ? 'Story Artwork'
+      : 'Story Illustration',
   );
   const ornament = variant === 'hero' ? 'BOC STORY ART' : 'BOC STORY DETAIL';
 
@@ -145,7 +146,7 @@ export function GrainOverlay() {
     <div
       className="absolute inset-0 pointer-events-none opacity-[0.02] mix-blend-overlay"
       style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+        backgroundImage: GRAIN_SVG_PATTERN,
       }}
     />
   );
