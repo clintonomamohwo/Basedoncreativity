@@ -1617,10 +1617,17 @@ export function VaultPage() {
 
     fetchVaultItems()
       .then((items) => {
-        if (cancelled || !items?.length) return;
-        setCmsItems(items.map(mapSanityVaultItem));
+        console.log('Sanity Vault Items fetched:', items);
+        if (cancelled || !items?.length) {
+          console.log('No items found or cancelled');
+          return;
+        }
+        const mapped = items.map(mapSanityVaultItem);
+        console.log('Mapped vault items:', mapped);
+        setCmsItems(mapped);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error('Error fetching vault items:', error);
         if (!cancelled) {
           setCmsItems([]);
         }
@@ -1632,7 +1639,11 @@ export function VaultPage() {
   }, []);
 
   const displayItems = useMemo(
-    () => (cmsItems.length ? cmsItems : FALLBACK_GALLERY_DATA),
+    () => {
+      const items = cmsItems.length ? cmsItems : FALLBACK_GALLERY_DATA;
+      console.log('Using data source:', cmsItems.length ? 'Sanity CMS' : 'Fallback', '- Items:', items.length);
+      return items;
+    },
     [cmsItems],
   );
 

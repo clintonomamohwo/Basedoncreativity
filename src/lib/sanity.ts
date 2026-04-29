@@ -13,6 +13,8 @@ export const sanityClient = createClient({
   perspective: 'published',
 });
 
+console.log('Sanity Client Config:', { projectId, dataset, apiVersion });
+
 const imageBuilder = createImageUrlBuilder(sanityClient);
 
 export function urlFor(source: unknown) {
