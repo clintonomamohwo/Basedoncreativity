@@ -65,6 +65,34 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'thumbnail',
+      title: 'Custom Thumbnail (optional)',
+      type: 'object',
+      description: '🎬 Videos automatically use the first frame as thumbnail. Only upload here if you want a different thumbnail image.',
+      fields: [
+        {
+          name: 'image',
+          title: 'Thumbnail Image',
+          type: 'image',
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            {
+              name: 'alt',
+              title: 'Alt Text',
+              type: 'string',
+            },
+          ],
+        },
+        {
+          name: 'cloudinaryUrl',
+          title: 'Cloudinary URL (optional)',
+          type: 'url',
+        },
+      ],
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'text',

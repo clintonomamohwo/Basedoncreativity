@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import { FilterBar, StarCanvas } from './VaultPageChrome';
 import { CloudinaryImage } from "./CloudinaryImage";
-import { cloudinaryVideoUrl } from "../../lib/cloudinary";
+import { cloudinaryVideoUrl, CLOUDINARY_CLOUD_NAME } from "../../lib/cloudinary";
 import { fetchPortfolioProjects, fetchVaultItems, resolveMediaAlt, resolveMediaUrl, SanityVaultItem, type SanityPortfolioProject } from '../../lib/sanityContent';
 import { SEO } from './SEO';
 import { FONTS } from '../../lib/constants';
@@ -43,6 +43,7 @@ interface GalleryItem {
   imageUrl?: string;
   imageAlt?: string;
   aspect?: "landscape" | "portrait" | "square";
+  thumbnailUrl?: string; // optional thumbnail for videos
   // Writing
   excerpt?: string;
   body?: string;
@@ -225,9 +226,38 @@ function formatVaultYear(date?: string) {
   return Number.isNaN(parsed.getTime()) ? new Date().getFullYear() : parsed.getFullYear();
 }
 
+function generateVideoThumbnail(videoUrl: string): string | undefined {
+  console.log('generateVideoThumbnail called with:', videoUrl);
+
+  // Only works for Cloudinary videos
+  if (!videoUrl.includes('res.cloudinary.com')) {
+    console.log('Not a Cloudinary URL, skipping thumbnail generation');
+    return undefined;
+  }
+
+  // Extract public_id from video URL
+  // Format: https://res.cloudinary.com/cloud_name/video/upload/public_id.ext
+  const match = videoUrl.match(/\/video\/upload\/(?:v\d+\/)?(.+?)(?:\.\w+)?$/);
+  if (!match) {
+    console.log('Could not extract public_id from video URL');
+    return undefined;
+  }
+
+  const publicId = match[1].replace(/\.\w+$/, ''); // Remove extension if present
+  console.log('Extracted publicId:', publicId);
+
+  // Generate thumbnail URL using first frame of video
+  // Change /video/upload/ to /image/upload/ and add pg_1 transformation
+  const thumbnailUrl = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/so_0,w_900,f_jpg,q_auto/${publicId}.jpg`;
+  console.log('Generated thumbnail URL:', thumbnailUrl);
+
+  return thumbnailUrl;
+}
+
 function mapSanityVaultItem(item: SanityVaultItem, index: number): GalleryItem {
   const fallback = FALLBACK_GALLERY_DATA[index % FALLBACK_GALLERY_DATA.length];
   const imageUrl = resolveMediaUrl(item.image, 1600);
+  let thumbnailUrl = item.thumbnail ? resolveMediaUrl(item.thumbnail, 900) : undefined;
 
   // Map category to type (video, writing, design, photography all map to 'image' in GalleryItem)
   // But we keep 'video' as 'video' for filtering purposes
@@ -238,6 +268,21 @@ function mapSanityVaultItem(item: SanityVaultItem, index: number): GalleryItem {
     console.warn(`Video item "${item.title}" has no video URL. Please upload a video file or add a Cloudinary URL in Sanity.`);
   }
 
+  // Auto-generate thumbnail from first frame of video if no manual thumbnail provided
+  if (itemType === 'video' && !thumbnailUrl && imageUrl) {
+    console.log(`Video "${item.title}" - attempting auto-thumbnail generation`);
+    console.log('Video URL:', imageUrl);
+    console.log('Has manual thumbnail:', !!item.thumbnail);
+
+    thumbnailUrl = generateVideoThumbnail(imageUrl);
+
+    if (thumbnailUrl) {
+      console.log(`✅ Auto-generated thumbnail for "${item.title}":`, thumbnailUrl);
+    } else {
+      console.log(`❌ Failed to generate thumbnail for "${item.title}"`);
+    }
+  }
+
   return {
     id: item.slug || item._id,
     title: item.title,
@@ -246,6 +291,7 @@ function mapSanityVaultItem(item: SanityVaultItem, index: number): GalleryItem {
     type: itemType,
     publicId: imageUrl ? undefined : fallback.publicId,
     imageUrl: imageUrl || undefined,
+    thumbnailUrl: thumbnailUrl,
     imageAlt: resolveMediaAlt(item.image, `${item.title} artwork`),
     aspect: fallback.aspect || 'landscape',
     excerpt: item.description || undefined,
@@ -449,6 +495,13 @@ function VideoBentoCard({
   index,
 }: Omit<BentoCardProps, "colSpan">) {
   const [hovered, setHovered] = useState(false);
+
+  console.log(`VideoBentoCard rendering for "${item.title}":`, {
+    thumbnailUrl: item.thumbnailUrl,
+    imageUrl: item.imageUrl,
+    heroPublicId: item.heroPublicId,
+  });
+
   return (
     <motion.div
       layout
@@ -484,7 +537,23 @@ function VideoBentoCard({
       }}
     >
       {/* Thumbnail or gradient bg */}
-      {item.heroPublicId ? (
+      {item.thumbnailUrl ? (
+        <img
+          src={item.thumbnailUrl}
+          alt={`${item.title} thumbnail`}
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block",
+            opacity: 0.55,
+            transition: "opacity 0.3s ease",
+            filter: "blur(2px)",
+          }}
+        />
+      ) : item.heroPublicId ? (
         <CloudinaryImage
           publicId={item.heroPublicId}
           alt={item.title}

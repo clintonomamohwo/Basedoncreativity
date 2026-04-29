@@ -9,10 +9,10 @@ export const sanityClient = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: true,
+  useCdn: false, // Disable CDN to avoid caching issues during development
   perspective: 'published',
-  // Increase timeout and add retry logic
   requestTagPrefix: 'boc-site',
+  ignoreBrowserTokenWarning: true,
 });
 
 console.log('Sanity Client Config:', { projectId, dataset, apiVersion });
@@ -26,8 +26,22 @@ if (typeof window !== 'undefined') {
     })
     .catch((err) => {
       console.error('❌ Sanity connection failed:', err.message);
-      if (err.message.includes('CORS')) {
-        console.error('💡 CORS Issue: Add your domain to Sanity CORS settings at https://sanity.io/manage');
+
+      // Provide helpful CORS troubleshooting
+      if (err.message.includes('CORS') || err.message.includes('Request error')) {
+        console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.error('💡 CORS ISSUE DETECTED');
+        console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.error('');
+        console.error('To fix this:');
+        console.error('1. Go to: https://sanity.io/manage/personal/project/' + projectId + '/api');
+        console.error('2. Click "Add CORS origin"');
+        console.error('3. Add: ' + window.location.origin);
+        console.error('4. Enable "Allow credentials"');
+        console.error('5. Save and refresh this page');
+        console.error('');
+        console.error('📖 Full guide: See SANITY_CORS_FIX.md in project root');
+        console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       }
     });
 }

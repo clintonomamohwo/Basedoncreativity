@@ -43,11 +43,38 @@ If your video is hosted elsewhere (Vimeo, YouTube, custom server):
 - ✅ For best performance, use Cloudinary which auto-optimizes videos
 - ⚠️ Don't use the "Image/Video File" upload for videos - Sanity treats them as images
 
-## **Thumbnail for Videos:**
+## **Thumbnails for Videos:**
 
-Currently, videos use a gradient background as thumbnail. If you want a custom thumbnail:
-- Upload a thumbnail image separately to Cloudinary
-- This is optional and will be added in a future update
+Videos automatically use the **first frame** as a thumbnail! No manual upload needed.
+
+### **Automatic Thumbnail (Default):**
+
+✅ **For Cloudinary videos**, the system automatically:
+- Extracts the first frame of the video
+- Uses it as the thumbnail on video cards
+- No extra work required!
+
+### **Custom Thumbnail (Optional):**
+
+If you want a different thumbnail than the first frame:
+
+1. **In Sanity Studio**, when editing a video vault item
+2. Scroll to the **"Thumbnail (for videos)"** field
+3. Upload your custom image
+4. **Publish** the item
+
+### **Thumbnail Priority:**
+
+1. ✅ **Custom thumbnail** (if uploaded)
+2. ✅ **Auto-generated from first frame** (for Cloudinary videos)
+3. Gradient background (fallback)
+
+### **Best Practices:**
+
+- 🎬 **Let it auto-generate** - The first frame usually works great
+- 🎨 **Upload custom** - Only if first frame isn't ideal
+- 📐 Use 16:9 aspect ratio if uploading custom thumbnails
+- 🖼️ Keep custom thumbnails under 500KB for fast loading
 
 ## **Troubleshooting:**
 

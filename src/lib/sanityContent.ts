@@ -30,6 +30,7 @@ export interface SanityVaultItem {
   slug?: string;
   category?: string;
   image?: SanityImageField;
+  thumbnail?: SanityImageField;
   description?: string;
   tags?: string[];
   date?: string;
@@ -80,6 +81,7 @@ const vaultQuery = `*[_type == "vaultItem"] | order(featured desc, date desc) {
   "slug": slug.current,
   category,
   image,
+  thumbnail,
   description,
   tags,
   date,
