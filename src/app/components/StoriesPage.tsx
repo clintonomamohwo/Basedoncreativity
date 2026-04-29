@@ -437,10 +437,17 @@ export function StoriesPage() {
 
     fetchStories()
       .then((stories) => {
-        if (cancelled || !stories?.length) return;
-        setCmsBooks(stories.map(mapSanityStoryToBook));
+        console.log('Sanity Stories fetched:', stories);
+        if (cancelled || !stories?.length) {
+          console.log('No stories found or cancelled');
+          return;
+        }
+        const mapped = stories.map(mapSanityStoryToBook);
+        console.log('Mapped stories to books:', mapped);
+        setCmsBooks(mapped);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error('Error fetching stories:', error);
         if (!cancelled) {
           setCmsBooks([]);
         }
@@ -452,7 +459,11 @@ export function StoriesPage() {
   }, []);
 
   const displayBooks = useMemo(
-    () => (cmsBooks.length ? cmsBooks : FALLBACK_LIBRARY_BOOKS),
+    () => {
+      const books = cmsBooks.length ? cmsBooks : FALLBACK_LIBRARY_BOOKS;
+      console.log('Using data source:', cmsBooks.length ? 'Sanity CMS' : 'Fallback', '- Stories:', books.length);
+      return books;
+    },
     [cmsBooks],
   );
 

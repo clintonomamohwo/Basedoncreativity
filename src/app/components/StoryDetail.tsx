@@ -196,11 +196,15 @@ export function StoryDetail() {
 
     fetchStoryBySlug(storyId)
       .then((story) => {
+        console.log('Sanity Story fetched for slug:', storyId, story);
         if (!cancelled) {
-          setCmsStory(story ? mapSanityStory(story) : null);
+          const mapped = story ? mapSanityStory(story) : null;
+          console.log('Mapped story:', mapped);
+          setCmsStory(mapped);
         }
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error('Error fetching story by slug:', storyId, error);
         if (!cancelled) {
           setCmsStory(null);
         }
@@ -220,6 +224,12 @@ export function StoryDetail() {
   const fallbackStory = storyId ? FALLBACK_STORY_DATA[storyId] : null;
   const story = cmsStory || fallbackStory || null;
   const storyPath = storyId ? `/stories/${storyId}` : '/stories';
+
+  useEffect(() => {
+    if (story) {
+      console.log('Using story data source:', cmsStory ? 'Sanity CMS' : 'Fallback', '- Story:', story.title);
+    }
+  }, [story, cmsStory]);
   const storySeoTitle = story
     ? `${story.title} | Stories | Based on Creativity`
     : 'Story Not Found | Based on Creativity';

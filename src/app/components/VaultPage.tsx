@@ -229,12 +229,16 @@ function mapSanityVaultItem(item: SanityVaultItem, index: number): GalleryItem {
   const fallback = FALLBACK_GALLERY_DATA[index % FALLBACK_GALLERY_DATA.length];
   const imageUrl = resolveMediaUrl(item.image, 1600);
 
+  // Map category to type (video, writing, design, photography all map to 'image' in GalleryItem)
+  // But we keep 'video' as 'video' for filtering purposes
+  const itemType = item.category === 'video' ? 'video' : 'image';
+
   return {
     id: item.slug || item._id,
     title: item.title,
     category: item.category || fallback.category,
     year: formatVaultYear(item.date),
-    type: 'image',
+    type: itemType,
     publicId: imageUrl ? undefined : fallback.publicId,
     imageUrl: imageUrl || undefined,
     imageAlt: resolveMediaAlt(item.image, `${item.title} artwork`),

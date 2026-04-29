@@ -482,10 +482,17 @@ export function WorkPage() {
 
     fetchPortfolioProjects()
       .then((projects) => {
-        if (cancelled || !projects?.length) return;
-        setCmsProjects(projects.map(mapSanityProject));
+        console.log('Sanity Portfolio Projects fetched:', projects);
+        if (cancelled || !projects?.length) {
+          console.log('No projects found or cancelled');
+          return;
+        }
+        const mapped = projects.map(mapSanityProject);
+        console.log('Mapped portfolio projects:', mapped);
+        setCmsProjects(mapped);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error('Error fetching portfolio projects:', error);
         if (!cancelled) {
           setCmsProjects([]);
         }
@@ -497,7 +504,11 @@ export function WorkPage() {
   }, []);
 
   const displayProjects = useMemo(
-    () => (cmsProjects.length ? cmsProjects : FALLBACK_PROJECTS),
+    () => {
+      const projects = cmsProjects.length ? cmsProjects : FALLBACK_PROJECTS;
+      console.log('Using data source:', cmsProjects.length ? 'Sanity CMS' : 'Fallback', '- Projects:', projects.length);
+      return projects;
+    },
     [cmsProjects],
   );
 
