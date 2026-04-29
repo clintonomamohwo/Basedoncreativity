@@ -36,13 +36,15 @@ export default defineType({
     }),
     defineField({
       name: 'image',
-      title: 'Image',
+      title: 'Media (Image/Video)',
       type: 'object',
+      description: 'Upload an image/video or provide a Cloudinary URL. For videos, use either Sanity file upload or Cloudinary URL.',
       fields: [
         {
           name: 'image',
-          title: 'Image',
+          title: 'Image/Video File',
           type: 'image',
+          description: 'Upload image files here. For videos, use Cloudinary URL below.',
           options: {
             hotspot: true,
           },
@@ -56,7 +58,8 @@ export default defineType({
         },
         {
           name: 'cloudinaryUrl',
-          title: 'Cloudinary URL (optional)',
+          title: 'Cloudinary URL (for videos or external assets)',
+          description: 'Full Cloudinary URL for videos. Example: https://res.cloudinary.com/basecreator/video/upload/v123/my-video.mp4',
           type: 'url',
         },
       ],

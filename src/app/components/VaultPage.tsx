@@ -233,6 +233,11 @@ function mapSanityVaultItem(item: SanityVaultItem, index: number): GalleryItem {
   // But we keep 'video' as 'video' for filtering purposes
   const itemType = item.category === 'video' ? 'video' : 'image';
 
+  // For videos from Sanity, we need either imageUrl (video file) or cloudinaryUrl with a publicId
+  if (itemType === 'video' && !imageUrl) {
+    console.warn(`Video item "${item.title}" has no video URL. Please upload a video file or add a Cloudinary URL in Sanity.`);
+  }
+
   return {
     id: item.slug || item._id,
     title: item.title,
@@ -489,6 +494,22 @@ function VideoBentoCard({
             quality: "auto",
             fit: "fill",
           }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block",
+            opacity: 0.55,
+            transition: "opacity 0.3s ease",
+            filter: "blur(2px)",
+          }}
+        />
+      ) : item.imageUrl ? (
+        <img
+          src={item.imageUrl}
+          alt={item.title}
           style={{
             position: "absolute",
             inset: 0,
@@ -923,12 +944,37 @@ function DeckImageView({ item }: { item: GalleryItem }) {
 }
 
 function DeckVideoView({ item }: { item: GalleryItem }) {
-  const src = item.publicId
-    ? cloudinaryVideoUrl(item.publicId, {
+  // Handle Sanity videos (imageUrl) vs Cloudinary videos (publicId)
+  const hasCloudinaryVideo = Boolean(item.publicId);
+  const hasSanityVideo = Boolean(item.imageUrl && !item.publicId);
+
+  if (!hasCloudinaryVideo && !hasSanityVideo) {
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#000",
+          color: "#FFF",
+          fontFamily: "'Space Mono', monospace",
+        }}
+      >
+        <p>Video not available</p>
+      </div>
+    );
+  }
+
+  // Use Sanity video URL if available, otherwise Cloudinary
+  const videoSrc = hasSanityVideo
+    ? item.imageUrl
+    : cloudinaryVideoUrl(item.publicId!, {
         format: "auto",
         quality: "auto",
-      })
-    : "";
+      });
+
   return (
     <div
       style={{
@@ -941,7 +987,7 @@ function DeckVideoView({ item }: { item: GalleryItem }) {
       }}
     >
       <motion.video
-        key={src}
+        key={videoSrc}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4 }}
@@ -956,14 +1002,16 @@ function DeckVideoView({ item }: { item: GalleryItem }) {
           boxShadow: "0 32px 100px rgba(0,0,0,0.8)",
         }}
       >
-        <source src={src} type="video/mp4" />
-        <source
-          src={cloudinaryVideoUrl(item.publicId ?? "", {
-            format: "webm",
-            quality: "auto",
-          })}
-          type="video/webm"
-        />
+        <source src={videoSrc} type="video/mp4" />
+        {hasCloudinaryVideo && (
+          <source
+            src={cloudinaryVideoUrl(item.publicId!, {
+              format: "webm",
+              quality: "auto",
+            })}
+            type="video/webm"
+          />
+        )}
       </motion.video>
     </div>
   );

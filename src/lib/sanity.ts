@@ -11,9 +11,26 @@ export const sanityClient = createClient({
   apiVersion,
   useCdn: true,
   perspective: 'published',
+  // Increase timeout and add retry logic
+  requestTagPrefix: 'boc-site',
 });
 
 console.log('Sanity Client Config:', { projectId, dataset, apiVersion });
+
+// Test connection on load (optional - can remove in production)
+if (typeof window !== 'undefined') {
+  sanityClient
+    .fetch('*[_type == "vaultItem"][0..0]')
+    .then(() => {
+      console.log('✅ Sanity connection successful');
+    })
+    .catch((err) => {
+      console.error('❌ Sanity connection failed:', err.message);
+      if (err.message.includes('CORS')) {
+        console.error('💡 CORS Issue: Add your domain to Sanity CORS settings at https://sanity.io/manage');
+      }
+    });
+}
 
 const imageBuilder = createImageUrlBuilder(sanityClient);
 

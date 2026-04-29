@@ -130,10 +130,36 @@ export async function fetchStoryBySlug(slug: string) {
 
 export function resolveMediaUrl(media?: SanityImageField, width = 1600) {
   if (!media) return '';
-  if (media.cloudinaryUrl) return media.cloudinaryUrl;
+
+  // Handle Cloudinary URLs - extract public_id from embed URLs if needed
+  if (media.cloudinaryUrl) {
+    const url = media.cloudinaryUrl;
+
+    // Check if it's a Cloudinary embed player URL
+    if (url.includes('player.cloudinary.com/embed')) {
+      // Extract public_id from embed URL
+      const publicIdMatch = url.match(/[?&]public_id=([^&]+)/);
+      if (publicIdMatch) {
+        const publicId = decodeURIComponent(publicIdMatch[1]);
+        // Return direct video URL instead of embed
+        return `https://res.cloudinary.com/basecreator/video/upload/${publicId}.mp4`;
+      }
+    }
+
+    // Check if it's just a public_id (no http/https)
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      // Assume it's a public_id, build video URL
+      return `https://res.cloudinary.com/basecreator/video/upload/${url}.mp4`;
+    }
+
+    // Otherwise return the URL as-is (direct video/image URL)
+    return url;
+  }
+
   if (media.image) {
     return urlFor(media.image).width(width).auto('format').quality(80).url();
   }
+
   return '';
 }
 
