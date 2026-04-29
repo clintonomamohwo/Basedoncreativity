@@ -62,7 +62,7 @@ const SERVICES: ServiceDef[] = [
       'Animatics & Pre-Production Packages',
     ],
     outcome:
-      'A finished animated work — or a production-ready development package — that carries genuine narrative weight and visual identity. Work built to travel across platforms, borders, and audiences.',
+      'A finished animated work - or a production-ready development package - that carries genuine narrative weight and visual identity. Work built to travel across platforms, borders, and audiences.',
     relatedWork: 'First Animated Series',
     relatedPath: '/work',
     bg: INDIGO_BLUE,
@@ -73,7 +73,7 @@ const SERVICES: ServiceDef[] = [
     name: 'Stories in Print & Digital',
     entity: 'Creativity Base Press',
     description:
-      'A publishing house rooted in voices that deserve to be heard. From illustrated novellas to editorial magazines, we design and produce print and digital publications built to command attention on any shelf — or any screen.',
+      'A publishing house rooted in voices that deserve to be heard. From illustrated novellas to editorial magazines, we design and produce print and digital publications built to command attention on any shelf - or any screen.',
     deliverables: [
       'Book & Novella Publishing',
       'Editorial Magazine Design & Production',
@@ -83,7 +83,7 @@ const SERVICES: ServiceDef[] = [
       'Print-Ready & Digital-First Formats',
     ],
     outcome:
-      'A polished publication — print or digital — that reads as professionally as it looks. Stories given the design, production quality, and distribution strategy they deserve.',
+      'A polished publication - print or digital - that reads as professionally as it looks. Stories given the design, production quality, and distribution strategy they deserve.',
     relatedWork: 'First Publication',
     relatedPath: '/work',
     bg: NAVY_950,
@@ -104,7 +104,7 @@ const SERVICES: ServiceDef[] = [
       'Audience Growth & Retention Strategy',
     ],
     outcome:
-      'A living digital space — not just a product launch. A platform with a genuine community, a clear editorial voice, and the infrastructure to grow without losing its character.',
+      'A living digital space - not just a product launch. A platform with a genuine community, a clear editorial voice, and the infrastructure to grow without losing its character.',
     relatedWork: 'bochq.com',
     relatedPath: '/work',
     bg: INDIGO_BLUE,
@@ -113,9 +113,9 @@ const SERVICES: ServiceDef[] = [
     number: '04',
     eyebrow: 'Visual Identity & Design',
     name: 'Identity as Declaration',
-    entity: 'Graphic Design — BOC Direct',
+    entity: 'Graphic Design - BOC Direct',
     description:
-      'Identity is not decoration — it is declaration. Our graphic design practice crafts brand systems and visual identities that speak before a single word is read. Precise, purposeful, and unmistakable.',
+      'Identity is not decoration - it is declaration. Our graphic design practice crafts brand systems and visual identities that speak before a single word is read. Precise, purposeful, and unmistakable.',
     deliverables: [
       'Brand Identity & Logo Systems',
       'Typography & Colour Architecture',
@@ -125,7 +125,7 @@ const SERVICES: ServiceDef[] = [
       'Brand Guidelines & Usage Standards',
     ],
     outcome:
-      'A complete brand system with the depth and flexibility to serve an organisation across every touchpoint — from business card to billboard, from website to social to product.',
+      'A complete brand system with the depth and flexibility to serve an organisation across every touchpoint - from business card to billboard, from website to social to product.',
     relatedWork: 'BOC Brand Identity',
     relatedPath: '/work',
     bg: NAVY_950,
@@ -134,9 +134,9 @@ const SERVICES: ServiceDef[] = [
     number: '05',
     eyebrow: 'Websites & Digital Experiences',
     name: 'Presence Built to Last',
-    entity: 'Web Development — BOC Direct',
+    entity: 'Web Development - BOC Direct',
     description:
-      'Digital presence designed and engineered with the same care as the brands it represents. Bespoke websites and interactive experiences that are fast, accessible, and beautiful — built for the long term.',
+      'Digital presence designed and engineered with the same care as the brands it represents. Bespoke websites and interactive experiences that are fast, accessible, and beautiful - built for the long term.',
     deliverables: [
       'Bespoke Website Design & Development',
       'Interactive & Immersive Web Experiences',
@@ -146,7 +146,7 @@ const SERVICES: ServiceDef[] = [
       'CMS Integration & Ongoing Support',
     ],
     outcome:
-      'A high-performance website that earns its place — one that represents the brand faithfully, loads quickly, converts visitors, and holds up beautifully as the brand scales.',
+      'A high-performance website that earns its place - one that represents the brand faithfully, loads quickly, converts visitors, and holds up beautifully as the brand scales.',
     relatedWork: 'bochq.com',
     relatedPath: '/work',
     bg: INDIGO_BLUE,
@@ -155,9 +155,9 @@ const SERVICES: ServiceDef[] = [
     number: '06',
     eyebrow: 'Products & Apparel',
     name: 'Creativity You Can Hold',
-    entity: 'Merchandise — BOC Direct',
+    entity: 'Merchandise - BOC Direct',
     description:
-      'When creativity becomes something tangible. We conceive, design, and produce limited-run merchandise and apparel collections that carry the full weight of the brand they represent — objects worth owning and worth giving.',
+      'When creativity becomes something tangible. We conceive, design, and produce limited-run merchandise and apparel collections that carry the full weight of the brand they represent - objects worth owning and worth giving.',
     deliverables: [
       'Apparel Design & Limited-Run Production',
       'Art Prints & Collectible Objects',
@@ -167,7 +167,7 @@ const SERVICES: ServiceDef[] = [
       'Product Photography Direction',
     ],
     outcome:
-      'A merchandise line that functions as marketing, community signal, and revenue stream simultaneously — products that fans seek out rather than accept as afterthoughts.',
+      'A merchandise line that functions as marketing, community signal, and revenue stream simultaneously - products that fans seek out rather than accept as afterthoughts.',
     relatedWork: 'BOC Brand Identity',
     relatedPath: '/work',
     bg: NAVY_950,
@@ -187,7 +187,7 @@ const PROCESS_STEPS: ProcessStep[] = [
     title: 'Direction',
     subtitle: 'We find the angle.',
     description:
-      'Concepts are forged with care. We explore boldly, then distil — arriving at a creative direction that feels inevitable in hindsight.',
+      'Concepts are forged with care. We explore boldly, then distil - arriving at a creative direction that feels inevitable in hindsight.',
   },
   {
     number: '03',
@@ -201,14 +201,14 @@ const PROCESS_STEPS: ProcessStep[] = [
     title: 'Production',
     subtitle: 'We make it real.',
     description:
-      'Development, animation, print, or code — production is where the direction becomes something you can see, hold, or ship. We maintain craft standards at every stage.',
+      'Development, animation, print, or code - production is where the direction becomes something you can see, hold, or ship. We maintain craft standards at every stage.',
   },
   {
     number: '05',
     title: 'Delivery',
     subtitle: 'We send it out right.',
     description:
-      'Delivery is not an ending — it is an opening. We ensure your work enters the world with the presence, preparation, and positioning it deserves.',
+      'Delivery is not an ending - it is an opening. We ensure your work enters the world with the presence, preparation, and positioning it deserves.',
   },
 ];
 
@@ -365,7 +365,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
             gap: '2px',
           }}
         >
-          {/* Column 1 — What we offer */}
+          {/* Column 1 - What we offer */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -414,7 +414,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
             </p>
           </motion.div>
 
-          {/* Column 2 — Deliverables */}
+          {/* Column 2 - Deliverables */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -477,7 +477,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
             </ul>
           </motion.div>
 
-          {/* Column 3 — Outcome + related work */}
+          {/* Column 3 - Outcome + related work */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -601,7 +601,13 @@ export function ServicesPage() {
           style={{
             position: 'absolute',
             inset: 0,
-            background: 'radial-gradient(ellipse 80% 60% at 50% 30%, rgba(212,168,83,0.07) 0%, transparent 65%)',
+            background: `
+              radial-gradient(ellipse 80% 60% at 50% 30%, rgba(255,200,87,0.07) 0%, transparent 65%),
+              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 24 24' fill='none' stroke='rgba(255,200,87,0.03)' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5'/%3E%3Cpath d='M9 18h6'/%3E%3Cpath d='M10 22h4'/%3E%3C/svg%3E")
+            `,
+            backgroundPosition: 'center, 85% 45%',
+            backgroundRepeat: 'no-repeat, no-repeat',
+            backgroundSize: 'auto, 280px',
             pointerEvents: 'none',
           }}
         />
@@ -654,7 +660,7 @@ export function ServicesPage() {
               margin: '0 0 32px',
             }}
           >
-            BOC operates across six creative disciplines — from animation and publishing to web, design, platform, and merchandise. Every discipline is held to the same standard: craft that outlasts the moment it was made for.
+            BOC operates across six creative disciplines - from animation and publishing to web, design, platform, and merchandise. Every discipline is held to the same standard: craft that outlasts the moment it was made for.
           </motion.p>
 
           {/* Italic accent */}
@@ -708,7 +714,7 @@ export function ServicesPage() {
         <ServiceCard key={svc.number} svc={svc} index={i} />
       ))}
 
-      {/* ── Mid CTA — after all service sections ─────────────────────────────── */}
+      {/* ── Mid CTA - after all service sections ─────────────────────────────── */}
       <MidCTA navigate={navigate} />
 
       {/* ── Process ──────────────────────────────────────────────────────────── */}

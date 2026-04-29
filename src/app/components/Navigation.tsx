@@ -60,9 +60,9 @@ export function Navigation() {
   const navRef = useRef<HTMLElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
-  // Monotonically increasing ID for star particles — avoids key collisions
+  // Monotonically increasing ID for star particles - avoids key collisions
   const starCounterRef = useRef(0);
-  // Last known star spawn position — throttles spawn rate on slow drags
+  // Last known star spawn position - throttles spawn rate on slow drags
   const lastStarPosRef = useRef({ x: 0, y: 0 });
   const starRemovalTimersRef = useRef<number[]>([]);
   const introBurstTimerRef = useRef<number | null>(null);
@@ -313,7 +313,7 @@ export function Navigation() {
       {/* ── Main nav row ── */}
       <div className="relative max-w-[1200px] mx-auto px-4 md:px-8 py-2">
         <div className="flex items-center justify-between gap-4 md:gap-8">
-          {/* Logo — navigates home on click */}
+          {/* Logo - navigates home on click */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}

@@ -68,7 +68,7 @@ export function HeroSection() {
               </span>
             </motion.div>
 
-            {/* Main headline — responsive Space Mono bold */}
+            {/* Main headline - responsive Space Mono bold */}
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -85,7 +85,7 @@ export function HeroSection() {
               <span style={{ color: '#FFC857' }}>Born in the light.</span>
             </motion.h1>
 
-            {/* Subtitle — Cormorant Garamond italic, responsive */}
+            {/* Subtitle - Cormorant Garamond italic, responsive */}
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -109,7 +109,7 @@ export function HeroSection() {
               transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col sm:flex-row gap-4"
             >
-              {/* Primary — Gold background, Indigo Blue text, Space Mono bold */}
+              {/* Primary - Gold background, Indigo Blue text, Space Mono bold */}
               <motion.button
                 whileHover={{ scale: 1.05, y: -4 }}
                 whileTap={{ scale: 0.95 }}
@@ -137,7 +137,7 @@ export function HeroSection() {
                 </motion.div>
               </motion.button>
 
-              {/* Secondary — transparent, 2px solid Gold border, Gold text, Space Mono bold */}
+              {/* Secondary - transparent, 2px solid Gold border, Gold text, Space Mono bold */}
               <motion.button
                 whileHover={{ scale: 1.05, y: -4 }}
                 whileTap={{ scale: 0.95 }}

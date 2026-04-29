@@ -9,16 +9,14 @@ export const sanityClient = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: false, // Disable CDN to avoid caching issues during development
+  useCdn: import.meta.env.PROD, // Enable CDN in production for better performance
   perspective: 'published',
   requestTagPrefix: 'boc-site',
   ignoreBrowserTokenWarning: true,
 });
 
-console.log('Sanity Client Config:', { projectId, dataset, apiVersion });
-
-// Test connection on load (optional - can remove in production)
-if (typeof window !== 'undefined') {
+// Test connection on load in development
+if (typeof window !== 'undefined' && import.meta.env.DEV) {
   sanityClient
     .fetch('*[_type == "vaultItem"][0..0]')
     .then(() => {

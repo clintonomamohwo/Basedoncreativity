@@ -36,7 +36,7 @@ export const PROCESS_STEPS: ProcessStep[] = [
     title: 'Direction',
     subtitle: 'We find the angle.',
     description:
-      'Concepts are forged with care. We explore boldly, then distil — arriving at a creative direction that feels inevitable in hindsight.',
+      'Concepts are forged with care. We explore boldly, then distil - arriving at a creative direction that feels inevitable in hindsight.',
   },
   {
     number: '03',
@@ -50,14 +50,14 @@ export const PROCESS_STEPS: ProcessStep[] = [
     title: 'Production',
     subtitle: 'We make it real.',
     description:
-      'Development, animation, print, or code — production is where the direction becomes something you can see, hold, or ship. We maintain craft standards at every stage.',
+      'Development, animation, print, or code - production is where the direction becomes something you can see, hold, or ship. We maintain craft standards at every stage.',
   },
   {
     number: '05',
     title: 'Delivery',
     subtitle: 'We send it out right.',
     description:
-      'Delivery is not an ending — it is an opening. We ensure your work enters the world with the presence, preparation, and positioning it deserves.',
+      'Delivery is not an ending - it is an opening. We ensure your work enters the world with the presence, preparation, and positioning it deserves.',
   },
 ];
 export function GoldRule({ gradient = false, className = '' }: { gradient?: boolean; className?: string }) {
@@ -175,7 +175,7 @@ export function MidCTA({ navigate }: { navigate: ReturnType<typeof useNavigate> 
             maxWidth: '520px',
           }}
         >
-          Tell us what you are working on. We will tell you honestly whether it is the kind of project we take on — and if it is, how we would approach it.
+          Tell us what you are working on. We will tell you honestly whether it is the kind of project we take on - and if it is, how we would approach it.
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center', marginTop: '8px' }}>
           <button
@@ -322,7 +322,7 @@ export function ProcessSection({ navigate }: { navigate: ReturnType<typeof useNa
           </p>
         </motion.div>
 
-        {/* Steps — vertical on mobile, horizontal columns on desktop */}
+        {/* Steps - vertical on mobile, horizontal columns on desktop */}
         <div
           style={{
             display: 'grid',
@@ -459,7 +459,7 @@ export function ProcessSection({ navigate }: { navigate: ReturnType<typeof useNa
                 margin: 0,
               }}
             >
-              Every engagement starts with a discovery conversation — no obligation, no pitch deck. Just a real discussion about whether this is a good fit.
+              Every engagement starts with a discovery conversation - no obligation, no pitch deck. Just a real discussion about whether this is a good fit.
             </p>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
@@ -604,7 +604,7 @@ export function FinalCTA({ navigate }: { navigate: ReturnType<typeof useNavigate
             lineHeight: 1.55,
           }}
         >
-          Not with a contract — with a conversation.
+          Not with a contract - with a conversation.
         </p>
 
         <p

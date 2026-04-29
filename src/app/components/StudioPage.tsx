@@ -60,7 +60,7 @@ const CREATIONS: CreationCard[] = [
     title: 'Original Animated Series',
     category: 'Long-Form Narrative',
     description:
-      'Multi-episode worlds built from the ground up — original characters, complete mythologies, and visual languages designed to carry a story across an entire season or more. Series that are made to travel.',
+      'Multi-episode worlds built from the ground up - original characters, complete mythologies, and visual languages designed to carry a story across an entire season or more. Series that are made to travel.',
     detail: 'Episodic storytelling · Series bible · Full production pipeline',
     image: IMG_SERIES,
     imageAlt: 'Cinematic dark atmospheric film production',
@@ -71,7 +71,7 @@ const CREATIONS: CreationCard[] = [
     title: 'Narrative Shorts',
     category: 'Short-Form Film',
     description:
-      'Compact, precise stories told in motion. Narrative shorts demand economy — every second must earn its place. We build short-form animation with the same depth of world and character as anything longer.',
+      'Compact, precise stories told in motion. Narrative shorts demand economy - every second must earn its place. We build short-form animation with the same depth of world and character as anything longer.',
     detail: 'Short film · Festival format · Motion poetry',
     image: IMG_STORY,
     imageAlt: 'Storyboard narrative film dark moody',
@@ -82,7 +82,7 @@ const CREATIONS: CreationCard[] = [
     title: 'Character Worlds',
     category: 'Visual Development',
     description:
-      'Before a story can be told, its world must exist. We develop character systems, creature language, cultural detail, and environment logic — the foundation that makes everything else feel inhabited and real.',
+      'Before a story can be told, its world must exist. We develop character systems, creature language, cultural detail, and environment logic - the foundation that makes everything else feel inhabited and real.',
     detail: 'Character design · World logic · Species & culture systems',
     image: IMG_CHARS,
     imageAlt: 'Character design illustration world building',
@@ -104,7 +104,7 @@ const PIPELINE_STAGES: PipelineStage[] = [
   {
     number: '01',
     title: 'Concept',
-    description: 'Every project begins with a question, not an answer. We explore the core idea — what the story is actually about beneath its surface.',
+    description: 'Every project begins with a question, not an answer. We explore the core idea - what the story is actually about beneath its surface.',
     outputs: ['Story kernel', 'Thematic framework', 'Initial premise document'],
   },
   {
@@ -116,7 +116,7 @@ const PIPELINE_STAGES: PipelineStage[] = [
   {
     number: '03',
     title: 'Character Direction',
-    description: 'Characters are built from the inside out — psychology first, design second. The look must be earned by what is underneath.',
+    description: 'Characters are built from the inside out - psychology first, design second. The look must be earned by what is underneath.',
     outputs: ['Character sheets', 'Personality matrices', 'Relationship maps'],
   },
   {
@@ -128,13 +128,13 @@ const PIPELINE_STAGES: PipelineStage[] = [
   {
     number: '05',
     title: 'Visual Development',
-    description: 'Colour, light, texture, and composition. We establish how the world looks — not just what is in it, but how it feels to be inside it.',
+    description: 'Colour, light, texture, and composition. We establish how the world looks - not just what is in it, but how it feels to be inside it.',
     outputs: ['Style frames', 'Colour palette', 'Lighting direction'],
   },
   {
     number: '06',
     title: 'Motion Language',
-    description: 'Animation principles, timing philosophy, and performance direction — the decisions that make movement feel alive rather than executed.',
+    description: 'Animation principles, timing philosophy, and performance direction - the decisions that make movement feel alive rather than executed.',
     outputs: ['Animation reference', 'Performance notes', 'Motion tests'],
   },
   {
@@ -174,7 +174,7 @@ export function StudioPage() {
             className="w-full h-full object-cover"
             style={{ opacity: 0.35 }}
           />
-          {/* Gradient overlay — ensure text is always legible */}
+          {/* Gradient overlay - ensure text is always legible */}
           <div
             style={{
               position: 'absolute',
@@ -399,11 +399,11 @@ export function StudioPage() {
                 margin: 0,
               }}
             >
-              The studio works across four creative modes — each one a different form of the same commitment to original storytelling and visual craftsmanship.
+              The studio works across four creative modes - each one a different form of the same commitment to original storytelling and visual craftsmanship.
             </motion.p>
           </div>
 
-          {/* Cards — 2×2 on desktop, 1-col on mobile */}
+          {/* Cards - 2×2 on desktop, 1-col on mobile */}
           <div
             style={{
               display: 'grid',

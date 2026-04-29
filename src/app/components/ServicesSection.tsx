@@ -126,7 +126,7 @@ export function ServicesSection() {
                   cursor: "default",
                 }}
               >
-                {/* Icon — Indigo outline, 24px, rounded wrapper */}
+                {/* Icon - Indigo outline, 24px, rounded wrapper */}
                 <div
                   className="mb-6 inline-flex items-center justify-center"
                   style={{
@@ -144,7 +144,7 @@ export function ServicesSection() {
                   />
                 </div>
 
-                {/* Title — Space Mono bold, Indigo */}
+                {/* Title - Space Mono bold, Indigo */}
                 <h3
                   className="mb-3"
                   style={{
@@ -158,7 +158,7 @@ export function ServicesSection() {
                   {service.title}
                 </h3>
 
-                {/* Description — Source Sans 3 regular 16px */}
+                {/* Description - Source Sans 3 regular 16px */}
                 <p
                   style={{
                     color: "#3A3A3A",

@@ -1,10 +1,10 @@
 /**
- * Brand Design Tokens — Based on Creativity
+ * Brand Design Tokens - Based on Creativity
  *
  * Single source of truth for colors, typography, animation, and shared
  * visual assets used across the entire application.
  *
- * Guidelines: Modern Heritage style — luxury, premium, accessible (WCAG 2.1 AA).
+ * Guidelines: Modern Heritage style - luxury, premium, accessible (WCAG 2.1 AA).
  */
 
 // ─── Colors ──────────────────────────────────────────────────────────────────
@@ -36,11 +36,11 @@ export const COLORS = {
 // ─── Font Stacks ─────────────────────────────────────────────────────────────
 
 export const FONTS = {
-  /** Space Mono — headings (H1–H4) */
+  /** Space Mono - headings (H1-H4) */
   heading: "'Space Mono', monospace",
-  /** Source Sans 3 — body, captions, paragraphs */
+  /** Source Sans 3 - body, captions, paragraphs */
   body: "'Source Sans 3', sans-serif",
-  /** Cormorant Garamond — accent / quotes / taglines. Min 18px. */
+  /** Cormorant Garamond - accent / quotes / taglines. Min 18px. */
   accent: "'Cormorant Garamond', serif",
 } as const;
 

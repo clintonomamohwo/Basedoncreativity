@@ -55,7 +55,7 @@ const contactInfo = [
   {
     icon: MapPin,
     label: "Studio",
-    value: "Studio location coming soon — update this before launch",
+    value: "Studio location coming soon - update this before launch",
     href: null,
   },
   {

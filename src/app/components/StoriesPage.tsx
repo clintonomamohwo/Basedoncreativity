@@ -106,7 +106,7 @@ const PRESS_PILLARS = [
   {
     label: "Illustrated Novellas",
     description:
-      "Long-form stories that live between image and text — where illustration carries as much narrative weight as the writing.",
+      "Long-form stories that live between image and text - where illustration carries as much narrative weight as the writing.",
   },
   {
     label: "Editorial Anthologies",
@@ -121,7 +121,7 @@ const PRESS_PILLARS = [
   {
     label: "Visual Essays",
     description:
-      "Non-fiction told through image and type — ideas that need room to breathe on the page, not just on screen.",
+      "Non-fiction told through image and type - ideas that need room to breathe on the page, not just on screen.",
   },
 ];
 
@@ -437,17 +437,16 @@ export function StoriesPage() {
 
     fetchStories()
       .then((stories) => {
-        console.log('Sanity Stories fetched:', stories);
         if (cancelled || !stories?.length) {
-          console.log('No stories found or cancelled');
           return;
         }
         const mapped = stories.map(mapSanityStoryToBook);
-        console.log('Mapped stories to books:', mapped);
         setCmsBooks(mapped);
       })
       .catch((error) => {
-        console.error('Error fetching stories:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error fetching stories:', error);
+        }
         if (!cancelled) {
           setCmsBooks([]);
         }
@@ -461,7 +460,6 @@ export function StoriesPage() {
   const displayBooks = useMemo(
     () => {
       const books = cmsBooks.length ? cmsBooks : FALLBACK_LIBRARY_BOOKS;
-      console.log('Using data source:', cmsBooks.length ? 'Sanity CMS' : 'Fallback', '- Stories:', books.length);
       return books;
     },
     [cmsBooks],
@@ -558,15 +556,32 @@ export function StoriesPage() {
 
         {/* ── Main content ─────────────────────────────────────────────────────── */}
         <div className="relative" style={{ zIndex: 2 }}>
-          {/* ── INTRO SECTION — Creativity Base Press ─────────────────────────── */}
+          {/* ── INTRO SECTION - Creativity Base Press ─────────────────────────── */}
           <section
             style={{
               maxWidth: "1200px",
               margin: "0 auto",
               padding:
                 "clamp(104px, 13vw, 152px) clamp(20px, 5vw, 48px) clamp(56px, 7vw, 80px)",
+              position: "relative",
             }}
           >
+            {/* Decorative book icon */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '15%',
+                right: '5%',
+                width: '240px',
+                height: '240px',
+                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,200,87,0.035)' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/%3E%3C/svg%3E")`,
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                pointerEvents: 'none',
+                opacity: 0.7,
+              }}
+            />
             {/* Eyebrow */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
@@ -665,7 +680,7 @@ export function StoriesPage() {
                   }}
                 >
                   Creativity Base Press is the publishing house
-                  of Based on Creativity — a place for stories,
+                  of Based on Creativity - a place for stories,
                   voices, and ideas that deserve more than a
                   social media post. We publish illustrated
                   novellas, original fiction, editorial
@@ -710,7 +725,7 @@ export function StoriesPage() {
                 >
                   Every title published through Creativity Base
                   Press is treated as a complete creative object
-                  — not just a document with a cover.
+                  - not just a document with a cover.
                   Typography, binding philosophy, illustration
                   direction, and editorial voice are all
                   considered from the first page to the last.
@@ -754,7 +769,7 @@ export function StoriesPage() {
               </motion.div>
             </div>
 
-            {/* What we publish — pillars grid */}
+            {/* What we publish - pillars grid */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -905,7 +920,7 @@ export function StoriesPage() {
             </div>
           </div>
 
-          {/* ── THE QUIET PAGES — book catalogue ─────────────────────────────── */}
+          {/* ── THE QUIET PAGES - book catalogue ─────────────────────────────── */}
           <section
             style={{
               maxWidth: "1200px",
@@ -980,7 +995,7 @@ export function StoriesPage() {
               </p>
             </motion.div>
 
-            {/* Book grid — preserved exactly */}
+            {/* Book grid - preserved exactly */}
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-10">
               {displayBooks.map((book, index) => (
                 <BookCard
@@ -1028,7 +1043,7 @@ export function StoriesPage() {
                   margin: "0 auto 24px",
                 }}
               >
-                "Every story is a small light in the dark — a
+                "Every story is a small light in the dark - a
                 moment of connection across time and space."
               </blockquote>
               <p

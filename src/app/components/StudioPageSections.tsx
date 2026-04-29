@@ -45,7 +45,7 @@ const PIPELINE_STAGES: PipelineStage[] = [
   {
     number: '01',
     title: 'Concept',
-    description: 'Every project begins with a question, not an answer. We explore the core idea — what the story is actually about beneath its surface.',
+    description: 'Every project begins with a question, not an answer. We explore the core idea - what the story is actually about beneath its surface.',
     outputs: ['Story kernel', 'Thematic framework', 'Initial premise document'],
   },
   {
@@ -57,7 +57,7 @@ const PIPELINE_STAGES: PipelineStage[] = [
   {
     number: '03',
     title: 'Character Direction',
-    description: 'Characters are built from the inside out — psychology first, design second. The look must be earned by what is underneath.',
+    description: 'Characters are built from the inside out - psychology first, design second. The look must be earned by what is underneath.',
     outputs: ['Character sheets', 'Personality matrices', 'Relationship maps'],
   },
   {
@@ -69,13 +69,13 @@ const PIPELINE_STAGES: PipelineStage[] = [
   {
     number: '05',
     title: 'Visual Development',
-    description: 'Colour, light, texture, and composition. We establish how the world looks — not just what is in it, but how it feels to be inside it.',
+    description: 'Colour, light, texture, and composition. We establish how the world looks - not just what is in it, but how it feels to be inside it.',
     outputs: ['Style frames', 'Colour palette', 'Lighting direction'],
   },
   {
     number: '06',
     title: 'Motion Language',
-    description: 'Animation principles, timing philosophy, and performance direction — the decisions that make movement feel alive rather than executed.',
+    description: 'Animation principles, timing philosophy, and performance direction - the decisions that make movement feel alive rather than executed.',
     outputs: ['Animation reference', 'Performance notes', 'Motion tests'],
   },
   {
@@ -426,11 +426,11 @@ export function PipelineSection() {
               margin: 0,
             }}
           >
-            Every Creativity Base Studios project — whether a feature-length series or a three-minute short — moves through the same deliberate pipeline. Pre-production is where the work is won or lost. We believe in spending the time here so production can breathe.
+            Every Creativity Base Studios project - whether a feature-length series or a three-minute short - moves through the same deliberate pipeline. Pre-production is where the work is won or lost. We believe in spending the time here so production can breathe.
           </motion.p>
         </div>
 
-        {/* Stages — vertical stack */}
+        {/* Stages - vertical stack */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
           {PIPELINE_STAGES.map((stage, i) => (
             <motion.div
@@ -592,7 +592,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
         overflow: 'hidden',
       }}
     >
-      {/* Background image — heavily overlaid */}
+      {/* Background image - heavily overlaid */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
         <ImageWithFallback
           src={IMG_SERIES}
@@ -662,7 +662,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
           alignItems: 'center',
         }}
       >
-        {/* Left — content */}
+        {/* Left - content */}
         <motion.div
           initial={{ opacity: 0, x: -24 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -798,7 +798,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
           </div>
         </motion.div>
 
-        {/* Right — decorative card */}
+        {/* Right - decorative card */}
         <motion.div
           initial={{ opacity: 0, x: 24 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -814,7 +814,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
             border: `1px solid ${GOLD_10}`,
           }}
         >
-          {/* Top cell — wide image */}
+          {/* Top cell - wide image */}
           <div style={{ position: 'relative', overflow: 'hidden' }}>
             <ImageWithFallback
               src={IMG_HERO}
@@ -839,7 +839,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
             </div>
           </div>
 
-          {/* Bottom row — two cells */}
+          {/* Bottom row - two cells */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px' }}>
             <div style={{ position: 'relative', overflow: 'hidden' }}>
               <ImageWithFallback
@@ -1004,7 +1004,7 @@ export function BottomCTA({ navigate }: { navigate: ReturnType<typeof useNavigat
             maxWidth: '500px',
           }}
         >
-          If you are building an original IP, commissioning animation for a serious project, or looking for a creative partner with the depth to see something through — start with a conversation. We are selective. That is by design.
+          If you are building an original IP, commissioning animation for a serious project, or looking for a creative partner with the depth to see something through - start with a conversation. We are selective. That is by design.
         </p>
 
         <div

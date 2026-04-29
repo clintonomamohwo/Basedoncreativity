@@ -196,15 +196,15 @@ export function StoryDetail() {
 
     fetchStoryBySlug(storyId)
       .then((story) => {
-        console.log('Sanity Story fetched for slug:', storyId, story);
         if (!cancelled) {
           const mapped = story ? mapSanityStory(story) : null;
-          console.log('Mapped story:', mapped);
           setCmsStory(mapped);
         }
       })
       .catch((error) => {
-        console.error('Error fetching story by slug:', storyId, error);
+        if (import.meta.env.DEV) {
+          console.error('Error fetching story by slug:', storyId, error);
+        }
         if (!cancelled) {
           setCmsStory(null);
         }
@@ -225,11 +225,6 @@ export function StoryDetail() {
   const story = cmsStory || fallbackStory || null;
   const storyPath = storyId ? `/stories/${storyId}` : '/stories';
 
-  useEffect(() => {
-    if (story) {
-      console.log('Using story data source:', cmsStory ? 'Sanity CMS' : 'Fallback', '- Story:', story.title);
-    }
-  }, [story, cmsStory]);
   const storySeoTitle = story
     ? `${story.title} | Stories | Based on Creativity`
     : 'Story Not Found | Based on Creativity';
@@ -294,7 +289,7 @@ export function StoryDetail() {
     setIsAnimating(false);
   }, [isMobile, targetMobileIdx, targetSpreadIdx]);
 
-  // Keyboard navigation — dependency array prevents listener accumulation on re-renders
+  // Keyboard navigation - dependency array prevents listener accumulation on re-renders
   useEffect(() => {
     if (!storybookMode) return;
     const onKey = (e: KeyboardEvent) => {

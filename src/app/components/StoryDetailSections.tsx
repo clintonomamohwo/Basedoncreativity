@@ -66,8 +66,8 @@ function createStoryFallbackSrc(
   const title = escapeSvgText(alt || 'Based on Creativity');
   const label = escapeSvgText(
     variant === 'hero'
-      ? 'Story artwork placeholder — replace with Cloudinary asset when ready'
-      : 'Story illustration placeholder — replace with Cloudinary asset when ready',
+      ? 'Story artwork placeholder - replace with Cloudinary asset when ready'
+      : 'Story illustration placeholder - replace with Cloudinary asset when ready',
   );
   const ornament = variant === 'hero' ? 'BOC STORY ART' : 'BOC STORY DETAIL';
 

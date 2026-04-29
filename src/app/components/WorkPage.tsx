@@ -36,10 +36,10 @@ const FALLBACK_PROJECTS: Project[] = [
     status: 'Completed',
     year: '2024',
     summary:
-      'A full brand identity system for Based on Creativity — logo suite, colour philosophy, type system, motion principles, and the complete design language that underpins everything the company produces.',
+      'A full brand identity system for Based on Creativity - logo suite, colour philosophy, type system, motion principles, and the complete design language that underpins everything the company produces.',
     image:
       'https://images.unsplash.com/photo-1732096260253-f2030340e1ef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxicmFuZCUyMGlkZW50aXR5JTIwZGVzaWduJTIwbHV4dXJ5JTIwZ29sZCUyMG1pbmltYWx8ZW58MXx8fHwxNzc0NjIzMTQzfDA&ixlib=rb-4.1.0&q=80&w=1080',
-    imageAlt: 'BOC Brand Identity — gold luxury design system',
+    imageAlt: 'BOC Brand Identity - gold luxury design system',
   },
   {
     id: 'bochq-website',
@@ -48,12 +48,12 @@ const FALLBACK_PROJECTS: Project[] = [
     category: 'Web',
     discipline: 'Web Design · React · Editorial UI',
     status: 'Completed',
-    year: '2024–2025',
+    year: '2024-2025',
     summary:
-      'The official company website for Based on Creativity — a luxury editorial platform built in React with cinematic transitions, a custom design system, and an architecture that supports all BOC subsidiaries.',
+      'The official company website for Based on Creativity - a luxury editorial platform built in React with cinematic transitions, a custom design system, and an architecture that supports all BOC subsidiaries.',
     image:
       'https://images.unsplash.com/photo-1740721455292-e5cd29544381?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXJrJTIwbWluaW1hbCUyMHdlYnNpdGUlMjBkZXNpZ24lMjBsYXB0b3AlMjBzY3JlZW58ZW58MXx8fHwxNzc0NjIzMTQ5fDA&ixlib=rb-4.1.0&q=80&w=1080',
-    imageAlt: 'bochq.com — dark editorial web platform on screen',
+    imageAlt: 'bochq.com - dark editorial web platform on screen',
   },
   {
     id: 'first-animated-series',
@@ -64,10 +64,10 @@ const FALLBACK_PROJECTS: Project[] = [
     status: 'In Development',
     year: 'TBA',
     summary:
-      'The debut animated series from Creativity Base Studios — an original world built from the ground up with original characters, cultural depth, and a visual language designed to travel across borders.',
+      'The debut animated series from Creativity Base Studios - an original world built from the ground up with original characters, cultural depth, and a visual language designed to travel across borders.',
     image:
       'https://images.unsplash.com/photo-1558982423-f8e8a5c75426?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhbmltYXRlZCUyMGZpbG0lMjBwcm9kdWN0aW9uJTIwY2luZW1hdGljJTIwZGFya3xlbnwxfHx8fDE3NzQ2MjMxNDZ8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    imageAlt: 'Animated series — cinematic dark film production',
+    imageAlt: 'Animated series - cinematic dark film production',
   },
   {
     id: 'first-publication',
@@ -78,10 +78,10 @@ const FALLBACK_PROJECTS: Project[] = [
     status: 'In Development',
     year: 'TBA',
     summary:
-      'The inaugural title from Creativity Base Press — a written and illustrated work that extends BOC\'s storytelling beyond the screen and into the hands of readers.',
+      'The inaugural title from Creativity Base Press - a written and illustrated work that extends BOC\'s storytelling beyond the screen and into the hands of readers.',
     image:
       'https://images.unsplash.com/photo-1765922931332-224f9101941c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlZGl0b3JpYWwlMjBib29rJTIwcHVibGlzaGluZyUyMGNyZWF0aXZlJTIwZGFyayUyMG1vb2R5fGVufDF8fHx8MTc3NDYyMzE0Nnww&ixlib=rb-4.1.0&q=80&w=1080',
-    imageAlt: 'First Publication — editorial book dark moody',
+    imageAlt: 'First Publication - editorial book dark moody',
   },
 ];
 
@@ -93,14 +93,14 @@ function StatusBadge({ status }: { status: Status }) {
     <span
       className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full"
       style={{
-        background: isComplete ? 'rgba(212,168,83,0.15)' : 'rgba(255,255,255,0.07)',
-        border: isComplete ? '1px solid rgba(212,168,83,0.4)' : '1px solid rgba(255,255,255,0.15)',
+        background: isComplete ? 'rgba(255,200,87,0.15)' : 'rgba(255,255,255,0.07)',
+        border: isComplete ? '1px solid rgba(255,200,87,0.4)' : '1px solid rgba(255,255,255,0.15)',
         fontFamily: FONTS.body,
         fontSize: '0.6875rem',
         fontWeight: 600,
         letterSpacing: '0.12em',
         textTransform: 'uppercase',
-        color: isComplete ? '${COLORS.gold}' : 'rgba(250,243,224,0.55)',
+        color: isComplete ? COLORS.gold : 'rgba(250,243,224,0.55)',
       }}
     >
       <span
@@ -124,18 +124,18 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
       className="group relative flex flex-col rounded-2xl overflow-hidden"
       style={{
         background: 'rgba(255,255,255,0.03)',
-        border: '1px solid rgba(212,168,83,0.12)',
+        border: '1px solid rgba(255,200,87,0.12)',
         backdropFilter: 'blur(12px)',
         transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget as HTMLElement;
-        el.style.borderColor = 'rgba(212,168,83,0.35)';
-        el.style.boxShadow = '0 0 48px rgba(212,168,83,0.08), 0 24px 64px rgba(0,0,0,0.4)';
+        el.style.borderColor = 'rgba(255,200,87,0.35)';
+        el.style.boxShadow = '0 0 48px rgba(255,200,87,0.08), 0 24px 64px rgba(0,0,0,0.4)';
       }}
       onMouseLeave={(e) => {
         const el = e.currentTarget as HTMLElement;
-        el.style.borderColor = 'rgba(212,168,83,0.12)';
+        el.style.borderColor = 'rgba(255,200,87,0.12)';
         el.style.boxShadow = 'none';
       }}
     >
@@ -147,7 +147,7 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
           className="w-full h-full object-cover transition-transform duration-700 ease-out"
           style={{ transform: 'scale(1.02)' }}
         />
-        {/* Dark overlay — lightens slightly on hover */}
+        {/* Dark overlay - lightens slightly on hover */}
         <div
           className="absolute inset-0 transition-opacity duration-500"
           style={{ background: 'linear-gradient(180deg, rgba(10,22,40,0.25) 0%, rgba(10,22,40,0.65) 100%)' }}
@@ -160,7 +160,7 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
               fontWeight: 700,
               fontSize: '0.75rem',
               letterSpacing: '0.15em',
-              color: 'rgba(212,168,83,0.7)',
+              color: 'rgba(255,200,87,0.7)',
             }}
           >
             {project.index}
@@ -221,7 +221,7 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
           className="mb-4"
           style={{
             height: '1px',
-            background: 'linear-gradient(90deg, rgba(212,168,83,0.3), transparent)',
+            background: 'linear-gradient(90deg, rgba(255,200,87,0.3), transparent)',
           }}
         />
 
@@ -320,7 +320,7 @@ function MetaStrip() {
               fontWeight: 600,
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
-              color: 'rgba(212,168,83,0.5)',
+              color: 'rgba(255,200,87,0.5)',
             }}
           >
             {item}
@@ -328,7 +328,7 @@ function MetaStrip() {
           {i < META_ITEMS.length - 1 && (
             <span
               className="mx-4"
-              style={{ color: 'rgba(212,168,83,0.2)', fontSize: '0.75rem' }}
+              style={{ color: 'rgba(255,200,87,0.2)', fontSize: '0.75rem' }}
             >
               /
             </span>
@@ -351,7 +351,7 @@ function CTASection() {
           className="mb-16"
           style={{
             height: '1px',
-            background: 'linear-gradient(90deg, transparent, rgba(212,168,83,0.5) 40%, rgba(212,168,83,0.5) 60%, transparent)',
+            background: 'linear-gradient(90deg, transparent, rgba(255,200,87,0.5) 40%, rgba(255,200,87,0.5) 60%, transparent)',
           }}
         />
 
@@ -372,7 +372,7 @@ function CTASection() {
                 fontWeight: 600,
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
-                color: 'rgba(212,168,83,0.55)',
+                color: 'rgba(255,200,87,0.55)',
               }}
             >
               Commissions &amp; Collaborations
@@ -399,14 +399,14 @@ function CTASection() {
                 color: 'rgba(250,243,224,0.65)',
               }}
             >
-              We take on a small number of commissions and collaborative projects each year — brand identity, web, animation, editorial, and platform work. If your project aligns with the way we approach creativity, we want to hear from you.
+              We take on a small number of commissions and collaborative projects each year - brand identity, web, animation, editorial, and platform work. If your project aligns with the way we approach creativity, we want to hear from you.
             </p>
             <p
               className="mt-4 italic"
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
                 fontSize: '1.125rem',
-                color: 'rgba(212,168,83,0.7)',
+                color: 'rgba(255,200,87,0.7)',
               }}
             >
               We are selective. That is intentional.
@@ -482,17 +482,16 @@ export function WorkPage() {
 
     fetchPortfolioProjects()
       .then((projects) => {
-        console.log('Sanity Portfolio Projects fetched:', projects);
         if (cancelled || !projects?.length) {
-          console.log('No projects found or cancelled');
           return;
         }
         const mapped = projects.map(mapSanityProject);
-        console.log('Mapped portfolio projects:', mapped);
         setCmsProjects(mapped);
       })
       .catch((error) => {
-        console.error('Error fetching portfolio projects:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error fetching portfolio projects:', error);
+        }
         if (!cancelled) {
           setCmsProjects([]);
         }
@@ -517,12 +516,20 @@ export function WorkPage() {
       <SEO title="Work | Based on Creativity" description="Explore selected work from Based on Creativity, including brand identity systems, digital experiences, editorial design, and visual storytelling." path="/work" />
     <div
       className="relative"
-      style={{ background: '#0A1628' }}
+      style={{ background: '#1A1F4B' }}
     >
       {/* Ambient background layers */}
       <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 50% at 50% -10%, rgba(212,168,83,0.07), transparent)' }} />
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 60% 40% at 80% 90%, rgba(212,168,83,0.04), transparent)' }} />
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,200,87,0.07), transparent)' }} />
+        <div className="absolute inset-0" style={{
+          background: `
+            radial-gradient(ellipse 60% 40% at 80% 90%, rgba(255,200,87,0.04), transparent),
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 24 24' fill='none' stroke='rgba(255,200,87,0.025)' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='7' height='7'/%3E%3Crect x='14' y='3' width='7' height='7'/%3E%3Crect x='14' y='14' width='7' height='7'/%3E%3Crect x='3' y='14' width='7' height='7'/%3E%3C/svg%3E")
+          `,
+          backgroundPosition: 'center, 15% 40%',
+          backgroundRepeat: 'no-repeat, no-repeat',
+          backgroundSize: 'auto, 320px',
+        }} />
         {/* Grain */}
         <div
           className="absolute inset-0 opacity-[0.025] mix-blend-overlay"
@@ -534,7 +541,24 @@ export function WorkPage() {
 
       <div className="relative" style={{ zIndex: 1 }}>
         {/* ── Hero ─────────────────────────────────────────────────────── */}
-        <section className="px-4 md:px-12 lg:px-20 pt-32 pb-14 md:pt-36 md:pb-16 max-w-5xl mx-auto">
+        <section className="px-4 md:px-12 lg:px-20 pt-32 pb-14 md:pt-36 md:pb-16 max-w-5xl mx-auto relative">
+          {/* Decorative icon */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              right: '5%',
+              transform: 'translateY(-50%)',
+              width: '200px',
+              height: '200px',
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,200,87,0.04)' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='7' width='20' height='14' rx='2' ry='2'/%3E%3Cpath d='M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16'/%3E%3C/svg%3E")`,
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+              pointerEvents: 'none',
+              opacity: 0.6,
+            }}
+          />
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -548,7 +572,7 @@ export function WorkPage() {
                 fontWeight: 600,
                 letterSpacing: '0.3em',
                 textTransform: 'uppercase',
-                color: 'rgba(212,168,83,0.6)',
+                color: 'rgba(255,200,87,0.6)',
               }}
             >
               Based on Creativity
@@ -597,7 +621,7 @@ export function WorkPage() {
           <div
             style={{
               height: '1px',
-              background: 'linear-gradient(90deg, rgba(212,168,83,0.4), rgba(212,168,83,0.1) 70%, transparent)',
+              background: 'linear-gradient(90deg, rgba(255,200,87,0.4), rgba(255,200,87,0.1) 70%, transparent)',
             }}
           />
         </div>
@@ -624,10 +648,10 @@ export function WorkPage() {
             style={{
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: '1.125rem',
-              color: 'rgba(212,168,83,0.45)',
+              color: 'rgba(255,200,87,0.45)',
             }}
           >
-            More work is in motion — not everything announced yet.
+            More work is in motion - not everything announced yet.
           </motion.p>
         </section>
 

@@ -77,7 +77,7 @@ export function PhilosophySection() {
                 />
               </div>
 
-              {/* Title — Space Mono bold, Indigo */}
+              {/* Title - Space Mono bold, Indigo */}
               <h3
                 className="mb-4"
                 style={{
@@ -91,7 +91,7 @@ export function PhilosophySection() {
                 {title}
               </h3>
 
-              {/* Body — Cormorant Garamond italic 20px, Indigo */}
+              {/* Body - Cormorant Garamond italic 20px, Indigo */}
               <p
                 style={{
                   fontFamily: "'Cormorant Garamond', serif",

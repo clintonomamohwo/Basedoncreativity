@@ -115,7 +115,7 @@ function PortfolioCard({ item, index }: { item: PortfolioItem; index: number }) 
           }}
         />
 
-        {/* Arrow — appears on hover */}
+        {/* Arrow - appears on hover */}
         <motion.div
           initial={{ opacity: 0 }}
           whileHover={{ opacity: 1 }}

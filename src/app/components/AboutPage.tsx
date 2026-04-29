@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import type { MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform } from "motion/react";
+import type { MotionValue } from "motion/react";
 import {
   Sun,
   Moon,
@@ -144,7 +144,7 @@ function HeroBlock({
         >
           Based on Creativity is an independent creative company rooted in
           Ontario, Canada. We live in the quiet space between reflection and
-          expression — where ideas are gathered in stillness, shaped with
+          expression - where ideas are gathered in stillness, shaped with
           intention, and released into the world as stories, images, platforms,
           and experiences that resonate.
         </motion.p>
@@ -308,7 +308,7 @@ function Philosophy() {
               fontSize: "clamp(1.125rem, 3vw, 1.375rem)",
             }}
           >
-            At the heart of everything we do lives a quiet duality — inspired by
+            At the heart of everything we do lives a quiet duality - inspired by
             the balance of the sun and the moon.
           </p>
         </motion.div>
@@ -336,7 +336,7 @@ function Philosophy() {
                   fontWeight: 700,
                 }}
               >
-                The Moon — Reflection
+                The Moon - Reflection
               </h3>
             </div>
             <p
@@ -346,7 +346,7 @@ function Philosophy() {
                 fontSize: "1.125rem",
               }}
             >
-              Indigo Blue (#1A1F4B) — depth, stillness, and the space where
+              Indigo Blue (#1A1F4B) - depth, stillness, and the space where
               listening begins. Ideas gather in silence before they are ready to
               emerge. Reflection is not inaction; it is the foundation of
               everything intentional.
@@ -376,7 +376,7 @@ function Philosophy() {
                   color: COLORS.gold,
                 }}
               >
-                The Sun — Expression
+                The Sun - Expression
               </h3>
             </div>
             <p
@@ -386,9 +386,9 @@ function Philosophy() {
                 fontSize: "1.125rem",
               }}
             >
-              Gold (${COLORS.gold}) — warmth, creativity, and the courage to release.
+              Gold (${COLORS.gold}) - warmth, creativity, and the courage to release.
               Expression is the moment an idea stops being private and becomes a
-              shared experience — illuminating what reflection quietly prepared.
+              shared experience - illuminating what reflection quietly prepared.
             </p>
           </motion.div>
         </div>
@@ -441,7 +441,7 @@ const BRANDS = [
     slug: "CBP",
     domain: "Publishing",
     description:
-      "The publishing house of BOC. CBP brings written stories, illustrated books, and editorial projects to life — bridging the space between the page and the imagination with the same reverence as the studio's visual work.",
+      "The publishing house of BOC. CBP brings written stories, illustrated books, and editorial projects to life - bridging the space between the page and the imagination with the same reverence as the studio's visual work.",
     accent: "#F6E6B4",
     cardBg: "rgba(246,230,180,0.05)",
     border: "rgba(246,230,180,0.18)",
@@ -451,7 +451,7 @@ const BRANDS = [
     slug: "CBN",
     domain: "Digital Platform",
     description:
-      "The digital infrastructure of BOC. CBN develops and operates the web platforms, communities, and content channels that connect the studio's audiences — from streaming experiences to creative networks and digital-first publishing.",
+      "The digital infrastructure of BOC. CBN develops and operates the web platforms, communities, and content channels that connect the studio's audiences - from streaming experiences to creative networks and digital-first publishing.",
     accent: "#D8D7DB",
     cardBg: "rgba(216,215,219,0.05)",
     border: "rgba(216,215,219,0.18)",
@@ -601,7 +601,7 @@ function FamilyOfBrands() {
                 fontSize: "0.875rem",
               }}
             >
-              BOC Direct —{" "}
+              BOC Direct -{" "}
             </span>
             Graphic design, web development, merchandise, and brand identity
             services are delivered directly under the Based on Creativity
@@ -721,11 +721,11 @@ function LeadershipBlock() {
               {[
                 {
                   label: "Creative vision",
-                  body: "BOC exists to prove that independent creative companies can produce work that competes with — and often surpasses — the output of larger institutions.",
+                  body: "BOC exists to prove that independent creative companies can produce work that competes with - and often surpasses - the output of larger institutions.",
                 },
                 {
                   label: "On collaboration",
-                  body: "Every project is a relationship. We take our time choosing the work we do and the people we do it with — because that care shows up on the page, the screen, and the platform.",
+                  body: "Every project is a relationship. We take our time choosing the work we do and the people we do it with - because that care shows up on the page, the screen, and the platform.",
                 },
               ].map((item) => (
                 <div
@@ -772,12 +772,12 @@ const PRINCIPLES = [
   {
     number: "01",
     title: "Quiet before loud.",
-    body: "Every project begins with listening — to the brief, the context, and the space between what's said and what's meant. We don't rush to production; we earn the right to begin.",
+    body: "Every project begins with listening - to the brief, the context, and the space between what's said and what's meant. We don't rush to production; we earn the right to begin.",
   },
   {
     number: "02",
     title: "Craft as a non-negotiable.",
-    body: "We believe the quality of what you make reflects the quality of your attention. Every deliverable — from a brand mark to a web platform — carries the same standard of finish.",
+    body: "We believe the quality of what you make reflects the quality of your attention. Every deliverable - from a brand mark to a web platform - carries the same standard of finish.",
   },
   {
     number: "03",
@@ -787,7 +787,7 @@ const PRINCIPLES = [
   {
     number: "04",
     title: "Stories that travel.",
-    body: "The work we make is built to cross borders — culturally, aesthetically, and emotionally. Universality is not a style choice; it's a guiding principle.",
+    body: "The work we make is built to cross borders - culturally, aesthetically, and emotionally. Universality is not a style choice; it's a guiding principle.",
   },
 ];
 
@@ -822,7 +822,7 @@ function WorkingPhilosophy() {
               lineHeight: 1.65,
             }}
           >
-            BOC collaborates with clients across Canada and internationally — in
+            BOC collaborates with clients across Canada and internationally - in
             animation, editorial, graphic design, web development, merchandise,
             and digital platform work. Here is how we approach that work.
           </p>

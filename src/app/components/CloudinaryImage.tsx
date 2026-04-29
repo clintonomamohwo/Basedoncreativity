@@ -68,7 +68,7 @@ export function CloudinaryImage({
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// CloudinaryVideo — for video assets
+// CloudinaryVideo - for video assets
 // ─────────────────────────────────────────────────────────────────────────────
 import { cloudinaryVideoUrl } from "../../lib/cloudinary";
 

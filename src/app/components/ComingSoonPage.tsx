@@ -50,7 +50,7 @@ function GrainTexture() {
   );
 }
 
-/** Animated pulsing dot — used in the loading-style indicator strip. */
+/** Animated pulsing dot - used in the loading-style indicator strip. */
 function PulsingDot({ delay }: { delay: number }) {
   return (
     <motion.div
@@ -84,7 +84,7 @@ export function ComingSoonPage({ title, description, Icon, image, orbSide = 'lef
       {/* Grain texture */}
       <GrainTexture />
 
-      {/* Floating gold orbs — decorative background depth effect */}
+      {/* Floating gold orbs - decorative background depth effect */}
       {Array.from({ length: ORB_COUNT }, (_, i) => (
         <motion.div
           key={i}
@@ -201,7 +201,7 @@ export function ComingSoonPage({ title, description, Icon, image, orbSide = 'lef
             />
           </motion.div>
 
-          {/* Page icon — pulsing scale animation */}
+          {/* Page icon - pulsing scale animation */}
           <motion.div
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}

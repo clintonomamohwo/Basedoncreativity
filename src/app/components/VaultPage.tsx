@@ -172,7 +172,7 @@ const FALLBACK_GALLERY_DATA: GalleryItem[] = [
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   CONSTANTS  (orb reveal mechanic — unchanged)
+   CONSTANTS  (orb reveal mechanic - unchanged)
 ═══════════════════════════════════════════════════════════════════════════ */
 
 const EAST_THRESHOLD = 0.75;
@@ -227,11 +227,8 @@ function formatVaultYear(date?: string) {
 }
 
 function generateVideoThumbnail(videoUrl: string): string | undefined {
-  console.log('generateVideoThumbnail called with:', videoUrl);
-
   // Only works for Cloudinary videos
   if (!videoUrl.includes('res.cloudinary.com')) {
-    console.log('Not a Cloudinary URL, skipping thumbnail generation');
     return undefined;
   }
 
@@ -239,17 +236,13 @@ function generateVideoThumbnail(videoUrl: string): string | undefined {
   // Format: https://res.cloudinary.com/cloud_name/video/upload/public_id.ext
   const match = videoUrl.match(/\/video\/upload\/(?:v\d+\/)?(.+?)(?:\.\w+)?$/);
   if (!match) {
-    console.log('Could not extract public_id from video URL');
     return undefined;
   }
 
   const publicId = match[1].replace(/\.\w+$/, ''); // Remove extension if present
-  console.log('Extracted publicId:', publicId);
 
   // Generate thumbnail URL using first frame of video
-  // Change /video/upload/ to /image/upload/ and add pg_1 transformation
   const thumbnailUrl = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/so_0,w_900,f_jpg,q_auto/${publicId}.jpg`;
-  console.log('Generated thumbnail URL:', thumbnailUrl);
 
   return thumbnailUrl;
 }
@@ -270,17 +263,7 @@ function mapSanityVaultItem(item: SanityVaultItem, index: number): GalleryItem {
 
   // Auto-generate thumbnail from first frame of video if no manual thumbnail provided
   if (itemType === 'video' && !thumbnailUrl && imageUrl) {
-    console.log(`Video "${item.title}" - attempting auto-thumbnail generation`);
-    console.log('Video URL:', imageUrl);
-    console.log('Has manual thumbnail:', !!item.thumbnail);
-
     thumbnailUrl = generateVideoThumbnail(imageUrl);
-
-    if (thumbnailUrl) {
-      console.log(`✅ Auto-generated thumbnail for "${item.title}":`, thumbnailUrl);
-    } else {
-      console.log(`❌ Failed to generate thumbnail for "${item.title}"`);
-    }
   }
 
   return {
@@ -495,13 +478,6 @@ function VideoBentoCard({
   index,
 }: Omit<BentoCardProps, "colSpan">) {
   const [hovered, setHovered] = useState(false);
-
-  console.log(`VideoBentoCard rendering for "${item.title}":`, {
-    thumbnailUrl: item.thumbnailUrl,
-    imageUrl: item.imageUrl,
-    heroPublicId: item.heroPublicId,
-  });
-
   return (
     <motion.div
       layout
@@ -548,9 +524,9 @@ function VideoBentoCard({
             height: "100%",
             objectFit: "cover",
             display: "block",
-            opacity: 0.55,
+            opacity: 0.7,
             transition: "opacity 0.3s ease",
-            filter: "blur(2px)",
+            filter: "blur(0px)",
           }}
         />
       ) : item.heroPublicId ? (
@@ -1738,17 +1714,16 @@ export function VaultPage() {
 
     fetchVaultItems()
       .then((items) => {
-        console.log('Sanity Vault Items fetched:', items);
         if (cancelled || !items?.length) {
-          console.log('No items found or cancelled');
           return;
         }
         const mapped = items.map(mapSanityVaultItem);
-        console.log('Mapped vault items:', mapped);
         setCmsItems(mapped);
       })
       .catch((error) => {
-        console.error('Error fetching vault items:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error fetching vault items:', error);
+        }
         if (!cancelled) {
           setCmsItems([]);
         }
@@ -1760,11 +1735,7 @@ export function VaultPage() {
   }, []);
 
   const displayItems = useMemo(
-    () => {
-      const items = cmsItems.length ? cmsItems : FALLBACK_GALLERY_DATA;
-      console.log('Using data source:', cmsItems.length ? 'Sanity CMS' : 'Fallback', '- Items:', items.length);
-      return items;
-    },
+    () => (cmsItems.length ? cmsItems : FALLBACK_GALLERY_DATA),
     [cmsItems],
   );
 
@@ -1869,7 +1840,7 @@ export function VaultPage() {
       setEastProgress(
         Math.min(x / (width * EAST_THRESHOLD), 1),
       );
-      // Motion trail — last 12 positions
+      // Motion trail - last 12 positions
       setTrailDots((prev) => [
         ...prev.slice(-11),
         { id: trailIdRef.current++, x, y },
@@ -1926,7 +1897,13 @@ export function VaultPage() {
         position: "relative",
         width: "100%",
         minHeight: "100vh",
-        background: "#1A1F4B",
+        background: `
+          #1A1F4B,
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,200,87,0.03)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z'/%3E%3Ccircle cx='12' cy='13' r='4'/%3E%3C/svg%3E")
+        `,
+        backgroundPosition: 'center, 85% 25%',
+        backgroundRepeat: 'no-repeat, no-repeat',
+        backgroundSize: 'auto, 300px',
         overflow: showGallery ? "visible" : "hidden",
         cursor: isDragging ? "grabbing" : "default",
         touchAction: showGallery ? "auto" : "none",
@@ -1997,7 +1974,7 @@ export function VaultPage() {
           />
         )}
 
-        {/* ── East directional cue — right-edge column ── */}
+        {/* ── East directional cue - right-edge column ── */}
         {!showGallery && !hasTransformed && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -2112,7 +2089,7 @@ export function VaultPage() {
                 userSelect: "none",
               }}
             >
-              {/* Magnetic glow — expands and brightens as orb approaches east */}
+              {/* Magnetic glow - expands and brightens as orb approaches east */}
               {!hasTransformed && (
                 <div
                   style={{
@@ -2198,7 +2175,7 @@ export function VaultPage() {
                 </motion.div>
               )}
 
-              {/* Idle nudge chevrons — three stacked pointing east, appear beside orb */}
+              {/* Idle nudge chevrons - three stacked pointing east, appear beside orb */}
               {!hasTransformed && !isDragging && (
                 <motion.div
                   animate={{
@@ -2245,7 +2222,7 @@ export function VaultPage() {
                 </motion.div>
               )}
 
-              {/* East progress arc — thin gold ring fills as orb moves east */}
+              {/* East progress arc - thin gold ring fills as orb moves east */}
               {!hasTransformed &&
                 isDragging &&
                 eastProgress > 0.04 && (
@@ -2548,7 +2525,7 @@ export function VaultPage() {
               Drag the orb east to open the vault
             </motion.p>
 
-            {/* Onboarding description — what the vault actually contains */}
+            {/* Onboarding description - what the vault actually contains */}
             <motion.p
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
@@ -2568,7 +2545,7 @@ export function VaultPage() {
               }}
             >
               The vault holds rare fragments, early previews,
-              and hidden material from BOC's developing worlds —
+              and hidden material from BOC's developing worlds -
               things not yet ready to be announced, but too
               alive to remain entirely unseen.
             </motion.p>
