@@ -905,7 +905,7 @@ export function ContactPage() {
                 30-minute discovery call."
               </p>
               <motion.a
-                href={`mailto:${CONTACT_EMAIL}`}
+                href={`mailto:${CONTACT.email}`}
                 whileHover={{
                   scale: 1.03,
                   boxShadow: "0 0 24px rgba(255,200,87,0.25)",

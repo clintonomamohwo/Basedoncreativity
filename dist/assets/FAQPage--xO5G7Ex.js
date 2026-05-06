@@ -1,0 +1,6 @@
+import{c as o,j as e}from"./index-Cuyp8pCp.js";import{C as t}from"./ComingSoonPage-C3copMhz.js";import{S as r}from"./SEO-DVF1nDHn.js";import"./arrow-left-DajMAgV9.js";/**
+ * @license lucide-react v0.487.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const s=[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["path",{d:"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3",key:"1u773s"}],["path",{d:"M12 17h.01",key:"p32p05"}]],i=o("circle-help",s),n="https://images.unsplash.com/photo-1722614171611-8b4bea5c7a1a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHwzZCUyMGNhcnRvb24lMjBjdXRlJTIwY2hhcmFjdGVyJTIwcXVlc3Rpb24lMjBtYXJrfGVufDF8fHx8MTc3NDA4MDAyNnww&ixlib=rb-4.1.0&q=80&w=1080";function h(){return e.jsxs(e.Fragment,{children:[e.jsx(r,{title:"FAQ | Based on Creativity",description:"The Based on Creativity FAQ page is currently in development and will soon share answers about the studio process and approach.",path:"/faq",robots:"noindex, follow"}),e.jsx(t,{title:"FAQ",description:"Your questions deserve thoughtful answers. We're compiling comprehensive responses to help you understand our process, philosophy, and approach to creative excellence.",Icon:i,image:n,orbSide:"right"})]})}export{h as FAQPage};
