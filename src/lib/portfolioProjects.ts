@@ -1,4 +1,3 @@
-import bocLogo from '../assets/boc_logo.png';
 import {
   resolveMediaAlt,
   resolveMediaUrl,
@@ -43,9 +42,11 @@ export const FALLBACK_PROJECTS: PortfolioProject[] = [
     status: 'Completed',
     year: '2025',
     summary:
-      'A premium identity refresh for Based on Creativity, combining editorial typography, motion-ready assets, and a refined visual system designed for digital-first storytelling.',
-    image: bocLogo,
-    imageAlt: 'Based on Creativity logo, part of its own visual identity',
+      'BOC’s brand refresh brings its logo variations, colour palette, typography and digital-card styles into a more cohesive visual system. Selected public-safe excerpts from the brand guidelines show how these elements work together to create a recognisable, consistent expression of the studio. If your own identity feels scattered across touchpoints, let’s talk about bringing it together.',
+    image:
+      'https://cdn.sanity.io/images/wxky32kg/production/a43b0a902b2aff19de75037d5a2346362bb38a7b-3228x1748.jpg?w=1600&auto=format&q=80',
+    imageAlt:
+      'Collage of selected BOC logo, palette, typography, and card-style guideline excerpts.',
   },
   {
     id: 'bochq-website',
@@ -58,7 +59,7 @@ export const FALLBACK_PROJECTS: PortfolioProject[] = [
     status: 'Completed',
     year: '2025',
     summary:
-      'A cinematic web experience for the Creativity Base ecosystem, built to showcase services, stories, and work through a polished editorial interface.',
+      'The Creativity Base ecosystem spans services, stories and creative work; this completed platform gives them a shared digital home. A cinematic, editorial interface brings the different parts together while giving each room to be discovered. If you’re bringing several ideas or offerings under one roof, let’s explore a digital experience that connects them.',
   },
   {
     id: 'first-animated-series',
@@ -70,7 +71,7 @@ export const FALLBACK_PROJECTS: PortfolioProject[] = [
     status: 'In Development',
     year: 'TBA',
     summary:
-      'The debut animated series from Creativity Base Studios: an original world in development, with characters and a visual language being developed for the project.',
+      'Creativity Base Studios’ debut animated series is taking shape around an original world, with characters and a visual language in development. It’s a studio-owned project still being built, not a finished or released series.',
   },
   {
     id: 'first-publication',
@@ -82,7 +83,7 @@ export const FALLBACK_PROJECTS: PortfolioProject[] = [
     status: 'In Development',
     year: 'TBA',
     summary:
-      'The inaugural title from Creativity Base Press, an illustrated written work in development.',
+      'Creativity Base Press is developing an illustrated written work, bringing editorial, publishing and illustration together in its first title. The project remains in development and has not yet been released.',
   },
   {
     id: 'motion-merch-capsule',
@@ -94,7 +95,7 @@ export const FALLBACK_PROJECTS: PortfolioProject[] = [
     status: 'Concept',
     year: '2025',
     summary:
-      'A concept capsule combining product visuals, animated launch teasers, and campaign-ready artwork for a limited BOC merchandise release.',
+      'This BOC-owned concept imagines a limited merchandise release as a connected campaign: product visuals, animated launch teasers and artwork designed to work together. It explores how motion could give a future capsule a memorable launch identity; the collection is a concept, not a released product line. Planning a launch of your own? Let’s talk about building the visual world around it.',
   },
   {
     id: 'modern-cosmos',
@@ -107,7 +108,7 @@ export const FALLBACK_PROJECTS: PortfolioProject[] = [
     status: 'Completed',
     year: '2026',
     summary:
-      'Website redesign and site updates for Modern Cosmos, with improvements across desktop and mobile views.',
+      'For Modern Cosmos, BOC completed a website redesign and site updates across desktop and mobile. The work pairs responsive design with a more considered visual presentation, giving the client’s concept a thoughtful online form. If your site is ready for a similarly imaginative refresh, we’d love to hear what you’re building.',
     image:
       'https://cdn.sanity.io/images/wxky32kg/production/af8627bb68da6dc2a3089c09b9b7591ae50aabb4-2400x1810.png?w=1600&auto=format&q=80',
     imageAlt:

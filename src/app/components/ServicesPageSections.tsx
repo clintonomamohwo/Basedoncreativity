@@ -133,7 +133,7 @@ export function MidCTA({ navigate }: { navigate: ReturnType<typeof useNavigate> 
         background: NAVY_950,
         borderTop: `1px solid ${GOLD_12}`,
         borderBottom: `1px solid ${GOLD_12}`,
-        padding: 'clamp(48px, 7vw, 80px) clamp(20px, 5vw, 48px)',
+        padding: 'clamp(48px, 7vw, 80px) clamp(20px, 3vw, 40px)',
       }}
     >
       <motion.div
@@ -261,7 +261,7 @@ export function ProcessSection({ navigate }: { navigate: ReturnType<typeof useNa
     <section
       style={{
         background: INDIGO_BLUE,
-        padding: 'clamp(72px, 10vw, 120px) clamp(20px, 5vw, 48px)',
+        padding: 'clamp(72px, 10vw, 120px) clamp(20px, 3vw, 40px)',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -276,7 +276,7 @@ export function ProcessSection({ navigate }: { navigate: ReturnType<typeof useNa
         }}
       />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+      <div style={{ maxWidth: '1380px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -536,7 +536,7 @@ export function FinalCTA({ navigate }: { navigate: ReturnType<typeof useNavigate
     <section
       style={{
         background: NAVY_950,
-        padding: 'clamp(80px, 10vw, 128px) clamp(20px, 5vw, 48px)',
+        padding: 'clamp(80px, 10vw, 128px) clamp(20px, 3vw, 40px)',
         position: 'relative',
         overflow: 'hidden',
         textAlign: 'center',
@@ -706,4 +706,3 @@ export function FinalCTA({ navigate }: { navigate: ReturnType<typeof useNavigate
 }
 
 // ─── Root ─────────────────────────────────────────────────────────────────────
-

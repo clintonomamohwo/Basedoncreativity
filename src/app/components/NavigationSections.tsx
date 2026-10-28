@@ -27,7 +27,7 @@ export interface SearchResult {
 // ─── Navigation Data ──────────────────────────────────────────────────────────
 
 /** Ordered list of the compact, top-level navigation items. */
-export const NAV_LINKS = ["WORK", "SERVICES", "EXPLORE", "CONTACT", "BOOK A CALL"] as const;
+export const NAV_LINKS = ["WORK", "SERVICES", "EXPLORE", "CONTACT"] as const;
 
 /** Destinations revealed by Explore, in editorial priority order. */
 export const EXPLORE_LINKS = [
@@ -35,6 +35,7 @@ export const EXPLORE_LINKS = [
   { label: "Studio", path: "/studio" },
   { label: "The Vault", path: "/vault" },
   { label: "Library", path: "/library" },
+  { label: "Stories", path: "/stories" },
 ] as const;
 
 /** Maps each nav label to its corresponding route path. */
@@ -45,7 +46,6 @@ export const NAV_ROUTES: Record<string, string> = {
   STUDIO: "/studio",
   "THE VAULT": "/vault",
   CONTACT: "/contact",
-  "BOOK A CALL": "/contact",
 };
 
 /** Returns true if the nav item's route matches the current pathname. */

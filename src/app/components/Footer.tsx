@@ -121,6 +121,8 @@ export function Footer() {
               links: [
                 { label: "About", path: "/about" },
                 { label: "Contact", path: "/contact" },
+                { label: "Stories", path: "/stories" },
+                { label: "Library", path: "/library" },
               ],
             },
           ].map((section, sectionIndex) => (

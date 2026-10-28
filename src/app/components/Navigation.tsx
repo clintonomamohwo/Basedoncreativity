@@ -340,7 +340,7 @@ export function Navigation() {
       </div>
 
       {/* ── Main nav row ── */}
-      <div className="relative max-w-[1200px] mx-auto px-4 md:px-8 py-2">
+      <div className="relative max-w-[1380px] mx-auto px-4 md:px-8 xl:px-0 py-2">
         <div className="flex items-center justify-between gap-4 md:gap-8">
           {/* Logo - navigates home on click or keyboard activation */}
           <Link
@@ -375,7 +375,7 @@ export function Navigation() {
 
           {/* ── Compact desktop navigation ── */}
           <div
-            className="hidden md:flex flex-1 items-center justify-end gap-1"
+            className="hidden md:flex flex-1 items-center justify-end gap-1 xl:gap-2"
             role="group"
             aria-label="Primary navigation"
           >
@@ -493,28 +493,6 @@ export function Navigation() {
               }}
             >
               CONTACT
-            </Link>
-            <Link
-              to="/contact"
-              onMouseEnter={() => handleLinkHover("/contact")}
-              onClick={() => setIsExploreOpen(false)}
-              className="boc-nav-control"
-              style={{
-                marginLeft: 4,
-                padding: "10px 14px",
-                border: "1px solid rgba(255,200,87,0.68)",
-                borderRadius: 999,
-                background: "rgba(255,200,87,0.1)",
-                color: COLORS.gold,
-                fontFamily: FONTS.heading,
-                fontWeight: 700,
-                fontSize: "0.65rem",
-                letterSpacing: "0.06em",
-                textDecoration: "none",
-                whiteSpace: "nowrap",
-              }}
-            >
-              Book a Call
             </Link>
           </div>
 
@@ -1023,36 +1001,6 @@ export function Navigation() {
             >
               Contact
             </Link>
-
-            <div style={{ padding: "14px 20px 18px" }}>
-              <Link
-                to="/contact"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  setIsExploreOpen(false);
-                }}
-                onMouseEnter={() => handleLinkHover("/contact")}
-                className="boc-mobile-book-call"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  minHeight: 48,
-                  padding: "12px 18px",
-                  border: "1px solid rgba(255,200,87,0.72)",
-                  borderRadius: 999,
-                  background: "rgba(255,200,87,0.12)",
-                  color: COLORS.gold,
-                  fontFamily: FONTS.heading,
-                  fontWeight: 700,
-                  fontSize: "0.8rem",
-                  letterSpacing: "0.04em",
-                  textDecoration: "none",
-                }}
-              >
-                Book a Call
-              </Link>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>

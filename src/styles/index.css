@@ -89,8 +89,7 @@
 .boc-nav-control:focus-visible,
 .boc-explore-link:focus-visible,
 .boc-mobile-nav-link:focus-visible,
-.boc-mobile-explore-link:focus-visible,
-.boc-mobile-book-call:focus-visible {
+.boc-mobile-explore-link:focus-visible {
   outline: 2px solid #FFC857;
   outline-offset: 3px;
   border-radius: 4px;

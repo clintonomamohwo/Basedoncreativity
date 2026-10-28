@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { Link, useParams } from 'react-router';
 import {
   fetchPortfolioProjects,
@@ -81,7 +81,9 @@ function detailFromFallback(project: PortfolioProject): WorkDetail {
     tags: project.discipline.split(' · '),
     heroImage: project.image,
     heroImageAlt: project.imageAlt || project.title,
-    gallery: [],
+    gallery: project.image
+      ? [{ src: project.image, alt: project.imageAlt || `${project.title} project image` }]
+      : [],
     testimonial: project.testimonial,
     testimonialAuthor: project.testimonialAuthor,
   };
@@ -101,6 +103,9 @@ function formatYear(date?: string) {
 }
 
 function ProjectHero({ project }: { project: WorkDetail }) {
+  const isModernCosmos =
+    project.id === 'modern-cosmos' || project.client?.trim().toLowerCase() === 'modern cosmos';
+
   return (
     <section className="relative mx-auto w-full max-w-7xl px-4 pt-28 md:px-10 md:pt-36">
       <Link
@@ -136,7 +141,9 @@ function ProjectHero({ project }: { project: WorkDetail }) {
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(90deg, rgba(9,14,37,0.91) 0%, rgba(9,14,37,0.58) 55%, rgba(9,14,37,0.15) 100%), linear-gradient(0deg, rgba(9,14,37,0.68), transparent 68%)',
+              isModernCosmos
+                ? 'linear-gradient(90deg, rgba(9,14,37,0.58) 0%, rgba(9,14,37,0.35) 55%, rgba(9,14,37,0.10) 100%), linear-gradient(0deg, rgba(9,14,37,0.32), transparent 68%)'
+                : 'linear-gradient(90deg, rgba(9,14,37,0.91) 0%, rgba(9,14,37,0.58) 55%, rgba(9,14,37,0.15) 100%), linear-gradient(0deg, rgba(9,14,37,0.68), transparent 68%)',
           }}
         />
         <div
@@ -197,7 +204,36 @@ function ProjectMetadata({ project }: { project: WorkDetail }) {
 }
 
 function ProjectGallery({ project }: { project: WorkDetail }) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (activeIndex === null) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setActiveIndex(null);
+      if (event.key === 'ArrowLeft') {
+        setActiveIndex((current) => current === null ? null : (current - 1 + project.gallery.length) % project.gallery.length);
+      }
+      if (event.key === 'ArrowRight') {
+        setActiveIndex((current) => current === null ? null : (current + 1) % project.gallery.length);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [activeIndex, project.gallery.length]);
+
   if (!project.gallery.length) return null;
+
+  const activeImage = activeIndex === null ? null : project.gallery[activeIndex];
+  const showPrevious = () => setActiveIndex((current) => current === null ? null : (current - 1 + project.gallery.length) % project.gallery.length);
+  const showNext = () => setActiveIndex((current) => current === null ? null : (current + 1) % project.gallery.length);
 
   return (
     <section className="mt-16 md:mt-24" aria-labelledby="project-gallery-title">
@@ -221,15 +257,85 @@ function ProjectGallery({ project }: { project: WorkDetail }) {
             className="overflow-hidden rounded-xl"
             style={{ border: '1px solid rgba(255,200,87,0.14)', background: 'rgba(255,255,255,0.025)' }}
           >
-            <ImageWithFallback
-              src={image.src}
-              alt={image.alt}
-              loading="lazy"
-              className="aspect-[4/3] w-full object-cover"
-            />
+            <button
+              type="button"
+              onClick={() => setActiveIndex(index)}
+              className="group block w-full cursor-zoom-in text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-300"
+              aria-label={`View image ${index + 1} of ${project.gallery.length}: ${image.alt}`}
+            >
+              <ImageWithFallback
+                src={image.src}
+                alt={image.alt}
+                loading="lazy"
+                className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+            </button>
           </figure>
         ))}
       </div>
+
+      {activeImage && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#070a18]/95 p-4 backdrop-blur-sm sm:p-8"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${project.title} image gallery`}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) setActiveIndex(null);
+          }}
+        >
+          <button
+            type="button"
+            onClick={() => setActiveIndex(null)}
+            className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full border transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300 sm:right-7 sm:top-7"
+            style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.22)' }}
+            aria-label="Close image viewer"
+          >
+            <X size={21} aria-hidden="true" />
+          </button>
+
+          {project.gallery.length > 1 && (
+            <button
+              type="button"
+              onClick={showPrevious}
+              className="absolute left-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300 sm:left-7 sm:h-12 sm:w-12"
+              style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.22)' }}
+              aria-label="Previous image"
+            >
+              <ChevronLeft size={23} aria-hidden="true" />
+            </button>
+          )}
+
+          <figure className="flex max-h-full max-w-6xl flex-col items-center gap-4">
+            <ImageWithFallback
+              src={activeImage.src}
+              alt={activeImage.alt}
+              className="max-h-[78vh] max-w-full rounded-lg object-contain"
+              style={{ width: 'auto', height: 'auto' }}
+            />
+            <figcaption className="text-center text-sm" style={{ color: 'rgba(250,243,224,0.76)', fontFamily: FONTS.body }}>
+              {activeImage.alt}
+              {project.gallery.length > 1 && (
+                <span className="ml-3 tabular-nums" style={{ color: 'rgba(250,243,224,0.5)' }}>
+                  {activeIndex! + 1} / {project.gallery.length}
+                </span>
+              )}
+            </figcaption>
+          </figure>
+
+          {project.gallery.length > 1 && (
+            <button
+              type="button"
+              onClick={showNext}
+              className="absolute right-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300 sm:right-7 sm:h-12 sm:w-12"
+              style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.22)' }}
+              aria-label="Next image"
+            >
+              <ChevronRight size={23} aria-hidden="true" />
+            </button>
+          )}
+        </div>
+      )}
     </section>
   );
 }
@@ -267,6 +373,18 @@ function ProjectDetail({ project }: { project: WorkDetail }) {
                 <p className="max-w-2xl text-base leading-8 md:text-lg" style={{ color: 'rgba(250,243,224,0.58)', fontFamily: FONTS.body }}>
                   Project details will be shared here when they are available.
                 </p>
+              )}
+              {(project.id === 'modern-cosmos' || project.client?.trim().toLowerCase() === 'modern cosmos') && (
+                <a
+                  href="https://modern-cosmos.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold underline decoration-amber-300/50 underline-offset-4 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-300"
+                  style={{ color: COLORS.gold, fontFamily: FONTS.body }}
+                >
+                  Visit Modern Cosmos website
+                  <ArrowUpRight size={15} aria-hidden="true" />
+                </a>
               )}
             </section>
 

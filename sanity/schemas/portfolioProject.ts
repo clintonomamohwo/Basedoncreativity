@@ -33,6 +33,7 @@ export default defineType({
       options: {
         list: [
           { title: 'Animation', value: 'animation' },
+          { title: 'Branding', value: 'Branding' },
           { title: 'Graphic Design', value: 'graphic-design' },
           { title: 'Web Development', value: 'web-development' },
           { title: 'Publishing', value: 'publishing' },

@@ -368,9 +368,9 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
 
       <div
         style={{
-          maxWidth: '1200px',
+          maxWidth: '1380px',
           margin: '0 auto',
-          padding: 'clamp(56px, 8vw, 96px) clamp(20px, 5vw, 48px)',
+          padding: 'clamp(56px, 8vw, 96px) clamp(20px, 3vw, 40px)',
         }}
       >
         {/* Header row */}
@@ -664,8 +664,8 @@ export function ServicesPage() {
           overflow: 'hidden',
           paddingTop: 'clamp(140px, 18vw, 200px)',
           paddingBottom: 'clamp(64px, 10vw, 112px)',
-          paddingLeft: 'clamp(20px, 5vw, 48px)',
-          paddingRight: 'clamp(20px, 5vw, 48px)',
+          paddingLeft: 'clamp(20px, 3vw, 40px)',
+          paddingRight: 'clamp(20px, 3vw, 40px)',
         }}
       >
         {/* Ambient radial glow */}
@@ -683,7 +683,7 @@ export function ServicesPage() {
         {/* Celestial dots right side */}
         <CelestialDots side="right" />
 
-        <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+        <div style={{ maxWidth: '1380px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
           {/* Eyebrow + rule */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
