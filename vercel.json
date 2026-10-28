@@ -1,3 +1,26 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/work", "destination": "/index.html" },
+    { "source": "/services", "destination": "/index.html" },
+    { "source": "/studio", "destination": "/index.html" },
+    { "source": "/vault", "destination": "/index.html" },
+    { "source": "/about", "destination": "/index.html" },
+    { "source": "/contact", "destination": "/index.html" },
+    { "source": "/stories", "destination": "/index.html" },
+    { "source": "/library", "destination": "/index.html" },
+    { "source": "/faq", "destination": "/index.html" },
+    { "source": "/community", "destination": "/index.html" },
+    { "source": "/partners", "destination": "/index.html" },
+    { "source": "/privacy", "destination": "/index.html" },
+    { "source": "/terms", "destination": "/index.html" },
+    { "source": "/work/boc-brand-identity", "destination": "/index.html" },
+    { "source": "/work/bochq-website", "destination": "/index.html" },
+    { "source": "/work/boc-brand-system-refresh", "destination": "/index.html" },
+    { "source": "/work/creativity-base-web-platform", "destination": "/index.html" },
+    { "source": "/work/first-animated-series", "destination": "/index.html" },
+    { "source": "/work/first-publication", "destination": "/index.html" },
+    { "source": "/work/motion-merch-capsule", "destination": "/index.html" },
+    { "source": "/stories/creative-discipline-after-dark", "destination": "/index.html" },
+    { "source": "/stories/building-worlds-with-intent", "destination": "/index.html" }
+  ]
 }

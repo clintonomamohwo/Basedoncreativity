@@ -126,6 +126,7 @@ export function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitHovered, setSubmitHovered] = useState(false);
 
   const handleChange = (field: string, value: string) => {
     setSubmitError(null);
@@ -142,6 +143,7 @@ export function ContactPage() {
 
     setSubmitting(true);
     setSubmitError(null);
+    setSubmitHovered(false);
 
     try {
       const response = await fetch(CONTACT.formEndpoint, {
@@ -163,7 +165,9 @@ export function ContactPage() {
         }),
       });
 
-      if (!response.ok) {
+      const result = (await response.json()) as { success?: boolean | string };
+      const succeeded = result.success === true || result.success === "true";
+      if (!response.ok || !succeeded) {
         throw new Error(`Form service returned ${response.status}`);
       }
 
@@ -424,9 +428,8 @@ export function ContactPage() {
                           maxWidth: "400px",
                         }}
                       >
-                        Thank you for reaching out. We'll be in
-                        touch within 48 hours to explore what we
-                        can create together.
+                        Thank you for reaching out. Your inquiry has been sent.
+                        We’ll respond {CONTACT.responseTime.toLowerCase()}.
                       </p>
                     </div>
                     <motion.button
@@ -743,12 +746,15 @@ export function ContactPage() {
                     <motion.button
                       type="submit"
                       disabled={submitting}
+                      aria-busy={submitting}
+                      className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-100"
+                      onHoverStart={() => setSubmitHovered(true)}
+                      onHoverEnd={() => setSubmitHovered(false)}
                       whileHover={
                         !submitting
                           ? {
                               scale: 1.02,
-                              boxShadow:
-                                "0 0 40px rgba(255,200,87,0.45), 0 8px 32px rgba(0,0,0,0.4)",
+                              filter: "brightness(1.08)",
                             }
                           : {}
                       }
@@ -760,10 +766,12 @@ export function ContactPage() {
                         width: "100%",
                         padding: "16px 32px",
                         background: submitting
-                          ? "rgba(255,200,87,0.5)"
-                          : "linear-gradient(135deg, ${COLORS.gold} 0%, #FFD988 50%, ${COLORS.gold} 100%)",
+                          ? "#A99A75"
+                          : `linear-gradient(135deg, ${COLORS.gold} 0%, #FFD988 50%, ${COLORS.gold} 100%)`,
                         backgroundSize: "200% 200%",
-                        border: "none",
+                        border: submitting
+                          ? "1px solid rgba(255,248,220,0.75)"
+                          : "1px solid rgba(255,255,255,0.18)",
                         borderRadius: "12px",
                         color: "#1A1F4B",
                         fontFamily: FONTS.heading,
@@ -777,9 +785,15 @@ export function ContactPage() {
                         alignItems: "center",
                         justifyContent: "center",
                         gap: "10px",
-                        boxShadow:
-                          "0 4px 24px rgba(255,200,87,0.3)",
-                        transition: "background 0.3s ease",
+                        boxShadow: submitting
+                          ? "none"
+                          : submitHovered
+                            ? "0 0 40px rgba(255,200,87,0.45), 0 8px 32px rgba(0,0,0,0.4)"
+                            : "0 4px 24px rgba(255,200,87,0.3)",
+                        transition:
+                          submitting
+                            ? "none"
+                            : "box-shadow 0.3s ease, filter 0.2s ease",
                       }}
                     >
                       <AnimatePresence mode="wait">
@@ -827,18 +841,6 @@ export function ContactPage() {
                       </AnimatePresence>
                     </motion.button>
 
-                    <p
-                      style={{
-                        fontFamily:
-                          FONTS.body,
-                        fontSize: "0.75rem",
-                        color: "rgba(255,255,255,0.3)",
-                        textAlign: "center",
-                        marginTop: "-4px",
-                      }}
-                    >
-                      Messages are routed to contact@bochq.com. Update the destination inbox here if the primary contact changes.
-                    </p>
                   </motion.form>
                 )}
               </AnimatePresence>
@@ -901,11 +903,11 @@ export function ContactPage() {
                   marginBottom: "18px",
                 }}
               >
-                "Prefer to jump straight in? Book a free
-                30-minute discovery call."
+                "Prefer to talk? Email us to arrange a 30-minute discovery call."
               </p>
               <motion.a
-                href={`mailto:${CONTACT.email}`}
+                href={`mailto:${CONTACT.email}?subject=${encodeURIComponent("Discovery call request")}`}
+                aria-label="Email Based on Creativity to arrange a discovery call"
                 whileHover={{
                   scale: 1.03,
                   boxShadow: "0 0 24px rgba(255,200,87,0.25)",
@@ -926,7 +928,7 @@ export function ContactPage() {
                   transition: "all 0.2s ease",
                 }}
               >
-                BOOK A CALL <ArrowRight size={13} />
+                EMAIL TO BOOK A CALL <ArrowRight size={13} />
               </motion.a>
             </div>
 

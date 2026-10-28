@@ -6,6 +6,7 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 
 const HomePage = lazy(() => import('./components/HomePage').then((module) => ({ default: module.HomePage })));
 const WorkPage = lazy(() => import('./components/WorkPage').then((module) => ({ default: module.WorkPage })));
+const WorkDetailPage = lazy(() => import('./components/WorkDetailPage').then((module) => ({ default: module.WorkDetailPage })));
 const ServicesPage = lazy(() => import('./components/ServicesPage').then((module) => ({ default: module.ServicesPage })));
 const StudioPage = lazy(() => import('./components/StudioPage').then((module) => ({ default: module.StudioPage })));
 const VaultPage = lazy(() => import('./components/VaultPage').then((module) => ({ default: module.VaultPage })));
@@ -29,6 +30,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, Component: HomePage },
       { path: 'work', Component: WorkPage },
+      { path: 'work/:projectId', Component: WorkDetailPage },
       { path: 'services', Component: ServicesPage },
       { path: 'studio', Component: StudioPage },
       { path: 'vault', Component: VaultPage },

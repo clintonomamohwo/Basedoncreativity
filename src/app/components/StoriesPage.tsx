@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { BookOpen, ArrowRight } from "lucide-react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
   fetchStories,
   portableTextToParagraphs,
@@ -22,50 +22,7 @@ interface LibraryBook {
   accentColor: string;
 }
 
-const FALLBACK_LIBRARY_BOOKS: LibraryBook[] = [
-  {
-    id: "the-moon-listener",
-    title: "The Moon Listener",
-    subtitle: "A tale of silence and connection",
-    coverColor: "#1A1F4B",
-    accentColor: "#FFC857",
-  },
-  {
-    id: "the-compass-dream",
-    title: "The Compass Dream",
-    subtitle: "Finding true north within",
-    coverColor: "#14172e",
-    accentColor: "#F6E6B4",
-  },
-  {
-    id: "a-quiet-spark",
-    title: "A Quiet Spark",
-    subtitle: "Small beginnings, infinite potential",
-    coverColor: "#1A1F4B",
-    accentColor: "#FFC857",
-  },
-  {
-    id: "fragments-of-light",
-    title: "Fragments of Light",
-    subtitle: "Stories from the in-between",
-    coverColor: "#14172e",
-    accentColor: "#F6E6B4",
-  },
-  {
-    id: "the-clockmakers-tale",
-    title: "The Clockmaker's Tale",
-    subtitle: "Time, craft, and patience",
-    coverColor: "#1A1F4B",
-    accentColor: "#FFC857",
-  },
-  {
-    id: "the-last-voyage",
-    title: "The Last Voyage",
-    subtitle: "An ending is just a beginning",
-    coverColor: "#14172e",
-    accentColor: "#F6E6B4",
-  },
-];
+const FALLBACK_LIBRARY_BOOKS: LibraryBook[] = [];
 
 const CMS_BOOK_PALETTES = [
   { coverColor: "#1A1F4B", accentColor: "#FFC857" },
@@ -187,9 +144,13 @@ interface BookCardProps {
 
 function BookCard({ book, index }: BookCardProps) {
   const [hovered, setHovered] = useState(false);
-  const navigate = useNavigate();
 
   return (
+    <Link
+      to={`/stories/${encodeURIComponent(book.id)}`}
+      aria-label={`Read ${book.title}`}
+      className="block rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-300"
+    >
     <motion.div
       initial={{ opacity: 0, y: 40, rotateX: 10 }}
       whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
@@ -201,8 +162,6 @@ function BookCard({ book, index }: BookCardProps) {
       }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      onClick={() => navigate(`/stories/${book.id}`)}
-      className="cursor-pointer"
       style={{ perspective: "1000px" }}
     >
       <motion.div
@@ -352,6 +311,7 @@ function BookCard({ book, index }: BookCardProps) {
         </div>
       </motion.div>
     </motion.div>
+    </Link>
   );
 }
 
@@ -1023,14 +983,19 @@ export function StoriesPage() {
                     />
                   ))}
                 </>
-              ) : (
+              ) : displayBooks.length ? (
                 displayBooks.map((book, index) => (
-                  <BookCard
-                    key={book.id}
-                    book={book}
-                    index={index}
-                  />
+                  <BookCard key={book.id} book={book} index={index} />
                 ))
+              ) : (
+                <div className="col-span-full rounded-xl border px-6 py-10 text-center" style={{ borderColor: 'rgba(255,200,87,0.18)', background: 'rgba(255,200,87,0.035)' }}>
+                  <p className="mb-3 text-lg" style={{ color: '#FAF3E0', fontFamily: "'Cormorant Garamond', serif" }}>
+                    No published stories are available to read here right now.
+                  </p>
+                  <Link to="/contact" className="text-sm font-semibold underline underline-offset-4" style={{ color: '#FFC857', fontFamily: "'Source Sans 3', sans-serif" }}>
+                    Contact the studio
+                  </Link>
+                </div>
               )}
             </div>
 

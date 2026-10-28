@@ -1,112 +1,41 @@
 import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { useNavigate } from 'react-router';
-import { fetchPortfolioProjects, resolveMediaAlt, resolveMediaUrl, type SanityPortfolioProject } from '../../lib/sanityContent';
+import { Link, useNavigate } from 'react-router';
+import { fetchPortfolioProjects } from '../../lib/sanityContent';
+import {
+  FALLBACK_PROJECTS,
+  mapSanityProject,
+  type PortfolioProject,
+  type ProjectStatus,
+} from '../../lib/portfolioProjects';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { SEO } from './SEO';
 import { COLORS, FONTS, GRAIN_SVG_PATTERN } from '../../lib/constants';
 import { retryWithBackoff } from '../../lib/retry';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-type Status = 'Completed' | 'In Development';
-
-interface Project {
-  id: string;
-  index: string;
-  title: string;
-  category: string;
-  discipline: string;
-  status: Status;
-  year: string;
-  summary: string;
-  image: string;
-  imageAlt: string;
-}
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-const FALLBACK_PROJECTS: Project[] = [
-  {
-    id: 'boc-brand-identity',
-    index: '01',
-    title: 'BOC Brand Identity',
-    category: 'Identity',
-    discipline: 'Brand Design · Visual System · Typography',
-    status: 'Completed',
-    year: '2024',
-    summary:
-      'A full brand identity system for Based on Creativity - logo suite, colour philosophy, type system, motion principles, and the complete design language that underpins everything the company produces.',
-    image:
-      'https://images.unsplash.com/photo-1732096260253-f2030340e1ef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxicmFuZCUyMGlkZW50aXR5JTIwZGVzaWduJTIwbHV4dXJ5JTIwZ29sZCUyMG1pbmltYWx8ZW58MXx8fHwxNzc0NjIzMTQzfDA&ixlib=rb-4.1.0&q=80&w=1080',
-    imageAlt: 'BOC Brand Identity - gold luxury design system',
-  },
-  {
-    id: 'bochq-website',
-    index: '02',
-    title: 'bochq.com',
-    category: 'Web',
-    discipline: 'Web Design · React · Editorial UI',
-    status: 'Completed',
-    year: '2024-2025',
-    summary:
-      'The official company website for Based on Creativity - a luxury editorial platform built in React with cinematic transitions, a custom design system, and an architecture that supports all BOC subsidiaries.',
-    image:
-      'https://images.unsplash.com/photo-1740721455292-e5cd29544381?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXJrJTIwbWluaW1hbCUyMHdlYnNpdGUlMjBkZXNpZ24lMjBsYXB0b3AlMjBzY3JlZW58ZW58MXx8fHwxNzc0NjIzMTQ5fDA&ixlib=rb-4.1.0&q=80&w=1080',
-    imageAlt: 'bochq.com - dark editorial web platform on screen',
-  },
-  {
-    id: 'first-animated-series',
-    index: '03',
-    title: 'First Animated Series',
-    category: 'Animation',
-    discipline: 'Animation · Character Design · Narrative',
-    status: 'In Development',
-    year: 'TBA',
-    summary:
-      'The debut animated series from Creativity Base Studios - an original world built from the ground up with original characters, cultural depth, and a visual language designed to travel across borders.',
-    image:
-      'https://images.unsplash.com/photo-1558982423-f8e8a5c75426?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhbmltYXRlZCUyMGZpbG0lMjBwcm9kdWN0aW9uJTIwY2luZW1hdGljJTIwZGFya3xlbnwxfHx8fDE3NzQ2MjMxNDZ8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    imageAlt: 'Animated series - cinematic dark film production',
-  },
-  {
-    id: 'first-publication',
-    index: '04',
-    title: 'First Publication',
-    category: 'Publishing',
-    discipline: 'Editorial · Publishing · Illustration',
-    status: 'In Development',
-    year: 'TBA',
-    summary:
-      'The inaugural title from Creativity Base Press - a written and illustrated work that extends BOC\'s storytelling beyond the screen and into the hands of readers.',
-    image:
-      'https://images.unsplash.com/photo-1765922931332-224f9101941c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlZGl0b3JpYWwlMjBib29rJTIwcHVibGlzaGluZyUyMGNyZWF0aXZlJTIwZGFyayUyMG1vb2R5fGVufDF8fHx8MTc3NDYyMzE0Nnww&ixlib=rb-4.1.0&q=80&w=1080',
-    imageAlt: 'First Publication - editorial book dark moody',
-  },
-];
-
 // ─── Status Badge ─────────────────────────────────────────────────────────────
 
-function StatusBadge({ status }: { status: Status }) {
+function StatusBadge({ status }: { status: ProjectStatus }) {
   const isComplete = status === 'Completed';
+  const isConcept = status === 'Concept';
   return (
     <span
       className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full"
       style={{
-        background: isComplete ? 'rgba(255,200,87,0.15)' : 'rgba(255,255,255,0.07)',
-        border: isComplete ? '1px solid rgba(255,200,87,0.4)' : '1px solid rgba(255,255,255,0.15)',
+        background: isComplete || isConcept ? 'rgba(255,200,87,0.15)' : 'rgba(255,255,255,0.07)',
+        border: isComplete || isConcept ? '1px solid rgba(255,200,87,0.4)' : '1px solid rgba(255,255,255,0.15)',
         fontFamily: FONTS.body,
         fontSize: '0.6875rem',
         fontWeight: 600,
         letterSpacing: '0.12em',
         textTransform: 'uppercase',
-        color: isComplete ? COLORS.gold : 'rgba(250,243,224,0.55)',
+        color: isComplete || isConcept ? COLORS.gold : 'rgba(250,243,224,0.72)',
       }}
     >
       <span
         className="w-1.5 h-1.5 rounded-full"
-        style={{ background: isComplete ? COLORS.gold : 'rgba(250,243,224,0.4)' }}
+        style={{ background: isComplete || isConcept ? COLORS.gold : 'rgba(250,243,224,0.6)' }}
       />
       {status}
     </span>
@@ -115,8 +44,13 @@ function StatusBadge({ status }: { status: Status }) {
 
 // ─── Project Card ─────────────────────────────────────────────────────────────
 
-function ProjectCard({ project, delay }: { project: Project; delay: number }) {
+function ProjectCard({ project, delay }: { project: PortfolioProject; delay: number }) {
   return (
+    <Link
+      to={`/work/${encodeURIComponent(project.id)}`}
+      aria-label={`View project: ${project.title}`}
+      className="block rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-300"
+    >
     <motion.article
       initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -143,13 +77,26 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
       }}
     >
       {/* Image */}
-      <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/9' }}>
-        <ImageWithFallback
-          src={project.image}
-          alt={project.imageAlt}
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-          style={{ transform: 'scale(1.02)' }}
-        />
+      <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/9', background: 'radial-gradient(ellipse at 72% 30%, rgba(255,200,87,0.16), transparent 52%), linear-gradient(145deg, #222956, #101630)' }}>
+        {project.image ? (
+          <ImageWithFallback
+            src={project.image}
+            alt={project.imageAlt || ''}
+            className={`w-full h-full transition-transform duration-700 ease-out group-hover:scale-105 ${project.category === 'Branding' ? 'object-contain p-10' : 'object-cover'}`}
+            style={{ transform: 'scale(1.02)' }}
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center p-8 text-center">
+            <div>
+              <p className="mb-3 text-[0.65rem] font-semibold uppercase tracking-[0.2em]" style={{ color: 'rgba(255,200,87,0.7)', fontFamily: FONTS.body }}>
+                {project.classification} · {project.status}
+              </p>
+              <p className="text-2xl font-bold leading-tight" style={{ color: '#FAF3E0', fontFamily: FONTS.heading }}>
+                {project.title}
+              </p>
+            </div>
+          </div>
+        )}
         {/* Dark overlay - lightens slightly on hover */}
         <div
           className="absolute inset-0 transition-opacity duration-500"
@@ -189,7 +136,7 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
             color: COLORS.gold,
           }}
         >
-          {project.category} · {project.year}
+          {project.category} · {project.year} · {project.classification}
         </p>
 
         {/* Title */}
@@ -274,46 +221,11 @@ function ProjectCard({ project, delay }: { project: Project; delay: number }) {
         </div>
       </div>
     </motion.article>
+    </Link>
   );
 }
 
 // ─── Metadata Strip ───────────────────────────────────────────────────────────
-
-function formatProjectYear(date?: string) {
-  if (!date) return 'TBA';
-  const parsed = new Date(date);
-  return Number.isNaN(parsed.getTime()) ? 'TBA' : String(parsed.getFullYear());
-}
-
-function getProjectStatus(project: SanityPortfolioProject): Status {
-  if (!project.date) return 'In Development';
-  const parsed = new Date(project.date);
-  if (Number.isNaN(parsed.getTime())) return 'In Development';
-  return parsed <= new Date() ? 'Completed' : 'In Development';
-}
-
-function mapSanityProject(project: SanityPortfolioProject, index: number): Project {
-  const fallback = FALLBACK_PROJECTS[index % FALLBACK_PROJECTS.length];
-  const discipline = project.tags?.length
-    ? project.tags.join(' · ')
-    : project.client
-      ? `${project.client} · ${project.category || 'Creative Direction'}`
-      : `${project.category || 'Creative Work'} · Based on Creativity`;
-  const image = resolveMediaUrl(project.thumbnail, 1600) || fallback.image;
-
-  return {
-    id: project.slug || project._id,
-    index: String(index + 1).padStart(2, '0'),
-    title: project.title,
-    category: project.category || fallback.category,
-    discipline,
-    status: getProjectStatus(project),
-    year: formatProjectYear(project.date),
-    summary: project.description || fallback.summary,
-    image,
-    imageAlt: resolveMediaAlt(project.thumbnail, `${project.title} project artwork`) || fallback.imageAlt,
-  };
-}
 
 const META_ITEMS = ['Identity', 'Web', 'Animation', 'Publishing'];
 
@@ -489,7 +401,7 @@ function CTASection() {
 // ─── Root ────────────────────────────────────────────────────────────────────
 
 export function WorkPage() {
-  const [cmsProjects, setCmsProjects] = useState<Project[]>([]);
+  const [cmsProjects, setCmsProjects] = useState<PortfolioProject[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -503,8 +415,18 @@ export function WorkPage() {
         if (cancelled || !projects?.length) {
           return;
         }
-        const mapped = projects.map(mapSanityProject);
-        setCmsProjects(mapped);
+        const published = projects
+          .filter((project) => project.title?.trim() && project.description?.trim())
+          .map(mapSanityProject);
+        const publishedRoutes = new Set(
+          published.flatMap((project) => [project.id, ...(project.aliases || [])]),
+        );
+        const localExamples = FALLBACK_PROJECTS.filter(
+          (project) =>
+            !publishedRoutes.has(project.id) &&
+            !(project.aliases || []).some((alias) => publishedRoutes.has(alias)),
+        );
+        setCmsProjects([...published, ...localExamples]);
       })
       .catch((error) => {
         if (import.meta.env.DEV) {

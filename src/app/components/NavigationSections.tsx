@@ -21,7 +21,7 @@ export interface SearchResult {
   title: string;
   description: string;
   section: string;
-  anchor: string;
+  path: string;
 }
 
 // ─── Navigation Data ──────────────────────────────────────────────────────────
@@ -63,74 +63,54 @@ export function getIsNavActive(
 const SITE_INDEX: SearchResult[] = [
   // Hero
   {
-    title: "Where Vision Meets Mastery",
+    title: "Creative Studio",
     description:
-      "Award-Winning Creative Studio: extraordinary digital experiences.",
+      "Based on Creativity is a Toronto-based studio working across identity, web, animation, publishing, and merchandise.",
     section: "Hero",
-    anchor: "#hero",
-  },
-  {
-    title: "150+ Projects Delivered",
-    description:
-      "Over 150 successful projects completed for global clients.",
-    section: "Hero",
-    anchor: "#hero",
-  },
-  {
-    title: "50+ Global Clients",
-    description: "Trusted by more than 50 clients worldwide.",
-    section: "Hero",
-    anchor: "#hero",
-  },
-  {
-    title: "25 Awards Won",
-    description:
-      "Recognised with 25 industry awards for design excellence.",
-    section: "Hero",
-    anchor: "#hero",
+    path: "/",
   },
   // Work / Portfolio
   {
-    title: "Artisan Studio",
+    title: "BOC Brand System Refresh",
     description:
-      "Brand Identity: A curated creative studio workspace.",
+      "BOC-owned identity refresh with editorial typography, motion-ready assets, and a visual system.",
     section: "Work",
-    anchor: "#work",
+    path: "/work/boc-brand-identity",
   },
   {
-    title: "Modern Architecture",
+    title: "Creativity Base Web Platform",
     description:
-      "Web Design: Interior and architectural digital experience.",
+      "BOC-owned editorial web experience for the Creativity Base ecosystem.",
     section: "Work",
-    anchor: "#work",
+    path: "/work/bochq-website",
   },
   {
-    title: "Abstract Installation",
+    title: "First Animated Series · In Development",
     description:
-      "Art Direction: Compelling visual installation narrative.",
+      "BOC-owned animated series project in development.",
     section: "Work",
-    anchor: "#work",
+    path: "/work/first-animated-series",
   },
   {
-    title: "Luxury Product",
+    title: "Motion Merch Capsule · Concept",
     description:
-      "Photography: High-end product visual storytelling.",
+      "BOC-owned merchandise concept with product visuals and campaign assets.",
     section: "Work",
-    anchor: "#work",
+    path: "/work/motion-merch-capsule",
   },
   {
-    title: "Brand Evolution",
+    title: "First Publication · In Development",
     description:
-      "Brand Strategy: Identity systems and brand growth.",
+      "BOC-owned illustrated publication project in development.",
     section: "Work",
-    anchor: "#work",
+    path: "/work/first-publication",
   },
   {
-    title: "Editorial Excellence",
+    title: "View BOC Work",
     description:
-      "Publishing: Magazine layout and editorial design.",
+      "Browse BOC-owned work, concepts, and projects in development.",
     section: "Work",
-    anchor: "#work",
+    path: "/work",
   },
   // Services
   {
@@ -138,50 +118,28 @@ const SITE_INDEX: SearchResult[] = [
     description:
       "Crafting memorable visual identities that resonate and stand the test of time.",
     section: "Services",
-    anchor: "#services",
+    path: "/services",
   },
   {
     title: "Digital Experiences",
     description:
       "Building intuitive digital products combining aesthetic excellence with technical precision.",
     section: "Services",
-    anchor: "#services",
+    path: "/services",
   },
   {
     title: "Creative Direction",
     description:
       "Directing compelling visual narratives that captivate audiences and elevate brand storytelling.",
     section: "Services",
-    anchor: "#services",
+    path: "/services",
   },
   {
-    title: "Strategy & Growth",
+    title: "Publishing & Editorial",
     description:
-      "Data-driven strategies that transform creative vision into measurable business impact.",
+      "Book, editorial, illustrated, and digital-first publication design and production.",
     section: "Services",
-    anchor: "#services",
-  },
-  // Testimonials
-  {
-    title: "Sarah Mitchell, CEO, Artisan Collective",
-    description:
-      '"Based on Creativity transformed our brand identity beyond our wildest expectations."',
-    section: "Testimonials",
-    anchor: "#testimonials",
-  },
-  {
-    title: "James Chen, Founder, Modern Architecture Studio",
-    description:
-      '"They didn\'t just deliver a project; they delivered a masterpiece."',
-    section: "Testimonials",
-    anchor: "#testimonials",
-  },
-  {
-    title: "Emily Rodriguez, Director of Marketing",
-    description:
-      '"The level of craftsmanship sets a new standard in the industry."',
-    section: "Testimonials",
-    anchor: "#testimonials",
+    path: "/services",
   },
   // Contact / CTA
   {
@@ -189,22 +147,22 @@ const SITE_INDEX: SearchResult[] = [
     description:
       "Ready to create something extraordinary? Let's talk.",
     section: "Contact",
-    anchor: "#contact",
+    path: "/contact",
   },
   {
     title: "Get in Touch",
     description:
       "Reach out to Based on Creativity for your next project.",
     section: "Contact",
-    anchor: "#contact",
+    path: "/contact",
   },
   // About
   {
     title: "About the Studio",
     description:
-      "Based on Creativity, a luxury-tier creative studio driven by innovation and design mastery.",
+      "Learn about Based on Creativity, its studio divisions, creative practice, and approach to design-led storytelling.",
     section: "About",
-    anchor: "#about",
+    path: "/about",
   },
 ];
 
@@ -213,7 +171,6 @@ export const SECTION_COLORS: Record<string, string> = {
   Hero: COLORS.gold,
   Work: COLORS.creamAccent,
   Services: COLORS.gold,
-  Testimonials: "#D8D7DB",
   Contact: COLORS.gold,
   About: COLORS.creamAccent,
 };

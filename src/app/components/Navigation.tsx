@@ -144,12 +144,14 @@ export function Navigation() {
 
   // ── Search ──────────────────────────────────────────────────────────────────
 
-  /** Scrolls to the anchor element from a search result. */
-  const handleSearchResultClick = (anchor: string) => {
+  /** Navigates to the page that contains a search result. */
+  const handleSearchResultClick = (path: string) => {
     setIsSearchOpen(false);
-    document
-      .querySelector(anchor)
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (location.pathname === path) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    navigate(path);
   };
 
   // Re-run search whenever the query changes
@@ -683,7 +685,7 @@ export function Navigation() {
                               role="option"
                               onClick={() =>
                                 handleSearchResultClick(
-                                  result.anchor,
+                                  result.path,
                                 )
                               }
                               initial={{ opacity: 0, x: -8 }}

@@ -222,8 +222,7 @@ export function StoryDetail() {
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  const fallbackStory = storyId ? FALLBACK_STORY_DATA[storyId] : null;
-  const story = cmsStory || fallbackStory || null;
+  const story = cmsStory;
   const storyPath = storyId ? `/stories/${storyId}` : '/stories';
 
   const storySeoTitle = story
@@ -426,6 +425,7 @@ export function StoryDetail() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
         onClick={() => navigate('/stories')}
+        aria-label="Back to Stories"
         className="fixed top-24 left-6 z-50 flex items-center gap-2 transition-colors"
         style={{
           color: 'rgba(255,255,255,0.6)',
@@ -441,7 +441,7 @@ export function StoryDetail() {
         onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
       >
         <ArrowLeft size={16} />
-        BACK TO LIBRARY
+        BACK TO STORIES
       </motion.button>
 
       {/* Storybook mode toggle */}

@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { SEO } from './SEO';
 import { COLORS, FONTS } from '../../lib/constants';
 import { FinalCTA, MidCTA, ProcessSection } from './ServicesPageSections';
@@ -33,6 +33,7 @@ interface ServiceDef {
   outcome: string;
   relatedWork: string;
   relatedPath: string;
+  relatedLabel?: string;
   bg: string;
 }
 
@@ -62,9 +63,9 @@ const SERVICES: ServiceDef[] = [
       'Animatics & Pre-Production Packages',
     ],
     outcome:
-      'A finished animated work - or a production-ready development package - that carries genuine narrative weight and visual identity. Work built to travel across platforms, borders, and audiences.',
-    relatedWork: 'First Animated Series',
-    relatedPath: '/work',
+      'An animated work or production-ready development package with story, character, and visual direction clearly defined.',
+    relatedWork: 'First Animated Series · In development',
+    relatedPath: '/work/first-animated-series',
     bg: INDIGO_BLUE,
   },
   {
@@ -83,9 +84,9 @@ const SERVICES: ServiceDef[] = [
       'Print-Ready & Digital-First Formats',
     ],
     outcome:
-      'A polished publication - print or digital - that reads as professionally as it looks. Stories given the design, production quality, and distribution strategy they deserve.',
-    relatedWork: 'First Publication',
-    relatedPath: '/work',
+      'A designed, edited, print-ready or digital-first publication, with its text and visual system prepared for release.',
+    relatedWork: 'First Publication · In development',
+    relatedPath: '/work/first-publication',
     bg: NAVY_950,
   },
   {
@@ -104,9 +105,9 @@ const SERVICES: ServiceDef[] = [
       'Audience Growth & Retention Strategy',
     ],
     outcome:
-      'A living digital space - not just a product launch. A platform with a genuine community, a clear editorial voice, and the infrastructure to grow without losing its character.',
-    relatedWork: 'bochq.com',
-    relatedPath: '/work',
+      'A digital platform or community program with defined structure, editorial voice, content programming, and a clear operating model.',
+    relatedWork: 'Creativity Base Web Platform · BOC-owned',
+    relatedPath: '/work/creativity-base-web-platform',
     bg: INDIGO_BLUE,
   },
   {
@@ -125,9 +126,9 @@ const SERVICES: ServiceDef[] = [
       'Brand Guidelines & Usage Standards',
     ],
     outcome:
-      'A complete brand system with the depth and flexibility to serve an organisation across every touchpoint - from business card to billboard, from website to social to product.',
-    relatedWork: 'BOC Brand Identity',
-    relatedPath: '/work',
+      'A flexible identity system with logo, typography, colour, art direction, and usage guidance for the brand’s key touchpoints.',
+    relatedWork: 'BOC Brand System Refresh · BOC-owned',
+    relatedPath: '/work/boc-brand-system-refresh',
     bg: NAVY_950,
   },
   {
@@ -146,9 +147,9 @@ const SERVICES: ServiceDef[] = [
       'CMS Integration & Ongoing Support',
     ],
     outcome:
-      'A high-performance website that earns its place - one that represents the brand faithfully, loads quickly, converts visitors, and holds up beautifully as the brand scales.',
-    relatedWork: 'bochq.com',
-    relatedPath: '/work',
+      'A designed and developed website with responsive interfaces, CMS integration, and accessibility and performance checks appropriate to the project.',
+    relatedWork: 'Creativity Base Web Platform · BOC-owned',
+    relatedPath: '/work/creativity-base-web-platform',
     bg: INDIGO_BLUE,
   },
   {
@@ -167,10 +168,76 @@ const SERVICES: ServiceDef[] = [
       'Product Photography Direction',
     ],
     outcome:
-      'A merchandise line that functions as marketing, community signal, and revenue stream simultaneously - products that fans seek out rather than accept as afterthoughts.',
-    relatedWork: 'BOC Brand Identity',
-    relatedPath: '/work',
+      'A cohesive product concept and rollout package covering design, packaging direction, and campaign assets ready for production planning.',
+    relatedWork: 'Motion Merch Capsule · Concept',
+    relatedPath: '/work/motion-merch-capsule',
     bg: NAVY_950,
+  },
+  {
+    number: '07',
+    eyebrow: 'Documentation & Enablement',
+    name: 'Technical Writing',
+    entity: 'Technical Writing - BOC Direct',
+    description:
+      'We turn complex products, processes, and ideas into clear documentation people can use. Work can include user guides, standard operating procedures, knowledge-base content, and technical explainers.',
+    deliverables: [
+      'User & Product Documentation',
+      'Standard Operating Procedures',
+      'Knowledge-Base & Help-Centre Content',
+      'Technical Explainers & Reference Guides',
+      'Documentation Review & Restructuring',
+      'Style, Terminology & Editorial Consistency',
+    ],
+    outcome:
+      'A clear, structured set of technical documents tailored to the readers, tools, and workflow they support.',
+    relatedWork: 'Discuss this service',
+    relatedPath: '/contact',
+    relatedLabel: 'Next step',
+    bg: INDIGO_BLUE,
+  },
+  {
+    number: '08',
+    eyebrow: 'AI-Enabled Operations',
+    name: 'AI Automation Services',
+    entity: 'AI Automation - BOC Direct',
+    description:
+      'We help teams identify repetitive tasks where AI can assist, then scope and build fit-for-purpose automations around existing tools. Workflows include clear human review and handoffs where appropriate.',
+    deliverables: [
+      'AI Opportunity & Workflow Mapping',
+      'AI-Assisted Task Automation',
+      'Tool Integration & Process Design',
+      'Human Review & Escalation Steps',
+      'Testing & Quality Checks',
+      'Handoff & Usage Documentation',
+    ],
+    outcome:
+      'A scoped AI-assisted workflow with defined inputs, review points, and handoffs, documented for the team that will use it.',
+    relatedWork: 'Discuss this service',
+    relatedPath: '/contact',
+    relatedLabel: 'Next step',
+    bg: NAVY_950,
+  },
+  {
+    number: '09',
+    eyebrow: 'Connected Workflows',
+    name: 'Workflow Automation',
+    entity: 'Workflow Automation - BOC Direct',
+    description:
+      'We map repeatable business processes and connect steps across the tools a team already uses. Automations are scoped around clear triggers, handoffs, exception handling, and maintainable documentation.',
+    deliverables: [
+      'Process Mapping & Automation Scoping',
+      'Cross-Tool Workflow Connections',
+      'Notifications, Routing & Approvals',
+      'Exception Handling & Escalation Paths',
+      'Testing & Reliability Checks',
+      'Handoff & Maintenance Documentation',
+    ],
+    outcome:
+      'A documented automated process with defined triggers, system handoffs, and a clear path for exceptions.',
+    relatedWork: 'Discuss this service',
+    relatedPath: '/contact',
+    relatedLabel: 'Next step',
+    bg: INDIGO_BLUE,
   },
 ];
 
@@ -284,7 +351,6 @@ function CelestialDots({ side = 'right' }: { side?: 'left' | 'right' }) {
 // ─── Service Card ─────────────────────────────────────────────────────────────
 
 function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
-  const navigate = useNavigate();
   const isAlt = index % 2 === 1;
 
   return (
@@ -511,7 +577,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
                 margin: 0,
               }}
             >
-              Expected Outcome
+              Typical Deliverable
             </p>
             <div style={{ width: '24px', height: '1px', background: GOLD_50 }} />
             <p
@@ -547,10 +613,10 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
                   marginBottom: '8px',
                 }}
               >
-                See Example
+                {svc.relatedLabel ?? 'Related BOC-owned work'}
               </p>
-              <button
-                onClick={() => navigate(svc.relatedPath)}
+              <Link
+                to={svc.relatedPath}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -566,12 +632,12 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
                   color: GOLD,
                   transition: 'color 0.2s ease',
                 }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#FAF3E0'; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = GOLD; }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#FAF3E0'; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = GOLD; }}
               >
                 {svc.relatedWork}
                 <ArrowUpRight size={14} />
-              </button>
+              </Link>
             </div>
           </motion.div>
         </div>
@@ -587,7 +653,7 @@ export function ServicesPage() {
 
   return (
     <>
-      <SEO title="Services | Based on Creativity" description="Discover Based on Creativity services across brand identity, digital experiences, creative direction, and strategy for ambitious brands and founders." path="/services" />
+      <SEO title="Services | Based on Creativity" description="Explore BOC services including brand identity, digital experiences, technical writing, AI automation services, and workflow automation." path="/services" />
     <div style={{ background: INDIGO_BLUE, minHeight: '100vh' }}>
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
@@ -663,8 +729,21 @@ export function ServicesPage() {
               margin: '0 0 32px',
             }}
           >
-            BOC operates across six creative disciplines - from animation and publishing to web, design, platform, and merchandise. Every discipline is held to the same standard: craft that outlasts the moment it was made for.
+            BOC brings creative craft and practical expertise together - from animation, publishing, web, design, and merchandise to technical writing and automation. Every service is shaped around the work it needs to do.
           </motion.p>
+
+          <p
+            style={{
+              fontFamily: FONTS.body,
+              fontSize: '0.875rem',
+              color: 'rgba(250,243,224,0.55)',
+              lineHeight: 1.6,
+              maxWidth: '680px',
+              margin: '0 0 28px',
+            }}
+          >
+            The examples linked below are BOC-owned work or concepts. Service descriptions are typical deliverables, not claims of measured client results.
+          </p>
 
           {/* Italic accent */}
           <motion.p
@@ -689,7 +768,7 @@ export function ServicesPage() {
             transition={{ duration: 0.7, delay: 0.42 }}
             style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}
           >
-            {['Animation', 'Publishing', 'Digital Platform', 'Graphic Design', 'Web Development', 'Merchandise'].map((chip) => (
+            {['Animation', 'Publishing', 'Digital Platform', 'Graphic Design', 'Web Development', 'Merchandise', 'Technical Writing', 'AI Automation Services', 'Workflow Automation'].map((chip) => (
               <span
                 key={chip}
                 style={{
