@@ -33,6 +33,8 @@ interface WorkDetail {
   heroImage?: string;
   heroImageAlt: string;
   gallery: DetailImage[];
+  testimonial?: string;
+  testimonialAuthor?: string;
 }
 
 function detailFromSanity(project: SanityPortfolioProject): WorkDetail {
@@ -61,6 +63,8 @@ function detailFromSanity(project: SanityPortfolioProject): WorkDetail {
       gallery[0]?.alt ||
       `${project.title} project artwork`,
     gallery,
+    testimonial: project.testimonial,
+    testimonialAuthor: project.testimonialAuthor,
   };
 }
 
@@ -68,6 +72,7 @@ function detailFromFallback(project: PortfolioProject): WorkDetail {
   return {
     id: project.id,
     title: project.title,
+    client: project.client,
     classification: project.classification,
     status: project.status,
     category: project.category,
@@ -77,6 +82,8 @@ function detailFromFallback(project: PortfolioProject): WorkDetail {
     heroImage: project.image,
     heroImageAlt: project.imageAlt || project.title,
     gallery: [],
+    testimonial: project.testimonial,
+    testimonialAuthor: project.testimonialAuthor,
   };
 }
 
@@ -284,6 +291,30 @@ function ProjectDetail({ project }: { project: WorkDetail }) {
           </div>
 
           <ProjectGallery project={project} />
+
+          {project.testimonial && (
+            <figure
+              className="mt-16 rounded-2xl border p-7 md:p-10"
+              style={{
+                borderColor: 'rgba(255,200,87,0.24)',
+                background: 'linear-gradient(145deg, rgba(255,200,87,0.08), rgba(255,255,255,0.025))',
+              }}
+            >
+              <blockquote>
+                <p className="mb-4 text-[0.625rem] font-semibold uppercase tracking-[0.22em]" style={{ color: 'rgba(255,200,87,0.72)', fontFamily: FONTS.body }}>
+                  Client note
+                </p>
+                <p className="max-w-3xl text-lg leading-8 md:text-2xl md:leading-10" style={{ color: 'rgba(250,243,224,0.9)', fontFamily: FONTS.accent, fontStyle: 'italic' }}>
+                  “{project.testimonial}”
+                </p>
+              </blockquote>
+              {project.testimonialAuthor && (
+                <figcaption className="mt-6 text-sm font-semibold tracking-[0.08em]" style={{ color: COLORS.gold, fontFamily: FONTS.body }}>
+                  — {project.testimonialAuthor}
+                </figcaption>
+              )}
+            </figure>
+          )}
 
           <div className="mt-16 flex flex-col items-start justify-between gap-5 border-t pt-8 sm:flex-row sm:items-center" style={{ borderColor: 'rgba(255,200,87,0.18)' }}>
             <Link

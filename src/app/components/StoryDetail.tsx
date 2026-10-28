@@ -419,55 +419,57 @@ export function StoryDetail() {
         <GrainOverlay />
       </div>
 
-      {/* Back button */}
-      <motion.button
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5 }}
-        onClick={() => navigate('/stories')}
-        aria-label="Back to Stories"
-        className="fixed top-24 left-6 z-50 flex items-center gap-2 transition-colors"
-        style={{
-          color: 'rgba(255,255,255,0.6)',
-          fontFamily: "'Space Mono', monospace",
-          fontSize: '0.75rem',
-          letterSpacing: '0.1em',
-          background: 'transparent',
-          border: 'none',
-          cursor: 'pointer',
-          padding: 0,
-        }}
-        onMouseEnter={e => (e.currentTarget.style.color = '#FFC857')}
-        onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
-      >
-        <ArrowLeft size={16} />
-        BACK TO STORIES
-      </motion.button>
+      <div className="story-detail-toolbar">
+        {/* Back button */}
+        <motion.button
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          onClick={() => navigate('/stories')}
+          aria-label="Back to Stories"
+          className="story-detail-toolbar__back fixed top-24 left-6 z-50 flex items-center gap-2 transition-colors"
+          style={{
+            color: 'rgba(255,255,255,0.6)',
+            fontFamily: "'Space Mono', monospace",
+            fontSize: '0.75rem',
+            letterSpacing: '0.1em',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 0,
+          }}
+          onMouseEnter={e => (e.currentTarget.style.color = '#FFC857')}
+          onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
+        >
+          <ArrowLeft size={16} />
+          BACK TO STORIES
+        </motion.button>
 
-      {/* Storybook mode toggle */}
-      <motion.button
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5 }}
-        onClick={toggleStorybook}
-        className="fixed top-24 right-6 z-50 flex items-center gap-2 px-4 py-2 rounded-full border transition-all"
-        style={{
-          borderColor: storybookMode ? '#FFC857' : 'rgba(255,200,87,0.3)',
-          background: storybookMode ? 'rgba(255,200,87,0.15)' : 'rgba(255,200,87,0.05)',
-          color: storybookMode ? '#FFC857' : 'rgba(255,255,255,0.6)',
-          fontFamily: "'Space Mono', monospace",
-          fontSize: '0.7rem',
-          letterSpacing: '0.1em',
-          cursor: 'pointer',
-        }}
-      >
-        <BookOpen size={14} />
-        {storybookMode ? 'READING MODE' : 'STORYBOOK MODE'}
-      </motion.button>
+        {/* Storybook mode toggle */}
+        <motion.button
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          onClick={toggleStorybook}
+          className="story-detail-toolbar__mode fixed top-24 right-6 z-50 flex items-center gap-2 px-4 py-2 rounded-full border transition-all"
+          style={{
+            borderColor: storybookMode ? '#FFC857' : 'rgba(255,200,87,0.3)',
+            background: storybookMode ? 'rgba(255,200,87,0.15)' : 'rgba(255,200,87,0.05)',
+            color: storybookMode ? '#FFC857' : 'rgba(255,255,255,0.6)',
+            fontFamily: "'Space Mono', monospace",
+            fontSize: '0.7rem',
+            letterSpacing: '0.1em',
+            cursor: 'pointer',
+          }}
+        >
+          <BookOpen size={14} />
+          {storybookMode ? 'READING MODE' : 'STORYBOOK MODE'}
+        </motion.button>
+      </div>
 
       {/* ── Regular reading mode ── */}
       {!storybookMode ? (
-        <div ref={contentRef} className="relative z-20 max-w-[800px] mx-auto px-4 md:px-6 pt-28 pb-24 md:pt-32 md:pb-32">
+        <div ref={contentRef} className="story-detail-reading relative z-20 max-w-[800px] mx-auto px-4 md:px-6 pt-28 pb-24 md:pt-32 md:pb-32">
           {/* Hero image */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -564,7 +566,7 @@ export function StoryDetail() {
       ) : (
         // ── Storybook mode ──
         <div
-          className="relative z-20 flex flex-col items-center justify-center min-h-screen px-4 py-28 md:py-24"
+          className="story-detail-book relative z-20 flex flex-col items-center justify-center min-h-screen px-4 py-28 md:py-24"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >

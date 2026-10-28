@@ -49,3 +49,113 @@
     width: 100% !important;
   }
 }
+
+.explore-card-rail {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding: 4px 3px 14px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.explore-card-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.explore-card {
+  flex: 0 0 min(82vw, 19rem);
+}
+
+.explore-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 200, 87, 0.62) !important;
+  background: linear-gradient(150deg, rgba(255, 200, 87, 0.12), rgba(255, 255, 255, 0.055)) !important;
+}
+
+.explore-card:focus-visible {
+  outline: 3px solid #FFC857;
+  outline-offset: 4px;
+}
+
+@media (min-width: 768px) {
+  .explore-card {
+    flex-basis: calc((100% - 48px) / 4);
+  }
+}
+
+.boc-nav-control:focus-visible,
+.boc-explore-link:focus-visible,
+.boc-mobile-nav-link:focus-visible,
+.boc-mobile-explore-link:focus-visible,
+.boc-mobile-book-call:focus-visible {
+  outline: 2px solid #FFC857;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.boc-explore-link:hover {
+  background: rgba(255, 200, 87, 0.1);
+}
+
+.boc-mobile-explore-link:hover,
+.boc-mobile-nav-link:hover {
+  background: rgba(255, 200, 87, 0.07) !important;
+}
+
+
+/* Keep story controls out of the story title area on phones. */
+.story-detail-toolbar {
+  display: contents;
+}
+
+@media (max-width: 767px) {
+  .story-detail-toolbar {
+    position: relative;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5.5rem 1rem 0;
+  }
+
+  .story-detail-toolbar__back,
+  .story-detail-toolbar__mode {
+    position: static !important;
+    inset: auto !important;
+    z-index: auto !important;
+    flex: 0 0 auto;
+    gap: 0.35rem !important;
+    padding: 0.45rem 0.55rem !important;
+    font-size: 0.6rem !important;
+    letter-spacing: 0.04em !important;
+    white-space: nowrap;
+  }
+
+  .story-detail-reading {
+    padding-top: 2rem !important;
+  }
+
+  .story-detail-book {
+    min-height: calc(100svh - 8rem) !important;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .story-detail-toolbar__back,
+  .story-detail-toolbar__mode {
+    gap: 0.25rem !important;
+    padding-right: 0.4rem !important;
+    padding-left: 0.4rem !important;
+    font-size: 0.55rem !important;
+    letter-spacing: 0.025em !important;
+  }
+}

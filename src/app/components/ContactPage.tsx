@@ -1142,7 +1142,7 @@ export function ContactPage() {
               color: "rgba(255,200,87,0.4)",
             }}
           >
-            BASED ON CREATIVITY
+            Based on Creativity
           </p>
         </motion.div>
       </div>

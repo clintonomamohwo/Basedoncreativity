@@ -324,7 +324,7 @@ export function LibraryPage() {
 
               <div>
                 <p style={{ fontFamily: "'Space Mono', monospace", fontSize: '0.58rem', color: textMuted, letterSpacing: '0.16em', marginBottom: 1 }}>
-                  BASED ON CREATIVITY: ARCHIVE
+                  Based on Creativity: ARCHIVE
                 </p>
                 <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.25rem', color: textPrimary, lineHeight: 1 }}>
                   {isMoon ? 'The Reflection Library' : 'The Expression Library'}
@@ -617,7 +617,7 @@ export function LibraryPage() {
                     </p>
                     <div style={{ height: 1, width: 60, background: accentColor, margin: '0 auto 1rem', opacity: 0.5 }} />
                     <p style={{ fontFamily: "'Space Mono', monospace", fontSize: '0.65rem', color: textMuted, letterSpacing: '0.14em' }}>
-                      BASED ON CREATIVITY, {isMoon ? 'THE REFLECTION CODEX' : 'THE EXPRESSION CODEX'}
+                      Based on Creativity, {isMoon ? 'THE REFLECTION CODEX' : 'THE EXPRESSION CODEX'}
                     </p>
                   </div>
                 </motion.div>

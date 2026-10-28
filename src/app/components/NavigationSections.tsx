@@ -26,14 +26,15 @@ export interface SearchResult {
 
 // ─── Navigation Data ──────────────────────────────────────────────────────────
 
-/** Ordered list of labels shown in the nav bar. */
-export const NAV_LINKS = [
-  "WORK",
-  "SERVICES",
-  "ABOUT",
-  "STUDIO",
-  "THE VAULT",
-  "CONTACT",
+/** Ordered list of the compact, top-level navigation items. */
+export const NAV_LINKS = ["WORK", "SERVICES", "EXPLORE", "CONTACT", "BOOK A CALL"] as const;
+
+/** Destinations revealed by Explore, in editorial priority order. */
+export const EXPLORE_LINKS = [
+  { label: "About", path: "/about" },
+  { label: "Studio", path: "/studio" },
+  { label: "The Vault", path: "/vault" },
+  { label: "Library", path: "/library" },
 ] as const;
 
 /** Maps each nav label to its corresponding route path. */
@@ -44,6 +45,7 @@ export const NAV_ROUTES: Record<string, string> = {
   STUDIO: "/studio",
   "THE VAULT": "/vault",
   CONTACT: "/contact",
+  "BOOK A CALL": "/contact",
 };
 
 /** Returns true if the nav item's route matches the current pathname. */
@@ -51,6 +53,9 @@ export function getIsNavActive(
   item: string,
   pathname: string,
 ): boolean {
+  if (item === "EXPLORE") {
+    return EXPLORE_LINKS.some((link) => link.path === pathname);
+  }
   return NAV_ROUTES[item] === pathname;
 }
 

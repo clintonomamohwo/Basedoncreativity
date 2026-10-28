@@ -148,8 +148,8 @@ const SERVICES: ServiceDef[] = [
     ],
     outcome:
       'A designed and developed website with responsive interfaces, CMS integration, and accessibility and performance checks appropriate to the project.',
-    relatedWork: 'Creativity Base Web Platform · BOC-owned',
-    relatedPath: '/work/creativity-base-web-platform',
+    relatedWork: 'Modern Cosmos · Client project',
+    relatedPath: '/work/modern-cosmos',
     bg: INDIGO_BLUE,
   },
   {
@@ -742,7 +742,7 @@ export function ServicesPage() {
               margin: '0 0 28px',
             }}
           >
-            The examples linked below are BOC-owned work or concepts. Service descriptions are typical deliverables, not claims of measured client results.
+            The examples linked below include BOC-owned work and client work. Service descriptions are typical deliverables, not claims of measured client results.
           </p>
 
           {/* Italic accent */}

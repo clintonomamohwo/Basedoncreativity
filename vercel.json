@@ -19,6 +19,7 @@
     { "source": "/work/creativity-base-web-platform", "destination": "/index.html" },
     { "source": "/work/first-animated-series", "destination": "/index.html" },
     { "source": "/work/first-publication", "destination": "/index.html" },
+    { "source": "/work/modern-cosmos", "destination": "/index.html" },
     { "source": "/work/motion-merch-capsule", "destination": "/index.html" },
     { "source": "/stories/creative-discipline-after-dark", "destination": "/index.html" },
     { "source": "/stories/building-worlds-with-intent", "destination": "/index.html" }

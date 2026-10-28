@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity';
+import { defineArrayMember, defineField, defineType } from 'sanity';
 
 export default defineType({
   name: 'portfolioProject',
@@ -48,69 +48,32 @@ export default defineType({
       rows: 4,
     }),
     defineField({
+      name: 'testimonial',
+      title: 'Client Testimonial',
+      type: 'text',
+      rows: 5,
+    }),
+    defineField({
+      name: 'testimonialAuthor',
+      title: 'Testimonial Attribution',
+      type: 'string',
+    }),
+    defineField({
       name: 'thumbnail',
       title: 'Thumbnail Image',
-      type: 'object',
-      fields: [
-        {
-          name: 'image',
-          title: 'Image',
-          type: 'image',
-          options: {
-            hotspot: true,
-          },
-          fields: [
-            {
-              name: 'alt',
-              title: 'Alt Text',
-              type: 'string',
-            },
-          ],
-        },
-        {
-          name: 'cloudinaryUrl',
-          title: 'Cloudinary URL (optional)',
-          type: 'url',
-        },
-      ],
+      type: 'mediaAsset',
     }),
     defineField({
       name: 'images',
       title: 'Gallery Images',
       type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              name: 'image',
-              title: 'Image',
-              type: 'image',
-              options: {
-                hotspot: true,
-              },
-              fields: [
-                {
-                  name: 'alt',
-                  title: 'Alt Text',
-                  type: 'string',
-                },
-              ],
-            },
-            {
-              name: 'cloudinaryUrl',
-              title: 'Cloudinary URL (optional)',
-              type: 'url',
-            },
-          ],
-        },
-      ],
+      of: [defineArrayMember({type: 'mediaAsset'})],
     }),
     defineField({
       name: 'tags',
       title: 'Tags',
       type: 'array',
-      of: [{ type: 'string' }],
+      of: [defineArrayMember({type: 'string'})],
       options: {
         layout: 'tags',
       },

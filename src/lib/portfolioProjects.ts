@@ -17,6 +17,7 @@ export interface PortfolioProject {
   aliases?: string[];
   index: string;
   title: string;
+  client?: string;
   category: string;
   discipline: string;
   classification: ProjectClassification;
@@ -25,6 +26,8 @@ export interface PortfolioProject {
   summary: string;
   image?: string;
   imageAlt?: string;
+  testimonial?: string;
+  testimonialAuthor?: string;
 }
 
 /** Local examples retained when the published portfolio cannot be reached. */
@@ -93,6 +96,26 @@ export const FALLBACK_PROJECTS: PortfolioProject[] = [
     summary:
       'A concept capsule combining product visuals, animated launch teasers, and campaign-ready artwork for a limited BOC merchandise release.',
   },
+  {
+    id: 'modern-cosmos',
+    index: '06',
+    title: 'Modern Cosmos',
+    client: 'Modern Cosmos',
+    category: 'Web Development',
+    discipline: 'Website Redesign · Responsive Design · Desktop & Mobile',
+    classification: 'Client project',
+    status: 'Completed',
+    year: '2026',
+    summary:
+      'Website redesign and site updates for Modern Cosmos, with improvements across desktop and mobile views.',
+    image:
+      'https://cdn.sanity.io/images/wxky32kg/production/af8627bb68da6dc2a3089c09b9b7591ae50aabb4-2400x1810.png?w=1600&auto=format&q=80',
+    imageAlt:
+      'Modern Cosmos homepage before-and-after comparison showing desktop and mobile views.',
+    testimonial:
+      'My experience was of a genuinely creative process and deliberately imaginative website redesign. My virtual correspondence was intuitive and collaborative. I super recommend Based on Creativity to give your concept a marvellous form.',
+    testimonialAuthor: 'Ryan D',
+  },
 ];
 
 const BOC_ENTITIES = new Set([
@@ -146,6 +169,7 @@ export function mapSanityProject(
     id: project.slug || project._id,
     index: String(index + 1).padStart(2, '0'),
     title: project.title,
+    client: project.client,
     category: project.category || 'Creative Work',
     discipline: project.tags?.length
       ? project.tags.join(' · ')

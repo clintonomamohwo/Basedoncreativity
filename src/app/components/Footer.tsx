@@ -120,8 +120,6 @@ export function Footer() {
               title: "Company",
               links: [
                 { label: "About", path: "/about" },
-                { label: "The Quiet Pages", path: "/stories" },
-                { label: "Library", path: "/library" },
                 { label: "Contact", path: "/contact" },
               ],
             },
@@ -198,8 +196,6 @@ export function Footer() {
           </p>
           <div className="flex flex-wrap gap-4 md:gap-6 justify-center items-center">
             {[
-              { label: "QUIET PAGES", path: "/stories" },
-              { label: "LIBRARY", path: "/library" },
               { label: "Privacy Policy", path: "/privacy" },
               { label: "Terms of Service", path: "/terms" },
             ].map((link) => (

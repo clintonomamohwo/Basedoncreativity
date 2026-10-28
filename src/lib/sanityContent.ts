@@ -22,6 +22,8 @@ export interface SanityPortfolioProject {
   date?: string;
   featured?: boolean;
   order?: number;
+  testimonial?: string;
+  testimonialAuthor?: string;
 }
 
 export interface SanityVaultItem {
@@ -72,7 +74,9 @@ const portfolioQuery = `*[_type == "portfolioProject"] | order(order asc, featur
   tags,
   date,
   featured,
-  order
+  order,
+  testimonial,
+  testimonialAuthor
 }`;
 
 const vaultQuery = `*[_type == "vaultItem"] | order(featured desc, date desc) {
