@@ -2,17 +2,17 @@ import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
-import { fetchPortfolioProjects } from '../../lib/sanityContent';
+import { fetchPortfolioCardProjects } from '../../lib/sanityContent';
 import {
   FALLBACK_PROJECTS,
   mapSanityProject,
+  orderPortfolioProjects,
   type PortfolioProject,
   type ProjectStatus,
 } from '../../lib/portfolioProjects';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { SEO } from './SEO';
 import { COLORS, FONTS, GRAIN_SVG_PATTERN } from '../../lib/constants';
-import { retryWithBackoff } from '../../lib/retry';
 
 // ─── Status Badge ─────────────────────────────────────────────────────────────
 
@@ -82,6 +82,8 @@ function ProjectCard({ project, delay }: { project: PortfolioProject; delay: num
           <ImageWithFallback
             src={project.image}
             alt={project.imageAlt || ''}
+            loading="lazy"
+            decoding="async"
             className={`w-full h-full transition-transform duration-700 ease-out group-hover:scale-105 ${project.category === 'Branding' ? 'object-contain p-10' : 'object-cover'}`}
             style={{ transform: 'scale(1.02)' }}
           />
@@ -402,15 +404,11 @@ function CTASection() {
 
 export function WorkPage() {
   const [cmsProjects, setCmsProjects] = useState<PortfolioProject[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
 
-    retryWithBackoff(() => fetchPortfolioProjects(), {
-      maxRetries: 3,
-      initialDelay: 1000,
-    })
+    fetchPortfolioCardProjects()
       .then((projects) => {
         if (cancelled || !projects?.length) {
           return;
@@ -430,15 +428,7 @@ export function WorkPage() {
       })
       .catch((error) => {
         if (import.meta.env.DEV) {
-          console.error('Error fetching portfolio projects after retries:', error);
-        }
-        if (!cancelled) {
-          setCmsProjects([]);
-        }
-      })
-      .finally(() => {
-        if (!cancelled) {
-          setIsLoading(false);
+          console.error('Error fetching portfolio projects:', error);
         }
       });
 
@@ -453,7 +443,7 @@ export function WorkPage() {
       if (import.meta.env.DEV) {
         console.log('Using data source:', cmsProjects.length ? 'Sanity CMS' : 'Fallback', '- Projects:', projects.length);
       }
-      return projects;
+      return orderPortfolioProjects(projects);
     },
     [cmsProjects],
   );
@@ -592,52 +582,13 @@ export function WorkPage() {
         {/* ── Project Grid ─────────────────────────────────────────────── */}
         <section className="px-4 md:px-12 lg:px-20 pb-20 max-w-5xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {isLoading ? (
-              <>
-                {[1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    className="rounded-2xl overflow-hidden"
-                    style={{
-                      background: 'rgba(255,255,255,0.03)',
-                      border: '1px solid rgba(255,200,87,0.12)',
-                      aspectRatio: '16/10',
-                    }}
-                  >
-                    <div
-                      className="w-full h-40 animate-pulse"
-                      style={{ background: 'rgba(255,200,87,0.05)' }}
-                    />
-                    <div className="p-6">
-                      <div
-                        className="h-4 w-24 mb-3 rounded animate-pulse"
-                        style={{ background: 'rgba(255,200,87,0.1)' }}
-                      />
-                      <div
-                        className="h-6 w-3/4 mb-3 rounded animate-pulse"
-                        style={{ background: 'rgba(255,200,87,0.15)' }}
-                      />
-                      <div
-                        className="h-4 w-full mb-2 rounded animate-pulse"
-                        style={{ background: 'rgba(255,200,87,0.08)' }}
-                      />
-                      <div
-                        className="h-4 w-5/6 rounded animate-pulse"
-                        style={{ background: 'rgba(255,200,87,0.08)' }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </>
-            ) : (
-              displayProjects.map((project, i) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  delay={i * 0.08}
-                />
-              ))
-            )}
+            {displayProjects.map((project, i) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                delay={i * 0.08}
+              />
+            ))}
           </div>
 
           {/* Italicised note beneath grid */}

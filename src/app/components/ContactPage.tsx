@@ -906,7 +906,9 @@ export function ContactPage() {
                 "Prefer to talk? Email us to arrange a 30-minute discovery call."
               </p>
               <motion.a
-                href={`mailto:${CONTACT.email}?subject=${encodeURIComponent("Discovery call request")}`}
+                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT.email)}&su=${encodeURIComponent("Discovery call request")}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Email Based on Creativity to arrange a discovery call"
                 whileHover={{
                   scale: 1.03,

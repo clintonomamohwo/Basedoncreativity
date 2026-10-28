@@ -73,9 +73,9 @@ export const GRAIN_SVG_PATTERN =
 
 export const CONTACT = {
   email: 'contact@bochq.com',
-  phone: '647-847-9084',
-  phoneFormatted: '+1 647-847-9084',
-  phoneHref: 'tel:+16478479084',
+  phone: '(365) 307-0370',
+  phoneFormatted: '(365) 307-0370',
+  phoneHref: 'tel:+13653070370',
   location: 'Toronto, Canada',
   responseTime: 'Within 2-3 days',
   availability: 'Clients Worldwide',

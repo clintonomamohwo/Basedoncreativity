@@ -119,7 +119,7 @@ export function ContactSection() {
               {
                 icon: Phone,
                 label: "Phone",
-                value: "+1 (647) 847-9084",
+                value: "(365) 307-0370",
               },
               {
                 icon: MapPin,

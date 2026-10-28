@@ -79,6 +79,18 @@ const portfolioQuery = `*[_type == "portfolioProject"] | order(order asc, featur
   testimonialAuthor
 }`;
 
+const portfolioCardQuery = `*[_type == "portfolioProject"] | order(order asc, featured desc, date desc) {
+  _id,
+  title,
+  "slug": slug.current,
+  client,
+  category,
+  description,
+  thumbnail,
+  tags,
+  date
+}`;
+
 const vaultQuery = `*[_type == "vaultItem"] | order(featured desc, date desc) {
   _id,
   title,
@@ -122,6 +134,10 @@ export async function fetchPortfolioProjects() {
   return sanityClient.fetch<SanityPortfolioProject[]>(portfolioQuery);
 }
 
+export async function fetchPortfolioCardProjects() {
+  return sanityClient.fetch<SanityPortfolioProject[]>(portfolioCardQuery);
+}
+
 export async function fetchVaultItems() {
   return sanityClient.fetch<SanityVaultItem[]>(vaultQuery);
 }
@@ -158,7 +174,22 @@ export function resolveMediaUrl(media?: SanityImageField, width = 1600) {
       return `https://res.cloudinary.com/basecreator/video/upload/${url}.mp4`;
     }
 
-    // Otherwise return the URL as-is (direct video/image URL)
+    // Resize direct Cloudinary images and let Cloudinary choose an efficient format.
+    const imageUploadPath = '/image/upload/';
+    const uploadPathIndex = url.indexOf(imageUploadPath);
+    if (uploadPathIndex !== -1) {
+      const imagePathStart = uploadPathIndex + imageUploadPath.length;
+      const firstSegment = url.slice(imagePathStart).split('/')[0];
+      const alreadyTransformed = /(?:^|,)(?:a|b|c|d|dpr|e|f|fl|g|h|l|o|q|r|t|u|w|x|y|z)_[^,]+/.test(firstSegment);
+
+      if (!alreadyTransformed) {
+        const requestedWidth = Math.max(1, Math.round(width));
+        const transformations = `f_auto,q_auto:good,c_limit,w_${requestedWidth}`;
+        return `${url.slice(0, imagePathStart)}${transformations}/${url.slice(imagePathStart)}`;
+      }
+    }
+
+    // Keep non-image Cloudinary URLs (including direct videos) unchanged.
     return url;
   }
 

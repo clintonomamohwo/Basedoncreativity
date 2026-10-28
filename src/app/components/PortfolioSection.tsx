@@ -2,10 +2,13 @@ import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router';
 import { COLORS, FONTS } from '../../lib/constants';
-import { FALLBACK_PROJECTS } from '../../lib/portfolioProjects';
+import {
+  FALLBACK_PROJECTS,
+  orderPortfolioProjects,
+} from '../../lib/portfolioProjects';
 import type { PortfolioProject } from '../../lib/portfolioProjects';
 
-const featuredProjects = FALLBACK_PROJECTS;
+const featuredProjects = orderPortfolioProjects(FALLBACK_PROJECTS);
 
 function statusLabel(project: PortfolioProject) {
   return project.status === 'Concept'

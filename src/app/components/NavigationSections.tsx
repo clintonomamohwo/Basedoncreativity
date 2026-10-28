@@ -35,7 +35,6 @@ export const EXPLORE_LINKS = [
   { label: "Studio", path: "/studio" },
   { label: "The Vault", path: "/vault" },
   { label: "Library", path: "/library" },
-  { label: "Stories", path: "/stories" },
 ] as const;
 
 /** Maps each nav label to its corresponding route path. */

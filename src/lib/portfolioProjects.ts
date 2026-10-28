@@ -44,7 +44,7 @@ export const FALLBACK_PROJECTS: PortfolioProject[] = [
     summary:
       'BOC’s brand refresh brings its logo variations, colour palette, typography and digital-card styles into a more cohesive visual system. Selected public-safe excerpts from the brand guidelines show how these elements work together to create a recognisable, consistent expression of the studio. If your own identity feels scattered across touchpoints, let’s talk about bringing it together.',
     image:
-      'https://cdn.sanity.io/images/wxky32kg/production/a43b0a902b2aff19de75037d5a2346362bb38a7b-3228x1748.jpg?w=1600&auto=format&q=80',
+      'https://cdn.sanity.io/images/wxky32kg/production/a43b0a902b2aff19de75037d5a2346362bb38a7b-3228x1748.jpg?w=960&auto=format&q=80',
     imageAlt:
       'Collage of selected BOC logo, palette, typography, and card-style guideline excerpts.',
   },
@@ -110,7 +110,7 @@ export const FALLBACK_PROJECTS: PortfolioProject[] = [
     summary:
       'For Modern Cosmos, BOC completed a website redesign and site updates across desktop and mobile. The work pairs responsive design with a more considered visual presentation, giving the client’s concept a thoughtful online form. If your site is ready for a similarly imaginative refresh, we’d love to hear what you’re building.',
     image:
-      'https://cdn.sanity.io/images/wxky32kg/production/af8627bb68da6dc2a3089c09b9b7591ae50aabb4-2400x1810.png?w=1600&auto=format&q=80',
+      'https://cdn.sanity.io/images/wxky32kg/production/af8627bb68da6dc2a3089c09b9b7591ae50aabb4-2400x1810.png?w=960&auto=format&q=80',
     imageAlt:
       'Modern Cosmos homepage before-and-after comparison showing desktop and mobile views.',
     testimonial:
@@ -118,6 +118,39 @@ export const FALLBACK_PROJECTS: PortfolioProject[] = [
     testimonialAuthor: 'Ryan D',
   },
 ];
+
+function normalizeProjectKey(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+export function orderPortfolioProjects(projects: PortfolioProject[]) {
+  return projects
+    .map((project, originalIndex) => {
+      const keys = [project.id, project.title, ...(project.aliases || [])].map(
+        normalizeProjectKey,
+      );
+      const priority = keys.includes('modern-cosmos')
+        ? 0
+        : keys.some((key) =>
+            ['boc-brand-system-refresh', 'boc-brand-identity'].includes(key),
+          )
+          ? 1
+          : 2;
+
+      return { project, originalIndex, priority };
+    })
+    .sort(
+      (a, b) => a.priority - b.priority || a.originalIndex - b.originalIndex,
+    )
+    .map(({ project }, index) => ({
+      ...project,
+      index: String(index + 1).padStart(2, '0'),
+    }));
+}
 
 const BOC_ENTITIES = new Set([
   'based on creativity',
@@ -150,7 +183,7 @@ export function mapSanityProject(
   index: number,
 ): PortfolioProject {
   const status = getProjectStatus(project);
-  const image = resolveMediaUrl(project.thumbnail, 1600) || undefined;
+  const image = resolveMediaUrl(project.thumbnail, 960) || undefined;
   const client = project.client?.trim().toLowerCase();
   const isBocOwned = Boolean(client && BOC_ENTITIES.has(client));
   const classification =

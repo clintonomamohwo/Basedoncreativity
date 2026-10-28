@@ -375,7 +375,7 @@ export function Navigation() {
 
           {/* ── Compact desktop navigation ── */}
           <div
-            className="hidden md:flex flex-1 items-center justify-end gap-1 xl:gap-2"
+            className="hidden md:flex flex-1 self-stretch items-center justify-end gap-1 xl:gap-2"
             role="group"
             aria-label="Primary navigation"
           >
@@ -402,7 +402,21 @@ export function Navigation() {
               </Link>
             ))}
 
-            <div ref={exploreMenuRef} className="relative">
+            <div
+              ref={exploreMenuRef}
+              className="relative self-stretch flex items-center"
+              onBlurCapture={(event) => {
+                const nextTarget = event.relatedTarget;
+                if (
+                  nextTarget instanceof Node &&
+                  exploreMenuRef.current?.contains(nextTarget)
+                ) {
+                  return;
+                }
+                setIsExploreOpen(false);
+              }}
+              onPointerLeave={() => setIsExploreOpen(false)}
+            >
               <button
                 ref={exploreButtonRef}
                 type="button"
@@ -430,21 +444,41 @@ export function Navigation() {
                   style={{ transform: isExploreOpen ? "rotate(180deg)" : "none", transition: "transform 180ms ease" }}
                 />
               </button>
+              {isExploreOpen && (
+                <span
+                  aria-hidden="true"
+                  className="absolute"
+                  style={{
+                    top: "100%",
+                    left: "50%",
+                    width: 132,
+                    height: 10,
+                    transform: "translateX(-50%)",
+                    zIndex: 69,
+                  }}
+                />
+              )}
               <AnimatePresence>
                 {isExploreOpen && (
                   <motion.div
                     id="desktop-explore-menu"
-                    initial={{ opacity: 0, y: -6, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -6, scale: 0.98 }}
-                    transition={{ duration: 0.18, ease: EASE_STANDARD }}
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.24, ease: EASE_STANDARD }}
+                    role="group"
                     aria-label="Explore pages"
-                    className="absolute right-0 z-[70] mt-2 w-60 overflow-hidden rounded-xl"
+                    className="absolute z-[70] overflow-hidden"
                     style={{
-                      background: "rgba(20, 24, 60, 0.98)",
-                      border: "1px solid rgba(255,200,87,0.3)",
-                      boxShadow: "0 22px 50px rgba(0,0,0,0.42)",
-                      backdropFilter: "blur(18px)",
+                      top: "calc(100% + 10px)",
+                      left: "50%",
+                      width: 132,
+                      transform: "translateX(-50%)",
+                      background: COLORS.indigoBlue,
+                      border: "1px solid rgba(255,200,87,0.38)",
+                      borderTop: "none",
+                      borderRadius: "0 0 8px 8px",
+                      boxShadow: "0 14px 28px rgba(0,0,0,0.28)",
                     }}
                   >
                     {EXPLORE_LINKS.map((link) => (
@@ -458,11 +492,11 @@ export function Navigation() {
                         style={{
                           display: "flex",
                           alignItems: "center",
-                          minHeight: 48,
-                          padding: "12px 18px",
+                          minHeight: 42,
+                          padding: "10px 14px",
                           color: location.pathname === link.path ? COLORS.gold : "#FAF3E0",
                           fontFamily: FONTS.body,
-                          fontSize: "0.95rem",
+                          fontSize: "0.9rem",
                           textDecoration: "none",
                           borderBottom: "1px solid rgba(255,200,87,0.1)",
                         }}
