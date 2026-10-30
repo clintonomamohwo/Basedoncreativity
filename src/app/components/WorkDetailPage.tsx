@@ -105,7 +105,10 @@ function formatYear(date?: string) {
 function ProjectHero({ project }: { project: WorkDetail }) {
   const isModernCosmos =
     project.id === 'modern-cosmos' || project.client?.trim().toLowerCase() === 'modern cosmos';
-
+  const isBrandSystemRefresh =
+    project.id === 'boc-brand-identity' ||
+    project.id === 'boc-brand-system-refresh' ||
+    project.title.trim().toLowerCase() === 'boc brand system refresh';
   return (
     <section className="relative mx-auto w-full max-w-7xl px-4 pt-28 md:px-10 md:pt-36">
       <Link
@@ -129,12 +132,14 @@ function ProjectHero({ project }: { project: WorkDetail }) {
         }}
       >
         {project.heroImage && (
-          <ImageWithFallback
-            src={project.heroImage}
-            alt={project.heroImageAlt}
-            className="absolute inset-0 h-full w-full object-cover"
-            style={{ minHeight: 'inherit' }}
-          />
+          <div className="absolute inset-0 overflow-hidden">
+            <ImageWithFallback
+              src={project.heroImage}
+              alt={project.heroImageAlt}
+              className="h-full w-full object-cover"
+              style={{ transform: isBrandSystemRefresh ? 'scale(1.24)' : undefined }}
+            />
+          </div>
         )}
         <div
           aria-hidden="true"
