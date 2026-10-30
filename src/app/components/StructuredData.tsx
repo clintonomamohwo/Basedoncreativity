@@ -50,7 +50,7 @@ export function createOrganizationSchema() {
     '@type': 'Organization',
     name: 'Based on Creativity',
     url: 'https://www.bochq.com',
-    logo: 'https://www.bochq.com/bochq-logo.png',
+    logo: 'https://www.bochq.com/boc-logo.png',
     description: 'A creative studio crafting distinctive brand worlds, digital experiences, visual storytelling, and strategic design.',
     sameAs: [
       'https://instagram.com/basedoncreativity',
@@ -83,7 +83,7 @@ export function createCreativeWorkSchema(params: {
       name: 'Based on Creativity',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://www.bochq.com/bochq-logo.png',
+        url: 'https://www.bochq.com/boc-logo.png',
       },
     },
     ...(params.datePublished && { datePublished: params.datePublished }),
@@ -114,7 +114,7 @@ export function createArticleSchema(params: {
       name: 'Based on Creativity',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://www.bochq.com/bochq-logo.png',
+        url: 'https://www.bochq.com/boc-logo.png',
       },
     },
     ...(params.datePublished && { datePublished: params.datePublished }),

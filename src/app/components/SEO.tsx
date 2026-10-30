@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 
 const SITE_NAME = 'Based on Creativity';
 const SITE_URL = 'https://www.bochq.com';
-const DEFAULT_IMAGE = `${SITE_URL}/bochq-logo.png`;
+const DEFAULT_IMAGE =
+  'https://cdn.sanity.io/images/wxky32kg/production/a43b0a902b2aff19de75037d5a2346362bb38a7b-3228x1748.jpg?w=1200&h=630&fit=crop&auto=format&q=85';
 
 type SEOType = 'website' | 'article';
 type TwitterCard = 'summary' | 'summary_large_image';
