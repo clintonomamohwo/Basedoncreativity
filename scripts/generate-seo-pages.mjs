@@ -296,6 +296,9 @@ function buildDocument(shell, route) {
     .map((match) => match[0])
     .filter((tag) => !/rel=["']canonical["']/i.test(tag))
     .join('\n      ');
+  const assetScripts = [...shell.matchAll(/<script\b[^>]*\bsrc=[^>]*><\/script>/gi)]
+    .map((match) => match[0])
+    .join('\n      ');
   const head = `<head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -320,6 +323,7 @@ function buildDocument(shell, route) {
       <script type="application/ld+json">${jsonLd}</script>
       <style>.seo-fallback{max-width:72rem;margin:0 auto;padding:7rem 1.5rem;font-family:system-ui,sans-serif;color:#111;background:#fff}.seo-fallback .seo-kicker{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.seo-fallback h1{max-width:18ch;font-size:clamp(2.25rem,6vw,4.8rem);line-height:1.04}.seo-fallback p{max-width:48rem;font-size:1.1rem;line-height:1.6}.seo-fallback nav{display:flex;flex-wrap:wrap;gap:1rem;margin-top:2rem}.seo-fallback a{color:#1A1F4B;font-weight:700}</style>
       ${assetLinks}
+      ${assetScripts}
     </head>`;
 
   return shell
