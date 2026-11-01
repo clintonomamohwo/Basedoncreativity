@@ -1907,6 +1907,7 @@ export function VaultPage() {
         touchAction: showGallery ? "auto" : "none",
       }}
     >
+      <h1 className="sr-only">The Vault</h1>
       <StarCanvas visible={!showGallery} />
 
       <div
@@ -2607,7 +2608,7 @@ export function VaultPage() {
                 padding: "0 24px",
               }}
             >
-              <h1
+              <p aria-hidden="true"
                 style={{
                   fontFamily: FONTS.accent,
                   fontSize: "clamp(2.5rem, 8vw, 5rem)",
@@ -2620,7 +2621,7 @@ export function VaultPage() {
                 }}
               >
                 The Vault Awaits
-              </h1>
+              </p>
             </motion.div>
           )}
         </AnimatePresence>

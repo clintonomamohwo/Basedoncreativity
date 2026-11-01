@@ -117,6 +117,19 @@ export const FALLBACK_PROJECTS: PortfolioProject[] = [
       'My experience was of a genuinely creative process and deliberately imaginative website redesign. My virtual correspondence was intuitive and collaborative. I super recommend Based on Creativity to give your concept a marvellous form.',
     testimonialAuthor: 'Ryan D',
   },
+  {
+    id: 'portfolio-creation',
+    index: '07',
+    title: 'Portfolio Creation',
+    client: 'Self',
+    category: 'Web Development',
+    discipline: 'Adobe · Portfolio',
+    classification: 'BOC-owned work',
+    status: 'Completed',
+    year: '2025',
+    summary:
+      'A self-directed portfolio project shaped to bring selected creative work into one clear, considered digital showcase. Thoughtful curation and presentation give each piece room to stand out while helping visitors explore the broader body of work. Building a portfolio of your own? Let’s create a digital home that feels true to the work behind it.',
+  },
 ];
 
 function normalizeProjectKey(value: string) {
@@ -125,6 +138,30 @@ function normalizeProjectKey(value: string) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
+}
+
+export function canonicalProjectId(value: string) {
+  const key = normalizeProjectKey(value);
+  const canonicalProject = FALLBACK_PROJECTS.find((project) =>
+    [project.id, ...(project.aliases || [])].some(
+      (candidate) => normalizeProjectKey(candidate) === key,
+    ),
+  );
+
+  return canonicalProject?.id || value;
+}
+
+export function toMetaDescription(value: string, maxLength = 160) {
+  const normalized = value.replace(/\s+/g, ' ').trim();
+  const firstSentence = normalized.match(/^.*?[.!?](?=\s|$)/)?.[0];
+  const candidate = firstSentence || normalized;
+  if (candidate.length <= maxLength) return candidate;
+
+  const shortened = candidate
+    .slice(0, maxLength - 1)
+    .replace(/\s+\S*$/, '')
+    .trimEnd();
+  return `${shortened}…`;
 }
 
 export function orderPortfolioProjects(projects: PortfolioProject[]) {
@@ -169,7 +206,8 @@ function formatProjectYear(date?: string) {
 }
 
 function getProjectStatus(project: SanityPortfolioProject): ProjectStatus {
-  if (/\bconcept\b/i.test(`${project.title} ${project.description || ''}`)) {
+  const projectCopy = `${project.title} ${project.description || ''}`;
+  if (/\b(?:boc-owned concept|concept project|collection is a concept|is a concept)\b/i.test(projectCopy)) {
     return 'Concept';
   }
   if (!project.date) return 'In Development';
@@ -200,7 +238,7 @@ export function mapSanityProject(
           : 'Unattributed work';
 
   return {
-    id: project.slug || project._id,
+    id: canonicalProjectId(project.slug || project._id),
     index: String(index + 1).padStart(2, '0'),
     title: project.title,
     client: project.client,

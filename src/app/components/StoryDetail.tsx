@@ -127,6 +127,28 @@ const FALLBACK_STORY_DATA: Record<string, Story> = {
       { type: 'text', content: `That night, Sarah dreamed of ships. Dozens of them, hundreds, all carrying a piece of the Evening Star. And she understood: endings are illusions. Everything we love continues, transformed, becoming part of new stories yet to be told.` },
     ],
   },
+  'creative-discipline-after-dark': {
+    title: 'Creative Discipline After Dark',
+    subtitle: 'A reflective note on what it means to keep creating when the applause is absent and only the work remains.',
+    author: 'Based on Creativity',
+    heroImage: '',
+    sections: [
+      { type: 'text', content: 'Most creative practice is not glamorous. It is built in quiet rooms, with unfinished drafts, uncertain instincts, and a standard that has to come from somewhere deeper than attention.' },
+      { type: 'text', content: 'For Based on Creativity, discipline is not the opposite of imagination. It is the structure that protects imagination from dissolving into intention without execution.' },
+      { type: 'text', content: 'The late hours matter because they reveal what remains when there is no audience. That is where voice sharpens, taste matures, and the work begins to tell the truth.' },
+    ],
+  },
+  'building-worlds-with-intent': {
+    title: 'Building Worlds With Intent',
+    subtitle: 'Why visual storytelling becomes more powerful when every image, phrase, and transition belongs to the same emotional universe.',
+    author: 'Based on Creativity',
+    heroImage: '',
+    sections: [
+      { type: 'text', content: 'A strong creative world is not a pile of references. It is a system of choices that keeps returning to the same emotional center.' },
+      { type: 'text', content: 'When story, image, sound, and interface share intention, the audience does not just consume the work. They enter it, remember it, and attach meaning to it.' },
+      { type: 'text', content: 'That is the ambition behind BOC projects: not content for the moment, but worlds that feel coherent enough to outlive their launch.' },
+    ],
+  },
 };
 
 function mapSanityStory(story: SanityStory): Story {
@@ -222,14 +244,15 @@ export function StoryDetail() {
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  const story = cmsStory;
+  const fallbackStory = storyId ? FALLBACK_STORY_DATA[storyId] ?? null : null;
+  const story = cmsStory ?? fallbackStory;
   const storyPath = storyId ? `/stories/${storyId}` : '/stories';
 
   const storySeoTitle = story
     ? `${story.title} | Stories | Based on Creativity`
     : 'Story Not Found | Based on Creativity';
   const storySeoDescription = story
-    ? `${story.subtitle}. Read "${story.title}" by ${story.author} in the Based on Creativity stories collection.`
+    ? `${story.subtitle.replace(/[.!?]+$/, '')}. Read "${story.title}" by ${story.author} in the Based on Creativity stories collection.`
     : 'The requested story could not be found in the Based on Creativity stories collection.';
   const storySeoImage = story?.heroImageUrl;
 

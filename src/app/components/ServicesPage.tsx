@@ -107,7 +107,7 @@ const SERVICES: ServiceDef[] = [
     outcome:
       'A digital platform or community program with defined structure, editorial voice, content programming, and a clear operating model.',
     relatedWork: 'Creativity Base Web Platform · BOC-owned',
-    relatedPath: '/work/creativity-base-web-platform',
+    relatedPath: '/work/bochq-website',
     bg: INDIGO_BLUE,
   },
   {
@@ -128,7 +128,7 @@ const SERVICES: ServiceDef[] = [
     outcome:
       'A flexible identity system with logo, typography, colour, art direction, and usage guidance for the brand’s key touchpoints.',
     relatedWork: 'BOC Brand System Refresh · BOC-owned',
-    relatedPath: '/work/boc-brand-system-refresh',
+    relatedPath: '/work/boc-brand-identity',
     bg: NAVY_950,
   },
   {

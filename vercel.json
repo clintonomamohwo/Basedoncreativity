@@ -1,5 +1,7 @@
 {
   "redirects": [
+    { "source": "/work/", "destination": "/work", "permanent": true },
+    { "source": "/services/", "destination": "/services", "permanent": true },
     { "source": "/work/boc-brand-system-refresh", "destination": "/work/boc-brand-identity", "permanent": true },
     { "source": "/work/creativity-base-web-platform", "destination": "/work/bochq-website", "permanent": true }
   ],
@@ -23,6 +25,7 @@
     { "source": "/work/first-publication", "destination": "/seo/work--first-publication.html" },
     { "source": "/work/motion-merch-capsule", "destination": "/seo/work--motion-merch-capsule.html" },
     { "source": "/work/modern-cosmos", "destination": "/seo/work--modern-cosmos.html" },
+    { "source": "/work/portfolio-creation", "destination": "/seo/work--portfolio-creation.html" },
     { "source": "/stories/creative-discipline-after-dark", "destination": "/seo/stories--creative-discipline-after-dark.html" },
     { "source": "/stories/building-worlds-with-intent", "destination": "/seo/stories--building-worlds-with-intent.html" }
   ]

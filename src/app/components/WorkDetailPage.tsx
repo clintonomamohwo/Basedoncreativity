@@ -8,7 +8,7 @@ import {
   resolveMediaUrl,
   type SanityPortfolioProject,
 } from '../../lib/sanityContent';
-import { FALLBACK_PROJECTS, mapSanityProject, type PortfolioProject } from '../../lib/portfolioProjects';
+import { canonicalProjectId, FALLBACK_PROJECTS, mapSanityProject, toMetaDescription, type PortfolioProject } from '../../lib/portfolioProjects';
 import { COLORS, FONTS, GRAIN_SVG_PATTERN } from '../../lib/constants';
 import { retryWithBackoff } from '../../lib/retry';
 import { ImageWithFallback } from './figma/ImageWithFallback';
@@ -48,7 +48,7 @@ function detailFromSanity(project: SanityPortfolioProject): WorkDetail {
     .filter((image) => Boolean(image.src));
 
   return {
-    id: project.slug || project._id,
+    id: canonicalProjectId(project.slug || project._id),
     title: project.title,
     client: project.client,
     classification: displayProject.classification,
@@ -353,7 +353,7 @@ function ProjectDetail({ project }: { project: WorkDetail }) {
     <>
       <SEO
         title={`${project.title} | Work | Based on Creativity`}
-        description={seoDescription.slice(0, 300)}
+        description={toMetaDescription(seoDescription)}
         path={`/work/${encodeURIComponent(project.id)}`}
         image={project.heroImage}
       />
@@ -465,7 +465,12 @@ function ProjectDetail({ project }: { project: WorkDetail }) {
 
 export function WorkDetailPage() {
   const { projectId } = useParams();
-  const [project, setProject] = useState<WorkDetail | null>(null);
+  const initialFallback = projectId
+    ? FALLBACK_PROJECTS.find((item) => item.id === projectId || item.aliases?.includes(projectId))
+    : undefined;
+  const [project, setProject] = useState<WorkDetail | null>(() =>
+    initialFallback ? detailFromFallback(initialFallback) : null,
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -491,7 +496,9 @@ export function WorkDetailPage() {
       .then((projects) => {
         if (cancelled) return;
         const match = projects?.find(
-          (item) => item.slug === projectId || item._id === projectId,
+          (item) =>
+            canonicalProjectId(item.slug || item._id) === canonicalProjectId(projectId) ||
+            item._id === projectId,
         );
         if (match) {
           setProject(detailFromSanity(match));
