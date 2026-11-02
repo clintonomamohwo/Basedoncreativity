@@ -84,7 +84,7 @@ function ProjectCard({ project, delay }: { project: PortfolioProject; delay: num
             alt={project.imageAlt || ''}
             loading="lazy"
             decoding="async"
-            className={`w-full h-full transition-transform duration-700 ease-out group-hover:scale-105 ${project.category === 'Branding' ? 'object-contain p-10' : 'object-cover'}`}
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             style={{ transform: 'scale(1.02)' }}
           />
         ) : (
