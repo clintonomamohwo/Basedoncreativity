@@ -39,7 +39,7 @@ function ProjectCard({ project, index }: { project: PortfolioProject; index: num
         }}
       >
         <div
-          className="relative flex min-h-[220px] items-center justify-center overflow-hidden p-8 md:min-h-[260px]"
+          className="relative flex h-[220px] items-center justify-center overflow-hidden p-8 md:h-[260px]"
           style={{
             background: project.image
               ? 'linear-gradient(135deg, #F6E6B4 0%, #FAF3E0 100%)'
@@ -50,7 +50,7 @@ function ProjectCard({ project, index }: { project: PortfolioProject; index: num
             <img
               src={project.image}
               alt={project.imageAlt || ''}
-              className="max-h-[170px] max-w-[75%] object-contain md:max-h-[195px]"
+              className="absolute inset-0 h-full w-full object-cover"
               loading="lazy"
             />
           ) : (

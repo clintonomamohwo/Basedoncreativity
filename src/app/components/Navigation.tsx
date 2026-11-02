@@ -340,7 +340,7 @@ export function Navigation() {
       </div>
 
       {/* ── Main nav row ── */}
-      <div className="relative max-w-[1380px] mx-auto px-4 md:px-8 xl:px-0 py-2">
+      <div className="relative max-w-[1380px] mx-auto px-4 md:px-8 xl:px-4 py-2">
         <div className="flex items-center justify-between gap-4 md:gap-8">
           {/* Logo - navigates home on click or keyboard activation */}
           <Link
