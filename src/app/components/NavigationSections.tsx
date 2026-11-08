@@ -34,6 +34,7 @@ export const EXPLORE_LINKS = [
   { label: "About", path: "/about" },
   { label: "Studio", path: "/studio" },
   { label: "The Vault", path: "/vault" },
+  { label: "Insights", path: "/insights" },
   { label: "Library", path: "/library" },
 ] as const;
 
@@ -53,7 +54,9 @@ export function getIsNavActive(
   pathname: string,
 ): boolean {
   if (item === "EXPLORE") {
-    return EXPLORE_LINKS.some((link) => link.path === pathname);
+    return EXPLORE_LINKS.some((link) =>
+      pathname === link.path || (link.path === "/insights" && pathname.startsWith("/insights/")),
+    );
   }
   return NAV_ROUTES[item] === pathname;
 }
@@ -168,6 +171,13 @@ const SITE_INDEX: SearchResult[] = [
     section: "About",
     path: "/about",
   },
+  {
+    title: "Insights",
+    description:
+      "Practical perspectives on brand identity, websites, creative work, and workflow automation.",
+    section: "Explore",
+    path: "/insights",
+  },
 ];
 
 /** Badge colour for each search result section label. */
@@ -177,6 +187,7 @@ export const SECTION_COLORS: Record<string, string> = {
   Services: COLORS.gold,
   Contact: COLORS.gold,
   About: COLORS.creamAccent,
+  Explore: COLORS.gold,
 };
 
 /**

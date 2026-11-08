@@ -114,6 +114,7 @@ export function Footer() {
                 { label: "Services", path: "/services" },
                 { label: "Studio", path: "/studio" },
                 { label: "The Vault", path: "/vault" },
+                { label: "Insights", path: "/insights" },
               ],
             },
             {

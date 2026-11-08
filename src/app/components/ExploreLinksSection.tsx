@@ -36,6 +36,14 @@ const exploreCards = [
     Icon: BookOpen,
     accent: '#F6E6B4',
   },
+  {
+    title: 'Insights',
+    path: '/insights',
+    label: 'PRACTICAL PERSPECTIVES',
+    description: 'Ideas for shaping brands, websites, and better ways of working.',
+    Icon: BookOpen,
+    accent: '#FFC857',
+  },
 ];
 
 export function ExploreLinksSection() {
@@ -94,7 +102,7 @@ export function ExploreLinksSection() {
         <div
           className="explore-card-rail"
           role="group"
-          aria-label="Explore About, Studio, The Vault, and Library"
+          aria-label="Explore About, Studio, The Vault, Library, and Insights"
         >
           {exploreCards.map(({ title, path, label, description, Icon, accent }) => (
             <Link
