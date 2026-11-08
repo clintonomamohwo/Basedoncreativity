@@ -15,6 +15,8 @@ const ContactPage = lazy(() => import('./components/ContactPage').then((module) 
 const StoriesPage = lazy(() => import('./components/StoriesPage').then((module) => ({ default: module.StoriesPage })));
 const StoryDetail = lazy(() => import('./components/StoryDetail').then((module) => ({ default: module.StoryDetail })));
 const LibraryPage = lazy(() => import('./components/LibraryPage').then((module) => ({ default: module.LibraryPage })));
+const InsightsPage = lazy(() => import('./components/InsightsPage').then((module) => ({ default: module.InsightsPage })));
+const InsightArticlePage = lazy(() => import('./components/InsightsPage').then((module) => ({ default: module.InsightArticlePage })));
 const FAQPage = lazy(() => import('./components/FAQPage').then((module) => ({ default: module.FAQPage })));
 const CommunityPage = lazy(() => import('./components/CommunityPage').then((module) => ({ default: module.CommunityPage })));
 const PartnersPage = lazy(() => import('./components/PartnersPage').then((module) => ({ default: module.PartnersPage })));
@@ -39,6 +41,8 @@ export const router = createBrowserRouter([
       { path: 'stories', Component: StoriesPage },
       { path: 'stories/:storyId', Component: StoryDetail },
       { path: 'library', Component: LibraryPage },
+      { path: 'insights', Component: InsightsPage },
+      { path: 'insights/:slug', Component: InsightArticlePage },
       { path: 'faq', Component: FAQPage },
       { path: 'community', Component: CommunityPage },
       { path: 'partners', Component: PartnersPage },

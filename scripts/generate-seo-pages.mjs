@@ -319,6 +319,17 @@ const mainRoutes = [
     })) }],
   },
   {
+    path: '/insights',
+    title: 'Insights | Based on Creativity',
+    description:
+      'Practical articles from Based on Creativity on brand identity, small-business websites, and thoughtful workflow automation.',
+    heading: 'Insights for thoughtful businesses',
+    body: [
+      'Explore practical articles from Based on Creativity on design, digital experiences, and workflows that help a business communicate clearly.',
+    ],
+    sections: [],
+  },
+  {
     path: '/library',
     title: 'Library | Based on Creativity',
     description:
@@ -395,6 +406,39 @@ function storyMetaDescription(story) {
   return `${excerpt}. Read "${story.title}" by ${story.author} in the Based on Creativity stories collection.`;
 }
 
+function markdownToPlainBlocks(markdown) {
+  return String(markdown || '')
+    .split(/\n\s*\n+/)
+    .map((block) => block
+      .replace(/^\s{0,3}#{1,6}\s+/gm, '')
+      .replace(/^\s*[-*+]\s+/gm, '• ')
+      .replace(/^\s*\d+\.\s+/gm, '• ')
+      .replace(/^\s*>\s?/gm, '')
+      .replace(/\[([^\]]+)\]\((https:\/\/[^)]+)\)/g, '$1')
+      .replace(/[*_`]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim())
+    .filter(Boolean);
+}
+
+async function fetchPublishedHoloArticles() {
+  const projectId = process.env.SANITY_PROJECT_ID || 'wxky32kg';
+  const dataset = process.env.SANITY_DATASET || 'production';
+  const apiVersion = process.env.SANITY_API_VERSION || '2024-01-01';
+  const query = '*[_type == "holoSeoArticle" && defined(slug.current) && defined(publishedAt)] | order(publishedAt desc) { "slug": slug.current, title, excerpt, contentMarkdown, metaTitle, metaDescription, featuredImage, publishedAt }';
+  const url = `https://${projectId}.api.sanity.io/v${apiVersion}/data/query/${encodeURIComponent(dataset)}?query=${encodeURIComponent(query)}`;
+
+  try {
+    const response = await fetch(url, { signal: AbortSignal.timeout(5000) });
+    if (!response.ok) throw new Error(`Sanity returned HTTP ${response.status}`);
+    const result = await response.json();
+    return Array.isArray(result.result) ? result.result : [];
+  } catch {
+    console.warn('Could not fetch Holo articles for static SEO output; the rest of the site will still build.');
+    return [];
+  }
+}
+
 const projectRoutes = portfolioProjects.map((project) => ({
   path: `/work/${project.path}`,
   title: `${project.title} | Work | ${siteName}`,
@@ -420,7 +464,45 @@ const storyRoutes = storyRecords.map((story) => ({
   type: 'article',
 }));
 
-const routes = [...mainRoutes, ...projectRoutes, ...storyRoutes];
+const publishedHoloArticles = await fetchPublishedHoloArticles();
+const holoArticleRoutes = publishedHoloArticles
+  .filter((article) =>
+    typeof article?.slug === 'string' &&
+    /^[a-z0-9]+(?:-[a-z0-9]+)*$/i.test(article.slug) &&
+    typeof article.title === 'string' &&
+    typeof article.contentMarkdown === 'string')
+  .map((article) => ({
+    path: `/insights/${article.slug}`,
+    title: article.metaTitle || `${article.title} | Insights | ${siteName}`,
+    description: article.metaDescription || article.excerpt || toMetaDescription(markdownToPlainBlocks(article.contentMarkdown)[0] || article.title),
+    heading: article.title,
+    body: [],
+    contentMarkdown: article.contentMarkdown,
+    publishedAt: article.publishedAt,
+    image: typeof article.featuredImage === 'string' && article.featuredImage.startsWith('https://')
+      ? article.featuredImage
+      : defaultImage,
+    type: 'article',
+  }));
+const insightsRoute = mainRoutes.find((route) => route.path === '/insights');
+const insightsHubRoute = {
+  ...insightsRoute,
+  sections: [{
+    heading: 'Latest insights',
+    items: holoArticleRoutes.map((article) => ({
+      title: article.heading,
+      href: article.path,
+      description: article.description,
+    })),
+  }],
+};
+const routes = [
+  ...mainRoutes.filter((route) => route.path !== '/insights'),
+  insightsHubRoute,
+  ...projectRoutes,
+  ...storyRoutes,
+  ...holoArticleRoutes,
+];
 
 const escapeHtml = (value) =>
   String(value)
@@ -444,6 +526,9 @@ function schemaFor(route) {
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     image: route.image || defaultImage,
   };
+  if (route.type === 'article' && route.publishedAt) {
+    page.datePublished = route.publishedAt;
+  }
 
   if (route.path === '/') {
     return {
@@ -501,6 +586,86 @@ function renderItem(item) {
   return `<li><article><h3>${titleMarkup}</h3>${metadataMarkup}${description}${bodyMarkup}${deliverables}${nestedItems}${linkMarkup}</article></li>`;
 }
 
+function renderInlineMarkdown(value) {
+  const source = String(value || '');
+  const token = /(\[([^\]]+)\]\((https:\/\/[^)\s]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*|`([^`]+)`)/g;
+  let output = '';
+  let cursor = 0;
+  for (const match of source.matchAll(token)) {
+    const index = match.index ?? 0;
+    output += escapeHtml(source.slice(cursor, index));
+    if (match[2] && match[3]) {
+      let href = '';
+      try {
+        const parsed = new URL(match[3]);
+        if (parsed.protocol === 'https:') href = escapeHtml(parsed.toString());
+      } catch {}
+      output += href
+        ? `<a href="${href}" rel="noopener noreferrer">${escapeHtml(match[2])}</a>`
+        : escapeHtml(match[2]);
+    } else if (match[4]) {
+      output += `<strong>${escapeHtml(match[4])}</strong>`;
+    } else if (match[5]) {
+      output += `<em>${escapeHtml(match[5])}</em>`;
+    } else if (match[6]) {
+      output += `<code>${escapeHtml(match[6])}</code>`;
+    }
+    cursor = index + match[0].length;
+  }
+  output += escapeHtml(source.slice(cursor));
+  return output;
+}
+
+function renderMarkdownHtml(markdown) {
+  const output = [];
+  const lines = String(markdown || '').split(/\r?\n/);
+  let paragraph = [];
+  let listType = '';
+  let listItems = [];
+  const flushParagraph = () => {
+    if (paragraph.length) output.push(`<p>${renderInlineMarkdown(paragraph.join(' '))}</p>`);
+    paragraph = [];
+  };
+  const flushList = () => {
+    if (listItems.length) output.push(`<${listType}>${listItems.map((item) => `<li>${renderInlineMarkdown(item)}</li>`).join('')}</${listType}>`);
+    listType = '';
+    listItems = [];
+  };
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    const heading = trimmed.match(/^(#{1,6})\s+(.+)$/);
+    const unordered = trimmed.match(/^[-*+]\s+(.+)$/);
+    const ordered = trimmed.match(/^\d+\.\s+(.+)$/);
+    const quote = trimmed.match(/^>\s?(.*)$/);
+    if (!trimmed) {
+      flushParagraph();
+      flushList();
+    } else if (heading) {
+      flushParagraph();
+      flushList();
+      const level = Math.min(6, heading[1].length + 1);
+      output.push(`<h${level}>${renderInlineMarkdown(heading[2])}</h${level}>`);
+    } else if (unordered || ordered) {
+      flushParagraph();
+      const nextType = unordered ? 'ul' : 'ol';
+      if (listType && listType !== nextType) flushList();
+      listType = nextType;
+      listItems.push((unordered || ordered)[1]);
+    } else if (quote) {
+      flushParagraph();
+      flushList();
+      output.push(`<blockquote><p>${renderInlineMarkdown(quote[1])}</p></blockquote>`);
+    } else {
+      flushList();
+      paragraph.push(trimmed);
+    }
+  }
+  flushParagraph();
+  flushList();
+  return output.join('\n');
+}
+
 function fallbackMarkup(route) {
   const paragraphs = (Array.isArray(route.body) ? route.body : [route.body])
     .filter(Boolean)
@@ -509,6 +674,7 @@ function fallbackMarkup(route) {
   const details = route.details?.length
     ? `<dl class="seo-details">${route.details.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}</dl>`
     : '';
+  const markdown = route.contentMarkdown ? renderMarkdownHtml(route.contentMarkdown) : '';
   const sections = route.sections?.length
     ? route.sections.map((section) => {
         const sectionBody = section.body?.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('\n') || '';
@@ -527,6 +693,7 @@ function fallbackMarkup(route) {
       <p class="seo-kicker">Based on Creativity</p>
       <h1>${escapeHtml(route.heading)}</h1>
       ${details}
+      ${markdown}
       ${paragraphs}
       ${sections}
       <nav aria-label="Explore Based on Creativity">
@@ -534,6 +701,7 @@ function fallbackMarkup(route) {
         <a href="/services">Services</a>
         <a href="/studio">Studio</a>
         <a href="/stories">Stories</a>
+        <a href="/insights">Insights</a>
         <a href="/contact">Contact</a>
       </nav>
     </main>`;

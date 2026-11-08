@@ -8,5 +8,5 @@
     "types": ["vite/client", "node"],
     "skipLibCheck": true
   },
-  "include": ["src", "sanity.config.ts"]
+  "include": ["src", "api", "sanity.config.ts"]
 }
