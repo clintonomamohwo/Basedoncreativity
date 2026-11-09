@@ -537,6 +537,7 @@ function schemaFor(route) {
         {
           '@type': 'Organization',
           name: siteName,
+          alternateName: 'BOC',
           url: siteUrl,
           logo: `${siteUrl}/boc-logo.png`,
           description: route.description,
@@ -774,6 +775,6 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://w
   .map((route) => `  <url><loc>${escapeXml(absoluteUrl(route.path))}</loc></url>`)
   .join('\n')}\n</urlset>\n`;
 write(join(distRoot, 'sitemap.xml'), sitemap);
-write(join(distRoot, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\n`);
+write(join(distRoot, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\nSitemap: ${siteUrl}/image-sitemap.xml\n`);
 
 console.log(`Generated ${routes.length} crawler-visible route documents, sitemap.xml, and robots.txt.`);

@@ -6,6 +6,10 @@
     { "source": "/work/creativity-base-web-platform", "destination": "/work/bochq-website", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/vault-images/cloudinary/:assetPath*", "destination": "https://res.cloudinary.com/basecreator/image/upload/f_jpg,q_auto/:assetPath*" },
+    { "source": "/vault-images/poster/:publicId*", "destination": "https://res.cloudinary.com/basecreator/video/upload/so_0,w_900,f_jpg,q_auto/:publicId*.jpg" },
+    { "source": "/vault-images/sanity/:assetPath*", "destination": "https://cdn.sanity.io/images/wxky32kg/production/:assetPath*" },
+    { "source": "/image-sitemap.xml", "destination": "/api/image-sitemap" },
     { "source": "/work", "destination": "/seo/work.html" },
     { "source": "/services", "destination": "/seo/services.html" },
     { "source": "/studio", "destination": "/seo/studio.html" },
