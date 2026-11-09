@@ -10,7 +10,7 @@ import { StructuredData, createOrganizationSchema, createWebsiteSchema } from '.
 export function HomePage() {
   return (
     <>
-      <SEO title="Based on Creativity (BOC) | Creative Studio" description="Based on Creativity is a creative studio bringing brands and stories to life through graphic design, web development, animation, and publishing." path="/" />
+      <SEO title="Based on Creativity (BOC) | Creative Studio" description="Based on Creativity is a creative studio bringing brands and stories to life through graphic design, web development, animation, and publishing." path="/" image="/boc-home-share.png" />
       <StructuredData data={createOrganizationSchema()} />
       <StructuredData data={createWebsiteSchema()} />
       <HeroSection />
