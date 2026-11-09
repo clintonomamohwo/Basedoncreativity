@@ -1,5 +1,5 @@
-import { useEffect, useState, type ReactNode } from 'react';
-import { ArrowLeft, ArrowUpRight, BookOpen, CalendarDays, Sparkles } from 'lucide-react';
+import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
+import { ArrowLeft, ArrowUpRight, BookOpen, CalendarDays, Check, Copy, Share2, Sparkles } from 'lucide-react';
 import { Link, useParams } from 'react-router';
 import { SEO } from './SEO';
 import {
@@ -212,6 +212,116 @@ function ArticleCard({ article, index }: { article: HoloSeoArticle; index: numbe
   );
 }
 
+function ArticleShare({ title, slug }: { title: string; slug: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [shareStatus, setShareStatus] = useState('');
+  const containerRef = useRef<HTMLDivElement>(null);
+  const menuId = useId();
+  const articleUrl = typeof window !== 'undefined'
+    ? new URL(window.location.pathname, window.location.origin).toString()
+    : new URL(`/insights/${encodeURIComponent(slug)}`, SITE_ORIGIN).toString();
+  const encodedUrl = encodeURIComponent(articleUrl);
+  const encodedTitle = encodeURIComponent(title);
+  const supportsNativeShare = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
+  const shareLinks = [
+    { label: 'LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}` },
+    { label: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}` },
+    { label: 'X', href: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}` },
+    { label: 'WhatsApp', href: `https://wa.me/?text=${encodeURIComponent(`${title} ${articleUrl}`)}` },
+    { label: 'Email', href: `mailto:?subject=${encodedTitle}&body=${encodeURIComponent(`I thought you might like this article: ${title}\n\n${articleUrl}`)}` },
+  ];
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!containerRef.current?.contains(event.target as Node)) setIsOpen(false);
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsOpen(false);
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen]);
+
+  async function copyArticleLink() {
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error('Clipboard is unavailable');
+      await navigator.clipboard.writeText(articleUrl);
+      setShareStatus('Article link copied.');
+    } catch {
+      setShareStatus('Copying is unavailable here. Choose a sharing option above instead.');
+    }
+  }
+
+  async function shareWithDevice() {
+    try {
+      await navigator.share({ title, text: `I thought you might like this article: ${title}`, url: articleUrl });
+      setIsOpen(false);
+    } catch (error) {
+      if (!(error instanceof Error) || error.name !== 'AbortError') {
+        setShareStatus('The device share sheet could not be opened. Choose another option above.');
+      }
+    }
+  }
+
+  return (
+    <div className="insights-share" ref={containerRef}>
+      <button
+        className="insights-share__trigger"
+        type="button"
+        aria-expanded={isOpen}
+        aria-controls={menuId}
+        onClick={() => {
+          setIsOpen((open) => !open);
+          setShareStatus('');
+        }}
+      >
+        <Share2 size={16} aria-hidden="true" />
+        Share article
+      </button>
+      {isOpen && (
+        <div className="insights-share__panel" id={menuId} aria-label="Share this article">
+          <p className="insights-share__heading">Share this article</p>
+          {shareLinks.map((item) => (
+            <a
+              className="insights-share__option"
+              key={item.label}
+              href={item.href}
+              target={item.href.startsWith('mailto:') ? undefined : '_blank'}
+              rel={item.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+              onClick={() => setIsOpen(false)}
+            >
+              {item.label}
+            </a>
+          ))}
+          <button className="insights-share__option" type="button" onClick={() => void copyArticleLink()}>
+            <Copy size={15} aria-hidden="true" />
+            Copy link
+          </button>
+          {supportsNativeShare && (
+            <button className="insights-share__option" type="button" onClick={() => void shareWithDevice()}>
+              <Share2 size={15} aria-hidden="true" />
+              More options
+            </button>
+          )}
+          {shareStatus && (
+            <p className="insights-share__status" role="status">
+              {shareStatus.startsWith('Article link copied') && <Check size={14} aria-hidden="true" />}
+              {shareStatus}
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function InsightsPage() {
   const { articles, loading, error } = useInsightsArticles();
 
@@ -295,9 +405,12 @@ export function InsightArticlePage() {
             <div className="insights-eyebrow">BASED ON CREATIVITY · INSIGHTS</div>
             <h1>{article.title}</h1>
             <p className="insights-article__excerpt">{article.excerpt}</p>
-            {publishedDate && (
-              <p className="insights-article__date"><CalendarDays size={15} aria-hidden="true" /> Published {publishedDate}</p>
-            )}
+            <div className="insights-article__meta">
+              {publishedDate && (
+                <p className="insights-article__date"><CalendarDays size={15} aria-hidden="true" /> Published {publishedDate}</p>
+              )}
+              <ArticleShare title={article.title} slug={article.slug} />
+            </div>
           </div>
           {imageUrl && <img className="insights-article__image" src={imageUrl} alt={`Featured image for ${article.title}`} />}
           <SafeMarkdown content={article.contentMarkdown} />
