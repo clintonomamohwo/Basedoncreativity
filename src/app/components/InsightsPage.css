@@ -573,11 +573,21 @@
 
   .insights-article,
   .insights-page:not(.insights-page--preview) .insights-article {
-    padding: 48px 18px 64px;
+    padding: 80px 18px 64px;
   }
 
   .insights-article__intro .insights-back-link {
     margin-bottom: 26px;
+  }
+
+  .insights-article__meta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .insights-share__panel {
+    left: 0;
+    right: auto;
   }
 
   .insights-article__closing {

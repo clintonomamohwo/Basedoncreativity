@@ -10,7 +10,8 @@ import './InsightsPage.css';
 
 const PREVIEW_MODE = import.meta.env.VITE_HOLO_PREVIEW === 'true';
 const SITE_ORIGIN = 'https://www.bochq.com';
-const PAGE_CLASS_NAME = PREVIEW_MODE ? 'insights-page insights-page--preview' : 'insights-page';
+const SHOW_PREVIEW_NOTICE = PREVIEW_MODE && import.meta.env.VITE_HOLO_PREVIEW_NOTICE !== 'false';
+const PAGE_CLASS_NAME = SHOW_PREVIEW_NOTICE ? 'insights-page insights-page--preview' : 'insights-page';
 
 function useInsightsArticles() {
   const [articles, setArticles] = useState<HoloSeoArticle[]>([]);
@@ -44,7 +45,7 @@ function useInsightsArticles() {
 }
 
 function PreviewNotice() {
-  if (!PREVIEW_MODE) return null;
+  if (!SHOW_PREVIEW_NOTICE) return null;
   return (
     <div className="insights-preview-notice" role="status">
       <span className="insights-preview-notice__marker" aria-hidden="true" />
