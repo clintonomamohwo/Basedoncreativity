@@ -56,6 +56,7 @@ export function SEO({
     const absoluteUrl = normalizedPath.startsWith('http')
       ? normalizedPath
       : `${SITE_URL}${normalizedPath.startsWith('/') ? normalizedPath : `/${normalizedPath}`}`;
+    const absoluteImage = new URL(image, window.location.origin).toString();
 
     document.title = title;
 
@@ -65,12 +66,12 @@ export function SEO({
     upsertMeta("meta[property='og:description']", 'property', 'og:description', description);
     upsertMeta("meta[property='og:type']", 'property', 'og:type', type);
     upsertMeta("meta[property='og:url']", 'property', 'og:url', absoluteUrl);
-    upsertMeta("meta[property='og:image']", 'property', 'og:image', image);
+    upsertMeta("meta[property='og:image']", 'property', 'og:image', absoluteImage);
     upsertMeta("meta[property='og:site_name']", 'property', 'og:site_name', SITE_NAME);
     upsertMeta("meta[name='twitter:card']", 'name', 'twitter:card', twitterCard);
     upsertMeta("meta[name='twitter:title']", 'name', 'twitter:title', title);
     upsertMeta("meta[name='twitter:description']", 'name', 'twitter:description', description);
-    upsertMeta("meta[name='twitter:image']", 'name', 'twitter:image', image);
+    upsertMeta("meta[name='twitter:image']", 'name', 'twitter:image', absoluteImage);
 
     upsertLink('canonical', absoluteUrl);
   }, [description, image, path, robots, title, twitterCard, type]);

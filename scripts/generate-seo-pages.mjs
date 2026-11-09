@@ -8,6 +8,11 @@ const siteUrl = 'https://www.bochq.com';
 const siteName = 'Based on Creativity';
 const defaultImage =
   'https://cdn.sanity.io/images/wxky32kg/production/a43b0a902b2aff19de75037d5a2346362bb38a7b-3228x1748.jpg?w=1200&h=630&fit=crop&auto=format&q=85';
+const homepageImageOrigin =
+  process.env.VERCEL_ENV === 'preview' && process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : siteUrl;
+const homepageShareImage = `${homepageImageOrigin}/boc-home-share.png`;
 const keywords =
   'Toronto creative studio, brand identity, web development, animation, visual storytelling, editorial design';
 
@@ -231,6 +236,7 @@ const mainRoutes = [
       'Based on Creativity is a creative studio bringing brands and stories to life through graphic design, web development, animation, and publishing.',
     ],
     sections: [{ heading: 'Selected work', items: portfolioProjects }],
+    image: homepageShareImage,
     type: 'website',
   },
   {
