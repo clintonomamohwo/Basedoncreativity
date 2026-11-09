@@ -5,7 +5,6 @@ import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { TrailingStar } from './NavigationSections';
 import type { Star } from './NavigationSections';
-import bocLogo from '../../assets/boc_logo.png';
 
 const MAX_TRANSITION_STARS = 16;
 
@@ -24,7 +23,7 @@ function useFavicon() {
       document.head.appendChild(link);
     }
     link.type = 'image/png';
-    link.href = bocLogo;
+    link.href = '/favicon.png';
 
     // Apple touch icon
     let appleLink = document.querySelector<HTMLLinkElement>("link[rel='apple-touch-icon']");
@@ -33,7 +32,7 @@ function useFavicon() {
       appleLink.rel = 'apple-touch-icon';
       document.head.appendChild(appleLink);
     }
-    appleLink.href = bocLogo;
+    appleLink.href = '/favicon.png';
   }, []);
 }
 
