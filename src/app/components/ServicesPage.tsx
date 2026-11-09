@@ -664,8 +664,8 @@ export function ServicesPage() {
           overflow: 'hidden',
           paddingTop: 'clamp(140px, 18vw, 200px)',
           paddingBottom: 'clamp(64px, 10vw, 112px)',
-          paddingLeft: 'clamp(20px, 3vw, 40px)',
-          paddingRight: 'clamp(20px, 3vw, 40px)',
+          paddingLeft: 0,
+          paddingRight: 0,
         }}
       >
         {/* Ambient radial glow */}
@@ -683,7 +683,7 @@ export function ServicesPage() {
         {/* Celestial dots right side */}
         <CelestialDots side="right" />
 
-        <div style={{ maxWidth: '1380px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+        <div className="boc-page-hero-content" style={{ position: 'relative', zIndex: 1 }}>
           {/* Eyebrow + rule */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}

@@ -229,11 +229,10 @@ export function StudioPage() {
 
         {/* Hero content */}
         <div
+          className="boc-page-hero-content"
           style={{
-            maxWidth: '1200px',
-            width: '100%',
-            margin: '0 auto',
-            padding: 'clamp(120px, 15vw, 168px) clamp(20px, 5vw, 48px) clamp(56px, 8vw, 88px)',
+            paddingTop: 'clamp(120px, 15vw, 168px)',
+            paddingBottom: 'clamp(56px, 8vw, 88px)',
             position: 'relative',
             zIndex: 2,
           }}

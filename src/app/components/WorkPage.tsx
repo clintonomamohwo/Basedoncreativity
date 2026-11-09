@@ -486,7 +486,7 @@ export function WorkPage() {
 
       <div className="relative" style={{ zIndex: 1 }}>
         {/* ── Hero ─────────────────────────────────────────────────────── */}
-        <section className="px-4 md:px-12 lg:px-20 pt-32 pb-14 md:pt-36 md:pb-16 max-w-5xl mx-auto relative">
+        <section className="boc-page-hero-content pt-32 pb-14 md:pt-36 md:pb-16 relative">
           {/* Decorative icon */}
           <motion.div
             animate={{
