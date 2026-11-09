@@ -18,7 +18,7 @@
     { "source": "/contact", "destination": "/seo/contact.html" },
     { "source": "/stories", "destination": "/seo/stories.html" },
     { "source": "/insights", "destination": "/seo/insights.html" },
-    { "source": "/insights/:slug", "destination": "/index.html" },
+    { "source": "/insights/:slug", "destination": "/seo/insights--:slug.html" },
     { "source": "/library", "destination": "/seo/library.html" },
     { "source": "/faq", "destination": "/seo/faq.html" },
     { "source": "/community", "destination": "/seo/community.html" },
