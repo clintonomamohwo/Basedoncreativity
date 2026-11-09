@@ -2,9 +2,11 @@ import React, {
   useState,
   useRef,
   useEffect,
+  useLayoutEffect,
   useCallback,
   useMemo,
 } from "react";
+import { createPortal } from "react-dom";
 import {
   motion,
   AnimatePresence,
@@ -25,6 +27,26 @@ import { cloudinaryVideoUrl, CLOUDINARY_CLOUD_NAME } from "../../lib/cloudinary"
 import { fetchPortfolioProjects, fetchVaultItems, resolveMediaAlt, resolveMediaUrl, SanityVaultItem, type SanityPortfolioProject } from '../../lib/sanityContent';
 import { SEO } from './SEO';
 import { FONTS } from '../../lib/constants';
+
+const VAULT_UNLOCK_SESSION_KEY = "boc:vault-unlocked";
+const useIsomorphicLayoutEffect =
+  typeof window === "undefined" ? useEffect : useLayoutEffect;
+
+function hasVaultSessionUnlock() {
+  try {
+    return window.sessionStorage.getItem(VAULT_UNLOCK_SESSION_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
+
+function rememberVaultSessionUnlock() {
+  try {
+    window.sessionStorage.setItem(VAULT_UNLOCK_SESSION_KEY, "true");
+  } catch {
+    // The Vault remains usable if this browser blocks session storage.
+  }
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    TYPES
@@ -1180,13 +1202,18 @@ function FullScreenDeck({
   );
 
   useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
       if (e.key === "ArrowRight") go(1);
       if (e.key === "ArrowLeft") go(-1);
     };
     window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handler);
+    };
   }, [onClose, go]);
 
   const accent = TYPE_ACCENT[item.type];
@@ -1197,7 +1224,7 @@ function FullScreenDeck({
     exit: (d: number) => ({ opacity: 0, x: d > 0 ? -80 : 80 }),
   };
 
-  return (
+  return createPortal(
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -1222,7 +1249,8 @@ function FullScreenDeck({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "16px 24px",
+          padding: "12px clamp(12px, 4vw, 24px)",
+          paddingTop: "max(12px, env(safe-area-inset-top))",
           flexShrink: 0,
           borderBottom: `1px solid ${accent}18`,
           background: "rgba(0,0,0,0.3)",
@@ -1301,7 +1329,7 @@ function FullScreenDeck({
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 16,
+            gap: 10,
             flexShrink: 0,
           }}
         >
@@ -1316,10 +1344,14 @@ function FullScreenDeck({
             {current + 1} / {items.length}
           </span>
           <button
+            type="button"
             onClick={onClose}
+            className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
             style={{
-              width: 34,
-              height: 34,
+              width: 48,
+              height: 48,
+              minWidth: 48,
+              minHeight: 48,
               borderRadius: "50%",
               background: "rgba(255,255,255,0.07)",
               border: "1px solid rgba(255,255,255,0.12)",
@@ -1338,8 +1370,10 @@ function FullScreenDeck({
               (e.currentTarget.style.background =
                 "rgba(255,255,255,0.07)")
             }
+            aria-label="Close viewer and return to gallery"
+            title="Return to gallery"
           >
-            <X size={15} />
+            <X size={19} aria-hidden="true" />
           </button>
         </div>
       </div>
@@ -1489,7 +1523,8 @@ function FullScreenDeck({
           />
         ))}
       </div>
-    </motion.div>
+    </motion.div>,
+    document.body,
   );
 }
 
@@ -1764,10 +1799,20 @@ export function VaultPage() {
     );
   }, [moonX, moonY]);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (containerRef.current)
       containerRef.current.style.background =
         "radial-gradient(ellipse at 60% 20%, #1e2d6e 0%, #1A1F4B 45%, #0d1235 100%)";
+  }, []);
+
+  useIsomorphicLayoutEffect(() => {
+    if (!hasVaultSessionUnlock()) return;
+
+    hasTransformedRef.current = true;
+    showGalleryRef.current = true;
+    setHasTransformed(true);
+    setShowGallery(true);
+    if (containerRef.current) containerRef.current.style.background = "#0d1235";
   }, []);
 
   const triggerTransformation = useCallback(() => {
@@ -1788,6 +1833,7 @@ export function VaultPage() {
       } else {
         setTimeout(() => setShowVaultText(true), 400);
         setTimeout(() => {
+          rememberVaultSessionUnlock();
           showGalleryRef.current = true;
           setShowGallery(true);
           if (containerRef.current)
