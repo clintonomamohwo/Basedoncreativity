@@ -537,6 +537,7 @@ function schemaFor(route) {
         {
           '@type': 'Organization',
           name: siteName,
+          alternateName: 'BOC',
           url: siteUrl,
           logo: `${siteUrl}/boc-logo.png`,
           description: route.description,
