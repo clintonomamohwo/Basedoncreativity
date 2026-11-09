@@ -49,6 +49,7 @@ export function createOrganizationSchema() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Based on Creativity',
+    alternateName: 'BOC',
     url: 'https://www.bochq.com',
     logo: 'https://www.bochq.com/boc-logo.png',
     description: 'A creative studio crafting distinctive brand worlds, digital experiences, visual storytelling, and strategic design.',
