@@ -152,7 +152,7 @@ export function StudioPage() {
 
   return (
     <>
-      <SEO title="Studio | Based on Creativity" description="Step inside the Based on Creativity studio to see how narrative, design craft, motion, and world-building shape every creative collaboration." path="/studio" />
+      <SEO title="Studio | Based on Creativity" description="Step inside the Based on Creativity studio to see how narrative, design craft, motion, and world-building shape every creative collaboration." path="/studio" image="/og-studio.png" />
     <div style={{ background: INDIGO_BLUE }}>
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}

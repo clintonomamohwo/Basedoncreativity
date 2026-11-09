@@ -450,7 +450,7 @@ export function WorkPage() {
 
   return (
     <>
-      <SEO title="Work | Based on Creativity" description="Explore selected work from Based on Creativity, including brand identity systems, digital experiences, editorial design, and visual storytelling." path="/work" />
+      <SEO title="Work | Based on Creativity" description="Explore selected work from Based on Creativity, including brand identity systems, digital experiences, editorial design, and visual storytelling." path="/work" image="/og-work.png" />
     <div
       className="relative"
       style={{ background: '#1A1F4B' }}

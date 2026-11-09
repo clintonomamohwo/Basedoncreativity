@@ -653,7 +653,7 @@ export function ServicesPage() {
 
   return (
     <>
-      <SEO title="Services | Based on Creativity" description="Explore BOC services including brand identity, digital experiences, technical writing, AI automation services, and workflow automation." path="/services" />
+      <SEO title="Services | Based on Creativity" description="Explore BOC services including brand identity, digital experiences, technical writing, AI automation services, and workflow automation." path="/services" image="/og-services.png" />
     <div style={{ background: INDIGO_BLUE, minHeight: '100vh' }}>
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
