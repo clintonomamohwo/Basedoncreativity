@@ -999,7 +999,7 @@ export function Navigation() {
                           minHeight: 50,
                           padding: "13px 24px 13px 42px",
                           color: location.pathname === link.path ? COLORS.gold : "#FAF3E0",
-                          fontFamily: FONTS.body,
+                          fontFamily: FONTS.heading,
                           fontSize: "1rem",
                           textDecoration: "none",
                           borderTop: "1px solid rgba(255,200,87,0.07)",
