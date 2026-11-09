@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
 import { ArrowLeft, ArrowUpRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { Link, useParams } from 'react-router';
@@ -279,7 +280,7 @@ function ProjectGallery({ project }: { project: WorkDetail }) {
         ))}
       </div>
 
-      {activeImage && (
+      {activeImage && createPortal(
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center bg-[#070a18]/95 p-4 backdrop-blur-sm sm:p-8"
           role="dialog"
@@ -292,9 +293,15 @@ function ProjectGallery({ project }: { project: WorkDetail }) {
           <button
             type="button"
             onClick={() => setActiveIndex(null)}
-            className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full border transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300 sm:right-7 sm:top-7"
-            style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.22)' }}
+            className="fixed z-10 flex h-12 w-12 items-center justify-center rounded-full border transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
+            style={{
+              top: 'max(1rem, env(safe-area-inset-top))',
+              right: 'max(1rem, env(safe-area-inset-right))',
+              color: '#fff',
+              borderColor: 'rgba(255,255,255,0.22)',
+            }}
             aria-label="Close image viewer"
+            title="Return to gallery"
           >
             <X size={21} aria-hidden="true" />
           </button>
@@ -339,7 +346,8 @@ function ProjectGallery({ project }: { project: WorkDetail }) {
               <ChevronRight size={23} aria-hidden="true" />
             </button>
           )}
-        </div>
+        </div>,
+        document.body,
       )}
     </section>
   );
