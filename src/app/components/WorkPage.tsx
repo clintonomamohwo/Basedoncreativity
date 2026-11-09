@@ -49,7 +49,7 @@ function ProjectCard({ project, delay }: { project: PortfolioProject; delay: num
     <Link
       to={`/work/${encodeURIComponent(project.id)}`}
       aria-label={`View project: ${project.title}`}
-      className="block rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-300"
+      className="block h-full rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-300"
     >
     <motion.article
       initial={{ opacity: 0, y: 32 }}
@@ -57,7 +57,7 @@ function ProjectCard({ project, delay }: { project: PortfolioProject; delay: num
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -8 }}
-      className="group relative flex flex-col rounded-2xl overflow-hidden"
+      className="group relative flex h-full flex-col rounded-2xl overflow-hidden"
       style={{
         background: 'rgba(255,255,255,0.03)',
         border: '1px solid rgba(255,200,87,0.12)',
@@ -570,7 +570,7 @@ export function WorkPage() {
         </section>
 
         {/* ── Horizontal rule ───────────────────────────────────────────── */}
-        <div className="px-4 md:px-12 lg:px-20 max-w-5xl mx-auto mb-14">
+        <div className="px-4 md:px-8 lg:px-10 max-w-[1440px] mx-auto mb-14">
           <div
             style={{
               height: '1px',
@@ -580,8 +580,8 @@ export function WorkPage() {
         </div>
 
         {/* ── Project Grid ─────────────────────────────────────────────── */}
-        <section className="px-4 md:px-12 lg:px-20 pb-20 max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <section className="px-4 md:px-8 lg:px-10 pb-20 max-w-[1440px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:auto-rows-fr">
             {displayProjects.map((project, i) => (
               <ProjectCard
                 key={project.id}
