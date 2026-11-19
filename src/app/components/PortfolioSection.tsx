@@ -12,6 +12,7 @@ import './SelectedWorkFeature.css';
 const orderedProjects = orderPortfolioProjects(FALLBACK_PROJECTS);
 const featuredProject = orderedProjects.find((project) => project.id === 'modern-cosmos');
 const supportingProjects = orderedProjects.filter((project) => project.id !== 'modern-cosmos');
+
 function imageRevealProps(reduceMotion: boolean, delay = 0) {
   return {
     initial: reduceMotion ? false : { clipPath: 'inset(0 0 100% 0)', y: 14 },
@@ -139,17 +140,17 @@ export function PortfolioSection() {
     <section id="selected-work" className="px-4 py-16 md:px-6 md:py-28" style={{ scrollMarginTop: '78px' }}>
       <div className="mx-auto max-w-[1200px]">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: reduceMotion ? 0 : 0.62 }}
           className="mb-10 text-center md:mb-14"
         >
           <p
             className="mb-4 text-xs font-semibold uppercase tracking-[0.24em]"
             style={{ color: 'rgba(255,200,87,0.65)', fontFamily: FONTS.body }}
           >
-            From the Studio Wall to Selected Work
+            Client work &amp; original concepts
           </p>
           <h2
             className="mb-5 text-3xl font-bold md:text-6xl"
@@ -161,7 +162,7 @@ export function PortfolioSection() {
             className="mx-auto max-w-2xl text-base leading-relaxed md:text-lg"
             style={{ color: 'rgba(255,255,255,0.68)', fontFamily: FONTS.body }}
           >
-            Pick up where the Studio Wall leaves off: Modern Cosmos leads with a completed client website redesign across desktop and mobile, followed by BOC-owned projects and concepts.
+            Modern Cosmos leads with a completed client website redesign across desktop and mobile, followed by BOC-owned projects and concepts.
           </p>
         </motion.div>
 
@@ -200,7 +201,7 @@ export function PortfolioSection() {
         )}
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-7">
-          {supportingProjects.map((project, index) => (
+          {supportingProjects.slice(0, 2).map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} reduceMotion={Boolean(reduceMotion)} />
           ))}
         </div>

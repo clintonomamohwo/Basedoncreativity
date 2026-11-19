@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { ArrowLeft, ArrowUpRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { Link, useParams } from 'react-router';
 import {
@@ -104,6 +104,7 @@ function formatYear(date?: string) {
 }
 
 function ProjectHero({ project }: { project: WorkDetail }) {
+  const reduceMotion = useReducedMotion();
   const isModernCosmos =
     project.id === 'modern-cosmos' || project.client?.trim().toLowerCase() === 'modern cosmos';
   const isBrandSystemRefresh =
@@ -122,9 +123,9 @@ function ProjectHero({ project }: { project: WorkDetail }) {
       </Link>
 
       <motion.div
-        initial={{ opacity: 0, y: 18 }}
+        initial={reduceMotion ? false : { opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.75 }}
+        transition={{ duration: reduceMotion ? 0 : 0.62 }}
         className="relative overflow-hidden rounded-2xl md:rounded-3xl"
         style={{
           minHeight: 'clamp(360px, 54vw, 650px)',
@@ -133,14 +134,19 @@ function ProjectHero({ project }: { project: WorkDetail }) {
         }}
       >
         {project.heroImage && (
-          <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            className="absolute inset-0 overflow-hidden"
+            initial={reduceMotion ? false : { opacity: 0, scale: 1.015 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: reduceMotion ? 0 : 0.8, ease: [0.22, 1, 0.36, 1] }}
+          >
             <ImageWithFallback
               src={project.heroImage}
               alt={project.heroImageAlt}
               className="h-full w-full object-cover"
               style={{ transform: isBrandSystemRefresh ? 'scale(1.24)' : undefined }}
             />
-          </div>
+          </motion.div>
         )}
         <div
           aria-hidden="true"
@@ -211,6 +217,7 @@ function ProjectMetadata({ project }: { project: WorkDetail }) {
 
 function ProjectGallery({ project }: { project: WorkDetail }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (activeIndex === null) return;
@@ -258,9 +265,13 @@ function ProjectGallery({ project }: { project: WorkDetail }) {
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
         {project.gallery.map((image, index) => (
-          <figure
+          <motion.figure
             key={`${image.src}-${index}`}
             className="overflow-hidden rounded-xl"
+            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-32px' }}
+            transition={{ duration: reduceMotion ? 0 : 0.55, delay: reduceMotion ? 0 : Math.min(index * 0.06, 0.24) }}
             style={{ border: '1px solid rgba(255,200,87,0.14)', background: 'rgba(255,255,255,0.025)' }}
           >
             <button
@@ -276,7 +287,7 @@ function ProjectGallery({ project }: { project: WorkDetail }) {
                 className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
               />
             </button>
-          </figure>
+          </motion.figure>
         ))}
       </div>
 
@@ -356,6 +367,7 @@ function ProjectGallery({ project }: { project: WorkDetail }) {
 function ProjectDetail({ project }: { project: WorkDetail }) {
   const description = project.description?.trim();
   const seoDescription = description || `Explore ${project.title}, selected work from Based on Creativity.`;
+  const reduceMotion = useReducedMotion();
 
   return (
     <>
@@ -365,7 +377,13 @@ function ProjectDetail({ project }: { project: WorkDetail }) {
         path={`/work/${encodeURIComponent(project.id)}`}
         image={project.heroImage}
       />
-      <div className="relative overflow-hidden" style={{ background: '#1A1F4B' }}>
+      <motion.div
+        className="relative overflow-hidden"
+        style={{ background: '#1A1F4B' }}
+        initial={reduceMotion ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: reduceMotion ? 0 : 0.35 }}
+      >
         <div className="pointer-events-none absolute inset-0" aria-hidden="true" style={{ background: 'radial-gradient(ellipse 70% 38% at 50% 0%, rgba(255,200,87,0.08), transparent)' }} />
         <ProjectHero project={project} />
 
@@ -466,7 +484,7 @@ function ProjectDetail({ project }: { project: WorkDetail }) {
             </Link>
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }

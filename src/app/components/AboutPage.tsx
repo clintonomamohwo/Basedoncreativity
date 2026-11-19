@@ -1,4 +1,10 @@
-import { motion, useScroll, useTransform } from "motion/react";
+import {
+  MotionConfig,
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "motion/react";
 import type { MotionValue } from "motion/react";
 import {
   Sun,
@@ -50,17 +56,22 @@ function HeroBlock({
   sunOpacity,
   moonY,
   moonOpacity,
+  reduceMotion,
 }: {
   sunY: MotionValue<number>;
   sunOpacity: MotionValue<number>;
   moonY: MotionValue<number>;
   moonOpacity: MotionValue<number>;
+  reduceMotion: boolean;
 }) {
   return (
     <section className="relative min-h-[72vh] flex flex-col justify-center px-4 md:px-12 lg:px-20 pt-28 pb-16 md:pt-32 md:pb-20">
       {/* Decorative parallax icons */}
       <motion.div
-        style={{ y: sunY, opacity: sunOpacity }}
+        style={{
+          y: reduceMotion ? 0 : sunY,
+          opacity: reduceMotion ? 0.3 : sunOpacity,
+        }}
         className="absolute top-28 right-8 md:right-20 pointer-events-none z-10"
       >
         <Sun
@@ -70,7 +81,10 @@ function HeroBlock({
         />
       </motion.div>
       <motion.div
-        style={{ y: moonY, opacity: moonOpacity }}
+        style={{
+          y: reduceMotion ? 0 : moonY,
+          opacity: reduceMotion ? 0.25 : moonOpacity,
+        }}
         className="absolute bottom-12 left-6 md:left-16 pointer-events-none z-10"
       >
         <Moon
@@ -1010,6 +1024,7 @@ function ClosingCTA() {
 
 export function AboutPage() {
   const { scrollYProgress } = useScroll();
+  const reduceMotion = useReducedMotion() ?? false;
 
   const sunY = useTransform(scrollYProgress, [0, 1], [0, -200]);
   const moonY = useTransform(scrollYProgress, [0, 1], [0, 200]);
@@ -1023,9 +1038,19 @@ export function AboutPage() {
     [0, 0.3, 0.7, 1],
     [0.2, 0.6, 1, 0.3],
   );
+  const coolGlowOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.55, 0.82, 1],
+    [0.2, 0.24, 0.14, 0.04, 0],
+  );
+  const warmGlowOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.55, 0.82, 1],
+    [0, 0.02, 0.08, 0.16, 0.22],
+  );
 
   return (
-    <>
+    <MotionConfig reducedMotion={reduceMotion ? "always" : "never"}>
       <SEO
         title="About | Based on Creativity"
         description="Learn about Based on Creativity, the studio philosophy, creative practice, and the perspective behind its design-led storytelling."
@@ -1052,6 +1077,22 @@ export function AboutPage() {
             className="absolute inset-0"
             style={{ background: 'radial-gradient(ellipse at 80% 90%, rgba(246,230,180,0.07), transparent 55%)' }}
           />
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              opacity: reduceMotion ? 0.04 : coolGlowOpacity,
+              background:
+                "radial-gradient(ellipse at 22% 48%, rgba(216,215,219,0.16), transparent 56%)",
+            }}
+          />
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              opacity: reduceMotion ? 0.04 : warmGlowOpacity,
+              background:
+                "radial-gradient(ellipse at 78% 68%, rgba(255,200,87,0.16), transparent 58%)",
+            }}
+          />
           {/* Grain */}
           <div
             className="absolute inset-0 opacity-[0.025] mix-blend-overlay"
@@ -1068,6 +1109,7 @@ export function AboutPage() {
             sunOpacity={sunOpacity}
             moonY={moonY}
             moonOpacity={moonOpacity}
+            reduceMotion={reduceMotion}
           />
           <AtAGlance />
           <Philosophy />
@@ -1077,6 +1119,6 @@ export function AboutPage() {
           <ClosingCTA />
         </div>
       </div>
-    </>
+    </MotionConfig>
   );
 }

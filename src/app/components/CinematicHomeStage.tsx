@@ -18,7 +18,11 @@ export function CinematicHomeStage() {
   const lightOpacity = useTransform(scrollYProgress, [0, 0.52, 0.86, 1], [0.82, 0.72, 0.42, 0]);
 
   return (
-    <div ref={stageRef} className="boc-home-cinematic-stage">
+    <div
+      ref={stageRef}
+      className="boc-home-cinematic-stage"
+      data-reduced-motion={reduceMotion ? 'true' : undefined}
+    >
       <motion.div
         className="boc-home-cinematic-stage__light"
         aria-hidden="true"

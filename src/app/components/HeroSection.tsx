@@ -30,7 +30,7 @@ export function HeroSection() {
     animate: {
       opacity: 1,
       y: 0,
-      ...(glow ? { filter: 'drop-shadow(0 0 17px rgba(255, 200, 87, 0.42))' } : {}),
+      ...(glow ? { filter: 'drop-shadow(0 0 15px rgba(255, 200, 87, 0.34))' } : {}),
     },
     transition: {
       duration: reduceMotion ? 0 : 0.88,
@@ -70,8 +70,8 @@ export function HeroSection() {
           </div>
 
           <h1 id="home-hero-title" className="boc-creative-hero__title">
-            <motion.span {...titleLineMotion(0.28)}>Built in the quiet.</motion.span>
-            <motion.span className="boc-creative-hero__title-accent" {...titleLineMotion(0.98, true)}>
+            <motion.span {...titleLineMotion(0.18)}>Built in the quiet.</motion.span>
+            <motion.span className="boc-creative-hero__title-accent" {...titleLineMotion(1.12, true)}>
               Born in the light.
             </motion.span>
           </h1>
@@ -132,9 +132,10 @@ export function HeroSection() {
         </motion.div>
       </div>
 
-      <motion.div
+      <motion.a
+        href="#selected-work"
         className="boc-creative-hero__scroll"
-        aria-hidden="true"
+        aria-label="Scroll to Selected Work"
         initial={reduceMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: reduceMotion ? 0 : 1, delay: reduceMotion ? 0 : 1 }}
@@ -145,7 +146,7 @@ export function HeroSection() {
             transition={{ duration: 2, repeat: reduceMotion ? 0 : Infinity, ease: 'easeInOut' }}
           />
         </span>
-      </motion.div>
+      </motion.a>
     </section>
   );
 }

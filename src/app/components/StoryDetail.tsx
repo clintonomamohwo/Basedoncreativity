@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { motion } from 'motion/react';
+import { MotionConfig, motion, useReducedMotion } from 'motion/react';
 import { useParams, useNavigate } from 'react-router';
 import { ArrowLeft, ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
 import { fetchStoryBySlug, portableTextToParagraphs, resolveMediaUrl, SanityStory, type SanityPortfolioProject } from '../../lib/sanityContent';
 import { SEO } from './SEO';
 import { StructuredData, createArticleSchema } from './StructuredData';
-import { BookPage, GrainOverlay, PageContent, StoryAsset } from './StoryDetailSections';
+import { BookPage, GrainOverlay, PageContent, PageTurnHighlight, StoryAsset } from './StoryDetailSections';
 
 // ─── Story Data ────────────────────────────────────────────────────────────────
 
@@ -184,6 +184,7 @@ const BROKEN_STORY_ASSET_IDS = new Set(
 export function StoryDetail() {
   const { storyId } = useParams();
   const navigate = useNavigate();
+  const reducedMotion = useReducedMotion();
   const [cmsStory, setCmsStory] = useState<Story | null>(null);
   const [storybookMode, setStorybookMode] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -274,35 +275,55 @@ export function StoryDetail() {
     if (isAnimating) return;
     if (isMobile) {
       if (mobilePageIdx < totalMobilePages - 1) {
+        if (reducedMotion) {
+          setMobilePageIdx(mobilePageIdx + 1);
+          setTargetMobileIdx(mobilePageIdx + 1);
+          return;
+        }
         setFlipDir('next');
         setTargetMobileIdx(mobilePageIdx + 1);
         setIsAnimating(true);
       }
     } else {
       if (spreadIdx < spreads.length - 1) {
+        if (reducedMotion) {
+          setSpreadIdx(spreadIdx + 1);
+          setTargetSpreadIdx(spreadIdx + 1);
+          return;
+        }
         setFlipDir('next');
         setTargetSpreadIdx(spreadIdx + 1);
         setIsAnimating(true);
       }
     }
-  }, [isAnimating, isMobile, mobilePageIdx, totalMobilePages, spreadIdx, spreads.length]);
+  }, [isAnimating, isMobile, mobilePageIdx, totalMobilePages, spreadIdx, spreads.length, reducedMotion]);
 
   const handlePrev = useCallback(() => {
     if (isAnimating) return;
     if (isMobile) {
       if (mobilePageIdx > 0) {
+        if (reducedMotion) {
+          setMobilePageIdx(mobilePageIdx - 1);
+          setTargetMobileIdx(mobilePageIdx - 1);
+          return;
+        }
         setFlipDir('prev');
         setTargetMobileIdx(mobilePageIdx - 1);
         setIsAnimating(true);
       }
     } else {
       if (spreadIdx > 0) {
+        if (reducedMotion) {
+          setSpreadIdx(spreadIdx - 1);
+          setTargetSpreadIdx(spreadIdx - 1);
+          return;
+        }
         setFlipDir('prev');
         setTargetSpreadIdx(spreadIdx - 1);
         setIsAnimating(true);
       }
     }
-  }, [isAnimating, isMobile, mobilePageIdx, spreadIdx]);
+  }, [isAnimating, isMobile, mobilePageIdx, spreadIdx, reducedMotion]);
 
   const handleFlipComplete = useCallback(() => {
     if (isMobile) {
@@ -432,6 +453,7 @@ export function StoryDetail() {
           })}
         />
       )}
+    <MotionConfig reducedMotion="user">
     <div className="relative bg-[#1A1F4B] overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
@@ -474,11 +496,15 @@ export function StoryDetail() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
           onClick={toggleStorybook}
-          className="story-detail-toolbar__mode fixed top-24 right-6 z-50 flex items-center gap-2 px-4 py-2 rounded-full border transition-all"
+          type="button"
+          aria-pressed={storybookMode}
+          aria-label={storybookMode ? 'Switch to regular reading mode' : 'Switch to Storybook Mode'}
+          className="story-detail-toolbar__mode fixed top-24 right-6 z-50 flex items-center gap-2 px-4 py-2 rounded-full border-2 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-300"
           style={{
-            borderColor: storybookMode ? '#FFC857' : 'rgba(255,200,87,0.3)',
-            background: storybookMode ? 'rgba(255,200,87,0.15)' : 'rgba(255,200,87,0.05)',
-            color: storybookMode ? '#FFC857' : 'rgba(255,255,255,0.6)',
+            borderColor: storybookMode ? '#FFC857' : 'rgba(255,200,87,0.65)',
+            background: storybookMode ? 'rgba(255,200,87,0.18)' : 'rgba(255,200,87,0.1)',
+            color: storybookMode ? '#FFC857' : 'rgba(255,255,255,0.88)',
+            boxShadow: '0 0 18px rgba(255,200,87,0.12)',
             fontFamily: "'Space Mono', monospace",
             fontSize: '0.7rem',
             letterSpacing: '0.1em',
@@ -711,6 +737,7 @@ export function StoryDetail() {
                         pointerEvents: 'none',
                         borderRadius: '12px',
                       }} />
+                      <PageTurnHighlight flipDir={flipDir} />
                     </div>
 
                     {/* Back face: target page (shown as flip completes) */}
@@ -877,6 +904,7 @@ export function StoryDetail() {
                             : 'linear-gradient(to right, rgba(0,0,0,0.18) 0%, transparent 50%)',
                           pointerEvents: 'none',
                         }} />
+                        <PageTurnHighlight flipDir={flipDir} />
                       </div>
 
                       {/* Back face (new page revealed) */}
@@ -998,6 +1026,7 @@ export function StoryDetail() {
         </div>
       )}
     </div>
+    </MotionConfig>
     </>
   );
 }
