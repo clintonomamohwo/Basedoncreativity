@@ -886,10 +886,24 @@ const BentoCard = React.forwardRef<
       <VideoBentoCard {...props} />
     ) : (
       <WritingBentoCard {...props} />
-    );
+  );
   return (
     <div ref={ref} style={{ gridColumn: `span ${colSpan}` }}>
       {card}
+      {item.excerpt && (
+        <p
+          title={item.excerpt}
+          style={{
+            margin: "12px 3px 0",
+            color: "rgba(246,240,225,0.76)",
+            fontFamily: FONTS.body,
+            fontSize: "0.86rem",
+            lineHeight: 1.55,
+          }}
+        >
+          {item.excerpt}
+        </p>
+      )}
     </div>
   );
 });

@@ -118,6 +118,16 @@
   pointer-events: none;
 }
 
+.vault-intro__orb-halo::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(255, 245, 188, 0.5), rgba(255, 193, 92, 0.34) 28%, rgba(255, 131, 59, 0.18) 48%, transparent 74%);
+  opacity: var(--sun-progress);
+  transition: opacity 0.35s ease;
+  content: "";
+}
+
 .vault-intro__orb {
   position: absolute;
   top: var(--orb-y);
@@ -136,6 +146,29 @@
   touch-action: none;
   transform: translate(-50%, -50%);
   transition: left 0.08s linear, top 0.08s linear, width 0.25s cubic-bezier(0.2, 0.75, 0.2, 1), height 0.25s cubic-bezier(0.2, 0.75, 0.2, 1), filter 0.3s ease;
+}
+
+.vault-intro--dragging .vault-intro__orb {
+  will-change: left, top;
+  transition: width 0.14s ease, height 0.14s ease, filter 0.18s ease;
+}
+
+.vault-intro--dragging .vault-intro__orb-halo {
+  will-change: left, top;
+  transition: width 0.16s ease, opacity 0.16s ease;
+}
+
+.vault-intro--dragging .vault-intro__orb-core {
+  transition: filter 0.18s ease;
+}
+
+.vault-intro--dragging .vault-intro__orb-core::before {
+  transition: left 0.08s linear, opacity 0.12s linear;
+}
+
+.vault-intro--dragging .vault-intro__orb-core::after,
+.vault-intro--dragging .vault-intro__orb-halo::after {
+  transition: opacity 0.16s ease;
 }
 
 .vault-intro__orb:active { cursor: grabbing; }
@@ -176,13 +209,16 @@
   border-radius: 50%;
   background: radial-gradient(circle at 31% 29%, #fff9e8 0%, #e4dfd2 19%, #b8bed0 46%, #77829f 73%, #2a3554 100%);
   box-shadow: inset -9px -10px 14px rgba(7, 12, 29, 0.56), inset 2px 2px 9px rgba(255, 255, 255, 0.78), 0 0 34px rgba(190, 207, 255, 0.25);
+  filter: brightness(var(--orb-brightness));
   transform: translate(-50%, -50%);
+  transition: filter 0.35s ease;
 }
 
 .vault-intro__orb-core::before {
   position: absolute;
   top: -4%;
   left: var(--shadow-shift);
+  z-index: 2;
   width: 104%;
   height: 108%;
   border-radius: 50%;
@@ -191,6 +227,17 @@
   opacity: var(--shadow-opacity);
   content: "";
   transition: left 0.25s ease, opacity 0.3s ease;
+}
+
+.vault-intro__orb-core::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  background: radial-gradient(circle at 34% 29%, #fff8df 0%, #ffe0a1 19%, #f7a750 50%, #d75e3b 100%);
+  opacity: var(--sun-progress);
+  transition: opacity 0.35s ease;
+  content: "";
 }
 
 .vault-intro__wordmark {
