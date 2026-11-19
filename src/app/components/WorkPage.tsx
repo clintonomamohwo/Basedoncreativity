@@ -55,7 +55,7 @@ function ProjectCard({ project, delay }: { project: PortfolioProject; delay: num
       className="block h-full rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-300"
     >
     <motion.article
-      initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+      initial={reduceMotion ? false : { y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: reduceMotion ? 0 : 0.62, delay: reduceMotion ? 0 : delay, ease: [0.22, 1, 0.36, 1] }}
@@ -74,7 +74,7 @@ function ProjectCard({ project, delay }: { project: PortfolioProject; delay: num
           <motion.div
             className="absolute inset-0"
             layoutId={reduceMotion ? undefined : `boc-work-image-${project.id}`}
-            initial={reduceMotion ? false : { opacity: 0, scale: 1.015 }}
+            initial={reduceMotion ? false : { scale: 1.015 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: '-28px' }}
             transition={{
