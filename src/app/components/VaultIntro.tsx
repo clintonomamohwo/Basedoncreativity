@@ -30,9 +30,14 @@ export function VaultIntro({ onEnter }: VaultIntroProps) {
   const reducedMotion = useReducedMotion();
   const stageRef = useRef<HTMLDivElement>(null);
   const starRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const orbRef = useRef<HTMLButtonElement>(null);
   const activePointerRef = useRef<ActivePointer | null>(null);
+  const pendingPointerRef = useRef<{ id: number; clientX: number; clientY: number } | null>(null);
+  const dragFrameRef = useRef<number | null>(null);
+  const activeStarIndicesRef = useRef(new Set<number>());
   const positionRef = useRef({ x: 50, y: 50 });
   const [position, setPosition] = useState({ x: 50, y: 50 });
+  const [isDragging, setIsDragging] = useState(false);
 
   const stars = useMemo<Star[]>(
     () =>
@@ -45,6 +50,30 @@ export function VaultIntro({ onEnter }: VaultIntroProps) {
         return { x: 3 + x * 94, y: 5 + y * 90, size, opacity };
       }),
     [],
+  );
+
+  const starfield = useMemo(
+    () => (
+      <div className="vault-intro__starfield" aria-hidden="true">
+        {stars.map((star, index) => (
+          <span
+            key={index}
+            ref={(node) => {
+              starRefs.current[index] = node;
+            }}
+            className="vault-intro__star"
+            style={{
+              left: `${star.x}%`,
+              top: `${star.y}%`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              opacity: star.opacity,
+            }}
+          />
+        ))}
+      </div>
+    ),
+    [stars],
   );
 
   const getBounds = useCallback(() => {
@@ -69,7 +98,7 @@ export function VaultIntro({ onEnter }: VaultIntroProps) {
       if (!rect?.width || !rect.height) return;
       const lightX = (xPercent / 100) * rect.width;
       const lightY = (yPercent / 100) * rect.height;
-      const radius = Math.min(165, Math.max(105, rect.width * 0.2));
+      const radius = Math.min(150, Math.max(90, rect.width * 0.14));
 
       stars.forEach((star, index) => {
         const node = starRefs.current[index];
@@ -78,15 +107,36 @@ export function VaultIntro({ onEnter }: VaultIntroProps) {
         const dy = (star.y / 100) * rect.height - lightY;
         const distance = Math.hypot(dx, dy);
         const influence = Math.max(0, 1 - distance / radius);
+        const activeStars = activeStarIndicesRef.current;
+        if (influence === 0) {
+          if (activeStars.delete(index)) {
+            node.style.transform = "translate3d(0, 0, 0) scale(1)";
+            node.style.opacity = String(star.opacity);
+          }
+          return;
+        }
+        activeStars.add(index);
         const ux = distance ? dx / distance : 1;
         const uy = distance ? dy / distance : 0;
-        const push = influence * 92;
-        node.style.transform = `translate3d(${(ux * push).toFixed(1)}px, ${(uy * push).toFixed(1)}px, 0) scale(${(1 + influence * 0.75).toFixed(2)})`;
-        node.style.opacity = String(Math.min(1, star.opacity + influence * 0.32));
+        const push = influence * 34;
+        node.style.transform = `translate3d(${(ux * push).toFixed(1)}px, ${(uy * push).toFixed(1)}px, 0) scale(${(1 + influence * 0.25).toFixed(2)})`;
+        node.style.opacity = String(Math.min(1, star.opacity + influence * 0.18));
       });
     },
     [reducedMotion, stars],
   );
+
+  const resetStars = useCallback(() => {
+    if (reducedMotion) return;
+    activeStarIndicesRef.current.forEach((index) => {
+      const star = stars[index];
+      const node = starRefs.current[index];
+      if (!node) return;
+      node.style.transform = "translate3d(0, 0, 0) scale(1)";
+      node.style.opacity = String(star.opacity);
+    });
+    activeStarIndicesRef.current.clear();
+  }, [reducedMotion, stars]);
 
   const setOrbPosition = useCallback(
     (x: number, y: number) => {
@@ -106,15 +156,31 @@ export function VaultIntro({ onEnter }: VaultIntroProps) {
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    moveStars(positionRef.current.x, positionRef.current.y);
-    const handleResize = () =>
-      moveStars(positionRef.current.x, positionRef.current.y);
+    const handleResize = () => resetStars();
     window.addEventListener("resize", handleResize, { passive: true });
     return () => {
+      if (dragFrameRef.current !== null) {
+        cancelAnimationFrame(dragFrameRef.current);
+      }
+      pendingPointerRef.current = null;
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("resize", handleResize);
     };
-  }, [moveStars]);
+  }, [resetStars]);
+
+  const handleStagePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === "touch" || activePointerRef.current) return;
+    const rect = stageRef.current?.getBoundingClientRect();
+    if (!rect?.width || !rect.height) return;
+    moveStars(
+      ((event.clientX - rect.left) / rect.width) * 100,
+      ((event.clientY - rect.top) / rect.height) * 100,
+    );
+  };
+
+  const handleStagePointerLeave = () => {
+    if (!activePointerRef.current) resetStars();
+  };
 
   const handlePointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
     if (event.button !== 0 || activePointerRef.current) return;
@@ -127,6 +193,7 @@ export function VaultIntro({ onEnter }: VaultIntroProps) {
       grabOffsetX: event.clientX - (rect.left + (current.x / 100) * rect.width),
       grabOffsetY: event.clientY - (rect.top + (current.y / 100) * rect.height),
     };
+    setIsDragging(true);
     try {
       event.currentTarget.setPointerCapture(event.pointerId);
     } catch {
@@ -135,9 +202,54 @@ export function VaultIntro({ onEnter }: VaultIntroProps) {
     event.preventDefault();
   };
 
+  const applyPointerPosition = useCallback(
+    (pointerId: number, clientX: number, clientY: number) => {
+      const activePointer = activePointerRef.current;
+      const rect = stageRef.current?.getBoundingClientRect();
+      if (
+        !activePointer ||
+        activePointer.id !== pointerId ||
+        !rect?.width ||
+        !rect.height
+      ) {
+        return;
+      }
+
+      const next = setOrbPosition(
+        ((clientX - activePointer.grabOffsetX - rect.left) / rect.width) * 100,
+        ((clientY - activePointer.grabOffsetY - rect.top) / rect.height) * 100,
+      );
+      const bounds = getBounds();
+      if (clientX > activePointer.startClientX && next.x >= bounds.maxX - 2) {
+        activePointerRef.current = null;
+        pendingPointerRef.current = null;
+        setIsDragging(false);
+        try {
+          if (orbRef.current?.hasPointerCapture(pointerId)) {
+            orbRef.current.releasePointerCapture(pointerId);
+          }
+        } catch {
+          // The browser may release capture while the Vault is opening.
+        }
+        onEnter();
+      }
+    },
+    [getBounds, onEnter, setOrbPosition],
+  );
+
   const finishPointer = (event: React.PointerEvent<HTMLButtonElement>) => {
     if (activePointerRef.current?.id !== event.pointerId) return;
+    if (dragFrameRef.current !== null) {
+      cancelAnimationFrame(dragFrameRef.current);
+      dragFrameRef.current = null;
+    }
+    pendingPointerRef.current = null;
+    if (event.type === "pointerup") {
+      applyPointerPosition(event.pointerId, event.clientX, event.clientY);
+    }
+    if (activePointerRef.current?.id !== event.pointerId) return;
     activePointerRef.current = null;
+    setIsDragging(false);
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
@@ -145,25 +257,22 @@ export function VaultIntro({ onEnter }: VaultIntroProps) {
 
   const handlePointerMove = (event: React.PointerEvent<HTMLButtonElement>) => {
     const activePointer = activePointerRef.current;
-    const rect = stageRef.current?.getBoundingClientRect();
-    if (
-      !activePointer ||
-      activePointer.id !== event.pointerId ||
-      !rect?.width ||
-      !rect.height
-    ) {
-      return;
-    }
+    if (!activePointer || activePointer.id !== event.pointerId) return;
     event.preventDefault();
-    const next = setOrbPosition(
-      ((event.clientX - activePointer.grabOffsetX - rect.left) / rect.width) * 100,
-      ((event.clientY - activePointer.grabOffsetY - rect.top) / rect.height) * 100,
-    );
-    const bounds = getBounds();
-    if (event.clientX > activePointer.startClientX && next.x >= bounds.maxX - 2) {
-      finishPointer(event);
-      onEnter();
-    }
+    pendingPointerRef.current = {
+      id: event.pointerId,
+      clientX: event.clientX,
+      clientY: event.clientY,
+    };
+    if (dragFrameRef.current !== null) return;
+    dragFrameRef.current = requestAnimationFrame(() => {
+      dragFrameRef.current = null;
+      const pending = pendingPointerRef.current;
+      pendingPointerRef.current = null;
+      if (pending) {
+        applyPointerPosition(pending.id, pending.clientX, pending.clientY);
+      }
+    });
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -197,11 +306,11 @@ export function VaultIntro({ onEnter }: VaultIntroProps) {
   const bounds = getBounds();
   const eastProgress = clamp((position.x - 50) / Math.max(1, bounds.maxX - 50), 0, 1);
   const sunPhase =
-    position.x >= 90
+    eastProgress >= 0.9
       ? "Sun · East"
-      : position.x > 62
+      : eastProgress > 0.22
         ? "Sunrise · Drifting"
-        : position.x < 15
+        : position.x <= bounds.minX + 2
           ? "Moon · West"
           : "Moon · Drifting";
   const introStyle = {
@@ -210,13 +319,15 @@ export function VaultIntro({ onEnter }: VaultIntroProps) {
     "--halo-opacity": (0.18 + eastProgress * 0.72).toFixed(3),
     "--orb-size": `${Math.round(148 + eastProgress * 42)}px`,
     "--halo-size": `${Math.round(118 + eastProgress * 242)}px`,
+    "--sun-progress": eastProgress.toFixed(3),
+    "--orb-brightness": (1 + eastProgress * 0.28).toFixed(3),
     "--shadow-shift": `${(-27 - (position.x / 100) * 53).toFixed(2)}%`,
     "--shadow-opacity": `${(1 - position.x / 100).toFixed(3)}`,
   } as React.CSSProperties;
 
   return (
     <motion.section
-      className="vault-intro"
+      className={`vault-intro${isDragging ? " vault-intro--dragging" : ""}`}
       style={introStyle}
       aria-label="The Vault entrance"
       initial={{ opacity: 0 }}
@@ -227,25 +338,13 @@ export function VaultIntro({ onEnter }: VaultIntroProps) {
         ease: [0.72, 0, 0.2, 1],
       }}
     >
-      <div className="vault-intro__stage" ref={stageRef}>
-        <div className="vault-intro__starfield" aria-hidden="true">
-          {stars.map((star, index) => (
-            <span
-              key={index}
-              ref={(node) => {
-                starRefs.current[index] = node;
-              }}
-              className="vault-intro__star"
-              style={{
-                left: `${star.x}%`,
-                top: `${star.y}%`,
-                width: `${star.size}px`,
-                height: `${star.size}px`,
-                opacity: star.opacity,
-              }}
-            />
-          ))}
-        </div>
+      <div
+        className="vault-intro__stage"
+        ref={stageRef}
+        onPointerMove={handleStagePointerMove}
+        onPointerLeave={handleStagePointerLeave}
+      >
+        {starfield}
 
         <svg
           className="vault-intro__constellations"
@@ -290,6 +389,7 @@ export function VaultIntro({ onEnter }: VaultIntroProps) {
         </div>
 
         <button
+          ref={orbRef}
           className="vault-intro__orb"
           type="button"
           role="slider"
