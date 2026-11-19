@@ -50,6 +50,7 @@ function ProjectCard({ project, delay }: { project: PortfolioProject; delay: num
   return (
     <Link
       to={`/work/${encodeURIComponent(project.id)}`}
+      state={{ workTransition: project }}
       aria-label={`View project: ${project.title}`}
       className="block h-full rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-300"
     >
@@ -72,10 +73,15 @@ function ProjectCard({ project, delay }: { project: PortfolioProject; delay: num
         {project.image ? (
           <motion.div
             className="absolute inset-0"
+            layoutId={reduceMotion ? undefined : `boc-work-image-${project.id}`}
             initial={reduceMotion ? false : { opacity: 0, scale: 1.015 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: '-28px' }}
-            transition={{ duration: reduceMotion ? 0 : 0.72, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: reduceMotion ? 0 : 0.72,
+              ease: [0.22, 1, 0.36, 1],
+              layout: { duration: reduceMotion ? 0 : 0.72, ease: [0.22, 1, 0.36, 1] },
+            }}
           >
             <ImageWithFallback
               src={project.image}

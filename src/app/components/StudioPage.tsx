@@ -5,6 +5,7 @@ import { ImageWithFallback } from './figma/ImageWithFallback';
 import { SEO } from './SEO';
 import { COLORS, FONTS } from '../../lib/constants';
 import { AbstractFrame, BottomCTA, CreationCard, Eyebrow, GoldRule, InDevelopmentBand, PipelineSection, SectionLabel } from './StudioPageSections';
+import './StudioPage.css';
 
 // ─── Brand tokens ─────────────────────────────────────────────────────────────
 
@@ -348,12 +349,15 @@ export function StudioPage() {
 
       {/* ── What We Are Creating ─────────────────────────────────────────────── */}
       <section
+        className="boc-studio-wall"
         style={{
           background: INDIGO_BLUE,
           padding: 'clamp(56px, 7vw, 88px) clamp(20px, 5vw, 48px)',
           position: 'relative',
+          overflow: 'hidden',
         }}
       >
+        <div className="boc-studio-wall__light" aria-hidden="true" />
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           {/* Header */}
           <div
@@ -366,7 +370,7 @@ export function StudioPage() {
             }}
           >
             <div>
-              <SectionLabel>The Work</SectionLabel>
+              <SectionLabel>Studio Wall</SectionLabel>
               <motion.h2
                 initial={reduceMotion ? false : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -405,14 +409,16 @@ export function StudioPage() {
 
           {/* Cards - 2×2 on desktop, 1-col on mobile */}
           <div
+            className="boc-studio-wall__grid"
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))',
               gap: '16px',
+              position: 'relative',
             }}
           >
             {CREATIONS.map((card, i) => (
-              <CreationCard key={card.id} card={card} delay={i * 0.07} />
+              <CreationCard key={card.id} card={card} delay={i * 0.08} index={i} />
             ))}
           </div>
         </div>

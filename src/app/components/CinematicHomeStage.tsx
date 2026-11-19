@@ -23,13 +23,14 @@ export function CinematicHomeStage() {
       className="boc-home-cinematic-stage"
       data-reduced-motion={reduceMotion ? 'true' : undefined}
     >
-      <motion.div
-        className="boc-home-cinematic-stage__light"
-        aria-hidden="true"
-        style={{ y: reduceMotion ? 0 : lightY, opacity: reduceMotion ? 0.7 : lightOpacity }}
-      >
-        <div className="boc-home-cinematic-stage__light-drift" />
-      </motion.div>
+      <div className="boc-home-cinematic-stage__light-clip" aria-hidden="true">
+        <motion.div
+          className="boc-home-cinematic-stage__light"
+          style={{ y: reduceMotion ? 0 : lightY, opacity: reduceMotion ? 0.7 : lightOpacity }}
+        >
+          <div className="boc-home-cinematic-stage__light-drift" />
+        </motion.div>
+      </div>
       <div className="boc-home-cinematic-stage__content">
         <HeroSection />
         <PortfolioSection />

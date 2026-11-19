@@ -5,9 +5,16 @@
   background: #1a1f4b;
 }
 
-.boc-home-cinematic-stage__light {
+.boc-home-cinematic-stage__light-clip {
   position: absolute;
   z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.boc-home-cinematic-stage__light {
+  position: absolute;
   top: 0;
   right: -20vw;
   width: min(92vw, 1060px);
