@@ -209,22 +209,25 @@ export function AbstractFrame({ accent = GOLD, style = {} }: { accent?: string; 
 
 // ─── Creation Card ────────────────────────────────────────────────────────────
 
-export function CreationCard({ card, delay }: { card: CreationCard; delay: number }) {
+export function CreationCard({ card, delay, index }: { card: CreationCard; delay: number; index: number }) {
   const reduceMotion = useReducedMotion();
+  const assemblyOffset = index % 2 === 0 ? -18 : 18;
 
   return (
     <motion.article
-      initial={reduceMotion ? false : { opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      className="boc-studio-wall__card"
+      initial={reduceMotion ? false : { opacity: 0, x: assemblyOffset, y: 20 }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={reduceMotion ? { duration: 0 } : { duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] }}
       style={{
         display: 'flex',
         flexDirection: 'column',
-        border: `1px solid ${GOLD_10}`,
+        border: `1px solid ${GOLD_18}`,
         borderRadius: '16px',
         overflow: 'hidden',
-        background: GOLD_06,
+        background: 'linear-gradient(155deg, rgba(28,34,76,0.98), rgba(15,21,48,0.98))',
+        boxShadow: '0 18px 42px rgba(0,0,0,0.2), 0 0 0 5px rgba(212,168,83,0.025)',
         transition: reduceMotion ? 'none' : 'border-color 0.35s ease, box-shadow 0.35s ease',
       }}
       onMouseEnter={(e) => {
@@ -244,7 +247,7 @@ export function CreationCard({ card, delay }: { card: CreationCard; delay: numbe
           src={card.image}
           alt={card.imageAlt}
           className="w-full h-full object-cover"
-          style={{ transition: 'transform 0.6s ease', transform: 'scale(1.04)' }}
+          style={{ transform: 'scale(1.02)' }}
         />
         <div
           style={{

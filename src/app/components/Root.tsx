@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Outlet, ScrollRestoration, useLocation } from 'react-router';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from 'motion/react';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { TrailingStar } from './NavigationSections';
@@ -160,9 +160,11 @@ export function Root() {
         </AnimatePresence>
       </div>
 
-      <main className="flex-1">
-        <Outlet />
-      </main>
+      <LayoutGroup id="boc-site-routes">
+        <main className="flex-1">
+          <Outlet />
+        </main>
+      </LayoutGroup>
       <Footer />
     </div>
   );
