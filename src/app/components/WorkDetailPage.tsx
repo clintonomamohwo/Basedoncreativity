@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, useReducedMotion } from 'motion/react';
 import { ArrowLeft, ArrowUpRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
-import { Link, useParams } from 'react-router';
+import { Link, useLocation, useParams } from 'react-router';
 import {
   fetchPortfolioProjects,
   resolveMediaAlt,
@@ -136,9 +136,14 @@ function ProjectHero({ project }: { project: WorkDetail }) {
         {project.heroImage && (
           <motion.div
             className="absolute inset-0 overflow-hidden"
+            layoutId={reduceMotion ? undefined : `boc-work-image-${project.id}`}
             initial={reduceMotion ? false : { opacity: 0, scale: 1.015 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: reduceMotion ? 0 : 0.8, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: reduceMotion ? 0 : 0.8,
+              ease: [0.22, 1, 0.36, 1],
+              layout: { duration: reduceMotion ? 0 : 0.8, ease: [0.22, 1, 0.36, 1] },
+            }}
           >
             <ImageWithFallback
               src={project.heroImage}
@@ -491,11 +496,22 @@ function ProjectDetail({ project }: { project: WorkDetail }) {
 
 export function WorkDetailPage() {
   const { projectId } = useParams();
+  const location = useLocation();
+  const navigationProject = (location.state as { workTransition?: PortfolioProject } | null)
+    ?.workTransition;
+  const matchingNavigationProject = navigationProject && projectId &&
+    canonicalProjectId(navigationProject.id) === canonicalProjectId(projectId)
+    ? navigationProject
+    : undefined;
   const initialFallback = projectId
     ? FALLBACK_PROJECTS.find((item) => item.id === projectId || item.aliases?.includes(projectId))
     : undefined;
   const [project, setProject] = useState<WorkDetail | null>(() =>
-    initialFallback ? detailFromFallback(initialFallback) : null,
+    initialFallback
+      ? detailFromFallback(initialFallback)
+      : matchingNavigationProject
+        ? detailFromFallback(matchingNavigationProject)
+        : null,
   );
   const [isLoading, setIsLoading] = useState(true);
 
@@ -504,8 +520,18 @@ export function WorkDetailPage() {
     const fallback = projectId
       ? FALLBACK_PROJECTS.find((item) => item.id === projectId || item.aliases?.includes(projectId))
       : undefined;
+    const routeProject = navigationProject && projectId &&
+      canonicalProjectId(navigationProject.id) === canonicalProjectId(projectId)
+      ? navigationProject
+      : undefined;
 
-    setProject(fallback ? detailFromFallback(fallback) : null);
+    setProject(
+      fallback
+        ? detailFromFallback(fallback)
+        : routeProject
+          ? detailFromFallback(routeProject)
+          : null,
+    );
     setIsLoading(true);
 
     if (!projectId) {
@@ -545,7 +571,7 @@ export function WorkDetailPage() {
     return () => {
       cancelled = true;
     };
-  }, [projectId]);
+  }, [projectId, navigationProject]);
 
   if (project) return <ProjectDetail project={project} />;
   if (isLoading) {

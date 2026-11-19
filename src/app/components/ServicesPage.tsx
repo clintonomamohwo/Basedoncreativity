@@ -350,75 +350,51 @@ function CelestialDots({ side = 'right' }: { side?: 'left' | 'right' }) {
 
 function DisciplineMark({ index }: { index: number }) {
   const shouldReduceMotion = useReducedMotion() ?? false;
-  if (index !== 3 && index !== 4) return null;
-
-  const initialPathLength = shouldReduceMotion ? 1 : 0;
-  const initialOpacity = shouldReduceMotion ? 0.75 : 0;
+  const motifs = [
+    ['M8 12h32v25H8z', 'M8 18h32', 'M12 12l5 6', 'M21 12l5 6', 'M30 12l5 6'],
+    ['M24 40V10c-5-3-11-3-16 0v25c5-3 11-3 16 0', 'M24 10c5-3 11-3 16 0v25c-5-3-11-3-16 0', 'M12 17h7', 'M29 17h7', 'M12 23h7', 'M29 23h7'],
+    ['M24 13v8M15 34l7-8m11 8-7-8', 'M20 10a4 4 0 1 1 8 0 4 4 0 0 1-8 0', 'M8 37a4 4 0 1 1 8 0 4 4 0 0 1-8 0', 'M32 37a4 4 0 1 1 8 0 4 4 0 0 1-8 0'],
+    ['M24 5 27.6 20.4 43 24 27.6 27.6 24 43 20.4 27.6 5 24 20.4 20.4Z', 'M37 5v7m-3.5-3.5h7M10 34v6m-3-3h6'],
+    ['M8 10h32v28H8z', 'M8 17h32', 'M13 13.5h.1M17 13.5h.1', 'M13 23h10v10H13z', 'M27 23h8M27 28h8M27 33h5'],
+    ['M24 7 40 16 24 25 8 16 24 7Z', 'M8 16v17l16 9 16-9V16', 'M24 25v17'],
+    ['M12 6h18l7 7v29H12z', 'M30 6v8h7', 'M17 21h15', 'M17 27h15', 'M17 33h11'],
+    ['M24 7v9M24 32v9M7 24h9M32 24h9', 'M18 18l-6-6M30 18l6-6M18 30l-6 6M30 30l6 6', 'M20 20h8v8h-8z', 'M22 23h4v2h-4z'],
+    ['M8 12h14l-4-4m4 4-4 4', 'M40 24H26l4-4m-4 4 4 4', 'M8 36h14l-4-4m4 4-4 4', 'M25 12v24'],
+  ];
+  const paths = motifs[index] ?? motifs[0];
 
   return (
     <motion.svg
       aria-hidden="true"
       focusable="false"
       viewBox="0 0 48 48"
-      width="40"
-      height="40"
-      initial={shouldReduceMotion ? false : { opacity: 0.65 }}
+      width="36"
+      height="36"
+      initial={shouldReduceMotion ? false : { opacity: 0.55 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, margin: '-24px' }}
-      transition={{ duration: shouldReduceMotion ? 0 : 0.45, ease: 'easeOut' }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.4, ease: 'easeOut' }}
       style={{ flexShrink: 0, marginLeft: 'auto', color: GOLD }}
     >
-      {index === 3 ? (
-        <>
-          <motion.path
-            d="M24 5 27.6 20.4 43 24 27.6 27.6 24 43 20.4 27.6 5 24 20.4 20.4Z"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.2"
-            strokeLinejoin="round"
-            initial={{ pathLength: initialPathLength, opacity: initialOpacity }}
-            whileInView={{ pathLength: 1, opacity: 0.8 }}
-            viewport={{ once: true }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.8, ease: 'easeInOut' }}
-          />
-          <motion.path
-            d="M37 5v7m-3.5-3.5h7M10 34v6m-3-3h6"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
-            strokeLinecap="round"
-            initial={{ pathLength: initialPathLength, opacity: initialOpacity }}
-            whileInView={{ pathLength: 1, opacity: 0.55 }}
-            viewport={{ once: true }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.55, delay: shouldReduceMotion ? 0 : 0.12, ease: 'easeOut' }}
-          />
-        </>
-      ) : (
-        <>
-          <motion.path
-            d="M8 10h32v28H8z"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.2"
-            strokeLinejoin="round"
-            initial={{ pathLength: initialPathLength, opacity: initialOpacity }}
-            whileInView={{ pathLength: 1, opacity: 0.8 }}
-            viewport={{ once: true }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.75, ease: 'easeInOut' }}
-          />
-          <motion.path
-            d="M13 16h22M13 22h15M13 29h21M13 34h13"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
-            strokeLinecap="round"
-            initial={{ pathLength: initialPathLength, opacity: initialOpacity }}
-            whileInView={{ pathLength: 1, opacity: 0.55 }}
-            viewport={{ once: true }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.7, delay: shouldReduceMotion ? 0 : 0.16, ease: 'easeOut' }}
-          />
-        </>
-      )}
+      {paths.map((path, pathIndex) => (
+        <motion.path
+          key={`${index}-${pathIndex}`}
+          d={path}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          initial={shouldReduceMotion ? { pathLength: 1, opacity: 0.72 } : { pathLength: 0, opacity: 0 }}
+          whileInView={{ pathLength: 1, opacity: pathIndex === 0 ? 0.82 : 0.56 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.48,
+            delay: shouldReduceMotion ? 0 : pathIndex * 0.055,
+            ease: 'easeOut',
+          }}
+        />
+      ))}
     </motion.svg>
   );
 }
@@ -427,13 +403,14 @@ function DisciplineMark({ index }: { index: number }) {
 
 function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
   const isAlt = index % 2 === 1;
+  const reduceMotion = useReducedMotion() ?? false;
 
   return (
     <motion.section
-      initial={{ opacity: 0 }}
+      initial={reduceMotion ? false : { opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: reduceMotion ? 0 : 0.6 }}
       style={{ background: svc.bg, position: 'relative', overflow: 'hidden' }}
     >
       <CelestialDots side={isAlt ? 'left' : 'right'} />
@@ -450,10 +427,10 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
       >
         {/* Header row */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: reduceMotion ? 0 : 0.65, ease: [0.22, 1, 0.36, 1] }}
           style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '40px' }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
@@ -509,11 +486,11 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
         >
           {/* Column 1 - What we offer */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            whileHover={{ y: -4, boxShadow: '0 12px 32px rgba(255,200,87,0.15), 0 0 0 1px rgba(255,200,87,0.2)' }}
+            whileHover={reduceMotion ? undefined : { y: -4, boxShadow: '0 12px 32px rgba(255,200,87,0.15), 0 0 0 1px rgba(255,200,87,0.2)' }}
             viewport={{ once: true }}
-            transition={{ duration: 0.65, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: reduceMotion ? 0 : 0.65, delay: reduceMotion ? 0 : 0.05, ease: [0.22, 1, 0.36, 1] }}
             style={{
               padding: 'clamp(24px, 4vw, 36px)',
               background: GOLD_06,
@@ -560,11 +537,11 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
 
           {/* Column 2 - Deliverables */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            whileHover={{ y: -4, boxShadow: '0 12px 32px rgba(255,200,87,0.12), 0 0 0 1px rgba(255,200,87,0.15)' }}
+            whileHover={reduceMotion ? undefined : { y: -4, boxShadow: '0 12px 32px rgba(255,200,87,0.12), 0 0 0 1px rgba(255,200,87,0.15)' }}
             viewport={{ once: true }}
-            transition={{ duration: 0.65, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: reduceMotion ? 0 : 0.65, delay: reduceMotion ? 0 : 0.12, ease: [0.22, 1, 0.36, 1] }}
             style={{
               padding: 'clamp(24px, 4vw, 36px)',
               background: 'rgba(255,255,255,0.02)',
@@ -625,11 +602,11 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
 
           {/* Column 3 - Outcome + related work */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            whileHover={{ y: -4, boxShadow: '0 12px 32px rgba(255,200,87,0.15), 0 0 0 1px rgba(255,200,87,0.2)' }}
+            whileHover={reduceMotion ? undefined : { y: -4, boxShadow: '0 12px 32px rgba(255,200,87,0.15), 0 0 0 1px rgba(255,200,87,0.2)' }}
             viewport={{ once: true }}
-            transition={{ duration: 0.65, delay: 0.19, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: reduceMotion ? 0 : 0.65, delay: reduceMotion ? 0 : 0.19, ease: [0.22, 1, 0.36, 1] }}
             style={{
               padding: 'clamp(24px, 4vw, 36px)',
               background: GOLD_06,
@@ -726,6 +703,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
 
 export function ServicesPage() {
   const navigate = useNavigate();
+  const reduceMotion = useReducedMotion() ?? false;
 
   return (
     <>
@@ -762,9 +740,9 @@ export function ServicesPage() {
         <div className="boc-page-hero-content" style={{ position: 'relative', zIndex: 1 }}>
           {/* Eyebrow + rule */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: reduceMotion ? 0 : 0.7 }}
             style={{ marginBottom: '32px' }}
           >
             <Eyebrow>Based on Creativity</Eyebrow>
@@ -773,9 +751,9 @@ export function ServicesPage() {
 
           {/* Headline */}
           <motion.h1
-            initial={{ opacity: 0, y: 28 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: reduceMotion ? 0 : 0.85, delay: reduceMotion ? 0 : 0.1, ease: [0.22, 1, 0.36, 1] }}
             style={{
               fontFamily: FONTS.heading,
               fontWeight: 700,
@@ -793,9 +771,9 @@ export function ServicesPage() {
 
           {/* Value proposition */}
           <motion.p
-            initial={{ opacity: 0, y: 18 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: reduceMotion ? 0 : 0.8, delay: reduceMotion ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] }}
             style={{
               fontFamily: FONTS.body,
               fontSize: 'clamp(1rem, 2.5vw, 1.1875rem)',
@@ -823,9 +801,9 @@ export function ServicesPage() {
 
           {/* Italic accent */}
           <motion.p
-            initial={{ opacity: 0, y: 12 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.32 }}
+            transition={{ duration: reduceMotion ? 0 : 0.7, delay: reduceMotion ? 0 : 0.32 }}
             style={{
               fontFamily: FONTS.accent,
               fontStyle: 'italic',
@@ -839,9 +817,9 @@ export function ServicesPage() {
 
           {/* Division chips */}
           <motion.div
-            initial={{ opacity: 0, y: 14 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.42 }}
+            transition={{ duration: reduceMotion ? 0 : 0.7, delay: reduceMotion ? 0 : 0.42 }}
             style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}
           >
             {['Animation', 'Publishing', 'Digital Platform', 'Graphic Design', 'Web Development', 'Merchandise', 'Technical Writing', 'AI Automation Services', 'Workflow Automation'].map((chip) => (

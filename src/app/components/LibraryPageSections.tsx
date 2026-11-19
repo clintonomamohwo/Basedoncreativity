@@ -1,6 +1,6 @@
 import type React from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
-import { useState, useRef, useEffect } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
+import { useRef, useEffect } from 'react';
 
 export type LibraryMode    = 'reflection' | 'expression';
 export type MediumFilter   = 'all' | 'animation' | 'writing' | 'design';
@@ -312,301 +312,78 @@ export function FilterSidebar({ mode, medium, status, onMedium, onStatus, isOpen
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Glitch Card (Reflection / Moon mode)
+// Quiet archive cards (details remain visible without hover)
 // ─────────────────────────────────────────────────────────────────────────────
-export function GlitchCard({ item }: { item: LibraryItem }) {
+function QuietArchiveCard({ item, mode }: { item: LibraryItem; mode: LibraryMode }) {
   const prefersReducedMotion = useReducedMotion() ?? false;
-  const [hovered, setHovered] = useState(false);
-  const mediumColors: Record<string, string> = {
-    animation: '#6C63FF',
-    writing: '#FFC857',
-    design: '#4ECDC4',
-  };
-  const mc = mediumColors[item.medium] ?? '#FFC857';
+  const isMoon = mode === 'reflection';
+  const accent = isMoon ? '#FFC857' : '#8A6410';
+  const titleColor = isMoon ? '#F6E6B4' : '#1A1F4B';
+  const bodyColor = isMoon ? 'rgba(216,215,219,0.8)' : 'rgba(26,31,75,0.78)';
+  const mutedColor = isMoon ? '#9B9AA9' : '#74717A';
 
   return (
-    <motion.div
-      className="glitch-card relative overflow-hidden rounded-xl cursor-pointer group"
-      style={{ height: 320, background: '#0d1117', border: '1px solid rgba(216,215,219,0.1)' }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      whileHover={prefersReducedMotion ? undefined : { scale: 1.015 }}
-      transition={prefersReducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 300, damping: 30 }}
-      initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
+    <motion.article
+      className="library-archive-card relative overflow-hidden rounded-xl"
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, margin: '-48px' }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.42, ease: 'easeOut' }}
+      style={{
+        background: isMoon ? 'rgba(13,17,31,0.9)' : 'rgba(255,253,247,0.92)',
+        border: `1px solid ${isMoon ? 'rgba(255,200,87,0.16)' : 'rgba(26,31,75,0.14)'}`,
+        boxShadow: isMoon ? '0 10px 26px rgba(0,0,0,0.16)' : '0 8px 22px rgba(15,21,48,0.055)',
+      }}
     >
-      {/* Base image */}
-      <img
-        src={item.imageUrl}
-        alt={item.title}
-        className="glitch-img-base absolute inset-0 w-full h-full object-cover"
-        style={{ transition: 'transform 0.5s ease' }}
-      />
-
-      {/* Red channel glitch overlay */}
-      <img
-        src={item.imageUrl}
-        alt=""
-        aria-hidden
-        className="glitch-layer-red absolute inset-0 w-full h-full object-cover opacity-0"
-        style={{
-          filter: 'saturate(0) sepia(1) hue-rotate(290deg) brightness(1.8) contrast(1.3)',
-          mixBlendMode: 'screen',
-          pointerEvents: 'none',
-          willChange: 'clip-path, transform',
-        }}
-      />
-
-      {/* Blue channel glitch overlay */}
-      <img
-        src={item.imageUrl}
-        alt=""
-        aria-hidden
-        className="glitch-layer-blue absolute inset-0 w-full h-full object-cover opacity-0"
-        style={{
-          filter: 'saturate(0) sepia(1) hue-rotate(170deg) brightness(1.8) contrast(1.3)',
-          mixBlendMode: 'screen',
-          pointerEvents: 'none',
-          willChange: 'clip-path, transform',
-        }}
-      />
-
-      {/* Scan line */}
-      <div
-        className="glitch-scan absolute left-0 right-0 pointer-events-none"
-        style={{ height: 2, background: 'linear-gradient(90deg, transparent, #FFC857 30%, #fff 50%, #FFC857 70%, transparent)', opacity: 0.7, top: '-4px' }}
-      />
-
-      {/* Static dark gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-
-      {/* Base content (always visible) */}
-      <div className="absolute inset-x-0 bottom-0 p-4">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="px-2 py-0.5 rounded text-xs" style={{
-            fontFamily: "'Space Mono', monospace",
-            background: `${mc}20`,
-            border: `1px solid ${mc}50`,
-            color: mc,
-            letterSpacing: '0.08em',
-          }}>
-            {item.medium.toUpperCase()}
-          </span>
-          <span className="px-2 py-0.5 rounded text-xs" style={{
-            fontFamily: "'Space Mono', monospace",
-            background: item.status === 'active' ? 'rgba(78,205,196,0.15)' : 'rgba(113,113,130,0.2)',
-            border: `1px solid ${item.status === 'active' ? 'rgba(78,205,196,0.4)' : 'rgba(113,113,130,0.3)'}`,
-            color: item.status === 'active' ? '#4ECDC4' : '#717182',
-            letterSpacing: '0.08em',
-          }}>
-            {item.status.toUpperCase()}
-          </span>
-        </div>
-        <h3 style={{ fontFamily: "'Cormorant Garamond', serif", color: '#F6E6B4', fontSize: '1.15rem', lineHeight: 1.3, marginBottom: 2 }}>
-          {item.title}
-        </h3>
-        <p style={{ fontFamily: "'Space Mono', monospace", color: '#717182', fontSize: '0.62rem', letterSpacing: '0.08em' }}>
-          {item.subtitle}, {item.year}
-        </p>
+      <div style={{ position: 'relative', aspectRatio: '16 / 10', overflow: 'hidden', background: isMoon ? '#101521' : '#EEE8D8' }}>
+        <img
+          src={item.imageUrl}
+          alt={item.title}
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover"
+          style={{ opacity: isMoon ? 0.78 : 0.86 }}
+        />
+        <div aria-hidden="true" className="absolute inset-0" style={{ background: isMoon ? 'linear-gradient(180deg, rgba(7,12,24,0.08), rgba(7,12,24,0.36))' : 'linear-gradient(180deg, rgba(255,249,232,0.02), rgba(26,31,75,0.2))' }} />
+        <span style={{ position: 'absolute', top: 12, left: 12, padding: '5px 9px', borderRadius: 999, color: isMoon ? '#FFC857' : '#1A1F4B', background: isMoon ? 'rgba(10,14,26,0.78)' : 'rgba(255,249,232,0.9)', border: `1px solid ${accent}45`, fontFamily: "'Space Mono', monospace", fontSize: '0.56rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          {item.medium}
+        </span>
       </div>
 
-      {/* Hover metadata overlay */}
-      <AnimatePresence>
-        {hovered && (
-          <motion.div
-            className="absolute inset-0 p-5 flex flex-col justify-between"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
-            style={{ background: 'linear-gradient(160deg, rgba(10,10,18,0.96) 0%, rgba(26,31,75,0.94) 100%)' }}
-          >
-            {/* Top: date + glitch label */}
-            <div className="flex items-center justify-between">
-              <span style={{ fontFamily: "'Space Mono', monospace", color: '#FFC857', fontSize: '0.6rem', letterSpacing: '0.14em' }}>
-                CREATED {item.year}
-              </span>
-              <span style={{ fontFamily: "'Space Mono', monospace", color: '#ff4080', fontSize: '0.6rem', letterSpacing: '0.1em' }}>
-                ▓▒░ METADATA
-              </span>
-            </div>
-
-            {/* Middle: description */}
-            <p style={{ fontFamily: "'Source Sans 3', sans-serif", color: '#D8D7DB', fontSize: '0.82rem', lineHeight: 1.65 }}>
-              {item.description}
-            </p>
-
-            {/* Bottom: tools */}
-            <div>
-              <p style={{ fontFamily: "'Space Mono', monospace", color: '#717182', fontSize: '0.58rem', letterSpacing: '0.12em', marginBottom: 6 }}>
-                TOOLS USED
-              </p>
-              <div className="flex flex-wrap gap-1.5">
-                {item.tools.map(tool => (
-                  <span key={tool} className="px-2 py-0.5 rounded-sm" style={{
-                    fontFamily: "'Space Mono', monospace",
-                    background: 'rgba(255,200,87,0.1)',
-                    border: '1px solid rgba(255,200,87,0.25)',
-                    color: '#FFC857',
-                    fontSize: '0.6rem',
-                    letterSpacing: '0.06em',
-                  }}>
-                    {tool}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+      <div style={{ padding: '18px 18px 20px' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
+          <h3 style={{ margin: 0, color: titleColor, fontFamily: "'Cormorant Garamond', serif", fontSize: '1.28rem', fontWeight: 600, lineHeight: 1.18 }}>
+            {item.title}
+          </h3>
+          <span style={{ flexShrink: 0, color: mutedColor, fontFamily: "'Space Mono', monospace", fontSize: '0.59rem', letterSpacing: '0.04em' }}>
+            {item.year}
+          </span>
+        </div>
+        <p style={{ margin: '6px 0 11px', color: accent, fontFamily: "'Space Mono', monospace", fontSize: '0.58rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+          {item.subtitle} · {item.status}
+        </p>
+        <p style={{ margin: 0, color: bodyColor, fontFamily: "'Source Sans 3', sans-serif", fontSize: '0.88rem', lineHeight: 1.58 }}>
+          {item.description}
+        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 14 }} aria-label="Tools">
+          {item.tools.map((tool) => (
+            <span key={tool} style={{ padding: '4px 8px', borderRadius: 999, color: mutedColor, background: isMoon ? 'rgba(255,200,87,0.055)' : 'rgba(26,31,75,0.045)', border: `1px solid ${isMoon ? 'rgba(255,200,87,0.12)' : 'rgba(26,31,75,0.1)'}`, fontFamily: "'Space Mono', monospace", fontSize: '0.55rem', lineHeight: 1.35 }}>
+              {tool}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div aria-hidden="true" style={{ height: 2, background: `linear-gradient(90deg, transparent, ${accent}72, transparent)`, opacity: 0.75 }} />
+    </motion.article>
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Ripple Card (Expression / Sun mode)
-// ─────────────────────────────────────────────────────────────────────────────
+export function GlitchCard({ item }: { item: LibraryItem }) {
+  return <QuietArchiveCard item={item} mode="reflection" />;
+}
+
 export function RippleCard({ item }: { item: LibraryItem }) {
-  const prefersReducedMotion = useReducedMotion() ?? false;
-  const [hovered, setHovered] = useState(false);
-  const mediumColors: Record<string, string> = {
-    animation: '#1A1F4B',
-    writing: '#7a5c00',
-    design: '#1A1F4B',
-  };
-  const mc = mediumColors[item.medium] ?? '#1A1F4B';
-
-  return (
-    <motion.div
-      className="ripple-card relative overflow-hidden rounded-xl cursor-pointer"
-      style={{ height: 320, background: '#fefdf6', border: '1px solid rgba(26,31,75,0.12)' }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      whileHover={prefersReducedMotion ? undefined : { scale: 1.015 }}
-      transition={prefersReducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 300, damping: 30 }}
-      initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-    >
-      {/* Base image */}
-      <img
-        src={item.imageUrl}
-        alt={item.title}
-        className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
-        style={{ filter: hovered ? 'brightness(1.08) saturate(1.15)' : 'brightness(0.85) saturate(0.9)' }}
-      />
-
-      {/* Warm parchment tint */}
-      <div
-        className="absolute inset-0 transition-opacity duration-500"
-        style={{ background: 'linear-gradient(160deg, rgba(246,230,180,0.4) 0%, rgba(255,243,204,0.2) 100%)', opacity: hovered ? 0 : 1 }}
-      />
-
-      {/* Ripple rings (centered) */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="ripple-r1 absolute rounded-full" style={{ width: 80, height: 80, border: '1.5px solid rgba(255,200,87,0.7)', opacity: 0 }} />
-        <div className="ripple-r2 absolute rounded-full" style={{ width: 80, height: 80, border: '1.5px solid rgba(255,200,87,0.5)', opacity: 0 }} />
-        <div className="ripple-r3 absolute rounded-full" style={{ width: 80, height: 80, border: '1.5px solid rgba(255,200,87,0.3)', opacity: 0 }} />
-      </div>
-
-      {/* Bottom gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-
-      {/* Base content */}
-      <div className="absolute inset-x-0 bottom-0 p-4">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="px-2 py-0.5 rounded text-xs" style={{
-            fontFamily: "'Space Mono', monospace",
-            background: 'rgba(255,200,87,0.25)',
-            border: '1px solid rgba(255,200,87,0.5)',
-            color: '#7a5c00',
-            letterSpacing: '0.08em',
-          }}>
-            {item.medium.toUpperCase()}
-          </span>
-          <span className="px-2 py-0.5 rounded text-xs" style={{
-            fontFamily: "'Space Mono', monospace",
-            background: item.status === 'active' ? 'rgba(26,31,75,0.2)' : 'rgba(113,113,130,0.2)',
-            border: `1px solid ${item.status === 'active' ? 'rgba(26,31,75,0.5)' : 'rgba(113,113,130,0.3)'}`,
-            color: item.status === 'active' ? '#1A1F4B' : '#717182',
-            letterSpacing: '0.08em',
-          }}>
-            {item.status.toUpperCase()}
-          </span>
-        </div>
-        <h3 style={{ fontFamily: "'Cormorant Garamond', serif", color: '#F6E6B4', fontSize: '1.15rem', lineHeight: 1.3, marginBottom: 2 }}>
-          {item.title}
-        </h3>
-        <p style={{ fontFamily: "'Space Mono', monospace", color: 'rgba(246,230,180,0.7)', fontSize: '0.62rem', letterSpacing: '0.08em' }}>
-          {item.subtitle}, {item.year}
-        </p>
-      </div>
-
-      {/* Hover overlay with "View Project" */}
-      <AnimatePresence>
-        {hovered && (
-          <motion.div
-            className="absolute inset-0 p-5 flex flex-col justify-between"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.25 }}
-            style={{ background: 'linear-gradient(160deg, rgba(246,230,180,0.97) 0%, rgba(255,243,204,0.95) 100%)' }}
-          >
-            <div className="flex items-center justify-between">
-              <span style={{ fontFamily: "'Space Mono', monospace", color: '#B8860B', fontSize: '0.6rem', letterSpacing: '0.14em' }}>
-                PUBLISHED {item.year}
-              </span>
-              <span style={{ fontFamily: "'Cormorant Garamond', serif", color: '#1A1F4B', fontSize: '0.75rem', fontStyle: 'italic' }}>
-                {item.subtitle}
-              </span>
-            </div>
-
-            <p style={{ fontFamily: "'Source Sans 3', sans-serif", color: '#2D2D2D', fontSize: '0.85rem', lineHeight: 1.65 }}>
-              {item.description}
-            </p>
-
-            <div className="flex items-center justify-between">
-              <div className="flex flex-wrap gap-1.5">
-                {item.tools.slice(0, 2).map(tool => (
-                  <span key={tool} className="px-2 py-0.5 rounded-sm" style={{
-                    fontFamily: "'Space Mono', monospace",
-                    background: 'rgba(26,31,75,0.1)',
-                    border: '1px solid rgba(26,31,75,0.2)',
-                    color: '#1A1F4B',
-                    fontSize: '0.6rem',
-                    letterSpacing: '0.06em',
-                  }}>
-                    {tool}
-                  </span>
-                ))}
-              </div>
-              <motion.button
-                className="px-4 py-1.5 rounded-full"
-                style={{
-                  fontFamily: "'Space Mono', monospace",
-                  fontSize: '0.65rem',
-                  letterSpacing: '0.1em',
-                  background: 'linear-gradient(135deg, #1A1F4B 0%, #2d3561 100%)',
-                  color: '#FFC857',
-                  border: '1px solid rgba(255,200,87,0.3)',
-                  cursor: 'pointer',
-                }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.97 }}
-                initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.1 }}
-              >
-                VIEW PROJECT →
-              </motion.button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
+  return <QuietArchiveCard item={item} mode="expression" />;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -718,7 +495,7 @@ export function HeritagePattern({ mode }: { mode: LibraryMode }) {
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" style={{ opacity: isMoon ? 0.04 : 0.05 }}>
       {/* Repeating text lines */}
       <div
-        className="grain-overlay absolute inset-0"
+        className="absolute inset-0"
         style={{
           fontFamily: "'Cormorant Garamond', serif",
           fontSize: '13px',

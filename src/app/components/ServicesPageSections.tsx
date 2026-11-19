@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { COLORS } from '../../lib/constants';
@@ -127,6 +127,7 @@ export function CelestialDots({ side = 'right' }: { side?: 'left' | 'right' }) {
 }
 
 export function MidCTA({ navigate }: { navigate: ReturnType<typeof useNavigate> }) {
+  const reduceMotion = useReducedMotion() ?? false;
   return (
     <section
       style={{
@@ -137,10 +138,10 @@ export function MidCTA({ navigate }: { navigate: ReturnType<typeof useNavigate> 
       }}
     >
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={reduceMotion ? false : { opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
+        transition={{ duration: reduceMotion ? 0 : 0.7 }}
         style={{
           maxWidth: '900px',
           margin: '0 auto',
@@ -257,6 +258,7 @@ export function MidCTA({ navigate }: { navigate: ReturnType<typeof useNavigate> 
 // ─── Process Section ──────────────────────────────────────────────────────────
 
 export function ProcessSection({ navigate }: { navigate: ReturnType<typeof useNavigate> }) {
+  const reduceMotion = useReducedMotion() ?? false;
   return (
     <section
       style={{
@@ -279,10 +281,10 @@ export function ProcessSection({ navigate }: { navigate: ReturnType<typeof useNa
       <div style={{ maxWidth: '1380px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: reduceMotion ? 0 : 0.7 }}
           style={{ marginBottom: 'clamp(48px, 7vw, 80px)' }}
         >
           <Eyebrow>How We Work</Eyebrow>
@@ -333,10 +335,10 @@ export function ProcessSection({ navigate }: { navigate: ReturnType<typeof useNa
           {PROCESS_STEPS.map((step, i) => (
             <motion.div
               key={step.title}
-              initial={{ opacity: 0, y: 28 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.65, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: reduceMotion ? 0 : 0.65, delay: reduceMotion ? 0 : i * 0.09, ease: [0.22, 1, 0.36, 1] }}
               style={{
                 background: GOLD_06,
                 border: `1px solid ${GOLD_12}`,
@@ -347,7 +349,7 @@ export function ProcessSection({ navigate }: { navigate: ReturnType<typeof useNa
                 gap: '14px',
                 transition: 'background 0.3s ease, border-color 0.3s ease',
               }}
-              whileHover={{
+              whileHover={reduceMotion ? undefined : {
                 background: 'rgba(212,168,83,0.09)',
               }}
             >
@@ -420,10 +422,10 @@ export function ProcessSection({ navigate }: { navigate: ReturnType<typeof useNa
 
         {/* Post-process CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.2 }}
+          transition={{ duration: reduceMotion ? 0 : 0.7, delay: reduceMotion ? 0 : 0.2 }}
           style={{
             marginTop: 'clamp(48px, 7vw, 72px)',
             padding: 'clamp(28px, 4vw, 40px) clamp(24px, 4vw, 40px)',
@@ -532,6 +534,7 @@ export function ProcessSection({ navigate }: { navigate: ReturnType<typeof useNa
 // ─── Final CTA ────────────────────────────────────────────────────────────────
 
 export function FinalCTA({ navigate }: { navigate: ReturnType<typeof useNavigate> }) {
+  const reduceMotion = useReducedMotion() ?? false;
   return (
     <section
       style={{
@@ -556,10 +559,10 @@ export function FinalCTA({ navigate }: { navigate: ReturnType<typeof useNavigate
       />
 
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
+        initial={reduceMotion ? false : { opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: reduceMotion ? 0 : 0.8 }}
         style={{
           maxWidth: '680px',
           margin: '0 auto',

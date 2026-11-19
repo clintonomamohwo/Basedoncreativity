@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, MotionConfig, useReducedMotion } from 'motion/react';
 import { SEO } from './SEO';
 import { ChronicleSectionBlock, FilterSidebar, GlitchCard, HeritagePattern, ModeToggle, MoonSvg, RippleCard, SunSvg } from './LibraryPageSections';
+import './LibraryPage.css';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -144,84 +145,6 @@ const EXPRESSION_ITEMS: LibraryItem[] = [
 const CHRONICLE_SECTIONS = ['Folklore Studies', 'Character Design', 'Published Novellas', 'Motion & Animation'];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// CSS Animations (injected once)
-// ─────────────────────────────────────────────────────────────────────────────
-const CSS_ANIMATIONS = `
-  @keyframes glitch-clip-a {
-    0%,100%{clip-path:inset(3% 0 88% 0);transform:translateX(-5px) skewX(-2deg)}
-    20%{clip-path:inset(24% 0 56% 0);transform:translateX(5px) skewX(2deg)}
-    40%{clip-path:inset(56% 0 28% 0);transform:translateX(-4px) skewX(-1deg)}
-    60%{clip-path:inset(76% 0 7% 0);transform:translateX(4px) skewX(1deg)}
-    80%{clip-path:inset(40% 0 44% 0);transform:translateX(-5px) skewX(-2deg)}
-  }
-  @keyframes glitch-clip-b {
-    0%,100%{clip-path:inset(50% 0 38% 0);transform:translateX(4px) skewX(2deg)}
-    20%{clip-path:inset(70% 0 12% 0);transform:translateX(-4px) skewX(-2deg)}
-    40%{clip-path:inset(16% 0 68% 0);transform:translateX(4px) skewX(1deg)}
-    60%{clip-path:inset(1% 0 91% 0);transform:translateX(-4px) skewX(-1deg)}
-    80%{clip-path:inset(86% 0 2% 0);transform:translateX(4px) skewX(2deg)}
-  }
-  @keyframes chromatic-rgb {
-    0%,100%{filter:drop-shadow(3px 0 0 rgba(255,0,80,0.8)) drop-shadow(-3px 0 0 rgba(0,180,255,0.8))}
-    33%{filter:drop-shadow(-3px 0 0 rgba(255,0,80,0.8)) drop-shadow(3px 0 0 rgba(0,180,255,0.8))}
-    66%{filter:drop-shadow(0 3px 0 rgba(255,0,80,0.8)) drop-shadow(0 -3px 0 rgba(0,180,255,0.8))}
-  }
-  @keyframes scan-pass {
-    0%{top:-4px;opacity:0.9}100%{top:100%;opacity:0.3}
-  }
-  @keyframes ripple-expand {
-    0%{transform:scale(0.5);opacity:0.8}
-    100%{transform:scale(3);opacity:0}
-  }
-  @keyframes chronicle-pulse {
-    0%,100%{box-shadow:0 0 0 0 rgba(255,200,87,0.7)}
-    50%{box-shadow:0 0 0 12px rgba(255,200,87,0)}
-  }
-  @keyframes chronicle-fill {
-    from{transform:scaleY(0);transform-origin:top}
-    to{transform:scaleY(1);transform-origin:top}
-  }
-  @keyframes mode-bg-shimmer {
-    0%,100%{opacity:0.06}50%{opacity:0.12}
-  }
-  @keyframes grain-drift {
-    0%,100%{transform:translate(0,0)}
-    25%{transform:translate(-1%,1%)}
-    50%{transform:translate(1%,-1%)}
-    75%{transform:translate(-1%,-1%)}
-  }
-  .glitch-card:hover .glitch-layer-red {
-    animation: glitch-clip-a 0.22s steps(1) infinite;
-    opacity: 0.75 !important;
-  }
-  .glitch-card:hover .glitch-layer-blue {
-    animation: glitch-clip-b 0.22s steps(1) infinite;
-    opacity: 0.75 !important;
-  }
-  .glitch-card:hover .glitch-img-base {
-    animation: chromatic-rgb 0.3s steps(1) infinite;
-  }
-  .glitch-card:hover .glitch-scan {
-    animation: scan-pass 1s linear infinite;
-  }
-  .ripple-card:hover .ripple-r1 { animation: ripple-expand 1.8s ease-out infinite; }
-  .ripple-card:hover .ripple-r2 { animation: ripple-expand 1.8s ease-out 0.6s infinite; }
-  .ripple-card:hover .ripple-r3 { animation: ripple-expand 1.8s ease-out 1.2s infinite; }
-  .chronicle-node-on { animation: chronicle-pulse 1.5s ease-out 1; }
-  .grain-overlay { animation: grain-drift 8s ease-in-out infinite; }
-  @media (prefers-reduced-motion: reduce) {
-    .library-page *,
-    .library-page *::before,
-    .library-page *::after {
-      scroll-behavior: auto !important;
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
-`;
-
-// ─────────────────────────────────────────────────────────────────────────────
 // Main Library Page
 // ─────────────────────────────────────────────────────────────────────────────
 export function LibraryPage() {
@@ -285,9 +208,6 @@ export function LibraryPage() {
   return (
     <>
       <SEO title="Library | Based on Creativity" description="Explore the Based on Creativity library of reflections, expressions, and curated creative work across mediums and themes." path="/library" />
-      {/* Inject animations once */}
-      <style dangerouslySetInnerHTML={{ __html: CSS_ANIMATIONS }} />
-
       <MotionConfig reducedMotion="user">
       <div
         className="library-page relative w-full"
