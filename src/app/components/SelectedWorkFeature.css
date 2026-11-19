@@ -28,6 +28,11 @@
   background: #f4f1f7;
 }
 
+.boc-featured-case__image-reveal {
+  position: absolute;
+  inset: 0;
+}
+
 .boc-featured-case__image {
   display: block;
   width: 100%;
