@@ -152,7 +152,7 @@ export function StudioPage() {
 
   return (
     <>
-      <SEO title="Studio | Based on Creativity" description="Step inside the Based on Creativity studio to see how narrative, design craft, motion, and world-building shape every creative collaboration." path="/studio" />
+      <SEO title="Studio | Based on Creativity" description="Step inside the Based on Creativity studio to see how narrative, design craft, motion, and world-building shape every creative collaboration." path="/studio" image="/og-studio.png" />
     <div style={{ background: INDIGO_BLUE }}>
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
@@ -229,11 +229,10 @@ export function StudioPage() {
 
         {/* Hero content */}
         <div
+          className="boc-page-hero-content"
           style={{
-            maxWidth: '1200px',
-            width: '100%',
-            margin: '0 auto',
-            padding: 'clamp(120px, 15vw, 168px) clamp(20px, 5vw, 48px) clamp(56px, 8vw, 88px)',
+            paddingTop: 'clamp(120px, 15vw, 168px)',
+            paddingBottom: 'clamp(56px, 8vw, 88px)',
             position: 'relative',
             zIndex: 2,
           }}

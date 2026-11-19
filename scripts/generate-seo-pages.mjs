@@ -8,11 +8,16 @@ const siteUrl = 'https://www.bochq.com';
 const siteName = 'Based on Creativity';
 const defaultImage =
   'https://cdn.sanity.io/images/wxky32kg/production/a43b0a902b2aff19de75037d5a2346362bb38a7b-3228x1748.jpg?w=1200&h=630&fit=crop&auto=format&q=85';
-const homepageImageOrigin =
+const shareImageOrigin =
   process.env.VERCEL_ENV === 'preview' && process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
     : siteUrl;
-const homepageShareImage = `${homepageImageOrigin}/boc-home-share.png`;
+const homepageShareImage = `${shareImageOrigin}/boc-home-share.png`;
+const pageShareImages = {
+  services: `${shareImageOrigin}/og-services.png`,
+  work: `${shareImageOrigin}/og-work.png`,
+  studio: `${shareImageOrigin}/og-studio.png`,
+};
 const keywords =
   'Toronto creative studio, brand identity, web development, animation, visual storytelling, editorial design';
 
@@ -249,6 +254,7 @@ const mainRoutes = [
       'BOC develops brand worlds, digital experiences, animation, and publishing projects. Each one built from a single standard: that the work should outlast the moment it was made for.',
     ],
     sections: [{ heading: 'Selected projects', items: portfolioProjects }],
+    image: pageShareImages.work,
   },
   {
     path: '/services',
@@ -268,6 +274,7 @@ const mainRoutes = [
       items: service.deliverables.map((title) => ({ title })),
       link: { title: service.relatedWork, href: service.relatedPath },
     })),
+    image: pageShareImages.services,
   },
   {
     path: '/studio',
@@ -278,6 +285,7 @@ const mainRoutes = [
     body: [
       'Step inside the Based on Creativity studio to see how narrative, design craft, motion, and world-building shape every creative collaboration.',
     ],
+    image: pageShareImages.studio,
   },
   {
     path: '/vault',
