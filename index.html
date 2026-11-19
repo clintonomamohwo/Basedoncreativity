@@ -49,12 +49,20 @@
       .seo-fallback p { max-width: 48rem; font-size: 1.1rem; line-height: 1.6; }
       .seo-fallback h1 { max-width: 18ch; font-size: clamp(2.25rem, 6vw, 4.8rem); line-height: 1.04; }
       .seo-fallback nav { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+      .seo-fallback--home { box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; min-height: 100vh; max-width: none; margin: 0; padding: clamp(7rem, 16vh, 10rem) clamp(1.5rem, 7.7vw, 7.5rem) 4rem; color: #f5f5f7; background: radial-gradient(circle at 79% 34%, rgba(255, 200, 87, .18), transparent 34rem), #1a1f4b; }
+      .seo-fallback--home .seo-kicker { color: #ffc857; font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+      .seo-fallback--home h1 { max-width: 20ch; margin: 1.25rem 0; font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-size: clamp(2.25rem, 4.8vw, 4rem); line-height: 1.12; letter-spacing: -.035em; }
+      .seo-fallback--home > p:not(.seo-kicker) { max-width: 44rem; color: #d1d5db; font-size: clamp(1.1rem, 1.4vw, 1.28rem); }
+      .seo-fallback--home nav { gap: 1.25rem; }
+      .seo-fallback--home a { padding-bottom: .2rem; border-bottom: 1px solid rgba(255, 200, 87, .45); color: #ffc857; font-weight: 700; text-decoration: none; }
+      .seo-fallback--home a:focus-visible { outline: 2px solid #fff6d8; outline-offset: 4px; }
+      @media (max-width: 640px) { .seo-fallback--home { min-height: 100svh; padding-top: max(6rem, 14vh); } }
     </style>
   </head>
   <body>
     <div id="root">
-      <main class="seo-fallback" id="main-content">
-        <p>Based on Creativity</p>
+      <main class="seo-fallback seo-fallback--home" id="main-content">
+        <p class="seo-kicker">Based on Creativity</p>
         <h1>A studio for brands and stories in motion.</h1>
         <p>Based on Creativity is a Toronto creative studio for brand identity, digital experiences, animation, editorial work, and visual storytelling.</p>
         <nav aria-label="Explore Based on Creativity">

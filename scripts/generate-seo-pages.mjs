@@ -2,6 +2,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { rmSync } from 'node:fs';
+
 const projectRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const distRoot = join(projectRoot, 'dist');
 const siteUrl = 'https://www.bochq.com';
@@ -703,6 +705,137 @@ function fallbackMarkup(route) {
       }).join('\n')
     : '';
 
+  if (route.path === '/') {
+    return `
+      <div class="boc-first-paint-shell">
+        <header class="boc-first-paint-nav">
+          <div class="boc-first-paint-nav__inner">
+            <a href="/" class="boc-first-paint-nav__logo" aria-label="Based on Creativity home">
+              <img src="/boc-logo.png" alt="Based on Creativity Logo" width="40" height="40" />
+            </a>
+            <nav class="boc-first-paint-nav__desktop" aria-label="Primary navigation">
+              <a class="boc-first-paint-nav__link" href="/work">WORK</a>
+              <a class="boc-first-paint-nav__link" href="/services">SERVICES</a>
+              <details class="boc-first-paint-nav__explore">
+                <summary class="boc-first-paint-nav__link boc-first-paint-nav__summary">
+                  EXPLORE
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+                </summary>
+                <div class="boc-first-paint-nav__dropdown">
+                  <a href="/about">ABOUT</a>
+                  <a href="/studio">STUDIO</a>
+                  <a href="/vault">THE VAULT</a>
+                  <a href="/insights">INSIGHTS</a>
+                  <a href="/library">LIBRARY</a>
+                </div>
+              </details>
+              <a class="boc-first-paint-nav__link" href="/contact">CONTACT</a>
+            </nav>
+            <span class="boc-first-paint-nav__search" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7" /><path d="m20 20-4-4" /></svg>
+            </span>
+            <details class="boc-first-paint-nav__mobile">
+              <summary aria-label="Open menu">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+              </summary>
+              <nav class="boc-first-paint-nav__mobile-menu" aria-label="Primary navigation">
+                <a href="/work">Work</a>
+                <a href="/services">Services</a>
+                <details class="boc-first-paint-nav__mobile-explore">
+                  <summary>Explore</summary>
+                  <a href="/about">About</a>
+                  <a href="/studio">Studio</a>
+                  <a href="/vault">The Vault</a>
+                  <a href="/insights">Insights</a>
+                  <a href="/library">Library</a>
+                </details>
+                <a href="/contact">Contact</a>
+              </nav>
+            </details>
+          </div>
+        </header>
+        <main id="main-content">
+          <div class="boc-home-cinematic-stage">
+            <div class="boc-home-cinematic-stage__light" aria-hidden="true" style="transform:translateY(22vh);opacity:.82">
+              <div class="boc-home-cinematic-stage__light-drift"></div>
+            </div>
+            <div class="boc-home-cinematic-stage__content">
+              <section class="boc-creative-hero" aria-labelledby="home-hero-title">
+                <div class="boc-creative-hero__texture" aria-hidden="true"></div>
+                <i class="boc-creative-hero__star boc-creative-hero__star--one" aria-hidden="true"></i>
+                <i class="boc-creative-hero__star boc-creative-hero__star--two" aria-hidden="true"></i>
+                <i class="boc-creative-hero__star boc-creative-hero__star--three" aria-hidden="true"></i>
+                <i class="boc-creative-hero__star boc-creative-hero__star--four" aria-hidden="true"></i>
+                <div class="boc-creative-hero__inner">
+                  <div class="boc-creative-hero__copy">
+                    <div class="boc-creative-hero__badge">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-2-5.8L4 11l6-2.2L12 3Z" /><path d="M19 3v4M21 5h-4M4 17v4M6 19H2" /></svg>
+                      <span>Based on Creativity</span>
+                    </div>
+                    <h1 id="home-hero-title" class="boc-creative-hero__title">
+                      <span>Built in the quiet.</span>
+                      <span class="boc-creative-hero__title-accent">Born in the light.</span>
+                    </h1>
+                    <p class="boc-creative-hero__subtitle">A digital media company where imagination and intention belong together.</p>
+                    <div class="boc-creative-hero__actions">
+                      <a href="/about" class="boc-creative-hero__button boc-creative-hero__button--primary">
+                        <span>Discover Our World</span>
+                        <span class="boc-creative-hero__button-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg></span>
+                      </a>
+                      <a href="/contact" class="boc-creative-hero__button boc-creative-hero__button--secondary">Get in Touch</a>
+                    </div>
+                    <div class="boc-creative-hero__pillars" role="group" aria-label="Expression, reflection, and connection">
+                      <div class="boc-creative-hero__pillar">
+                        <svg class="boc-creative-hero__pillar-icon" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" /></svg>
+                        <span class="boc-creative-hero__pillar-label">Expression</span>
+                        <span class="boc-creative-hero__pillar-description">Stories brought to life</span>
+                      </div>
+                      <div class="boc-creative-hero__pillar">
+                        <svg class="boc-creative-hero__pillar-icon" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.9 13.1A8.5 8.5 0 0 1 10.9 3.1 8.5 8.5 0 1 0 20.9 13.1Z" /></svg>
+                        <span class="boc-creative-hero__pillar-label">Reflection</span>
+                        <span class="boc-creative-hero__pillar-description">Where ideas take shape</span>
+                      </div>
+                      <div class="boc-creative-hero__pillar">
+                        <svg class="boc-creative-hero__pillar-icon" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="m12 2.8 2.8 5.8 6.4.9-4.6 4.5 1.1 6.4-5.7-3-5.7 3 1.1-6.4-4.6-4.5 6.4-.9L12 2.8Z" /></svg>
+                        <span class="boc-creative-hero__pillar-label">Connection</span>
+                        <span class="boc-creative-hero__pillar-description">Bridging cultures through creativity</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="boc-creative-hero__orbit" aria-hidden="true">
+                    <div class="boc-creative-hero__orbit-square">
+                      <div class="boc-creative-hero__orbit-ring boc-creative-hero__orbit-ring--outer"></div>
+                      <div class="boc-creative-hero__orbit-ring boc-creative-hero__orbit-ring--middle"></div>
+                      <div class="boc-creative-hero__orbit-core">
+                        <svg width="78" height="78" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-2-5.8L4 11l6-2.2L12 3Z" /><path d="M19 3v4M21 5h-4M4 17v4M6 19H2" /></svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="#selected-work" class="boc-creative-hero__scroll" aria-label="Scroll to Selected Work"><span class="boc-creative-hero__scroll-track"><i></i></span></a>
+              </section>
+            </div>
+          </div>
+          <section class="seo-fallback seo-fallback--home-copy" id="selected-work">
+            <p class="seo-kicker">Based on Creativity</p>
+            <h2>${escapeHtml(route.heading)}</h2>
+            ${details}
+            ${markdown}
+            ${paragraphs}
+            ${sections}
+            <nav aria-label="Explore Based on Creativity">
+              <a href="/work">Work</a>
+              <a href="/services">Services</a>
+              <a href="/studio">Studio</a>
+              <a href="/stories">Stories</a>
+              <a href="/insights">Insights</a>
+              <a href="/contact">Contact</a>
+            </nav>
+          </section>
+        </main>
+      </div>`;
+  }
+
   return `
     <main class="seo-fallback" id="main-content">
       <p class="seo-kicker">Based on Creativity</p>
@@ -722,13 +855,17 @@ function fallbackMarkup(route) {
     </main>`;
 }
 
-function buildDocument(shell, route) {
+function buildDocument(shell, route, homepagePreloadLinks) {
   const url = absoluteUrl(route.path);
   const robots = route.robots ?? 'index, follow';
   const documentTitle = escapeHtml(route.title);
   const description = escapeHtml(route.description);
   const image = escapeHtml(route.image || defaultImage);
   const jsonLd = JSON.stringify(schemaFor(route)).replace(/</g, '\\u003c');
+  const homepageFallbackStyles = route.path === '/'
+    ? `.boc-first-paint-shell{min-height:100vh;color:#fff;background:#1a1f4b}.boc-first-paint-nav{position:fixed;z-index:50;top:0;right:0;left:0;background:#1a1f4b;border-bottom:2px solid #ffc857}.boc-first-paint-nav__inner{box-sizing:border-box;display:flex;min-height:60px;max-width:1380px;align-items:center;justify-content:space-between;gap:1rem;margin:0 auto;padding:8px 32px}.boc-first-paint-nav__logo{z-index:10;display:flex;flex-shrink:0;align-items:center;text-decoration:none}.boc-first-paint-nav__logo img{display:block;width:40px;height:40px;border-radius:50%}.boc-first-paint-nav__desktop{display:flex;flex:1;align-items:center;justify-content:flex-end;gap:2px}.boc-first-paint-nav__link,.boc-first-paint-nav__mobile-menu a,.boc-first-paint-nav__mobile-explore>summary{display:inline-flex;align-items:center;gap:4px;padding:10px 11px;border:0;color:#faf3e0;background:transparent;font-family:'Space Mono',monospace;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-decoration:none;white-space:nowrap}.boc-first-paint-nav__link:hover,.boc-first-paint-nav__mobile-menu a:hover,.boc-first-paint-nav__mobile-explore>summary:hover{color:#ffc857}.boc-first-paint-nav__explore{position:relative}.boc-first-paint-nav__summary,.boc-first-paint-nav__mobile summary{list-style:none;cursor:pointer}.boc-first-paint-nav__summary::-webkit-details-marker,.boc-first-paint-nav__mobile summary::-webkit-details-marker,.boc-first-paint-nav__mobile-explore>summary::-webkit-details-marker{display:none}.boc-first-paint-nav__dropdown{position:absolute;z-index:70;top:calc(100% + 10px);left:50%;width:132px;overflow:hidden;transform:translateX(-50%);border:1px solid rgba(255,200,87,.38);border-top:0;border-radius:0 0 8px 8px;background:#1a1f4b;box-shadow:0 14px 28px rgba(0,0,0,.28)}.boc-first-paint-nav__dropdown a{display:flex;min-height:42px;align-items:center;padding:10px 14px;border-bottom:1px solid rgba(255,200,87,.1);color:#faf3e0;font-family:'Space Mono',monospace;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-decoration:none;text-transform:uppercase}.boc-first-paint-nav__dropdown a:hover{color:#ffc857}.boc-first-paint-nav__search{display:flex;width:44px;height:44px;flex-shrink:0;align-items:center;justify-content:center;margin-left:8px;color:#ffc857}.boc-first-paint-nav__mobile{display:none}.seo-fallback--home-copy{box-sizing:border-box;max-width:none;margin:0;padding:4rem clamp(1.5rem,7.7vw,7.5rem) 7rem;border-top:1px solid rgba(255,200,87,.15);color:#f5f5f7;background:#1a1f4b}.seo-fallback--home-copy .seo-kicker{color:#ffc857}.seo-fallback--home-copy h2{color:#f5f5f7}.seo-fallback--home-copy p,.seo-fallback--home-copy li{color:#d1d5db}.seo-fallback--home-copy .seo-meta,.seo-fallback--home-copy dt{color:rgba(245,245,247,.62)}.seo-fallback--home-copy dd{color:#fff}.seo-fallback--home-copy nav{gap:1.25rem}.seo-fallback--home-copy a{padding-bottom:.2rem;border-bottom:1px solid rgba(255,200,87,.45);color:#ffc857;font-weight:700;text-decoration:none}.seo-fallback--home-copy a:focus-visible{outline:2px solid #fff6d8;outline-offset:4px}@media(max-width:767px){.boc-first-paint-nav__inner{gap:8px;padding-right:16px;padding-left:16px}.boc-first-paint-nav__desktop{display:none}.boc-first-paint-nav__search{margin-left:auto}.boc-first-paint-nav__mobile{position:relative;display:block;flex-shrink:0;color:#ffc857}.boc-first-paint-nav__mobile>summary{display:flex;width:44px;height:44px;align-items:center;justify-content:center;color:#ffc857}.boc-first-paint-nav__mobile-menu{position:absolute;top:calc(100% + 10px);right:0;z-index:70;display:flex;width:min(310px,calc(100vw - 24px));flex-direction:column;overflow:hidden;border:1px solid rgba(255,200,87,.25);border-radius:10px;background:#1a1f4b;box-shadow:0 18px 36px rgba(0,0,0,.35)}.boc-first-paint-nav__mobile-menu a,.boc-first-paint-nav__mobile-explore>summary{display:flex;min-height:54px;align-items:center;padding:14px 24px;border-bottom:1px solid rgba(255,200,87,.1);font-size:.9rem}.boc-first-paint-nav__mobile-explore>summary{cursor:pointer}.boc-first-paint-nav__mobile-explore>a{padding-left:40px;font-size:.8rem}.seo-fallback--home-copy{padding:3rem 1.25rem 5rem}}`
+    : '';
+  const routePreloadLinks = route.path === '/' ? homepagePreloadLinks : '';
   const assetLinks = [...shell.matchAll(/<link\b[^>]*>/gi)]
     .map((match) => match[0])
     .filter((tag) => !/rel=["']canonical["']/i.test(tag))
@@ -758,7 +895,8 @@ function buildDocument(shell, route) {
       <meta name="twitter:description" content="${description}" />
       <meta name="twitter:image" content="${image}" />
       <script type="application/ld+json">${jsonLd}</script>
-      <style>.seo-fallback{max-width:72rem;margin:0 auto;padding:7rem 1.5rem;font-family:system-ui,sans-serif;color:#111;background:#fff}.seo-fallback .seo-kicker{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.seo-fallback h1{max-width:18ch;font-size:clamp(2.25rem,6vw,4.8rem);line-height:1.04}.seo-fallback h2{margin-top:2.5rem;font-size:1.8rem}.seo-fallback h3{font-size:1.2rem}.seo-fallback p,.seo-fallback li{max-width:48rem;font-size:1.05rem;line-height:1.6}.seo-fallback .seo-meta,.seo-fallback dt{font-size:.85rem;color:#555}.seo-fallback .seo-details{display:flex;flex-wrap:wrap;gap:1rem 2rem}.seo-fallback .seo-details div{min-width:8rem}.seo-fallback dd{margin:0;font-weight:700}.seo-fallback ul{padding-left:1.25rem}.seo-fallback .seo-items>li{margin:1rem 0}.seo-fallback nav{display:flex;flex-wrap:wrap;gap:1rem;margin-top:2rem}.seo-fallback a{color:#1A1F4B;font-weight:700}</style>
+      <style>.seo-fallback{max-width:72rem;margin:0 auto;padding:7rem 1.5rem;font-family:system-ui,sans-serif;color:#111;background:#fff}.seo-fallback .seo-kicker{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.seo-fallback h1{max-width:18ch;font-size:clamp(2.25rem,6vw,4.8rem);line-height:1.04}.seo-fallback h2{margin-top:2.5rem;font-size:1.8rem}.seo-fallback h3{font-size:1.2rem}.seo-fallback p,.seo-fallback li{max-width:48rem;font-size:1.05rem;line-height:1.6}.seo-fallback .seo-meta,.seo-fallback dt{font-size:.85rem;color:#555}.seo-fallback .seo-details{display:flex;flex-wrap:wrap;gap:1rem 2rem}.seo-fallback .seo-details div{min-width:8rem}.seo-fallback dd{margin:0;font-weight:700}.seo-fallback ul{padding-left:1.25rem}.seo-fallback .seo-items>li{margin:1rem 0}.seo-fallback nav{display:flex;flex-wrap:wrap;gap:1rem;margin-top:2rem}.seo-fallback a{color:#1A1F4B;font-weight:700}${homepageFallbackStyles}</style>
+      ${routePreloadLinks}
       ${assetLinks}
       ${assetScripts}
     </head>`;
@@ -778,11 +916,27 @@ if (!existsSync(join(distRoot, 'index.html'))) {
 }
 
 const shell = readFileSync(join(distRoot, 'index.html'), 'utf8');
+const manifestPath = join(distRoot, '.vite', 'manifest.json');
+if (!existsSync(manifestPath)) {
+  throw new Error('Expected the Vite build manifest at dist/.vite/manifest.json.');
+}
+const viteManifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+const homepageEntry = viteManifest['src/app/components/HomePage.tsx'];
+if (!homepageEntry?.file) {
+  throw new Error('Could not find the homepage entry in the Vite build manifest.');
+}
+const homepagePreloadLinks = [
+  ...(homepageEntry.css ?? []).map((asset) => `<link rel="stylesheet" crossorigin href="/${asset}" />`),
+  `<link rel="modulepreload" crossorigin href="/${homepageEntry.file}" />`,
+].join('\n      ');
+
 for (const route of routes) {
-  const document = buildDocument(shell, route);
+  const document = buildDocument(shell, route, homepagePreloadLinks);
   const output = route.path === '/' ? join(distRoot, 'index.html') : join(distRoot, 'seo', `${outputName(route.path)}.html`);
   write(output, document);
 }
+
+rmSync(join(distRoot, '.vite'), { recursive: true, force: true });
 
 const indexableRoutes = routes.filter((route) => !route.robots?.includes('noindex'));
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${indexableRoutes
