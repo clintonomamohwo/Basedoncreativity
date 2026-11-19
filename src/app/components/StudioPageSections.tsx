@@ -1,5 +1,5 @@
 import type React from 'react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight, ArrowUpRight, Play } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { useNavigate } from 'react-router';
@@ -118,12 +118,14 @@ export function Eyebrow({ children, muted = false }: { children: React.ReactNode
 }
 
 export function SectionLabel({ children }: { children: React.ReactNode }) {
+  const reduceMotion = useReducedMotion();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.65 }}
+      transition={reduceMotion ? { duration: 0 } : { duration: 0.65 }}
       style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '16px' }}
     >
       <Eyebrow muted>{children}</Eyebrow>
@@ -208,12 +210,14 @@ export function AbstractFrame({ accent = GOLD, style = {} }: { accent?: string; 
 // ─── Creation Card ────────────────────────────────────────────────────────────
 
 export function CreationCard({ card, delay }: { card: CreationCard; delay: number }) {
+  const reduceMotion = useReducedMotion();
+
   return (
     <motion.article
-      initial={{ opacity: 0, y: 32 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={reduceMotion ? { duration: 0 } : { duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] }}
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -221,7 +225,7 @@ export function CreationCard({ card, delay }: { card: CreationCard; delay: numbe
         borderRadius: '16px',
         overflow: 'hidden',
         background: GOLD_06,
-        transition: 'border-color 0.35s ease, box-shadow 0.35s ease',
+        transition: reduceMotion ? 'none' : 'border-color 0.35s ease, box-shadow 0.35s ease',
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget as HTMLElement;
@@ -346,6 +350,8 @@ export function CreationCard({ card, delay }: { card: CreationCard; delay: numbe
 // ─── Pipeline Section ─────────────────────────────────────────────────────────
 
 export function PipelineSection() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section
       style={{
@@ -381,10 +387,10 @@ export function PipelineSection() {
           }}
         >
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.7 }}
           >
             <SectionLabel>Studio Pipeline</SectionLabel>
             <h2
@@ -414,10 +420,10 @@ export function PipelineSection() {
           </motion.div>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.1 }}
             style={{
               fontFamily: "FONTS.body",
               fontSize: 'clamp(0.9375rem, 2vw, 1.0625rem)',
@@ -435,10 +441,10 @@ export function PipelineSection() {
           {PIPELINE_STAGES.map((stage, i) => (
             <motion.div
               key={stage.number}
-              initial={{ opacity: 0, x: -24 }}
+              initial={reduceMotion ? false : { opacity: 0, x: -24 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.65, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.65, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'auto 1fr auto',
@@ -455,7 +461,7 @@ export function PipelineSection() {
                 backdropFilter: 'blur(8px)',
                 transition: 'background 0.3s ease',
               }}
-              whileHover={{ background: 'rgba(212,168,83,0.04)' }}
+              whileHover={reduceMotion ? undefined : { background: 'rgba(212,168,83,0.04)' }}
             >
               {/* Number column */}
               <div
@@ -583,6 +589,8 @@ export function PipelineSection() {
 // ─── In Development Band ──────────────────────────────────────────────────────
 
 export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof useNavigate> }) {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section
       style={{
@@ -664,10 +672,10 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
       >
         {/* Left - content */}
         <motion.div
-          initial={{ opacity: 0, x: -24 }}
+          initial={reduceMotion ? false : { opacity: 0, x: -24 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
         >
           {/* Status pill */}
@@ -695,7 +703,7 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
                   height: '6px',
                   borderRadius: '50%',
                   background: GOLD,
-                  animation: 'pulse 2s ease infinite',
+                  animation: reduceMotion ? 'none' : 'pulse 2s ease infinite',
                 }}
               />
               Currently In Development
@@ -800,10 +808,10 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
 
         {/* Right - decorative card */}
         <motion.div
-          initial={{ opacity: 0, x: 24 }}
+          initial={reduceMotion ? false : { opacity: 0, x: 24 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           style={{
             display: 'grid',
             gridTemplateRows: '1fr 1fr',
@@ -917,6 +925,8 @@ export function InDevelopmentBand({ navigate }: { navigate: ReturnType<typeof us
 // ─── Bottom CTA ───────────────────────────────────────────────────────────────
 
 export function BottomCTA({ navigate }: { navigate: ReturnType<typeof useNavigate> }) {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section
       style={{
@@ -941,10 +951,10 @@ export function BottomCTA({ navigate }: { navigate: ReturnType<typeof useNavigat
       />
 
       <motion.div
-        initial={{ opacity: 0, y: 28 }}
+        initial={reduceMotion ? false : { opacity: 0, y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        transition={reduceMotion ? { duration: 0 } : { duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         style={{
           maxWidth: '680px',
           margin: '0 auto',
@@ -1093,4 +1103,3 @@ export function BottomCTA({ navigate }: { navigate: ReturnType<typeof useNavigat
 }
 
 // ─── Root ─────────────────────────────────────────────────────────────────────
-

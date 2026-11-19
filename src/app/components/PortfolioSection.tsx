@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router';
 import { COLORS, FONTS } from '../../lib/constants';
@@ -13,6 +13,19 @@ const orderedProjects = orderPortfolioProjects(FALLBACK_PROJECTS);
 const featuredProject = orderedProjects.find((project) => project.id === 'modern-cosmos');
 const supportingProjects = orderedProjects.filter((project) => project.id !== 'modern-cosmos');
 
+function imageRevealProps(reduceMotion: boolean, delay = 0) {
+  return {
+    initial: reduceMotion ? false : { clipPath: 'inset(0 0 100% 0)', y: 14 },
+    whileInView: { clipPath: 'inset(0 0 0% 0)', y: 0 },
+    viewport: { once: true, margin: '-36px' },
+    transition: {
+      duration: reduceMotion ? 0 : 0.92,
+      delay: reduceMotion ? 0 : delay,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  };
+}
+
 function statusLabel(project: PortfolioProject) {
   return project.status === 'Concept'
     ? 'Concept project'
@@ -21,7 +34,7 @@ function statusLabel(project: PortfolioProject) {
       : project.status;
 }
 
-function ProjectCard({ project, index }: { project: PortfolioProject; index: number }) {
+function ProjectCard({ project, index, reduceMotion }: { project: PortfolioProject; index: number; reduceMotion: boolean }) {
   return (
     <Link
       to={`/work/${encodeURIComponent(project.id)}`}
@@ -29,11 +42,11 @@ function ProjectCard({ project, index }: { project: PortfolioProject; index: num
       className="group block rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-300"
     >
       <motion.article
-        initial={{ opacity: 0, y: 28 }}
+        initial={reduceMotion ? false : { opacity: 0, y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-48px' }}
-        transition={{ duration: 0.65, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-        whileHover={{ y: -5 }}
+        transition={{ duration: reduceMotion ? 0 : 0.65, delay: reduceMotion ? 0 : index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+        whileHover={reduceMotion ? undefined : { y: -5 }}
         className="h-full overflow-hidden rounded-2xl"
         style={{
           background: 'rgba(255,255,255,0.035)',
@@ -50,12 +63,14 @@ function ProjectCard({ project, index }: { project: PortfolioProject; index: num
           }}
         >
           {project.image ? (
-            <img
-              src={project.image}
-              alt={project.imageAlt || ''}
-              className="absolute inset-0 h-full w-full object-cover"
-              loading="lazy"
-            />
+            <motion.div className="absolute inset-0" {...imageRevealProps(reduceMotion, index * 0.06)}>
+              <img
+                src={project.image}
+                alt={project.imageAlt || ''}
+                className="absolute inset-0 h-full w-full object-cover"
+                loading="lazy"
+              />
+            </motion.div>
           ) : (
             <div className="max-w-sm text-center">
               <p
@@ -119,21 +134,23 @@ function ProjectCard({ project, index }: { project: PortfolioProject; index: num
 }
 
 export function PortfolioSection() {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <section id="selected-work" className="px-4 py-16 md:px-6 md:py-28" style={{ background: '#1A1F4B', scrollMarginTop: '78px' }}>
+    <section id="selected-work" className="px-4 py-16 md:px-6 md:py-28" style={{ scrollMarginTop: '78px' }}>
       <div className="mx-auto max-w-[1200px]">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: reduceMotion ? 0 : 0.62 }}
           className="mb-10 text-center md:mb-14"
         >
           <p
             className="mb-4 text-xs font-semibold uppercase tracking-[0.24em]"
             style={{ color: 'rgba(255,200,87,0.65)', fontFamily: FONTS.body }}
           >
-            From the Studio Wall to Selected Work
+            Client work &amp; original concepts
           </p>
           <h2
             className="mb-5 text-3xl font-bold md:text-6xl"
@@ -145,7 +162,7 @@ export function PortfolioSection() {
             className="mx-auto max-w-2xl text-base leading-relaxed md:text-lg"
             style={{ color: 'rgba(255,255,255,0.68)', fontFamily: FONTS.body }}
           >
-            Pick up where the Studio Wall leaves off: Modern Cosmos leads with a completed client website redesign across desktop and mobile, followed by BOC-owned projects and concepts.
+            Modern Cosmos leads with a completed client website redesign across desktop and mobile, followed by BOC-owned projects and concepts.
           </p>
         </motion.div>
 
@@ -158,13 +175,15 @@ export function PortfolioSection() {
             style={{ scrollMarginTop: '78px' }}
           >
             <div className="boc-featured-case__image-wrap">
-              <img
-                src="/case-studies/modern-cosmos-homepage-comparison.webp"
-                alt="Modern Cosmos homepage redesign shown across desktop and mobile beside the previous design."
-                className="boc-featured-case__image"
-                loading="lazy"
-                decoding="async"
-              />
+              <motion.div className="boc-featured-case__image-reveal" {...imageRevealProps(Boolean(reduceMotion))}>
+                <img
+                  src="/case-studies/modern-cosmos-homepage-comparison.webp"
+                  alt="Modern Cosmos homepage redesign shown across desktop and mobile beside the previous design."
+                  className="boc-featured-case__image"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </motion.div>
               <span className="boc-featured-case__image-label">Desktop + mobile</span>
             </div>
             <div className="boc-featured-case__copy">
@@ -182,8 +201,8 @@ export function PortfolioSection() {
         )}
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-7">
-          {supportingProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+          {supportingProjects.slice(0, 2).map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} reduceMotion={Boolean(reduceMotion)} />
           ))}
         </div>
 

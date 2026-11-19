@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import { SEO } from './SEO';
@@ -348,6 +348,81 @@ function CelestialDots({ side = 'right' }: { side?: 'left' | 'right' }) {
   );
 }
 
+function DisciplineMark({ index }: { index: number }) {
+  const shouldReduceMotion = useReducedMotion() ?? false;
+  if (index !== 3 && index !== 4) return null;
+
+  const initialPathLength = shouldReduceMotion ? 1 : 0;
+  const initialOpacity = shouldReduceMotion ? 0.75 : 0;
+
+  return (
+    <motion.svg
+      aria-hidden="true"
+      focusable="false"
+      viewBox="0 0 48 48"
+      width="40"
+      height="40"
+      initial={shouldReduceMotion ? false : { opacity: 0.65 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: '-24px' }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.45, ease: 'easeOut' }}
+      style={{ flexShrink: 0, marginLeft: 'auto', color: GOLD }}
+    >
+      {index === 3 ? (
+        <>
+          <motion.path
+            d="M24 5 27.6 20.4 43 24 27.6 27.6 24 43 20.4 27.6 5 24 20.4 20.4Z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.2"
+            strokeLinejoin="round"
+            initial={{ pathLength: initialPathLength, opacity: initialOpacity }}
+            whileInView={{ pathLength: 1, opacity: 0.8 }}
+            viewport={{ once: true }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.8, ease: 'easeInOut' }}
+          />
+          <motion.path
+            d="M37 5v7m-3.5-3.5h7M10 34v6m-3-3h6"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1"
+            strokeLinecap="round"
+            initial={{ pathLength: initialPathLength, opacity: initialOpacity }}
+            whileInView={{ pathLength: 1, opacity: 0.55 }}
+            viewport={{ once: true }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.55, delay: shouldReduceMotion ? 0 : 0.12, ease: 'easeOut' }}
+          />
+        </>
+      ) : (
+        <>
+          <motion.path
+            d="M8 10h32v28H8z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.2"
+            strokeLinejoin="round"
+            initial={{ pathLength: initialPathLength, opacity: initialOpacity }}
+            whileInView={{ pathLength: 1, opacity: 0.8 }}
+            viewport={{ once: true }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.75, ease: 'easeInOut' }}
+          />
+          <motion.path
+            d="M13 16h22M13 22h15M13 29h21M13 34h13"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1"
+            strokeLinecap="round"
+            initial={{ pathLength: initialPathLength, opacity: initialOpacity }}
+            whileInView={{ pathLength: 1, opacity: 0.55 }}
+            viewport={{ once: true }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.7, delay: shouldReduceMotion ? 0 : 0.16, ease: 'easeOut' }}
+          />
+        </>
+      )}
+    </motion.svg>
+  );
+}
+
 // ─── Service Card ─────────────────────────────────────────────────────────────
 
 function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
@@ -395,6 +470,7 @@ function ServiceCard({ svc, index }: { svc: ServiceDef; index: number }) {
               {svc.number}
             </span>
             <Eyebrow>{svc.eyebrow}</Eyebrow>
+            <DisciplineMark index={index} />
           </div>
           <h2
             style={{

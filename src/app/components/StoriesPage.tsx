@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { MotionConfig, motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { BookOpen, ArrowRight } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import {
@@ -98,6 +98,7 @@ function GrainOverlay() {
 }
 
 function StarField({ count = 60 }: { count?: number }) {
+  const reducedMotion = useReducedMotion();
   const stars = Array.from({ length: count }, (_, i) => ({
     id: i,
     left: `${(i * 17.3 + 5) % 100}%`,
@@ -119,11 +120,11 @@ function StarField({ count = 60 }: { count?: number }) {
             width: `${star.size}px`,
             height: `${star.size}px`,
           }}
-          animate={{
+          animate={reducedMotion ? { opacity: 0.18 } : {
             opacity: [0.06, 0.45, 0.06],
             scale: [1, 1.15, 1],
           }}
-          transition={{
+          transition={reducedMotion ? { duration: 0 } : {
             duration: star.duration,
             delay: star.delay,
             repeat: Infinity,
@@ -144,6 +145,8 @@ interface BookCardProps {
 
 function BookCard({ book, index }: BookCardProps) {
   const [hovered, setHovered] = useState(false);
+  const reducedMotion = useReducedMotion();
+  const isHovered = hovered && !reducedMotion;
 
   return (
     <Link
@@ -152,11 +155,11 @@ function BookCard({ book, index }: BookCardProps) {
       className="block rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-300"
     >
     <motion.div
-      initial={{ opacity: 0, y: 40, rotateX: 10 }}
-      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+      initial={reducedMotion ? false : { opacity: 0, y: 12 }}
+      whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{
-        duration: 0.8,
+        duration: 0.55,
         delay: index * 0.1,
         ease: [0.22, 1, 0.36, 1],
       }}
@@ -166,8 +169,8 @@ function BookCard({ book, index }: BookCardProps) {
     >
       <motion.div
         animate={{
-          y: hovered ? -12 : 0,
-          rotateY: hovered ? 2 : 0,
+          y: isHovered ? -6 : 0,
+          rotateY: isHovered ? 1 : 0,
         }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         style={{ transformStyle: "preserve-3d" }}
@@ -223,7 +226,7 @@ function BookCard({ book, index }: BookCardProps) {
               flexDirection: "column",
               justifyContent: "space-between",
               overflow: "hidden",
-              boxShadow: hovered
+              boxShadow: isHovered
                 ? `0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1), 0 0 30px ${book.accentColor}25`
                 : `0 8px 24px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05)`,
               transition: "box-shadow 0.4s ease",
@@ -231,7 +234,7 @@ function BookCard({ book, index }: BookCardProps) {
           >
             {/* Hover glow */}
             <motion.div
-              animate={{ opacity: hovered ? 1 : 0 }}
+              animate={{ opacity: isHovered ? 1 : 0 }}
               transition={{ duration: 0.3 }}
               style={{
                 position: "absolute",
@@ -247,7 +250,7 @@ function BookCard({ book, index }: BookCardProps) {
             {/* Title */}
             <div style={{ position: "relative", zIndex: 1 }}>
               <motion.div
-                animate={{ y: hovered ? -2 : 0 }}
+                animate={{ y: isHovered ? -1 : 0 }}
                 transition={{ duration: 0.3 }}
               >
                 <h3
@@ -258,7 +261,7 @@ function BookCard({ book, index }: BookCardProps) {
                     color: "#ffffff",
                     lineHeight: 1.2,
                     marginBottom: "10px",
-                    textShadow: hovered
+                    textShadow: isHovered
                       ? `0 0 20px ${book.accentColor}50`
                       : "none",
                     transition: "text-shadow 0.3s ease",
@@ -291,8 +294,8 @@ function BookCard({ book, index }: BookCardProps) {
             >
               <motion.div
                 animate={{
-                  scale: hovered ? 1.1 : 1,
-                  rotate: hovered ? 5 : 0,
+                  scale: isHovered ? 1.05 : 1,
+                  rotate: isHovered ? 2 : 0,
                 }}
                 transition={{ duration: 0.3 }}
               >
@@ -324,13 +327,15 @@ function PillarCard({
   pillar: (typeof PRESS_PILLARS)[0];
   delay: number;
 }) {
+  const reducedMotion = useReducedMotion();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={reducedMotion ? false : { opacity: 0, y: 10 }}
+      whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{
-        duration: 0.7,
+        duration: 0.55,
         delay,
         ease: [0.22, 1, 0.36, 1],
       }}
@@ -391,6 +396,7 @@ function PillarCard({
 export function StoriesPage() {
   const [cmsBooks, setCmsBooks] = useState<LibraryBook[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const reducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const { scrollYProgress } = useScroll();
@@ -450,6 +456,7 @@ export function StoriesPage() {
         description="Browse the Based on Creativity stories collection, featuring original short fiction, poetic narratives, and immersive visual storytelling."
         path="/stories"
       />
+      <MotionConfig reducedMotion="user">
       <div
         ref={containerRef}
         className="relative overflow-hidden"
@@ -481,7 +488,7 @@ export function StoriesPage() {
         {/* Floating orbs */}
         <motion.div
           style={{
-            y: orb1Y,
+            y: reducedMotion ? 0 : orb1Y,
             position: "absolute",
             top: "18%",
             right: "-160px",
@@ -494,8 +501,8 @@ export function StoriesPage() {
             pointerEvents: "none",
             zIndex: 1,
           }}
-          animate={{ opacity: [0.08, 0.18, 0.08] }}
-          transition={{
+          animate={reducedMotion ? { opacity: 0.12 } : { opacity: [0.08, 0.18, 0.08] }}
+          transition={reducedMotion ? { duration: 0 } : {
             duration: 8,
             repeat: Infinity,
             ease: "easeInOut",
@@ -503,7 +510,7 @@ export function StoriesPage() {
         />
         <motion.div
           style={{
-            y: orb2Y,
+            y: reducedMotion ? 0 : orb2Y,
             position: "absolute",
             bottom: "8%",
             left: "-130px",
@@ -516,8 +523,8 @@ export function StoriesPage() {
             pointerEvents: "none",
             zIndex: 1,
           }}
-          animate={{ opacity: [0.07, 0.14, 0.07] }}
-          transition={{
+          animate={reducedMotion ? { opacity: 0.1 } : { opacity: [0.07, 0.14, 0.07] }}
+          transition={reducedMotion ? { duration: 0 } : {
             duration: 10,
             repeat: Infinity,
             ease: "easeInOut",
@@ -1124,6 +1131,7 @@ export function StoriesPage() {
           </section>
         </div>
       </div>
+      </MotionConfig>
     </>
   );
 }

@@ -10,12 +10,6 @@
   transition: transform 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
 }
 
-.boc-featured-case:hover {
-  transform: translateY(-3px);
-  border-color: rgba(255, 200, 87, 0.52);
-  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.28), 0 0 30px rgba(255, 200, 87, 0.08);
-}
-
 .boc-featured-case:focus-visible {
   outline: 3px solid #fff6d8;
   outline-offset: 4px;
@@ -28,6 +22,11 @@
   background: #f4f1f7;
 }
 
+.boc-featured-case__image-reveal {
+  position: absolute;
+  inset: 0;
+}
+
 .boc-featured-case__image {
   display: block;
   width: 100%;
@@ -36,10 +35,6 @@
   object-fit: cover;
   object-position: center;
   transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.boc-featured-case:hover .boc-featured-case__image {
-  transform: scale(1.025);
 }
 
 .boc-featured-case__image-label {
@@ -116,8 +111,38 @@
   transition: gap 180ms ease;
 }
 
-.boc-featured-case:hover .boc-featured-case__link {
-  gap: 14px;
+.boc-work-card {
+  transition: border-color 260ms ease, box-shadow 260ms ease;
+}
+
+.boc-work-card__image {
+  transform: scale(1.02);
+  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .boc-featured-case:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 200, 87, 0.52);
+    box-shadow: 0 24px 54px rgba(0, 0, 0, 0.28), 0 0 30px rgba(255, 200, 87, 0.08);
+  }
+
+  .boc-featured-case:hover .boc-featured-case__image {
+    transform: scale(1.025);
+  }
+
+  .boc-featured-case:hover .boc-featured-case__link {
+    gap: 14px;
+  }
+
+  .boc-work-card:hover {
+    border-color: rgba(255, 200, 87, 0.45) !important;
+    box-shadow: 0 0 44px rgba(255, 200, 87, 0.12), 0 26px 54px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .boc-work-card:hover .boc-work-card__image {
+    transform: scale(1.055);
+  }
 }
 
 @media (max-width: 840px) {
@@ -147,7 +172,14 @@
 @media (prefers-reduced-motion: reduce) {
   .boc-featured-case,
   .boc-featured-case__image,
-  .boc-featured-case__link {
+  .boc-featured-case__link,
+  .boc-work-card,
+  .boc-work-card__image {
     transition-duration: 0.01ms !important;
+  }
+
+  .boc-featured-case:hover,
+  .boc-work-card:hover {
+    transform: none !important;
   }
 }

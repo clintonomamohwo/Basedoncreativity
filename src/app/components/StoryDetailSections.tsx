@@ -1,5 +1,6 @@
 import { CloudinaryImage } from './CloudinaryImage';
 import { GRAIN_SVG_PATTERN } from '../../lib/constants';
+import { motion, useReducedMotion } from 'motion/react';
 
 interface StorySection {
   type: 'text' | 'image';
@@ -147,6 +148,33 @@ export function GrainOverlay() {
       className="absolute inset-0 pointer-events-none opacity-[0.02] mix-blend-overlay"
       style={{
         backgroundImage: GRAIN_SVG_PATTERN,
+      }}
+    />
+  );
+}
+
+export function PageTurnHighlight({ flipDir }: { flipDir: 'next' | 'prev' }) {
+  const reducedMotion = useReducedMotion();
+
+  if (reducedMotion) return null;
+
+  return (
+    <motion.div
+      aria-hidden="true"
+      initial={{ opacity: 0, backgroundPosition: flipDir === 'next' ? '110% 0' : '-10% 0' }}
+      animate={{
+        opacity: [0, 0.72, 0],
+        backgroundPosition: flipDir === 'next' ? '-10% 0' : '110% 0',
+      }}
+      transition={{ duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
+      style={{
+        position: 'absolute',
+        inset: 0,
+        zIndex: 2,
+        pointerEvents: 'none',
+        backgroundImage: 'linear-gradient(105deg, transparent 42%, rgba(255,200,87,0.12) 47%, rgba(255,231,169,0.72) 50%, rgba(255,200,87,0.2) 53%, transparent 59%)',
+        backgroundSize: '260% 100%',
+        mixBlendMode: 'screen',
       }}
     />
   );

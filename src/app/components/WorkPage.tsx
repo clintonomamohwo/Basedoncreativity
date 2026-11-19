@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import { fetchPortfolioCardProjects } from '../../lib/sanityContent';
@@ -13,6 +13,7 @@ import {
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { SEO } from './SEO';
 import { COLORS, FONTS, GRAIN_SVG_PATTERN } from '../../lib/constants';
+import './SelectedWorkFeature.css';
 
 // ─── Status Badge ─────────────────────────────────────────────────────────────
 
@@ -45,6 +46,7 @@ function StatusBadge({ status }: { status: ProjectStatus }) {
 // ─── Project Card ─────────────────────────────────────────────────────────────
 
 function ProjectCard({ project, delay }: { project: PortfolioProject; delay: number }) {
+  const reduceMotion = useReducedMotion();
   return (
     <Link
       to={`/work/${encodeURIComponent(project.id)}`}
@@ -52,41 +54,37 @@ function ProjectCard({ project, delay }: { project: PortfolioProject; delay: num
       className="block h-full rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-300"
     >
     <motion.article
-      initial={{ opacity: 0, y: 32 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -8 }}
-      className="group relative flex h-full flex-col rounded-2xl overflow-hidden"
+      transition={{ duration: reduceMotion ? 0 : 0.62, delay: reduceMotion ? 0 : delay, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={reduceMotion ? undefined : { y: -4 }}
+      className="boc-work-card group relative flex h-full flex-col rounded-2xl overflow-hidden"
       style={{
         background: 'rgba(255,255,255,0.03)',
         border: '1px solid rgba(255,200,87,0.12)',
         backdropFilter: 'blur(12px)',
         boxShadow: '0 4px 16px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,200,87,0.05)',
-        transition: 'border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease',
-      }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget as HTMLElement;
-        el.style.borderColor = 'rgba(255,200,87,0.45)';
-        el.style.boxShadow = '0 0 64px rgba(255,200,87,0.15), 0 32px 72px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,200,87,0.3)';
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget as HTMLElement;
-        el.style.borderColor = 'rgba(255,200,87,0.12)';
-        el.style.boxShadow = '0 4px 16px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,200,87,0.05)';
       }}
     >
       {/* Image */}
       <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/9', background: 'radial-gradient(ellipse at 72% 30%, rgba(255,200,87,0.16), transparent 52%), linear-gradient(145deg, #222956, #101630)' }}>
         {project.image ? (
-          <ImageWithFallback
-            src={project.image}
-            alt={project.imageAlt || ''}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-            style={{ transform: 'scale(1.02)' }}
-          />
+          <motion.div
+            className="absolute inset-0"
+            initial={reduceMotion ? false : { opacity: 0, scale: 1.015 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: '-28px' }}
+            transition={{ duration: reduceMotion ? 0 : 0.72, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <ImageWithFallback
+              src={project.image}
+              alt={project.imageAlt || ''}
+              loading="lazy"
+              decoding="async"
+              className="boc-work-card__image h-full w-full object-cover"
+            />
+          </motion.div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center p-8 text-center">
             <div>
@@ -232,11 +230,12 @@ function ProjectCard({ project, delay }: { project: PortfolioProject; delay: num
 const META_ITEMS = ['Identity', 'Web', 'Animation', 'Publishing'];
 
 function MetaStrip() {
+  const reduceMotion = useReducedMotion();
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.5 }}
+      transition={{ duration: reduceMotion ? 0 : 0.65, delay: reduceMotion ? 0 : 0.35 }}
       className="flex items-center gap-0 mt-10"
     >
       {META_ITEMS.map((item, i) => (
@@ -271,6 +270,7 @@ function MetaStrip() {
 
 function CTASection() {
   const navigate = useNavigate();
+  const reduceMotion = useReducedMotion();
   return (
     <section className="px-4 md:px-12 lg:px-20 pb-28 md:pb-36 pt-4">
       <div className="max-w-5xl mx-auto">
@@ -284,10 +284,10 @@ function CTASection() {
         />
 
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: reduceMotion ? 0 : 0.65 }}
           className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 md:gap-16 items-end"
         >
           {/* Left copy */}
@@ -404,6 +404,7 @@ function CTASection() {
 
 export function WorkPage() {
   const [cmsProjects, setCmsProjects] = useState<PortfolioProject[]>([]);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     let cancelled = false;
@@ -459,7 +460,7 @@ export function WorkPage() {
       <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         <motion.div
           className="absolute inset-0"
-          animate={{
+          animate={reduceMotion ? undefined : {
             opacity: [0.07, 0.12, 0.07],
           }}
           transition={{
@@ -489,10 +490,10 @@ export function WorkPage() {
         <section className="boc-page-hero-content pt-32 pb-14 md:pt-36 md:pb-16 relative">
           {/* Decorative icon */}
           <motion.div
-            animate={{
-              y: [-10, 10, -10],
-              opacity: [0.4, 0.7, 0.4],
-            }}
+          animate={reduceMotion ? undefined : {
+            y: [-10, 10, -10],
+            opacity: [0.4, 0.7, 0.4],
+          }}
             transition={{
               duration: 6,
               repeat: Infinity,
@@ -513,9 +514,9 @@ export function WorkPage() {
             }}
           />
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: reduceMotion ? 0 : 0.6 }}
           >
             <p
               className="mb-4"
@@ -534,9 +535,9 @@ export function WorkPage() {
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 24 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.1 }}
+            transition={{ duration: reduceMotion ? 0 : 0.68, delay: reduceMotion ? 0 : 0.08 }}
             className="mb-7 leading-none"
             style={{
               fontFamily: FONTS.heading,
@@ -552,9 +553,9 @@ export function WorkPage() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.25 }}
+            transition={{ duration: reduceMotion ? 0 : 0.68, delay: reduceMotion ? 0 : 0.18 }}
             className="max-w-xl leading-relaxed"
             style={{
               fontFamily: FONTS.body,
@@ -593,10 +594,10 @@ export function WorkPage() {
 
           {/* Italicised note beneath grid */}
           <motion.p
-            initial={{ opacity: 0 }}
+            initial={reduceMotion ? false : { opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: reduceMotion ? 0 : 0.65, delay: reduceMotion ? 0 : 0.2 }}
             className="text-center mt-12 italic"
             style={{
               fontFamily: "'Cormorant Garamond', serif",

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, MotionConfig, useReducedMotion } from 'motion/react';
 import { SEO } from './SEO';
 import { ChronicleSectionBlock, FilterSidebar, GlitchCard, HeritagePattern, ModeToggle, MoonSvg, RippleCard, SunSvg } from './LibraryPageSections';
 
@@ -207,14 +207,25 @@ const CSS_ANIMATIONS = `
   .ripple-card:hover .ripple-r1 { animation: ripple-expand 1.8s ease-out infinite; }
   .ripple-card:hover .ripple-r2 { animation: ripple-expand 1.8s ease-out 0.6s infinite; }
   .ripple-card:hover .ripple-r3 { animation: ripple-expand 1.8s ease-out 1.2s infinite; }
-  .chronicle-node-on { animation: chronicle-pulse 2s ease-in-out infinite; }
+  .chronicle-node-on { animation: chronicle-pulse 1.5s ease-out 1; }
   .grain-overlay { animation: grain-drift 8s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) {
+    .library-page *,
+    .library-page *::before,
+    .library-page *::after {
+      scroll-behavior: auto !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 `;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Main Library Page
 // ─────────────────────────────────────────────────────────────────────────────
 export function LibraryPage() {
+  const prefersReducedMotion = useReducedMotion() ?? false;
   const [mode, setMode]             = useState<LibraryMode>('reflection');
   const [medium, setMedium]         = useState<MediumFilter>('all');
   const [status, setStatus]         = useState<StatusFilter>('all');
@@ -277,8 +288,9 @@ export function LibraryPage() {
       {/* Inject animations once */}
       <style dangerouslySetInnerHTML={{ __html: CSS_ANIMATIONS }} />
 
+      <MotionConfig reducedMotion="user">
       <div
-        className="relative w-full"
+        className="library-page relative w-full"
         style={{
           minHeight: '100vh',
           background: pageBg,
@@ -317,7 +329,7 @@ export function LibraryPage() {
                     key={i}
                     style={{ height: 1.5, background: accentColor, borderRadius: 2 }}
                     animate={{ width: i === 1 ? (sidebarOpen ? 14 : 20) : 20 }}
-                    transition={{ duration: 0.25 }}
+                    transition={{ duration: prefersReducedMotion ? 0 : 0.25 }}
                   />
                 ))}
               </motion.button>
@@ -339,7 +351,7 @@ export function LibraryPage() {
                   key={sec}
                   onClick={() => {
                     const el = document.getElementById(`section-${sec.replace(/\s/g, '-').toLowerCase()}`);
-                    el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    el?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
                   }}
                   className="text-xs px-2 py-1 rounded"
                   style={{
@@ -377,9 +389,9 @@ export function LibraryPage() {
           className="relative z-10 overflow-hidden"
           style={{ borderBottom: `1px solid ${headerBorder}` }}
           key={mode}
-          initial={{ opacity: 0 }}
+          initial={prefersReducedMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
         >
           <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-10 md:py-16 flex flex-col md:flex-row items-start md:items-center gap-8 justify-between">
             {/* Mode icon + text */}
@@ -396,8 +408,9 @@ export function LibraryPage() {
                     ? `0 0 30px rgba(255,200,87,0.2), inset 0 0 20px rgba(255,200,87,0.05)`
                     : `0 0 30px rgba(255,200,87,0.4), inset 0 0 20px rgba(255,200,87,0.1)`,
                 }}
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+                  initial={prefersReducedMotion ? false : { opacity: 0, rotate: -8 }}
+                  animate={{ opacity: 1, rotate: 0 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.7, ease: 'easeOut' }}
               >
                 {isMoon
                   ? <MoonSvg size={36} active />
@@ -485,7 +498,7 @@ export function LibraryPage() {
                         boxShadow: `0 0 8px ${accentColor}60`,
                       }}
                       animate={{ height: `${Math.min(95, scrollPct * 100)}%` }}
-                      transition={{ duration: 0.1 }}
+                      transition={{ duration: prefersReducedMotion ? 0 : 0.1 }}
                     />
                     {/* Section node dots */}
                     {CHRONICLE_SECTIONS.map((sec, i) => {
@@ -509,7 +522,7 @@ export function LibraryPage() {
                           }}
                           onClick={() => {
                             const el = document.getElementById(`section-${sec.replace(/\s/g, '-').toLowerCase()}`);
-                            el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            el?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
                           }}
                           whileHover={{ scale: 1.5 }}
                         />
@@ -525,10 +538,10 @@ export function LibraryPage() {
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={mode}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
                     className="space-y-16"
                   >
                     {CHRONICLE_SECTIONS.map((sec, idx) => {
@@ -550,7 +563,7 @@ export function LibraryPage() {
                                 border: `1px dashed ${accentColor}30`,
                                 background: `${accentColor}06`,
                               }}
-                              initial={{ opacity: 0 }}
+                              initial={prefersReducedMotion ? false : { opacity: 0 }}
                               animate={{ opacity: 1 }}
                             >
                               <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1rem', color: textMuted, fontStyle: 'italic' }}>
@@ -582,9 +595,9 @@ export function LibraryPage() {
                     border: `1px solid ${accentColor}25`,
                     padding: '3rem 2rem',
                   }}
-                  initial={{ opacity: 0, y: 32 }}
+                  initial={prefersReducedMotion ? false : { opacity: 0, y: 32 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.8 }}
                   viewport={{ once: true }}
                 >
                   {/* Large background quotation mark */}
@@ -628,6 +641,7 @@ export function LibraryPage() {
           </div>
         </div>
       </div>
+      </MotionConfig>
     </>
   );
 }

@@ -1,5 +1,5 @@
 import type React from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { useState, useRef, useEffect } from 'react';
 
 export type LibraryMode    = 'reflection' | 'expression';
@@ -81,6 +81,7 @@ export function SunSvg({ size = 22, active }: { size?: number; active?: boolean 
 // Mode Toggle
 // ─────────────────────────────────────────────────────────────────────────────
 export function ModeToggle({ mode, onToggle }: { mode: LibraryMode; onToggle: () => void }) {
+  const prefersReducedMotion = useReducedMotion() ?? false;
   const isMoon = mode === 'reflection';
   return (
     <motion.button
@@ -111,7 +112,7 @@ export function ModeToggle({ mode, onToggle }: { mode: LibraryMode; onToggle: ()
           width: 'calc(50% - 2px)',
         }}
         animate={{ left: isMoon ? 4 : 'calc(50% + 2px)' }}
-        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+        transition={prefersReducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 400, damping: 30 }}
       />
       {/* Moon side */}
       <div className="relative z-10 flex-1 flex items-center justify-center gap-1.5 px-2">
@@ -154,6 +155,7 @@ interface FilterSidebarProps {
 }
 
 export function FilterSidebar({ mode, medium, status, onMedium, onStatus, isOpen, totalItems, filteredCount }: FilterSidebarProps) {
+  const prefersReducedMotion = useReducedMotion() ?? false;
   const isMoon = mode === 'reflection';
 
   const bg = isMoon ? '#0d1117' : '#fefdf6';
@@ -185,7 +187,7 @@ export function FilterSidebar({ mode, medium, status, onMedium, onStatus, isOpen
     <motion.aside
       className="flex-shrink-0 overflow-hidden"
       animate={{ width: isOpen ? 220 : 0, opacity: isOpen ? 1 : 0 }}
-      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       style={{ minWidth: 0 }}
     >
       <div
@@ -313,6 +315,7 @@ export function FilterSidebar({ mode, medium, status, onMedium, onStatus, isOpen
 // Glitch Card (Reflection / Moon mode)
 // ─────────────────────────────────────────────────────────────────────────────
 export function GlitchCard({ item }: { item: LibraryItem }) {
+  const prefersReducedMotion = useReducedMotion() ?? false;
   const [hovered, setHovered] = useState(false);
   const mediumColors: Record<string, string> = {
     animation: '#6C63FF',
@@ -327,9 +330,9 @@ export function GlitchCard({ item }: { item: LibraryItem }) {
       style={{ height: 320, background: '#0d1117', border: '1px solid rgba(216,215,219,0.1)' }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      whileHover={{ scale: 1.015 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      initial={{ opacity: 0, y: 24 }}
+      whileHover={prefersReducedMotion ? undefined : { scale: 1.015 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 300, damping: 30 }}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
     >
@@ -416,7 +419,7 @@ export function GlitchCard({ item }: { item: LibraryItem }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
             style={{ background: 'linear-gradient(160deg, rgba(10,10,18,0.96) 0%, rgba(26,31,75,0.94) 100%)' }}
           >
             {/* Top: date + glitch label */}
@@ -465,6 +468,7 @@ export function GlitchCard({ item }: { item: LibraryItem }) {
 // Ripple Card (Expression / Sun mode)
 // ─────────────────────────────────────────────────────────────────────────────
 export function RippleCard({ item }: { item: LibraryItem }) {
+  const prefersReducedMotion = useReducedMotion() ?? false;
   const [hovered, setHovered] = useState(false);
   const mediumColors: Record<string, string> = {
     animation: '#1A1F4B',
@@ -479,9 +483,9 @@ export function RippleCard({ item }: { item: LibraryItem }) {
       style={{ height: 320, background: '#fefdf6', border: '1px solid rgba(26,31,75,0.12)' }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      whileHover={{ scale: 1.015 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      initial={{ opacity: 0, y: 24 }}
+      whileHover={prefersReducedMotion ? undefined : { scale: 1.015 }}
+      transition={prefersReducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 300, damping: 30 }}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
     >
@@ -547,7 +551,7 @@ export function RippleCard({ item }: { item: LibraryItem }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.25 }}
             style={{ background: 'linear-gradient(160deg, rgba(246,230,180,0.97) 0%, rgba(255,243,204,0.95) 100%)' }}
           >
             <div className="flex items-center justify-between">
@@ -591,9 +595,9 @@ export function RippleCard({ item }: { item: LibraryItem }) {
                 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
-                initial={{ opacity: 0, y: 8 }}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
+                transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.1 }}
               >
                 VIEW PROJECT →
               </motion.button>
@@ -620,6 +624,7 @@ interface ChronicleSectionProps {
 export function ChronicleSectionBlock({
   sectionName, sectionIndex, totalSections, mode, children, onVisible
 }: ChronicleSectionProps) {
+  const prefersReducedMotion = useReducedMotion() ?? false;
   const ref = useRef<HTMLDivElement>(null);
   const isMoon = mode === 'reflection';
 
@@ -649,10 +654,10 @@ export function ChronicleSectionBlock({
             borderColor: accentColor,
             boxShadow: `0 0 0 0 ${accentColor}70`,
           }}
-          whileInView={{
+          whileInView={prefersReducedMotion ? undefined : {
             boxShadow: [`0 0 0 0 ${accentColor}70`, `0 0 0 10px ${accentColor}00`],
           }}
-          transition={{ duration: 1.5, repeat: Infinity }}
+          transition={{ duration: 1.5, repeat: 1 }}
           viewport={{ once: false }}
         />
       </div>
@@ -660,13 +665,20 @@ export function ChronicleSectionBlock({
       {/* Section header */}
       <motion.div
         className="mb-6 pl-6"
-        initial={{ opacity: 0, x: -16 }}
+        initial={prefersReducedMotion ? false : { opacity: 0, x: -10 }}
         whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
         viewport={{ once: true }}
       >
         <div className="flex items-center gap-4">
-          <div style={{ height: 1, width: 24, background: accentColor, opacity: 0.5 }} />
+          <motion.div
+            aria-hidden="true"
+            initial={prefersReducedMotion ? false : { width: 0, opacity: 0.35 }}
+            whileInView={{ width: 24, opacity: 0.72 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.65, ease: 'easeOut' }}
+            viewport={{ once: true }}
+            style={{ height: 1, background: `linear-gradient(90deg, ${accentColor}, ${accentColor}60)`, boxShadow: `0 0 5px ${accentColor}40` }}
+          />
           <span style={{
             fontFamily: "'Space Mono', monospace",
             fontSize: '0.6rem',

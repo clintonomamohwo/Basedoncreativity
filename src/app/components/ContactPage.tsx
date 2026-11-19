@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { SEO } from './SEO';
 import { COLORS, FONTS, CONTACT, SOCIAL_LINKS, GRAIN_SVG_PATTERN } from "../../lib/constants";
 import {
@@ -104,6 +104,8 @@ function GrainOverlay() {
 }
 
 export function ContactPage() {
+  const prefersReducedMotion = useReducedMotion();
+
   // Prevent horizontal scroll on mobile
   useEffect(() => {
     document.documentElement.style.overflowX = "hidden";
@@ -238,13 +240,13 @@ export function ContactPage() {
           pointerEvents: "none",
           zIndex: 1,
         }}
-        animate={{
+        animate={prefersReducedMotion ? { opacity: 0.18 } : {
           scale: [1, 1.04, 1],
           opacity: [0.18, 0.26, 0.18],
         }}
         transition={{
-          duration: 8,
-          repeat: Infinity,
+          duration: prefersReducedMotion ? 0 : 8,
+          repeat: prefersReducedMotion ? 0 : Infinity,
           ease: "easeInOut",
         }}
       />
@@ -262,13 +264,13 @@ export function ContactPage() {
           pointerEvents: "none",
           zIndex: 1,
         }}
-        animate={{
+        animate={prefersReducedMotion ? { opacity: 0.1 } : {
           scale: [1, 1.06, 1],
           opacity: [0.1, 0.18, 0.1],
         }}
         transition={{
-          duration: 10,
-          repeat: Infinity,
+          duration: prefersReducedMotion ? 0 : 10,
+          repeat: prefersReducedMotion ? 0 : Infinity,
           ease: "easeInOut",
           delay: 2,
         }}
@@ -278,10 +280,10 @@ export function ContactPage() {
       <div className="relative z-20 max-w-[1200px] mx-auto px-6 pt-24 pb-10 md:pt-32 md:pb-14">
         {/* ── Page header ─────────────────────────────── */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            duration: 0.8,
+            duration: prefersReducedMotion ? 0 : 0.8,
             ease: [0.22, 1, 0.36, 1],
           }}
           className="mb-16 md:mb-20"
@@ -339,10 +341,10 @@ export function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-10 xl:gap-16 items-start">
           {/* ── LEFT: Contact form ───────────────────── */}
           <motion.div
-            initial={{ opacity: 0, y: 32 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
-              duration: 0.8,
+              duration: prefersReducedMotion ? 0 : 0.8,
               delay: 0.15,
               ease: [0.22, 1, 0.36, 1],
             }}
@@ -378,22 +380,30 @@ export function ContactPage() {
                   /* ── Success state ── */
                   <motion.div
                     key="success"
-                    initial={{ opacity: 0, scale: 0.92 }}
+                    initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.97 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{
-                      duration: 0.6,
+                      duration: prefersReducedMotion ? 0 : 0.45,
                       ease: [0.22, 1, 0.36, 1],
                     }}
                     className="flex flex-col items-center justify-center py-16 text-center gap-6"
+                    role="status"
+                    aria-live="polite"
                   >
                     <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
+                      initial={prefersReducedMotion ? false : { scale: 0.88, opacity: 0.6 }}
+                      animate={{ scale: 1, opacity: 1 }}
                       transition={{
-                        type: "spring",
-                        stiffness: 180,
-                        damping: 14,
-                        delay: 0.1,
+                        duration: prefersReducedMotion ? 0 : 0.35,
+                        ease: [0.22, 1, 0.36, 1],
+                        delay: prefersReducedMotion ? 0 : 0.08,
+                      }}
+                      style={{
+                        display: "inline-flex",
+                        padding: "12px",
+                        borderRadius: "999px",
+                        background: "rgba(255,200,87,0.08)",
+                        boxShadow: "0 0 28px rgba(255,200,87,0.12)",
                       }}
                     >
                       <CheckCircle
@@ -472,7 +482,7 @@ export function ContactPage() {
                   <motion.form
                     key="form"
                     onSubmit={handleSubmit}
-                    initial={{ opacity: 0 }}
+                    initial={prefersReducedMotion ? false : { opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     className="flex flex-col gap-5"
@@ -849,10 +859,10 @@ export function ContactPage() {
 
           {/* ── RIGHT: Contact info sidebar ─────────── */}
           <motion.div
-            initial={{ opacity: 0, y: 32 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
-              duration: 0.8,
+              duration: prefersReducedMotion ? 0 : 0.8,
               delay: 0.3,
               ease: [0.22, 1, 0.36, 1],
             }}
@@ -1105,11 +1115,11 @@ export function ContactPage() {
 
         {/* ── Bottom quote ────────────────────────────── */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{
-            duration: 0.9,
+            duration: prefersReducedMotion ? 0 : 0.9,
             ease: [0.22, 1, 0.36, 1],
           }}
           className="mt-12 md:mt-16 text-center px-4"

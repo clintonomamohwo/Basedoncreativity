@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight, ArrowUpRight, Play } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { ImageWithFallback } from './figma/ImageWithFallback';
@@ -149,6 +149,7 @@ const PIPELINE_STAGES: PipelineStage[] = [
 
 export function StudioPage() {
   const navigate = useNavigate();
+  const reduceMotion = useReducedMotion();
 
   return (
     <>
@@ -238,9 +239,9 @@ export function StudioPage() {
           }}
         >
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.7 }}
             style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '36px' }}
           >
             <Eyebrow muted>Based on Creativity</Eyebrow>
@@ -248,9 +249,9 @@ export function StudioPage() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 28 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.85, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             style={{ marginBottom: '24px' }}
           >
             <p
@@ -284,9 +285,9 @@ export function StudioPage() {
           </motion.div>
 
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
             style={{
               fontFamily: FONTS.body,
               fontSize: 'clamp(1rem, 2.5vw, 1.1875rem)',
@@ -300,9 +301,9 @@ export function StudioPage() {
           </motion.p>
 
           <motion.p
-            initial={{ opacity: 0, y: 12 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.38 }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.38 }}
             style={{
               fontFamily: FONTS.accent,
               fontStyle: 'italic',
@@ -316,9 +317,9 @@ export function StudioPage() {
 
           {/* Discipline tags */}
           <motion.div
-            initial={{ opacity: 0, y: 14 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.48 }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.48 }}
             style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}
           >
             {['Animation', 'World-Building', 'Character Direction', 'Motion Language', 'Visual Development'].map((tag) => (
@@ -367,10 +368,10 @@ export function StudioPage() {
             <div>
               <SectionLabel>The Work</SectionLabel>
               <motion.h2
-                initial={{ opacity: 0, y: 20 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.05 }}
+                transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.05 }}
                 style={{
                   fontFamily: FONTS.heading,
                   fontWeight: 700,
@@ -386,10 +387,10 @@ export function StudioPage() {
               </motion.h2>
             </div>
             <motion.p
-              initial={{ opacity: 0, y: 18 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.12 }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.12 }}
               style={{
                 fontFamily: FONTS.body,
                 fontSize: 'clamp(0.9375rem, 2vw, 1.0625rem)',
