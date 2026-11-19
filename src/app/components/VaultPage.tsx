@@ -347,18 +347,22 @@ function ImageBentoCard({
       onMouseLeave={() => setHovered(false)}
       style={{
         position: "relative",
-        borderRadius: 12,
+        borderRadius: item.excerpt ? "11px 11px 0 0" : 12,
         overflow: "hidden",
         cursor: "pointer",
         background: "#0d1235",
         minHeight: 280,
-        border: hovered
-          ? "1px solid rgba(255,200,87,0.5)"
-          : "1px solid rgba(255,200,87,0.1)",
+        border: item.excerpt
+          ? "none"
+          : hovered
+            ? "1px solid rgba(255,200,87,0.5)"
+            : "1px solid rgba(255,200,87,0.1)",
         transition: "border-color 0.25s ease",
-        boxShadow: hovered
-          ? "0 20px 60px rgba(0,0,0,0.5)"
-          : "0 4px 20px rgba(0,0,0,0.3)",
+        boxShadow: item.excerpt
+          ? "none"
+          : hovered
+            ? "0 20px 60px rgba(0,0,0,0.5)"
+            : "0 4px 20px rgba(0,0,0,0.3)",
       }}
     >
       {(item.imageUrl || item.publicId) && (
@@ -483,19 +487,23 @@ function VideoBentoCard({
       onMouseLeave={() => setHovered(false)}
       style={{
         position: "relative",
-        borderRadius: 12,
+        borderRadius: item.excerpt ? "11px 11px 0 0" : 12,
         overflow: "hidden",
         cursor: "pointer",
         background: "#080d22",
         minHeight: 300,
-        border: hovered
-          ? "1px solid rgba(123,156,255,0.5)"
-          : "1px solid rgba(123,156,255,0.12)",
+        border: item.excerpt
+          ? "none"
+          : hovered
+            ? "1px solid rgba(123,156,255,0.5)"
+            : "1px solid rgba(123,156,255,0.12)",
         transition:
           "border-color 0.25s ease, box-shadow 0.25s ease",
-        boxShadow: hovered
-          ? "0 20px 60px rgba(0,0,0,0.55)"
-          : "0 4px 20px rgba(0,0,0,0.3)",
+        boxShadow: item.excerpt
+          ? "none"
+          : hovered
+            ? "0 20px 60px rgba(0,0,0,0.55)"
+            : "0 4px 20px rgba(0,0,0,0.3)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -878,6 +886,8 @@ const BentoCard = React.forwardRef<
   HTMLDivElement,
   BentoCardProps
 >(function BentoCard({ item, onClick, index, colSpan }, ref) {
+  const hasIntegratedDescription = Boolean(item.excerpt && item.type !== "writing");
+  const [hovered, setHovered] = useState(false);
   const props = { item, onClick, index };
   const card =
     item.type === "image" ? (
@@ -887,22 +897,54 @@ const BentoCard = React.forwardRef<
     ) : (
       <WritingBentoCard {...props} />
   );
+  const description = item.excerpt ? (
+    <p
+      title={item.excerpt}
+      style={{
+        margin: hasIntegratedDescription ? 0 : "12px 3px 0",
+        color: "rgba(246,240,225,0.76)",
+        fontFamily: FONTS.body,
+        fontSize: "0.86rem",
+        lineHeight: 1.55,
+      }}
+    >
+      {item.excerpt}
+    </p>
+  ) : null;
+  const frameStyle: React.CSSProperties = hasIntegratedDescription
+    ? {
+        borderRadius: 12,
+        overflow: "hidden",
+        background: "#0d1235",
+        border: hovered
+          ? "1px solid rgba(255,200,87,0.45)"
+          : "1px solid rgba(255,200,87,0.16)",
+        boxShadow: hovered
+          ? "0 20px 60px rgba(0,0,0,0.5)"
+          : "0 4px 20px rgba(0,0,0,0.3)",
+        transition: "border-color 0.25s ease, box-shadow 0.25s ease",
+      }
+    : {};
   return (
-    <div ref={ref} style={{ gridColumn: `span ${colSpan}` }}>
+    <div
+      ref={ref}
+      onMouseEnter={hasIntegratedDescription ? () => setHovered(true) : undefined}
+      onMouseLeave={hasIntegratedDescription ? () => setHovered(false) : undefined}
+      style={{ gridColumn: `span ${colSpan}`, ...frameStyle }}
+    >
       {card}
-      {item.excerpt && (
-        <p
-          title={item.excerpt}
+      {hasIntegratedDescription && description ? (
+        <div
           style={{
-            margin: "12px 3px 0",
-            color: "rgba(246,240,225,0.76)",
-            fontFamily: FONTS.body,
-            fontSize: "0.86rem",
-            lineHeight: 1.55,
+            padding: "13px 16px 16px",
+            borderTop: "1px solid rgba(255,200,87,0.13)",
+            background: "linear-gradient(180deg, rgba(13,18,53,0.98), rgba(8,13,34,0.98))",
           }}
         >
-          {item.excerpt}
-        </p>
+          {description}
+        </div>
+      ) : (
+        description
       )}
     </div>
   );
@@ -1599,9 +1641,8 @@ function BentoVault({ items }: { items: GalleryItem[] }) {
       if (item.type === "video") return 6;
       return 3;
     }
-    // desktop
-    if (item.type === "video") return 3; // span 3 of 6
-    return 2; // span 2 of 6
+    // Desktop uses an even three-column gallery.
+    return 1;
   };
 
   const handleOpen = useCallback(
@@ -1710,7 +1751,10 @@ function BentoVault({ items }: { items: GalleryItem[] }) {
             layout
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(6, 1fr)",
+              gridTemplateColumns:
+                windowWidth >= 1024
+                  ? "repeat(3, minmax(0, 1fr))"
+                  : "repeat(6, 1fr)",
               gap: "clamp(10px, 1.8vw, 20px)",
               alignItems: "start",
             }}
