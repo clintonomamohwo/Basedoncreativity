@@ -10,7 +10,6 @@ import { createPortal } from "react-dom";
 import {
   motion,
   AnimatePresence,
-  useMotionValue,
 } from "motion/react";
 import {
   X,
@@ -21,7 +20,8 @@ import {
   FileText,
   Film,
 } from "lucide-react";
-import { FilterBar, StarCanvas } from './VaultPageChrome';
+import { FilterBar } from './VaultPageChrome';
+import { VaultIntro } from './VaultIntro';
 import { CloudinaryImage } from "./CloudinaryImage";
 import { cloudinaryVideoUrl, CLOUDINARY_CLOUD_NAME } from "../../lib/cloudinary";
 import { fetchPortfolioProjects, fetchVaultItems, resolveMediaAlt, resolveMediaUrl, SanityVaultItem, type SanityPortfolioProject } from '../../lib/sanityContent';
@@ -196,39 +196,6 @@ const FALLBACK_GALLERY_DATA: GalleryItem[] = [
 /* ═══════════════════════════════════════════════════════════════════════════
    CONSTANTS  (orb reveal mechanic - unchanged)
 ═══════════════════════════════════════════════════════════════════════════ */
-
-const EAST_THRESHOLD = 0.75;
-const LIGHT_REVEAL_MS = 2500;
-const ORB_RADIUS = 64;
-const NAV_HEIGHT = 80;
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   UTILITIES
-═══════════════════════════════════════════════════════════════════════════ */
-
-function easeInOutCubic(t: number): number {
-  return t < 0.5
-    ? 4 * t * t * t
-    : 1 - Math.pow(-2 * t + 2, 3) / 2;
-}
-
-function buildGradient(
-  x: number,
-  y: number,
-  light: number,
-): string {
-  const gA = (light * 0.45).toFixed(3);
-  const gB = (light * 0.18).toFixed(3);
-  const stop2 = `${(light * 15).toFixed(1)}%`;
-  const stop3 =
-    light > 0.01
-      ? `${Math.min(light * 35 + 20, 65).toFixed(1)}%`
-      : "100%";
-  return [
-    `radial-gradient(ellipse at ${x}px ${y}px, rgba(255,248,220,${gA}) 0%, rgba(255,200,87,${gB}) ${stop2}, transparent ${stop3})`,
-    `radial-gradient(ellipse at 60% 20%, #1e2d6e 0%, #1A1F4B 45%, #0d1235 100%)`,
-  ].join(", ");
-}
 
 function useWindowWidth() {
   const [width, setWidth] = useState(
@@ -1188,15 +1155,15 @@ function FullScreenDeck({
   onClose,
 }: DeckProps) {
   const [current, setCurrent] = useState(startIndex);
-  const [direction, setDirection] = useState(0); // −1 prev, +1 next
+  const [direction, setDirection] = useState(0); // -1 previous, +1 next
   const item = items[current];
+  const swipeStartRef = useRef<{ id: number; x: number; y: number } | null>(null);
 
   const go = useCallback(
     (dir: number) => {
+      if (items.length < 2) return;
       setDirection(dir);
-      setCurrent((c) =>
-        Math.max(0, Math.min(items.length - 1, c + dir)),
-      );
+      setCurrent((index) => (index + dir + items.length) % items.length);
     },
     [items.length],
   );
@@ -1205,9 +1172,18 @@ function FullScreenDeck({
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "ArrowRight") go(1);
-      if (e.key === "ArrowLeft") go(-1);
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.altKey || e.ctrlKey || e.metaKey) return;
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        go(1);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        go(-1);
+      }
     };
     window.addEventListener("keydown", handler);
     return () => {
@@ -1215,6 +1191,32 @@ function FullScreenDeck({
       window.removeEventListener("keydown", handler);
     };
   }, [onClose, go]);
+
+  const handleStagePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType !== "touch") return;
+    if (
+      event.target instanceof HTMLElement &&
+      event.target.closest("button, video, a, input, textarea, select")
+    ) {
+      return;
+    }
+    swipeStartRef.current = {
+      id: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+    };
+  };
+
+  const handleStagePointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
+    const start = swipeStartRef.current;
+    if (!start || start.id !== event.pointerId) return;
+    swipeStartRef.current = null;
+    const deltaX = event.clientX - start.x;
+    const deltaY = event.clientY - start.y;
+    if (Math.abs(deltaX) < 48 || Math.abs(deltaX) < Math.abs(deltaY) * 1.2) return;
+    event.preventDefault();
+    go(deltaX < 0 ? 1 : -1);
+  };
 
   const accent = TYPE_ACCENT[item.type];
 
@@ -1380,10 +1382,14 @@ function FullScreenDeck({
 
       {/* ── Main content ── */}
       <div
+        onPointerDown={handleStagePointerDown}
+        onPointerUp={handleStagePointerUp}
+        onPointerCancel={() => { swipeStartRef.current = null; }}
         style={{
           flex: 1,
           position: "relative",
           overflow: "hidden",
+          touchAction: "pan-y",
         }}
       >
         <AnimatePresence custom={direction} mode="wait">
@@ -1413,11 +1419,15 @@ function FullScreenDeck({
         </AnimatePresence>
 
         {/* Prev arrow */}
-        {current > 0 && (
+        {items.length > 1 && (
           <motion.button
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
+            type="button"
             onClick={() => go(-1)}
+            aria-label="Previous asset"
+            aria-keyshortcuts="ArrowLeft"
+            className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
             style={{
               position: "absolute",
               left: 20,
@@ -1445,16 +1455,20 @@ function FullScreenDeck({
             }
             whileTap={{ scale: 0.94 }}
           >
-            <ChevronLeft size={20} />
+            <ChevronLeft size={20} aria-hidden="true" />
           </motion.button>
         )}
 
         {/* Next arrow */}
-        {current < items.length - 1 && (
+        {items.length > 1 && (
           <motion.button
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
+            type="button"
             onClick={() => go(1)}
+            aria-label="Next asset"
+            aria-keyshortcuts="ArrowRight"
+            className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
             style={{
               position: "absolute",
               right: 20,
@@ -1482,7 +1496,7 @@ function FullScreenDeck({
             }
             whileTap={{ scale: 0.94 }}
           >
-            <ChevronRight size={20} />
+            <ChevronRight size={20} aria-hidden="true" />
           </motion.button>
         )}
       </div>
@@ -1722,46 +1736,21 @@ function BentoVault({ items }: { items: GalleryItem[] }) {
 
 export function VaultPage() {
   const [cmsItems, setCmsItems] = useState<GalleryItem[]>([]);
-  const [isDragging, setIsDragging] = useState(false);
-  const [hasTransformed, setHasTransformed] = useState(false);
-  const [showVaultText, setShowVaultText] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
-  const [eastProgress, setEastProgress] = useState(0);
-  const [trailDots, setTrailDots] = useState<
-    { id: number; x: number; y: number }[]
-  >([]);
-  const trailIdRef = useRef(0);
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const hasTransformedRef = useRef(false);
-  const showGalleryRef = useRef(false);
-  const isDraggingRef = useRef(false);
-  const dragStartRef = useRef({ x: 0, y: 0 });
-  const moonOffsetRef = useRef({ x: 0, y: 0 });
-  const lightRef = useRef(0);
-  const rafRef = useRef<number>(0);
-
-   const moonX = useMotionValue(120);
-  const moonY = useMotionValue(300);
 
   useEffect(() => {
     let cancelled = false;
 
     fetchVaultItems()
       .then((items) => {
-        if (cancelled || !items?.length) {
-          return;
-        }
-        const mapped = items.map(mapSanityVaultItem);
-        setCmsItems(mapped);
+        if (cancelled || !items?.length) return;
+        setCmsItems(items.map(mapSanityVaultItem));
       })
       .catch((error) => {
         if (import.meta.env.DEV) {
-          console.error('Error fetching vault items:', error);
+          console.error("Error fetching vault items:", error);
         }
-        if (!cancelled) {
-          setCmsItems([]);
-        }
+        if (!cancelled) setCmsItems([]);
       });
 
     return () => {
@@ -1774,911 +1763,36 @@ export function VaultPage() {
     [cmsItems],
   );
 
-  useEffect(() => {
-    const w = window.innerWidth,
-      h = window.innerHeight;
-    moonX.set(
-      ORB_RADIUS +
-        20 +
-        Math.random() * (w * 0.32 - ORB_RADIUS - 20),
-    );
-    moonY.set(
-      NAV_HEIGHT +
-        ORB_RADIUS +
-        20 +
-        Math.random() * (h - NAV_HEIGHT - ORB_RADIUS * 2 - 40),
-    );
-  }, [moonX, moonY]);
-
-  const applyBackground = useCallback(() => {
-    if (!containerRef.current || showGalleryRef.current) return;
-    containerRef.current.style.background = buildGradient(
-      moonX.get(),
-      moonY.get(),
-      lightRef.current,
-    );
-  }, [moonX, moonY]);
-
   useIsomorphicLayoutEffect(() => {
-    if (containerRef.current)
-      containerRef.current.style.background =
-        "radial-gradient(ellipse at 60% 20%, #1e2d6e 0%, #1A1F4B 45%, #0d1235 100%)";
+    if (hasVaultSessionUnlock()) setShowGallery(true);
   }, []);
 
-  useIsomorphicLayoutEffect(() => {
-    if (!hasVaultSessionUnlock()) return;
-
-    hasTransformedRef.current = true;
-    showGalleryRef.current = true;
-    setHasTransformed(true);
+  const enterVault = useCallback(() => {
+    rememberVaultSessionUnlock();
     setShowGallery(true);
-    if (containerRef.current) containerRef.current.style.background = "#0d1235";
   }, []);
-
-  const triggerTransformation = useCallback(() => {
-    if (hasTransformedRef.current) return;
-    hasTransformedRef.current = true;
-    setHasTransformed(true);
-    setTrailDots([]);
-    const startTime = performance.now();
-    const tick = (now: number) => {
-      const progress = Math.min(
-        (now - startTime) / LIGHT_REVEAL_MS,
-        1,
-      );
-      lightRef.current = easeInOutCubic(progress);
-      applyBackground();
-      if (progress < 1) {
-        rafRef.current = requestAnimationFrame(tick);
-      } else {
-        setTimeout(() => setShowVaultText(true), 400);
-        setTimeout(() => {
-          rememberVaultSessionUnlock();
-          showGalleryRef.current = true;
-          setShowGallery(true);
-          if (containerRef.current)
-            containerRef.current.style.background = "#0d1235";
-        }, 1900);
-      }
-    };
-    rafRef.current = requestAnimationFrame(tick);
-  }, [applyBackground]);
-
-  const handleDragStart = useCallback(
-    (clientX: number, clientY: number) => {
-      isDraggingRef.current = true;
-      dragStartRef.current = { x: clientX, y: clientY };
-      moonOffsetRef.current = {
-        x: moonX.get(),
-        y: moonY.get(),
-      };
-      setIsDragging(true);
-    },
-    [moonX, moonY],
-  );
-
-  const handleDragMove = useCallback(
-    (clientX: number, clientY: number) => {
-      if (!isDraggingRef.current || !containerRef.current)
-        return;
-      const { width, height } =
-        containerRef.current.getBoundingClientRect();
-      const x = Math.max(
-        ORB_RADIUS,
-        Math.min(
-          width - ORB_RADIUS,
-          moonOffsetRef.current.x +
-            (clientX - dragStartRef.current.x),
-        ),
-      );
-      const y = Math.max(
-        NAV_HEIGHT + ORB_RADIUS,
-        Math.min(
-          height - ORB_RADIUS,
-          moonOffsetRef.current.y +
-            (clientY - dragStartRef.current.y),
-        ),
-      );
-      moonX.set(x);
-      moonY.set(y);
-      applyBackground();
-      // East progress 0→1
-      setEastProgress(
-        Math.min(x / (width * EAST_THRESHOLD), 1),
-      );
-      // Motion trail - last 12 positions
-      setTrailDots((prev) => [
-        ...prev.slice(-11),
-        { id: trailIdRef.current++, x, y },
-      ]);
-      if (x > width * EAST_THRESHOLD) triggerTransformation();
-    },
-    [moonX, moonY, applyBackground, triggerTransformation],
-  );
-
-  const handleDragEnd = useCallback(() => {
-    isDraggingRef.current = false;
-    setIsDragging(false);
-    setTimeout(() => setTrailDots([]), 350);
-  }, []);
-
-  useEffect(() => {
-    const onMouseMove = (e: MouseEvent) =>
-      handleDragMove(e.clientX, e.clientY);
-    const onTouchMove = (e: TouchEvent) => {
-      if (
-        !isDraggingRef.current ||
-        showGalleryRef.current ||
-        e.touches.length === 0
-      ) {
-        return;
-      }
-      e.preventDefault();
-      handleDragMove(
-        e.touches[0].clientX,
-        e.touches[0].clientY,
-      );
-    };
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", handleDragEnd);
-    window.addEventListener("touchmove", onTouchMove, {
-      passive: false,
-    });
-    window.addEventListener("touchend", handleDragEnd);
-    return () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup", handleDragEnd);
-      window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("touchend", handleDragEnd);
-      cancelAnimationFrame(rafRef.current);
-    };
-  }, [handleDragMove, handleDragEnd]);
 
   return (
     <>
-      <SEO title="The Vault | Based on Creativity" description="Enter The Vault to explore an experimental gallery of moving images, visual studies, and creative artifacts from Based on Creativity." path="/vault" />
-    <div
-      ref={containerRef}
-      style={{
-        position: "relative",
-        width: "100%",
-        minHeight: "100vh",
-        background: "#1A1F4B",
-        backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,200,87,0.03)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z'/%3E%3Ccircle cx='12' cy='13' r='4'/%3E%3C/svg%3E\")",
-        backgroundPosition: '85% 25%',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: '300px',
-        overflow: showGallery ? "visible" : "hidden",
-        cursor: isDragging ? "grabbing" : "default",
-        touchAction: showGallery ? "auto" : "none",
-      }}
-    >
-      <h1 className="sr-only">The Vault</h1>
-      <StarCanvas visible={!showGallery} />
-
+      <SEO
+        title="The Vault | Based on Creativity"
+        description="Enter The Vault to explore an experimental gallery of moving images, visual studies, and creative artifacts from Based on Creativity."
+        path="/vault"
+      />
       <div
         style={{
           position: "relative",
-          maxWidth: 1920,
-          margin: "0 auto",
           width: "100%",
-          height: showGallery ? "0" : "100vh",
-          display: showGallery ? "none" : "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "0 clamp(20px, 5vw, 80px)",
+          minHeight: "100vh",
+          background: "#0d1235",
+          overflowX: "hidden",
         }}
       >
-        {/* ── Motion trail ── */}
-        {trailDots.map((dot, i) => {
-          const ageFraction =
-            i / Math.max(trailDots.length - 1, 1);
-          const size =
-            ORB_RADIUS * 2 * (0.08 + ageFraction * 0.42);
-          const opacity = 0.03 + ageFraction * 0.16;
-          return (
-            <div
-              key={dot.id}
-              style={{
-                position: "absolute",
-                left: dot.x,
-                top: dot.y,
-                transform: "translate(-50%, -50%)",
-                width: size,
-                height: size,
-                borderRadius: "50%",
-                background: `radial-gradient(circle, rgba(255,200,87,${opacity.toFixed(3)}), transparent 70%)`,
-                pointerEvents: "none",
-                zIndex: 25,
-              }}
-            />
-          );
-        })}
-
-        {/* ── East threshold glow line ── */}
-        {!showGallery && !hasTransformed && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: isDragging
-                ? 0.1 + eastProgress * 0.5
-                : 0.06,
-            }}
-            transition={{ duration: 0.25 }}
-            style={{
-              position: "absolute",
-              right: `${(1 - EAST_THRESHOLD) * 100}%`,
-              top: 0,
-              bottom: 0,
-              width: "1px",
-              background:
-                "linear-gradient(180deg, transparent 0%, rgba(255,200,87,0.75) 25%, rgba(255,200,87,0.75) 75%, transparent 100%)",
-              pointerEvents: "none",
-              zIndex: 5,
-            }}
-          />
-        )}
-
-        {/* ── East directional cue - right-edge column ── */}
-        {!showGallery && !hasTransformed && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isDragging ? 0 : 1 }}
-            transition={{
-              duration: 0.5,
-              delay: isDragging ? 0 : 0,
-            }}
-            style={{
-              position: "absolute",
-              right: "clamp(16px, 3vw, 40px)",
-              top: "50%",
-              transform: "translateY(-50%)",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "10px",
-              pointerEvents: "none",
-              zIndex: 10,
-            }}
-          >
-            <span
-              style={{
-                fontFamily: FONTS.heading,
-                fontWeight: 700,
-                fontSize: "0.58rem",
-                letterSpacing: "0.2em",
-                color: "rgba(255,200,87,0.5)",
-                marginBottom: "2px",
-              }}
-            >
-              E
-            </span>
-            {[0, 1, 2, 3].map((i) => (
-              <motion.div
-                key={i}
-                animate={{
-                  opacity: [0.2, 0.7, 0.2],
-                  x: [0, 4, 0],
-                }}
-                transition={{
-                  duration: 1.8,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 0.22,
-                }}
-                style={{
-                  width: "9px",
-                  height: "9px",
-                  borderTop:
-                    "1.5px solid rgba(255,200,87,0.55)",
-                  borderRight:
-                    "1.5px solid rgba(255,200,87,0.55)",
-                  transform: "rotate(45deg)",
-                }}
-              />
-            ))}
-            <motion.span
-              animate={{ opacity: [0.25, 0.6, 0.25] }}
-              transition={{
-                duration: 2.8,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1,
-              }}
-              style={{
-                marginTop: "6px",
-                fontFamily: FONTS.body,
-                fontSize: "0.52rem",
-                letterSpacing: "0.14em",
-                color: "rgba(255,200,87,0.38)",
-                textTransform: "uppercase",
-                writingMode: "vertical-rl",
-                transform: "rotate(180deg)",
-              }}
-            >
-              open vault
-            </motion.span>
-          </motion.div>
-        )}
-
-        {/* ── Draggable Orb ── */}
         <AnimatePresence mode="wait">
-          {!showGallery && (
-            <motion.div
-              key="celestial"
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 2 }}
-              transition={{
-                duration: 0.8,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              onMouseDown={(e) =>
-                handleDragStart(e.clientX, e.clientY)
-              }
-              onTouchStart={(e) =>
-                handleDragStart(
-                  e.touches[0].clientX,
-                  e.touches[0].clientY,
-                )
-              }
-              style={{
-                position: "absolute",
-                left: moonX,
-                top: moonY,
-                translateX: "-50%",
-                translateY: "-50%",
-                cursor: isDragging ? "grabbing" : "grab",
-                zIndex: 30,
-                touchAction: "none",
-                userSelect: "none",
-              }}
-            >
-              {/* Magnetic glow - expands and brightens as orb approaches east */}
-              {!hasTransformed && (
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: `${-18 - eastProgress * 52}px`,
-                    borderRadius: "50%",
-                    background: `radial-gradient(circle, rgba(255,200,87,${(0.06 + eastProgress * 0.36).toFixed(3)}), transparent 65%)`,
-                    pointerEvents: "none",
-                    transition: "inset 0.06s ease",
-                  }}
-                />
-              )}
-
-              {/* Primary ripple pulse */}
-              {!hasTransformed && (
-                <motion.div
-                  animate={{
-                    scale: [1, 1.85, 1],
-                    opacity: [0.55, 0, 0.55],
-                  }}
-                  transition={{
-                    duration: 2.2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  style={{
-                    position: "absolute",
-                    inset: "-20px",
-                    borderRadius: "50%",
-                    border: "2px solid rgba(255,200,87,0.7)",
-                    pointerEvents: "none",
-                  }}
-                />
-              )}
-              {/* Slow outer ripple */}
-              {!hasTransformed && (
-                <motion.div
-                  animate={{
-                    scale: [1, 2.5, 1],
-                    opacity: [0.22, 0, 0.22],
-                  }}
-                  transition={{
-                    duration: 3.8,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.9,
-                  }}
-                  style={{
-                    position: "absolute",
-                    inset: "-20px",
-                    borderRadius: "50%",
-                    border: "1px solid rgba(255,200,87,0.35)",
-                    pointerEvents: "none",
-                  }}
-                />
-              )}
-
-              {/* "DRAG EAST" label above orb (idle only) */}
-              {!hasTransformed && !isDragging && (
-                <motion.div
-                  animate={{ opacity: [0.45, 0.85, 0.45] }}
-                  transition={{
-                    duration: 2.6,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1.2,
-                  }}
-                  style={{
-                    position: "absolute",
-                    top: "-30px",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    fontFamily: FONTS.heading,
-                    fontSize: "0.48rem",
-                    fontWeight: 700,
-                    letterSpacing: "0.22em",
-                    color: "rgba(255,200,87,0.7)",
-                    whiteSpace: "nowrap",
-                    pointerEvents: "none",
-                  }}
-                >
-                  DRAG EAST →
-                </motion.div>
-              )}
-
-              {/* Idle nudge chevrons - three stacked pointing east, appear beside orb */}
-              {!hasTransformed && !isDragging && (
-                <motion.div
-                  animate={{
-                    x: [0, 8, 0],
-                    opacity: [0.6, 1, 0.6],
-                  }}
-                  transition={{
-                    duration: 1.7,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  style={{
-                    position: "absolute",
-                    right: "-44px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "3px",
-                    pointerEvents: "none",
-                  }}
-                >
-                  {[0, 1, 2].map((i) => (
-                    <motion.div
-                      key={i}
-                      animate={{ opacity: [0.3, 1, 0.3] }}
-                      transition={{
-                        duration: 1.2,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: i * 0.2,
-                      }}
-                      style={{
-                        width: "7px",
-                        height: "7px",
-                        borderTop:
-                          "1.5px solid rgba(255,200,87,0.9)",
-                        borderRight:
-                          "1.5px solid rgba(255,200,87,0.9)",
-                        transform: "rotate(45deg)",
-                      }}
-                    />
-                  ))}
-                </motion.div>
-              )}
-
-              {/* East progress arc - thin gold ring fills as orb moves east */}
-              {!hasTransformed &&
-                isDragging &&
-                eastProgress > 0.04 && (
-                  <svg
-                    viewBox="0 0 128 128"
-                    style={{
-                      position: "absolute",
-                      inset: "-6px",
-                      width: "calc(100% + 12px)",
-                      height: "calc(100% + 12px)",
-                      pointerEvents: "none",
-                      zIndex: 2,
-                    }}
-                  >
-                    <circle
-                      cx="64"
-                      cy="64"
-                      r="60"
-                      fill="none"
-                      stroke={`rgba(255,200,87,${0.25 + eastProgress * 0.55})`}
-                      strokeWidth="2"
-                      strokeDasharray={`${eastProgress * 376.99} 376.99`}
-                      strokeLinecap="round"
-                      transform="rotate(-90 64 64)"
-                    />
-                  </svg>
-                )}
-
-              <motion.div
-                animate={{
-                  rotate: hasTransformed ? 360 : 0,
-                  scale: hasTransformed ? [1, 1.3, 1.5] : 1,
-                }}
-                transition={{
-                  duration: 1.2,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                style={{
-                  width: "clamp(72px, 16vw, 120px)",
-                  height: "clamp(72px, 16vw, 120px)",
-                  position: "relative",
-                }}
-              >
-                <div
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: "50%",
-                    background: hasTransformed
-                      ? "radial-gradient(circle, #FFF8DC 0%, #FFC857 50%, #FFB347 100%)"
-                      : "radial-gradient(circle at 30% 30%, #F0F0F0 0%, #D8D7DB 50%, #A0A0A0 100%)",
-                    boxShadow: hasTransformed
-                      ? "0 0 30px rgba(255,200,87,0.55), 0 0 60px rgba(255,200,87,0.25)"
-                      : `0 0 ${20 + eastProgress * 44}px rgba(216,215,219,${(0.3 + eastProgress * 0.5).toFixed(2)}), inset -10px -10px 30px rgba(0,0,0,0.2)`,
-                    transition:
-                      "background 1s ease-out, box-shadow 0.1s ease-out",
-                  }}
-                />
-                {hasTransformed &&
-                  Array.from({ length: 12 }, (_, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{
-                        scale: 1,
-                        opacity: [0.6, 0.3, 0.6],
-                      }}
-                      transition={{
-                        scale: {
-                          duration: 0.6,
-                          delay: i * 0.05,
-                        },
-                        opacity: {
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                        },
-                      }}
-                      style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        width: "clamp(50px, 10vw, 80px)",
-                        height: 3,
-                        background:
-                          "linear-gradient(90deg, #FFC857, transparent)",
-                        transformOrigin: "0 50%",
-                        transform: `rotate(${i * 30}deg)`,
-                        filter: "blur(1px)",
-                      }}
-                    />
-                  ))}
-              </motion.div>
-            </motion.div>
-          )}
+          {!showGallery && <VaultIntro key="vault-intro" onEnter={enterVault} />}
         </AnimatePresence>
-
-        {/* ── Compass + onboarding ── */}
-        {!showGallery && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: hasTransformed ? 0 : 1, y: 0 }}
-            transition={{
-              duration: 1,
-              delay: 0.5,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            style={{
-              zIndex: 10,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              pointerEvents: "none",
-              maxWidth: "440px",
-              textAlign: "center",
-            }}
-          >
-            <svg
-              viewBox="0 0 200 200"
-              style={{
-                width: "clamp(140px, 40vw, 200px)",
-                height: "clamp(140px, 40vw, 200px)",
-                filter:
-                  "drop-shadow(0 4px 20px rgba(255,200,87,0.4))",
-              }}
-            >
-              <circle
-                cx="100"
-                cy="100"
-                r="80"
-                fill="none"
-                stroke="#FFC857"
-                strokeWidth="2"
-                opacity="0.3"
-              />
-              <line
-                x1="100"
-                y1="20"
-                x2="100"
-                y2="30"
-                stroke="#FFC857"
-                strokeWidth="2"
-                opacity="0.6"
-              />
-              <line
-                x1="100"
-                y1="170"
-                x2="100"
-                y2="180"
-                stroke="#FFC857"
-                strokeWidth="2"
-                opacity="0.6"
-              />
-              <line
-                x1="20"
-                y1="100"
-                x2="30"
-                y2="100"
-                stroke="#FFC857"
-                strokeWidth="2"
-                opacity="0.6"
-              />
-              <line
-                x1="170"
-                y1="100"
-                x2="180"
-                y2="100"
-                stroke="#FFC857"
-                strokeWidth="2"
-                opacity="0.6"
-              />
-              <text
-                x="100"
-                y="14"
-                textAnchor="middle"
-                fill="#FFC857"
-                fontSize="15"
-                fontWeight="bold"
-                fontFamily="Space Mono, monospace"
-              >
-                N
-              </text>
-              <text
-                x="100"
-                y="198"
-                textAnchor="middle"
-                fill="#FFC857"
-                fontSize="15"
-                fontWeight="bold"
-                fontFamily="Space Mono, monospace"
-                opacity="0.75"
-              >
-                S
-              </text>
-              <text
-                x="10"
-                y="104"
-                textAnchor="middle"
-                fill="#FFC857"
-                fontSize="15"
-                fontWeight="bold"
-                fontFamily="Space Mono, monospace"
-                opacity="0.75"
-              >
-                W
-              </text>
-              <motion.text
-                x="192"
-                y="104"
-                textAnchor="middle"
-                fill="#FFC857"
-                fontSize="16"
-                fontWeight="bold"
-                fontFamily="Space Mono, monospace"
-                animate={{ opacity: [1, 0.45, 1] }}
-                transition={{
-                  duration: 1.6,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                E
-              </motion.text>
-              <motion.line
-                x1="100"
-                y1="100"
-                x2="100"
-                y2="30"
-                stroke="#FFC857"
-                strokeWidth="3"
-                strokeLinecap="round"
-                animate={{ rotate: [-15, -12, -15] }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                style={{ transformOrigin: "100px 100px" }}
-              />
-              <motion.line
-                x1="100"
-                y1="100"
-                x2="100"
-                y2="30"
-                stroke="#FFC857"
-                strokeWidth="3"
-                strokeLinecap="round"
-                animate={{ rotate: [15, 18, 15] }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                style={{ transformOrigin: "100px 100px" }}
-              />
-              <circle cx="100" cy="100" r="5" fill="#FFC857" />
-              <motion.polygon
-                points="100,25 95,20 105,20"
-                fill="#FFC857"
-                animate={{ y: [0, -2, 0] }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-            </svg>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.2, duration: 1 }}
-              style={{
-                marginTop: 28,
-                fontFamily: FONTS.accent,
-                fontSize: "clamp(1.05rem, 2.8vw, 1.35rem)",
-                fontStyle: "italic",
-                fontWeight: 600,
-                color: "#FFC857",
-                letterSpacing: "0.07em",
-              }}
-            >
-              "The sun rises in the east."
-            </motion.p>
-
-            {/* Primary drag instruction */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.55 }}
-              transition={{ delay: 2, duration: 1 }}
-              style={{
-                marginTop: 10,
-                fontFamily: FONTS.body,
-                fontSize: "0.78rem",
-                color: "#FFC857",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-              }}
-            >
-              Drag the orb east to open the vault
-            </motion.p>
-
-            {/* Onboarding description - what the vault actually contains */}
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: 2.8,
-                duration: 1.1,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              style={{
-                marginTop: 18,
-                fontFamily: FONTS.body,
-                fontSize: "clamp(0.8125rem, 2vw, 0.9375rem)",
-                color: "rgba(255,255,255,0.36)",
-                lineHeight: 1.7,
-                letterSpacing: "0.02em",
-                padding: "0 12px",
-              }}
-            >
-              The vault holds rare fragments, early previews,
-              and hidden material from BOC's developing worlds -
-              things not yet ready to be announced, but too
-              alive to remain entirely unseen.
-            </motion.p>
-
-            {/* Content type chips */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 3.6, duration: 1 }}
-              style={{
-                display: "flex",
-                gap: "8px",
-                flexWrap: "wrap",
-                justifyContent: "center",
-                marginTop: "16px",
-              }}
-            >
-              {["Images", "Writing", "Video"].map((tag) => (
-                <span
-                  key={tag}
-                  style={{
-                    fontFamily: FONTS.heading,
-                    fontSize: "0.52rem",
-                    fontWeight: 700,
-                    letterSpacing: "0.18em",
-                    textTransform: "uppercase",
-                    color: "rgba(255,200,87,0.42)",
-                    border: "1px solid rgba(255,200,87,0.14)",
-                    padding: "4px 10px",
-                    borderRadius: "999px",
-                    background: "rgba(255,200,87,0.04)",
-                  }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </motion.div>
-          </motion.div>
-        )}
-
-        {/* ── Vault text flash ── */}
-        <AnimatePresence>
-          {showVaultText && !showGallery && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.1 }}
-              transition={{
-                duration: 1.5,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                translateX: "-50%",
-                translateY: "-50%",
-                textAlign: "center",
-                zIndex: 30,
-                width: "100%",
-                padding: "0 24px",
-              }}
-            >
-              <p aria-hidden="true"
-                style={{
-                  fontFamily: FONTS.accent,
-                  fontSize: "clamp(2.5rem, 8vw, 5rem)",
-                  fontWeight: 300,
-                  color: "#FFF8DC",
-                  letterSpacing: "0.15em",
-                  textShadow:
-                    "0 4px 40px rgba(255,200,87,0.6), 0 0 80px rgba(255,248,220,0.4)",
-                  margin: 0,
-                }}
-              >
-                The Vault Awaits
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-      </div>
-
-      {/* ── Bento Vault (outside the fixed-height orb wrapper) ── */}
-      <AnimatePresence>
         {showGallery && <BentoVault items={displayItems} />}
-      </AnimatePresence>
-    </div>
+      </div>
     </>
   );
 }
