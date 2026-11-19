@@ -15,8 +15,9 @@ const supportingProjects = orderedProjects.filter((project) => project.id !== 'm
 
 function imageRevealProps(reduceMotion: boolean, delay = 0) {
   return {
-    initial: reduceMotion ? false : { clipPath: 'inset(0 0 100% 0)', y: 14 },
-    whileInView: { clipPath: 'inset(0 0 0% 0)', y: 0 },
+    // Keep images visible before IntersectionObserver runs; never start clipped away.
+    initial: reduceMotion ? false : { y: 14 },
+    whileInView: { y: 0 },
     viewport: { once: true, margin: '-36px' },
     transition: {
       duration: reduceMotion ? 0 : 0.92,
@@ -42,7 +43,7 @@ function ProjectCard({ project, index, reduceMotion }: { project: PortfolioProje
       className="group block rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-300"
     >
       <motion.article
-        initial={reduceMotion ? false : { opacity: 0, y: 28 }}
+        initial={reduceMotion ? false : { y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-48px' }}
         transition={{ duration: reduceMotion ? 0 : 0.65, delay: reduceMotion ? 0 : index * 0.08, ease: [0.22, 1, 0.36, 1] }}
