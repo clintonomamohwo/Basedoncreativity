@@ -14,8 +14,8 @@ export function HomePage() {
       <StructuredData data={createOrganizationSchema()} />
       <StructuredData data={createWebsiteSchema()} />
       <HeroSection />
-      <ExploreLinksSection />
       <PortfolioSection />
+      <ExploreLinksSection />
       <ServicesSection />
       <PhilosophySection />
       <ContactSection />

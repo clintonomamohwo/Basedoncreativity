@@ -7,8 +7,11 @@ import {
   orderPortfolioProjects,
 } from '../../lib/portfolioProjects';
 import type { PortfolioProject } from '../../lib/portfolioProjects';
+import './SelectedWorkFeature.css';
 
-const featuredProjects = orderPortfolioProjects(FALLBACK_PROJECTS);
+const orderedProjects = orderPortfolioProjects(FALLBACK_PROJECTS);
+const featuredProject = orderedProjects.find((project) => project.id === 'modern-cosmos');
+const supportingProjects = orderedProjects.filter((project) => project.id !== 'modern-cosmos');
 
 function statusLabel(project: PortfolioProject) {
   return project.status === 'Concept'
@@ -117,7 +120,7 @@ function ProjectCard({ project, index }: { project: PortfolioProject; index: num
 
 export function PortfolioSection() {
   return (
-    <section className="px-4 py-16 md:px-6 md:py-28" style={{ background: '#1A1F4B' }}>
+    <section id="selected-work" className="px-4 py-16 md:px-6 md:py-28" style={{ background: '#1A1F4B', scrollMarginTop: '78px' }}>
       <div className="mx-auto max-w-[1200px]">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -130,7 +133,7 @@ export function PortfolioSection() {
             className="mb-4 text-xs font-semibold uppercase tracking-[0.24em]"
             style={{ color: 'rgba(255,200,87,0.65)', fontFamily: FONTS.body }}
           >
-            BOC-owned work and projects
+            From the Studio Wall to Selected Work
           </p>
           <h2
             className="mb-5 text-3xl font-bold md:text-6xl"
@@ -142,12 +145,44 @@ export function PortfolioSection() {
             className="mx-auto max-w-2xl text-base leading-relaxed md:text-lg"
             style={{ color: 'rgba(255,255,255,0.68)', fontFamily: FONTS.body }}
           >
-            These examples are BOC-owned. Completed work, concepts, and projects in development are labelled so each stage is clear.
+            Pick up where the Studio Wall leaves off: Modern Cosmos leads with a completed client website redesign across desktop and mobile, followed by BOC-owned projects and concepts.
           </p>
         </motion.div>
 
+        {featuredProject && (
+          <Link
+            id="modern-cosmos-feature"
+            to="/work/modern-cosmos"
+            aria-label="Read the Modern Cosmos case study"
+            className="boc-featured-case group mb-7 block overflow-hidden rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-300 md:mb-9"
+            style={{ scrollMarginTop: '78px' }}
+          >
+            <div className="boc-featured-case__image-wrap">
+              <img
+                src="/case-studies/modern-cosmos-homepage-comparison.webp"
+                alt="Modern Cosmos homepage redesign shown across desktop and mobile beside the previous design."
+                className="boc-featured-case__image"
+                loading="lazy"
+                decoding="async"
+              />
+              <span className="boc-featured-case__image-label">Desktop + mobile</span>
+            </div>
+            <div className="boc-featured-case__copy">
+              <p className="boc-featured-case__kicker">Featured case study · {featuredProject.year}</p>
+              <h3 className="boc-featured-case__title">Modern Cosmos</h3>
+              <p className="boc-featured-case__headline">A quieter kind of wonder.</p>
+              <p className="boc-featured-case__summary">
+                A responsive website redesign that brings the Modern Cosmos experience into clearer focus across desktop and mobile.
+              </p>
+              <span className="boc-featured-case__link">
+                Explore the case study <ArrowRight size={16} aria-hidden="true" />
+              </span>
+            </div>
+          </Link>
+        )}
+
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-7">
-          {featuredProjects.map((project, index) => (
+          {supportingProjects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
